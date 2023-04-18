@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 05:57:23 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/18 07:31:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/18 08:14:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ char	**set_splited(char *line, int j, int count_inc, int call_count)
 		return (splited = alloc_for_words(words_nbr), splited);
 	else if (count_inc == -2)
 		return (splited);
-	splited[call_count - 1] = strndup(line, j);  //strdnduuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuup
+	// splited[call_count - 1] = strndup(line, j);  //strdnduuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuup
+	splited[call_count - 1] = ft_substr(line, 0, j);
 	return (splited);
 }
-
-
 
 char	**spliter(char *line, int ref)
 {
