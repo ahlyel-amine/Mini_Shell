@@ -6,7 +6,6 @@
 # include <stdio.h>
 # include  <stdlib.h>
 # include  <string.h>
-# include "parsing.h"
 
 typedef enum allo
 {
@@ -38,14 +37,7 @@ typedef struct s_tree
 	struct s_tree	*right;
 }	t_tree;
 
-void	parsing_controll(t_tree **tree, char *line);
-char	**spliter(char *line, int ref);
-
-
-int	ft_isprint_nspc(int c);
-char	*ft_strjoin_free(char *s1, char *s2);
-int	ft_chrpos(char *line,  char c);
-
+# include "parsing.h"
 
 
 #endif
