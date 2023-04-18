@@ -3,6 +3,7 @@
 		"*.excalidraw": "json",
 		"*.excalidrawlib": "json",
 		"minishell.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"libft.h": "c"
 	}
 }
