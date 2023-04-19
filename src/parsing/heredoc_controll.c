@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:02:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 06:50:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/19 23:21:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_delimiter(char *word, int j)
 
 	k = 0;
 	while (word[j + k] && word[j + k] != '<' && word[j + k] != '>' && 
-	word[j + k] != '&' && word[j + k] != '|' && word[j + k] != '|' && 
+	word[j + k] != '&' && word[j + k] != '|' && 
 	word[j + k] != ';' && word[j + k] != '\"' && word[j + k] != '\'')
 		k++;
 	return (ft_substr(word, j, k));
@@ -65,30 +65,29 @@ char	**check_for_heredoc(char **words, int i)
 			else
 				delimiter = get_delimiter(words[i + 1], 0);
 			delimiter = write_herdoc(delimiter);
-			printf("%s\n", delimiter);
 		}
 	}
 	return (words);
 }
 
-char	*heredoc_controll(char *line)
+char	**heredoc_controll(char **words)
 {
 	int	i;
-	int	dquote_is_open
-	int	quote_is_open
+	int	dquote_is_open;
+	int	quote_is_open;
 	i = 0;
 	dquote_is_open = 0;
 	quote_is_open = 0;
-	while (line[i])
+	while (words[i])
 	{
-		if (line[i] == '\'')
+		if (*words[i] == '\'')
 		
 			quote_is_open = 1;
-		if (line[i] == '\"')
+		if (*words[i] == '\"')
 			dquote_is_open = 1;
 		
-		line = check_for_heredoc(line, i);
+		words = check_for_heredoc(words, i);
 		i++;
 	}
-	return (line);
+	return (words);
 }

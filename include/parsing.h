@@ -12,7 +12,7 @@ char		**dquote_handler(char **line, int *i, int ref, int *set_call_counter);
 char		**strings_handler(char **line, int *i, int ref, int *set_call_counter);
 char		**check_last(char **words);
 char		**check_last_pipe(char **words);
-char		*heredoc_controll(char *line);
+char		**heredoc_controll(char **words);
 
 
 /*	tools	*/
