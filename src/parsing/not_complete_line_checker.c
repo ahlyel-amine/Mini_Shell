@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 00:21:54 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 05:41:56 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/19 23:19:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ char	**check_last_pipe(char **words)
 	{
 		reader = readline("pipe> ");
 		new_words = spliter(reader, 0);
+		new_words = heredoc_controll(new_words);
 		words = ft_joindstrs(words, new_words);
-		words = heredoc_controll(words);
 		words = check_last(words);
 		words = check_last_pipe(words);
 	}
@@ -46,16 +46,16 @@ char	**check_last(char **words)
 	{
 		reader = readline("cmdand> ");
 		new_words = spliter(reader, 0);
+		new_words = heredoc_controll(new_words);
 		words = ft_joindstrs(words, new_words);
-		words = heredoc_controll(words);
 		words = check_last(words);
 	}
 	else if (!ft_strncmp(words[dlen - 1] + len - 2, "||", 3))
 	{
 		reader = readline("cmdor> ");
 		new_words = spliter(reader, 0);
+		new_words = heredoc_controll(new_words);
 		words = ft_joindstrs(words, new_words);
-		words = heredoc_controll(words);
 		words = check_last(words);
 	}
 	return (words);
@@ -98,8 +98,8 @@ char	**parenthesis_checker(char **words)
 		{
 			reader = readline("parenthesis> ");
 			new_words = spliter(reader, 0);
+			new_words = heredoc_controll(new_words);
 			words = ft_joindstrs(words, new_words);
-			words = heredoc_controll(words);
 			words = check_last(words);
 			close_prnths++;
 		}

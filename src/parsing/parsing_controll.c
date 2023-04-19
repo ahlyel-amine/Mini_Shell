@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 06:45:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/19 22:25:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	parsing_controll(t_tree **tree, char *line)
 	t_line	*lines;
 	char	**words;
 	(void)tree;
-	line = heredoc_controll(line);
 	words = spliter(line, 0);
+	words = heredoc_controll(words);
 	words = check_last(words);
 	words = check_last_pipe(words);
 	words = parenthesis_checker(words);
