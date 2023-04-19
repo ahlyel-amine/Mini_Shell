@@ -5,7 +5,9 @@
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
+# include  <fcntl.h>
 # include  <string.h>
+
 
 typedef enum allo
 {
@@ -13,7 +15,6 @@ typedef enum allo
 	outfile,
 	errorfile,
 }	t_alo;
-
 
 typedef struct s_cmd
 {
@@ -25,6 +26,14 @@ typedef struct s_cmd
 	int		outfile;
 	int		errorfile;
 }	t_cmd;
+
+typedef struct s_line
+{
+	char			**line;
+	char			*operator;
+	short			is_operator:1;
+	struct s_line	*next;
+}	t_line;
 
 typedef struct s_tree
 {

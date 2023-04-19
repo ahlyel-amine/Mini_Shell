@@ -4,6 +4,10 @@
 		"*.excalidrawlib": "json",
 		"minishell.h": "c",
 		"stdlib.h": "c",
-		"libft.h": "c"
-	}
+		"libft.h": "c",
+		"parsing.h": "c",
+		"string.h": "c",
+		"fcntl.h": "c"
+	},
+	"C_Cpp.errorSquiggles": "disabled"
 }
