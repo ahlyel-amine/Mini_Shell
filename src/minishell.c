@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/17 21:17:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/18 21:25:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@ t_tree	*new_node(char *data)
 	new->prev = NULL;
 	return (new);
 }
-
+void fun()
+{
+	system("leaks minishell");
+}
 int	main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
 
 	tree = NULL;
+
 	(void)ac;
 	(void)av;
 	(void)env;
@@ -39,7 +43,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline("minishell#  ");
-		if (!strncmp(line, "exit", 4))
+		if (!line || !ft_strncmp(line, "exit", 5))
 			exit(0);
 		parsing_controll(&tree, line);
 	}

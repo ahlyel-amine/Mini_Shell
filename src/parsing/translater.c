@@ -1,34 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_controll.c                                 :+:      :+:    :+:   */
+/*   translater.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 06:45:15 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/04/19 02:51:48 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/04/19 02:59:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	parsing_controll(t_tree **tree, char *line)
+int	check_for_args(char	*word)
 {
-	t_line	*lines;
-	char	**words;
-	(void)tree;
-	line = heredoc_controll(line);
-	words = spliter(line, 0);
-	words = check_last(words);
-	words = check_last_pipe(words);
-	words = parenthesis_checker(words);
-	// words_to_args(words);
-	int	i = 0;
-	while (words && words[i])
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(word);
+	if (ft_strnstr(word, "&&", len))
 	{
-		printf(" [%s] ", words[i]);
-		free(words[i++]);
+		
 	}
-	free(words);
-	printf("\n");
+	while (word[i])
+}
+
+int	words_to_args(char **words)
+{
+	int	i;
+
+	i = 0;
+	while (words[i])
+	{
+		if (*words[i] == "\'" || *words[i] == "\"")
+		{
+			i++;
+			continue ;
+		}
+		check_for_args(words[i]);
+		i++;
+	}
 }
