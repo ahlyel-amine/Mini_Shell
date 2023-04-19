@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:02:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 23:21:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/19 23:28:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ char	*write_herdoc(char *delemiter)
 	int			fd;
 
 	name = ft_strjoin("/tmp/.heredoc", ft_itoa(herdoc_ind++));
-	fd = open(name, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	fd = open(name, O_RDWR | O_CREAT | O_TRUNC);
 	while (1337)
 	{
 		reader = readline("here_doc> ");
+		if (!reader)
+			return (close(fd), name) ;
 		if (!ft_strncmp(reader, delemiter, ft_strlen(delemiter) + 1))
 			break ;
 		write (fd, reader, ft_strlen(reader));
@@ -53,7 +55,7 @@ char	**check_for_heredoc(char **words, int i)
 
 	j = 0;
 	k = 0;
-	if (ft_strnstr(words[i], "<<", ft_strlen(words[i])))
+	while (ft_strnstr(words[i] + j, "<<", ft_strlen(words[i])))
 	{
 		while (words[i][j] && words[i][j] != '<')
 			j++;
@@ -79,15 +81,6 @@ char	**heredoc_controll(char **words)
 	dquote_is_open = 0;
 	quote_is_open = 0;
 	while (words[i])
-	{
-		if (*words[i] == '\'')
-		
-			quote_is_open = 1;
-		if (*words[i] == '\"')
-			dquote_is_open = 1;
-		
-		words = check_for_heredoc(words, i);
-		i++;
-	}
+		words = check_for_heredoc(words, i++);
 	return (words);
 }

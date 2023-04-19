@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 22:25:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/19 23:31:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	parsing_controll(t_tree **tree, char *line)
 	words = check_last(words);
 	words = check_last_pipe(words);
 	words = parenthesis_checker(words);
-	// words_to_args(words);
+	words_to_args(words);
 	int	i = 0;
 	while (words && words[i])
 	{
