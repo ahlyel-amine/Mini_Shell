@@ -13,6 +13,7 @@ char		**strings_handler(char **line, int *i, int ref, int *set_call_counter);
 char		**check_last(char **words);
 char		**check_last_pipe(char **words);
 char		**heredoc_controll(char **words);
+char		**words_to_args(char **words);
 
 
 /*	tools	*/
@@ -26,5 +27,6 @@ int			ft_chrpos(char *line,  char c);
 size_t		ft_double_strlen(char **str);
 char		**ft_joindstrs(char **ds1, char* *ds2);
 
+int			ft_strnstrpos(const char *haystack, const char *needle);
 
 #endif
