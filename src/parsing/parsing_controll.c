@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/20 00:29:05 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/20 07:50:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	parsing_controll(t_tree **tree, char *line)
 {
-	t_line	*lines;
 	char	**words;
 	(void)tree;
 	words = spliter(line, 0);

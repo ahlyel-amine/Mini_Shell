@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 05:57:23 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 06:44:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/20 05:31:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**alloc_for_words(int words_nbr)
 	int		i;
 
 	i = 0;
-	splited = malloc(sizeof(char *) * words_nbr + 1);
+	splited = malloc(sizeof(char *) * (words_nbr + 1));
 	while (i < words_nbr + 1)
 		splited[i++] = NULL;
 	return (splited);
