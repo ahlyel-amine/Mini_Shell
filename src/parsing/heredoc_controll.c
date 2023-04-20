@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:02:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 23:28:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/20 07:51:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_delimiter(char *word, int j)
 
 	k = 0;
 	while (word[j + k] && word[j + k] != '<' && word[j + k] != '>' && 
-	word[j + k] != '&' && word[j + k] != '|' && 
+	word[j + k] != '&' && word[j + k] != '|' && word[j + k] != '(' && word[j + k] != ')' &&
 	word[j + k] != ';' && word[j + k] != '\"' && word[j + k] != '\'')
 		k++;
 	return (ft_substr(word, j, k));
@@ -48,7 +48,6 @@ char	*write_herdoc(char *delemiter)
 
 char	**check_for_heredoc(char **words, int i)
 {
-	char	**new_words;
 	char	*delimiter;
 	int		j;
 	int		k;

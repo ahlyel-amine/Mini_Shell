@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:51:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/20 00:57:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/20 07:46:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	**split_to_3(char *word, char *separater, int befor_sep, int after_sep)
+char	**split_to_3(char *word, char *separater, int befor_sep)
 {
 	char	**words;
 
@@ -26,7 +26,7 @@ char	**split_to_3(char *word, char *separater, int befor_sep, int after_sep)
 	return	(words);
 }
 
-char	**split_to_2(char *word, char *separater, int befor_sep, int after_sep)
+char	**split_to_2(char *word, char *separater, int befor_sep)
 {
 	char	**words;
 
@@ -57,9 +57,9 @@ char	**separate_word(char *word, char *separater)
 	befor_sep = ft_strnstrpos(word, separater) - 1;
 	after_sep = ft_strlen(word) - ft_strlen(separater) - befor_sep;
 	if (befor_sep && after_sep)
-		new_words = split_to_3(word, separater, befor_sep, after_sep);
+		new_words = split_to_3(word, separater, befor_sep);
 	else if (befor_sep || after_sep)
-		new_words = split_to_2(word, separater, befor_sep, after_sep);
+		new_words = split_to_2(word, separater, befor_sep);
 	return (new_words);
 }
 
@@ -70,9 +70,22 @@ char	**check_for_args(char	*word)
 	int	len;
 
 	i = 0;
+	new_words = NULL;
+	if (!word)
+		return (new_words);
 	len = ft_strlen(word);
 	if (ft_strnstr(word, "&&", len) && ft_strlen(word) != 2)
 		new_words = separate_word(word, "&&");
+	else if (ft_strnstr(word, "||", len) && ft_strlen(word) != 2)
+		new_words = separate_word(word, "||");
+	else if (ft_strnstr(word, "<<", len) && ft_strlen(word) != 2)
+		new_words = separate_word(word, "<<");
+	else if (ft_strnstr(word, "(", len) && ft_strlen(word) != 1)
+		new_words = separate_word(word, "(");
+	else if (ft_strnstr(word, ")", len) && ft_strlen(word) != 1)
+		new_words = separate_word(word, ")");
+	else if (ft_strnstr(word, "|", len) && *(ft_strnstr(word, "|", len) + 1) != '|' && ft_strlen(word) != 1)
+		new_words = separate_word(word, "|");
 	return (new_words);
 }
 
@@ -87,14 +100,14 @@ char	**replace_pointer(char **words, char **new_words, int i)
 	len1 = ft_double_strlen(words);
 	len2 = ft_double_strlen(new_words);
 	dwords = malloc(sizeof(char *) *  (len1 + len2));
-	dwords[len1 + len2 - 1] = NULL;
 	while (++k < i)
 		dwords[k] = words[k];
 	free(words[i]);
 	while (j < len2)
 		dwords[k++] = new_words[j++];
-	while (++i < len1 - 1)
+	while (++i < len1)
 		dwords[k++] = words[i];
+	dwords[k] = NULL;
 	return (dwords);
 }
 
@@ -104,6 +117,7 @@ char	**words_to_args(char **words)
 	int	i;
 
 	i = 0;
+
 	while (words[i])
 	{
 		if (*words[i] == '\'' || *words[i] == '\"')
@@ -112,7 +126,11 @@ char	**words_to_args(char **words)
 			continue ;
 		}
 		new_words = check_for_args(words[i]);
-		return (replace_pointer(words, new_words, i));
+		if (new_words)
+		{
+			words = replace_pointer(words, new_words, i);
+			i = -1;
+		}
 		i++;
 	}
 	return (words);

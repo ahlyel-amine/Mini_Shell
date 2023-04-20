@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/18 21:25:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/20 06:11:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ int	main(int ac, char **av, char **env)
 		line = readline("minishell#  ");
 		if (!line || !ft_strncmp(line, "exit", 5))
 			exit(0);
+		if (!*line)
+			continue ;
+		else
+			add_history(line);
 		parsing_controll(&tree, line);
 	}
 	return (0);
