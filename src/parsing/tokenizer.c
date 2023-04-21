@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:27:13 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/21 05:17:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/21 05:19:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	check_biltn_call(t_arg *arg, char *word)
 	return (0);
 }
 
-void	check_wordcmd_call(t_arg *arg, char *word)
-{
-	if ()
-}
+// void	check_wordcmd_call(t_arg *arg, char *word)
+// {
+// 	if ()
+// }
 
 void	tokenizer(char **words)
 {
