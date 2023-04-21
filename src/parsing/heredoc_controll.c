@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:02:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/20 07:51:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:11:09 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ char	*get_delimiter(char *word, int j)
 	int	k;
 
 	k = 0;
-	while (word[j + k] && word[j + k] != '<' && word[j + k] != '>' && 
-	word[j + k] != '&' && word[j + k] != '|' && word[j + k] != '(' && word[j + k] != ')' &&
-	word[j + k] != ';' && word[j + k] != '\"' && word[j + k] != '\'')
+	while (word[j + k] && word[j + k] != '<' && word[j + k] != '>' && \
+	word[j + k] != '&' && word[j + k] != '|' && word[j + k] != '(' && \
+	word[j + k] != ')' && word[j + k] != ';' && word[j + k] != '\"' && \
+	word[j + k] != '\'')
 		k++;
 	return (ft_substr(word, j, k));
 }

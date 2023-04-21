@@ -8,6 +8,7 @@
 # include  <stdlib.h>
 # include  <fcntl.h>
 # include  <string.h>
+# include "dictionary.h"
 
 
 typedef enum allo
@@ -20,34 +21,30 @@ typedef enum allo
 typedef struct s_cmd
 {
 	char	**cmd;
-	char	*path;
-	short	pipe:1;
-	short	here_doc:1;
 	int 	infile;
 	int		outfile;
 	int		errorfile;
 }	t_cmd;
 
-typedef struct s_line
+typedef struct s_arg
 {
-	char			**line;
-	char			*operator;
-	short			is_operator:1;
+	char			*token;
+	short			x_token:4;
+	t_cmd			cmd;
 	struct s_line	*next;
-}	t_line;
+}	t_arg;
 
+// cmd word operators redirections 
 typedef struct s_tree
 {
 	char			*data;
-	short			is_left:1;
-	short			is_root:1;
-	short			is_right:1;
 	struct s_tree	*prev;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }	t_tree;
 
 # include "parsing.h"
+// | || && word    {}   cmd herdoc ( < "built-in cmd"  
 
 
 #endif

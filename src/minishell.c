@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/20 06:11:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/21 03:29:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ void fun()
 {
 	system("leaks minishell");
 }
+// char	**get_env(char **envp)
+// {
+// 	char	**program_env;
+
+	
+// }
+
 int	main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
