@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:51:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/20 07:46:46 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/20 15:25:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	**replace_pointer(char **words, char **new_words, int i)
 	return (dwords);
 }
 
-char	**words_to_args(char **words)
+char	**parser(char **words)
 {
 	char	**new_words;
 	int	i;
