@@ -5,16 +5,18 @@
 
 
 void		parsing_controll(t_tree **tree, char *line);
-char		**spliter(char *line, int ref);
-char		**set_splited(char *line, int j, int count_inc, int call_count);
-char		**quote_handler(char **line, int *i, int ref, int *set_call_counter);
-char		**dquote_handler(char **line, int *i, int ref, int *set_call_counter);
+char		**spliter(char *line);
+char		**set_splited(char *line, int count_inc, int call_count);
+int			quote_handler(char **line, int i);
+int			dquote_handler(char **line, int i);
 char		**strings_handler(char **line, int *i, int ref, int *set_call_counter);
 char		**check_last(char **words);
 char		**check_last_pipe(char **words);
 char		**heredoc_controll(char **words);
 char		**parser(char **words);
+char	*read_until_chr(char *line, char c);
 void		tokenizer(char **words);
+t_arg	*new_arg(char *token, t_token x_token, int ref);
 
 /*	tools	*/
 

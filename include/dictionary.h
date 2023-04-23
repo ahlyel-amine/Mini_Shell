@@ -19,6 +19,7 @@ typedef enum s_token
 	T_BILTN,
 	T_WORD,
 	T_HEREDOC,
+	T_VARIABLE,
 	T_OPERATOR,
 	T_HERDOC,
 	T_REDIRECTION,
