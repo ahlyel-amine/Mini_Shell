@@ -30,8 +30,8 @@ typedef struct s_arg
 {
 	char			*token;
 	short			x_token:4;
-	t_cmd			cmd;
-	struct s_line	*next;
+	// t_cmd			cmd;
+	struct s_arg	*next;
 }	t_arg;
 
 // cmd word operators redirections 
