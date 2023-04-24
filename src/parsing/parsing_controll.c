@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/23 19:04:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/24 10:00:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,11 @@ void	parsing_controll(t_tree **tree, char *line)
 		a = a->next;
 	}
 	new_arg(0, 0, -1);
-	// words = heredoc_controll(words);
-	// words = check_last(words);
-	// words = check_last_pipe(words);
-	// words = parenthesis_checker(words);
-	// words = parser(words);
-	// tokenizer(words);
-		i = 0;
+	i = 0;
 	while (words && words[i])
 	{
 		printf(" [%s] ", words[i]);
 		free(words[i++]);
 	}
 	free(words);
-	printf("\n");
 }

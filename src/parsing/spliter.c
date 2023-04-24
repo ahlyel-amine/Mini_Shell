@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 05:57:23 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/23 20:01:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/24 10:21:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,72 +124,50 @@ char	*read_until_chr(char *line, char c)
 	}
 	return (line);
 }
-char	*get_variables(char *line, int i)
+char	*get_variables(char *line, int ref)
 {
-	int	j;
-	int	k;
+	int		i;
+	int		k;
+	int		call_count = 0;
 
-	k = 0;
-	while (line[i + k] && line[i + k] != '\"')
+	i = 0;
+	while (line[i])
 	{
-		j = 0;
+		k = 0;
 		if (line[i + k] == '$')
 		{
 			k++;
 			if (ft_isdigit(line[i + k]))
 			{
-				line = ft_strjoin_free(ft_substr(line, 0, i + k - 2), ft_substr(line, i + k + 1, ft_strlen(line + i + k + 1)));
-				k = 0;
-				continue ;
-			}
-			while (line[i + k + j] && (ft_isalnum(line[i + k + j]) || line[i + k + j] == '_'))
-				j++;
-			k--;
-			if (j)
-			{
-				new_arg(ft_substr(line, i + k, i + k + j), T_VARIABLE, 0);
-				line = ft_strjoin_free(ft_substr(line, 0, i + k - 1), ft_substr(line, i + k + 1 + j, ft_strlen(line + i + k + 1 + j)));
-				k = 0;
+				line = ft_strjoin_free(ft_substr(line, 0, i), ft_substr(line, i + 2, ft_strlen(line + i + 2)));
+				i = 0;
 				continue ;
 			}
 		}
-		k++;
+		i++;
+	}
+	i = 0;
+	while (line[i])
+	{
+		k = 0;
+		if (line[i + k] == '$')
+		{
+			k++;
+			while (line[i + k] && (ft_isalnum(line[i + k]) || line[i + k] == '_'))
+				k++;
+			if (k > 1)
+			{
+				set_splited(ft_substr(line, 0, i), ref, ++call_count);
+				set_splited(ft_substr(line, i, k), ref, ++call_count);
+				line = ft_substr(line, i + k, ft_strlen(line + i + k));
+				set_splited(ft_strdup(line), ref, ++call_count);
+				i = 0;
+				continue ;
+			}
+		}
+		i++;
 	}
 	return (line);
-}
-int dquote_handler(char **line, int i)
-{
-	char	*tmp;
-	int		j;
-	int		quote;
-
-	quote = 0;
-	j = 0;
-	while ((*line)[i + j] && ((quote % 2) || (*line)[i + j] != ' '))
-		if ((*line)[i + j++] == '\"')
-			quote++;
-	if ((quote % 2))
-	{
-		(*line) = read_until_chr(*line, '\"');
-		// new_arg(0, 0, -1);
-		return (quote_handler(line, i));
-		// return (0);
-	}
-	tmp = ft_calloc(sizeof(char), (j - quote + 1));
-	quote = 0;
-	j = 0;
-	while ((*line)[i + quote + j] && ((quote % 2) || (*line)[i + quote + j] != ' '))
-	{
-		if ((*line)[i + quote + j] == '\"')
-		{
-			quote++;
-			continue ;
-		}
-		tmp[j] = (*line)[i + quote + j];
-		j++;
-	}
-	new_arg(tmp, T_WORD, 0);
-	return (i + quote + j);
 }
 
 int quote_handler(char **line, int i)
@@ -198,22 +176,22 @@ int quote_handler(char **line, int i)
 	int		j;
 	int		quote;
 
-	quote = 0;
+	quote = 1;
 	j = 0;
-	while ((*line)[i + j] && ((quote % 2) || (*line)[i + j] != ' '))
-		if ((*line)[i + j++] == '\'')
-			quote++;
-	if ((quote % 2))
+	while (quote % 2)
 	{
-		(*line) = read_until_chr(*line, '\'');
-		new_arg(0, 0, -1);
-		return (quote_handler(line, i));
-		// return (0);
+		j = 0;
+		quote = 0;
+		while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
+			if ((*line)[i + j++] == '\'')
+				quote++;
+		if ((quote % 2))
+			(*line) = read_until_chr(*line, '\'');
 	}
 	tmp = ft_calloc(sizeof(char), (j - quote + 1));
 	quote = 0;
 	j = 0;
-	while ((*line)[i + quote + j] && ((quote % 2) || (*line)[i + quote + j] != ' '))
+	while ((*line)[i + quote + j] && ((quote % 2) || !ft_isspace((*line)[i + quote + j])))
 	{
 		if ((*line)[i + quote + j] == '\'')
 		{
@@ -227,6 +205,154 @@ int quote_handler(char **line, int i)
 	return (i + quote + j);
 }
 
+int dquote_handler(char **line, int i)
+{
+	char	*tmp;
+	int		j;
+	int		quote;
+	int		k;
+
+	quote = 1;
+	j = 0;
+	while (quote % 2)
+	{
+		j = 0;
+		quote = 0;
+		while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
+			if ((*line)[i + j++] == '\"')
+				quote++;
+		if ((quote % 2))
+			(*line) = read_until_chr(*line, '\"');
+	}
+	j = 0;
+	quote = 0;
+	j = 0;
+	while ((*line)[i + j] && (!ft_isspace((*line)[i + j]) || (quote % 2)))
+	{
+		printf("=[%c]=%d=%d=\n",(*line)[i + j],quote, (quote % 2));
+
+		if ((*line)[i + j] == '$')
+		{
+			if (ft_isdigit((*line)[i + j + 1]))
+			{
+				*line = ft_strjoin_free(ft_substr(*line, 0, i + j), ft_substr(*line, i + j + 1, ft_strlen(*line + i + j + 1)));
+				continue ;
+			}
+		}
+		if ((*line)[i + j] == '\"')
+			quote++;
+		j++;
+	}
+	j = 0;
+	quote = 0;
+	while ((*line)[i + j] && (!ft_isspace((*line)[i + j]) || (quote % 2)))
+	{
+		k = 0;
+		if ((*line)[i + j] == '$')
+		{
+			k++;
+			while ((*line)[i + j + k] && (ft_isalnum((*line)[i + j + k]) || (*line)[i + j + k] == '_'))
+				k++;
+			if (k > 1)
+			{
+				new_arg(ft_substr(*line, i + j, k), T_VARIABLE, 0);
+				j += k;
+				continue ;
+			}
+		}
+		while ((*line)[i + j] && (*line)[i + j] == '\"')
+		{
+			quote++;
+			j++;
+		}
+		if (!(*line)[i + j])
+			continue ;
+		tmp = ft_calloc(sizeof(char), ft_strlen(*line + i + j));
+		while ((*line)[i + j] && (!ft_isspace((*line)[i + j]) || (quote % 2)) && (*line)[i + j] != '$')
+		{
+			if ((*line)[i + j] == '\"')
+			{
+				quote++;
+				j++;
+				continue ;
+			}
+			tmp[k] = (*line)[i + j++];
+			k++;
+		}
+		if (k)
+			new_arg(ft_strdup(tmp), T_WORD, 0);
+		free(tmp);
+	}
+	return (i + j);
+}
+
+// int dquote_handler(char **line, int i)
+// {
+// 	char	*tmp;
+// 	char	**words;
+// 	int		j;
+// 	int		quote;
+// 	int		k;
+
+// 	quote = 0;
+// 	j = 0;
+// 	while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
+// 		if ((*line)[i + j++] == '\"')
+// 			quote++;
+// 	if ((quote % 2))
+// 	{
+// 		(*line) = read_until_chr(*line, '\"');
+// 		dquote_handler(line, i);
+// 		return (-1);
+// 	}
+// 	tmp = ft_calloc(sizeof(char), (j - quote + 1));
+// 	quote = 0;
+// 	j = 0;
+// 	while ((*line)[i + quote + j] && ((quote % 2) || !ft_isspace((*line)[i + quote + j])))
+// 	{
+// 		if ((*line)[i + quote + j] == '\"')
+// 		{
+// 			quote++;
+// 			continue ;
+// 		}
+// 		tmp[j] = (*line)[i + quote + j];
+// 		j++;
+// 	}
+// 	tmp = get_variables(tmp, 0);
+// 	tmp = get_variables(tmp, -1);
+// 	tmp = get_variables(tmp, 1);
+// 	words = set_splited(0, -2, 0);
+// 	k = 0;
+// 	if (!words)
+// 		new_arg(tmp, T_WORD, 0);
+// 	while (words && words[k])
+// 	{
+// 		if (*words[k] == '$')
+// 			new_arg(words[k], T_VARIABLE, 0);
+// 		else
+// 			new_arg(words[k], T_WORD, 0);
+// 		free(words[k++]);
+// 	}
+// 	free(words);
+// 	return (i + quote + j);
+// }
+int	nonquote_handler(char *line, int i)
+{
+	int	j;
+
+	j = 0;
+	while (line[i + j] && !ft_isspace(line[i + j]) && line[i + j] != '\"' && line[i + j] != '\'')
+			j++;
+	if (j)
+	{
+		new_arg(ft_substr(line, i, j), T_WORD, 0);
+		i += j;
+	}
+	if (line[i] && ft_isspace(line[i]))
+		i++;
+	return (i);
+}
+
 char	**spliter(char *line)
 {
 	char	**splited;
@@ -238,37 +364,31 @@ char	**spliter(char *line)
 	while (line[i])
 	{
 		j = 0;
-		while (line[i + j] && line[i + j] != ' ')
+		while (line[i + j] && !ft_isspace(line[i + j]))
 		{
 			if (line[i + j] == '\"')
 			{
-				i  = dquote_handler(&line, i);
-				break ;
+				i = dquote_handler(&line, i);
+				continue ;
 			}
 			if (line[i + j] == '\'')
 			{
 				i = quote_handler(&line, i);
-				break ;
+				continue ;
 			}
 			j++;
 		}
+		// i = nonquote_handler(line, i);
 		j = 0;
-		while (line[i + j] && line[i + j] != ' ' && line[i + j] != '\"' && line[i + j] != '\'')
+		while (line[i + j] && !ft_isspace(line[i + j]) && line[i + j] != '\"' && line[i + j] != '\'')
 			j++;
-		printf("%d %c\n", line[i + j], line[i + j]);
 		if (j)
 		{
-			new_arg(ft_substr(line, i, j), 0, 0);
+			new_arg(ft_substr(line, i, j), T_WORD, 0);
 			i += j;
 		}
-		if (line[i] && line[i] == ' ')
+		while (line[i] && ft_isspace(line[i]))
 			i++;
 	}
-	// if (!ref)
-	// {
-	// 	set_splited(0, -1, 0);
-	// 	splited = spliter(line, 1);
-	// 	free(line);
-	// }
 	return (NULL);
 }
