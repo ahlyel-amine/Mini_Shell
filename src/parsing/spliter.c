@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 05:57:23 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/24 10:21:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/24 12:11:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,13 @@ char	*read_until_chr(char *line, char c)
 			dquote = readline("quote> ");
 		else
 			dquote = readline("dquote> ");
+		if (!dquote)
+		{
+			new_arg(0, 0, -1);
+			ft_putendl_fd("unexpected EOF while looking for matching \"\'", 2);
+			ft_putendl_fd("minishell: syntax error: unexpected end of file", 2);
+			return (NULL);
+		}
 		line = ft_strjoin(line, ft_strdup("\n"));
 		line = ft_strjoin(line, dquote);
 		quote_pos = ft_chrpos(line, c);
@@ -180,6 +187,8 @@ int quote_handler(char **line, int i)
 	j = 0;
 	while (quote % 2)
 	{
+		if (!*line)
+			return (-1);
 		j = 0;
 		quote = 0;
 		while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
@@ -216,6 +225,8 @@ int dquote_handler(char **line, int i)
 	j = 0;
 	while (quote % 2)
 	{
+		if (!*line)
+			return (-1);
 		j = 0;
 		quote = 0;
 		while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
@@ -229,13 +240,11 @@ int dquote_handler(char **line, int i)
 	j = 0;
 	while ((*line)[i + j] && (!ft_isspace((*line)[i + j]) || (quote % 2)))
 	{
-		printf("=[%c]=%d=%d=\n",(*line)[i + j],quote, (quote % 2));
-
 		if ((*line)[i + j] == '$')
 		{
 			if (ft_isdigit((*line)[i + j + 1]))
 			{
-				*line = ft_strjoin_free(ft_substr(*line, 0, i + j), ft_substr(*line, i + j + 1, ft_strlen(*line + i + j + 1)));
+				*line = ft_strjoin_free(ft_substr(*line, 0, i + j), ft_substr(*line, i + j + 2, ft_strlen(*line + i + j + 2)));
 				continue ;
 			}
 		}
@@ -248,6 +257,12 @@ int dquote_handler(char **line, int i)
 	while ((*line)[i + j] && (!ft_isspace((*line)[i + j]) || (quote % 2)))
 	{
 		k = 0;
+		if ((((*line)[i + j] == '$') && !((ft_isalnum((*line)[i + j + 1]) || (*line)[i + j + 1] == '_'))))
+		{
+			new_arg(ft_substr(*line, i + j, 1), T_WORD, 0);
+			j++;
+			continue ;
+		}
 		if ((*line)[i + j] == '$')
 		{
 			k++;
@@ -286,69 +301,19 @@ int dquote_handler(char **line, int i)
 	return (i + j);
 }
 
-// int dquote_handler(char **line, int i)
-// {
-// 	char	*tmp;
-// 	char	**words;
-// 	int		j;
-// 	int		quote;
-// 	int		k;
-
-// 	quote = 0;
-// 	j = 0;
-// 	while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
-// 		if ((*line)[i + j++] == '\"')
-// 			quote++;
-// 	if ((quote % 2))
-// 	{
-// 		(*line) = read_until_chr(*line, '\"');
-// 		dquote_handler(line, i);
-// 		return (-1);
-// 	}
-// 	tmp = ft_calloc(sizeof(char), (j - quote + 1));
-// 	quote = 0;
-// 	j = 0;
-// 	while ((*line)[i + quote + j] && ((quote % 2) || !ft_isspace((*line)[i + quote + j])))
-// 	{
-// 		if ((*line)[i + quote + j] == '\"')
-// 		{
-// 			quote++;
-// 			continue ;
-// 		}
-// 		tmp[j] = (*line)[i + quote + j];
-// 		j++;
-// 	}
-// 	tmp = get_variables(tmp, 0);
-// 	tmp = get_variables(tmp, -1);
-// 	tmp = get_variables(tmp, 1);
-// 	words = set_splited(0, -2, 0);
-// 	k = 0;
-// 	if (!words)
-// 		new_arg(tmp, T_WORD, 0);
-// 	while (words && words[k])
-// 	{
-// 		if (*words[k] == '$')
-// 			new_arg(words[k], T_VARIABLE, 0);
-// 		else
-// 			new_arg(words[k], T_WORD, 0);
-// 		free(words[k++]);
-// 	}
-// 	free(words);
-// 	return (i + quote + j);
-// }
 int	nonquote_handler(char *line, int i)
 {
 	int	j;
 
 	j = 0;
 	while (line[i + j] && !ft_isspace(line[i + j]) && line[i + j] != '\"' && line[i + j] != '\'')
-			j++;
+		j++;
 	if (j)
 	{
 		new_arg(ft_substr(line, i, j), T_WORD, 0);
 		i += j;
 	}
-	if (line[i] && ft_isspace(line[i]))
+	while (line[i] && ft_isspace(line[i]))
 		i++;
 	return (i);
 }
@@ -369,26 +334,20 @@ char	**spliter(char *line)
 			if (line[i + j] == '\"')
 			{
 				i = dquote_handler(&line, i);
+				if (i == -1)
+					return (NULL) ;
 				continue ;
 			}
 			if (line[i + j] == '\'')
 			{
 				i = quote_handler(&line, i);
+				if (i == -1)
+					return (NULL) ;
 				continue ;
 			}
 			j++;
 		}
-		// i = nonquote_handler(line, i);
-		j = 0;
-		while (line[i + j] && !ft_isspace(line[i + j]) && line[i + j] != '\"' && line[i + j] != '\'')
-			j++;
-		if (j)
-		{
-			new_arg(ft_substr(line, i, j), T_WORD, 0);
-			i += j;
-		}
-		while (line[i] && ft_isspace(line[i]))
-			i++;
+		i = nonquote_handler(line, i);
 	}
 	return (NULL);
 }
