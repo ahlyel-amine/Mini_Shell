@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 00:21:54 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 23:19:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/24 07:00:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**check_last_pipe(char **words)
 	if (!ft_strncmp(words[dlen - 1] + len - 1, "|", 3))
 	{
 		reader = readline("pipe> ");
-		new_words = spliter(reader, 0);
+		new_words = spliter(reader);
 		new_words = heredoc_controll(new_words);
 		words = ft_joindstrs(words, new_words);
 		words = check_last(words);
@@ -45,7 +45,7 @@ char	**check_last(char **words)
 	if (!ft_strncmp(words[dlen - 1] + len - 2, "&&", 3))
 	{
 		reader = readline("cmdand> ");
-		new_words = spliter(reader, 0);
+		new_words = spliter(reader);
 		new_words = heredoc_controll(new_words);
 		words = ft_joindstrs(words, new_words);
 		words = check_last(words);
@@ -53,7 +53,7 @@ char	**check_last(char **words)
 	else if (!ft_strncmp(words[dlen - 1] + len - 2, "||", 3))
 	{
 		reader = readline("cmdor> ");
-		new_words = spliter(reader, 0);
+		new_words = spliter(reader);
 		new_words = heredoc_controll(new_words);
 		words = ft_joindstrs(words, new_words);
 		words = check_last(words);
@@ -97,7 +97,7 @@ char	**parenthesis_checker(char **words)
 		while (close_prnths < open_prnths)
 		{
 			reader = readline("parenthesis> ");
-			new_words = spliter(reader, 0);
+			new_words = spliter(reader);
 			new_words = heredoc_controll(new_words);
 			words = ft_joindstrs(words, new_words);
 			words = check_last(words);
