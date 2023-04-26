@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:02:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/20 14:11:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/25 08:33:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_delimiter(char *word, int j)
 		k++;
 	return (ft_substr(word, j, k));
 }
-char	*write_herdoc(char *delemiter)
+void	write_herdoc(char *delemiter)
 {
 	static int	herdoc_ind;
 	char		*name;
@@ -37,17 +37,20 @@ char	*write_herdoc(char *delemiter)
 	{
 		reader = readline("here_doc> ");
 		if (!reader)
-			return (close(fd), name) ;
+		{
+			close(fd);
+			return ;
+		}
 		if (!ft_strncmp(reader, delemiter, ft_strlen(delemiter) + 1))
 			break ;
 		write (fd, reader, ft_strlen(reader));
 		write (fd, "\n", 1);
 		free (reader);
 	}
-	return (free(reader), close(fd), free(delemiter), name);
+	return (free(reader), close(fd), free(delemiter));
 }
 
-char	**check_for_heredoc(char **words, int i)
+void	check_for_heredoc(t_arg *arg)
 {
 	char	*delimiter;
 	int		j;
@@ -55,32 +58,36 @@ char	**check_for_heredoc(char **words, int i)
 
 	j = 0;
 	k = 0;
-	while (ft_strnstr(words[i] + j, "<<", ft_strlen(words[i])))
+	if (ft_strnstr(arg->token, "<<", ft_strlen(arg->token)))
 	{
-		while (words[i][j] && words[i][j] != '<')
+		while (arg->token[j] && arg->token[j] != '<')
 			j++;
-		if (words[i][j] && words[i][j] == '<' && words[i][j + 1] == '<')
+		if (arg->token[j] && arg->token[j] == '<' && arg->token[j + 1] == '<')
 		{
 			j += 2;
-			if (words[i][j])
-				delimiter = get_delimiter(words[i], j);
+			if (arg->token[j])
+				delimiter = get_delimiter(arg->token, j);
 			else
-				delimiter = get_delimiter(words[i + 1], 0);
-			delimiter = write_herdoc(delimiter);
+				delimiter = get_delimiter(arg->next->token, 0);
+			write_herdoc(delimiter);
 		}
 	}
-	return (words);
 }
 
-char	**heredoc_controll(char **words)
+void	heredoc_controll()
 {
+	t_arg	*arg;
 	int	i;
 	int	dquote_is_open;
 	int	quote_is_open;
+
+	arg = new_arg(0, 0, 1);
 	i = 0;
 	dquote_is_open = 0;
 	quote_is_open = 0;
-	while (words[i])
-		words = check_for_heredoc(words, i++);
-	return (words);
+	while (arg)
+	{
+		check_for_heredoc(arg);
+		arg = arg->next;
+	}
 }

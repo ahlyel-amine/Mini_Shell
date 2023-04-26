@@ -11,21 +11,6 @@
 # include "dictionary.h"
 
 
-typedef enum allo
-{
-	infile,
-	outfile,
-	errorfile,
-}	t_alo;
-
-typedef struct s_cmd
-{
-	char	**cmd;
-	int 	infile;
-	int		outfile;
-	int		errorfile;
-}	t_cmd;
-
 typedef struct s_arg
 {
 	char			*token;
@@ -34,17 +19,97 @@ typedef struct s_arg
 	struct s_arg	*next;
 }	t_arg;
 
-// cmd word operators redirections 
+enum s_type
+{
+	EXEC = 1,
+	RED,
+	AND,
+	OR,
+	PIPE,
+	WORD
+};
+
+enum s_redir_type
+{
+	HEREDOC = 1,
+	IN_REDIR,
+	OUT_REDIR,
+	APPEND
+};
+
+
+
+
 typedef struct s_tree
 {
-	char			*data;
-	struct s_tree	*prev;
-	struct s_tree	*left;
-	struct s_tree	*right;
+	int				type;
+	void			*left;
+	void			*right;
 }	t_tree;
 
-# include "parsing.h"
-// | || && word    {}   cmd herdoc ( < "built-in cmd"  
+typedef struct s_cmd
+{
+	int	type;
+}	t_cmd;
 
+typedef struct s_pipe
+{
+	int		type;
+	t_cmd	*left;
+	t_cmd	*right;
+}	t_pipe;
+
+typedef struct s_and
+{
+	int		type;
+	t_cmd	*left;
+	t_cmd	*right;
+}	t_and;
+
+typedef struct s_or
+{
+	int		type;
+	t_cmd	*left;
+	t_cmd	*right;
+}	t_or;
+
+typedef struct s_execcmd
+{
+	int		type;
+	char	**cmd;
+	char	**ecmd;
+}	t_execcmd;
+
+typedef struct s_word
+{
+	int		type;
+	char	*word;
+}	t_word;
+
+typedef struct s_redir_content
+{
+	char	*file_name;
+	char	*efile_name;
+	int		mode;
+	int		fd;
+	int		type;
+}	t_redir_content;
+
+typedef struct s_redir
+{
+	int				type;
+	t_redir_content	red;
+	t_cmd			*cmd;
+}	t_redir;
+
+# include "parsing.h"
+
+t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
+t_cmd	*execcmd_constructor();
+t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
+t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
+t_cmd	*and_constructor(t_cmd *left, t_cmd *right);
+t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
+t_cmd	*word_constructor(char *str);
 
 #endif
