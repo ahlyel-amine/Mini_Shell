@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/26 11:16:41 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/26 15:31:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
 
 	redir = malloc(sizeof(t_redir));
 	ft_memset(redir, 0, sizeof(t_redir));
+	redir->type = REDIR;
 	redir->cmd = cmd;
 	redir->red = content;
 	return ((t_cmd *)redir);
@@ -77,4 +78,17 @@ t_cmd	*word_constructor(char *str)
 	word->type = WORD;
 	word->word = str;
 	return ((t_cmd *)word);
+}
+
+t_cmd	*builtin_constructor(char *str, int has_option, char **cmd)
+{
+	t_builtin	*builtin;
+
+	builtin = malloc(sizeof(t_builtin));
+	ft_memset(builtin, 0, sizeof(t_builtin));
+	builtin->type = BUILTIN;
+	builtin->builtin = str;
+	builtin->cmd = cmd;
+	builtin->has_option = has_option;
+	return ((t_cmd *)builtin);
 }
