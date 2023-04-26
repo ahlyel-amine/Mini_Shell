@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 05:57:23 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/26 16:53:40 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/26 19:00:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,33 +177,33 @@ t_arg	*new_arg(char *token, t_token x_token, int ref)
 // 	return (line);
 // }
 
-int quote_handler(char **line, int i)
-{
-	char	*tmp;
-	int		j;
-	int		quote;
+// int dquote_handler(char **line, int i)
+// {
+// 	char	*tmp;
+// 	int		j;
+// 	int		quote;
 
-	quote = 0;
-	j = 0;
-	while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
-		if ((*line)[i + j++] == '\'')
-			quote++;
-	tmp = ft_calloc(sizeof(char), (j - quote + 1));
-	quote = 0;
-	j = 0;
-	while ((*line)[i + quote + j] && ((quote % 2) || !ft_isspace((*line)[i + quote + j])))
-	{
-		if ((*line)[i + quote + j] == '\'')
-		{
-			quote++;
-			continue ;
-		}
-		tmp[j] = (*line)[i + quote + j];
-		j++;
-	}
-	new_arg(tmp, T_WORD, 0);
-	return (i + quote + j);
-}
+// 	quote = 0;
+// 	j = 0;
+// 	while ((*line)[i + j] && ((quote % 2) || !ft_isspace((*line)[i + j])))
+// 		if ((*line)[i + j++] == '\'')
+// 			quote++;
+// 	tmp = ft_calloc(sizeof(char), (j - quote + 1));
+// 	quote = 0;
+// 	j = 0;
+// 	while ((*line)[i + quote + j] && ((quote % 2) || !ft_isspace((*line)[i + quote + j])))
+// 	{
+// 		if ((*line)[i + quote + j] == '\'')
+// 		{
+// 			quote++;
+// 			continue ;
+// 		}
+// 		tmp[j] = (*line)[i + quote + j];
+// 		j++;
+// 	}
+// 	new_arg(tmp, T_WORD, 0);
+// 	return (i + quote + j);
+// }
 
 int dquote_handler(char **line, int i)
 {

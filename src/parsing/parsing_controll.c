@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/26 16:58:05 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/26 21:34:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ char	*nul_terminate_at(char *line, int nul)
 int	echo_has_option(char *line, int *i)
 {
 	int	has_option;
+	int	j;
 
 	*i = 0;
 	has_option = 0;
@@ -198,22 +199,34 @@ int	echo_has_option(char *line, int *i)
 	{
 		while (ft_isspace(line[*i]))
 			(*i)++;
-		if (line[*i] == '-' && line[*i + 1] == 'n')
+		j = 0;
+		if (line[*i + j] == '-' && line[*i + j + 1] == 'n')
 		{
-			(*i)++;
-			while (line[*i] == 'n')
-				(*i)++;
+			j++;
+			while (line[*i + j] == 'n')
+				j++;
 		}
-		else if (line[*i] == '\"' && line[*i + 1] == '-' && line[*i + 2] == 'n')
+		else if (line[*i + j] == '\"' && line[*i + j + 1] == '-' && line[*i + j + 2] == 'n')
 		{
-			*i += 2;
-			while (line[*i] == 'n')
-				(*i)++;
-			if (line[*i] == '\"')
-				(*i)++;
+			j += 2;
+			while (line[*i + j] == 'n')
+				j++;
+			if (line[*i + j] == '\"')
+				j++;
 		}
-		if (ft_isspace(line[*i]) || !line[*i])
+		else if (line[*i + j] == '\'' && line[*i + j + 1] == '-' && line[*i + j + 2] == 'n')
+		{
+			j += 2;
+			while (line[*i + j] == 'n')
+				j++;
+			if (line[*i + j] == '\'')
+				j++;
+		}
+		if (ft_isspace(line[*i + j]) || !line[*i + j])
+		{
 			has_option = 1;
+			*i += j;
+		}
 		else
 			break ;
 	}
@@ -323,48 +336,107 @@ char	**select_arguments(char *line, int count)
 		printf("|%s|\n", cmd[j++]);
 	return (cmd);
 }
-void	quotes(char **line, int i)
-{
-	int	j;
 
-	while ((*line)[i])
+char	*quotes(char *line, int i)
+{
+	int		k;
+	int		quote;
+	int		dquote;
+	char	*tmp;
+
+	tmp = malloc(ft_strlen(line + i) + 1);
+	quote = 0;
+	dquote = 0;
+	k = 0;
+	while (line[i])
 	{
-		j = 0;
-		while ((*line)[i + j] && !ft_isspace((*line)[i + j]))
-		{
-			if ((*line)[i + j] == '\"')
-			{
-				i = dquote_handler(&(*line), i);
-				if (i == -1)
-					return ;
-				continue ;
-			}
-			if ((*line)[i + j] == '\'')
-			{
-				i = quote_handler(line, i);
-				if (i == -1)
-					return ;
-				continue ;
-			}
-			j++;
-		}
-			j = 0;
-		while ((*line)[i + j] && !ft_isspace((*line)[i + j]) && (*line)[i + j] != '\"' && (*line)[i + j] != '\'')
-			j++;
-		if (j)
-		{
-			new_arg(ft_substr((*line), i, j), T_WORD, 0);
-			i += j;
-		}
-		while ((*line)[i] && ft_isspace((*line)[i]))
+		if (line[i] == '\"' && !quote)
+			dquote++;
+		else if (line[i] == '\'' && !dquote)
+			quote++;
+		if (dquote == 2)
+			dquote = 0;
+		else if (quote == 2)
+			quote = 0;
+		while (ft_isspace(line[i]) && ft_isspace(line[i + 1]) && !quote && !dquote)
 			i++;
+		if (ft_isspace(line[i]) && !line[i + 1])
+		{
+			i++;
+			continue ;
+		}
+		if (!quote && !dquote && ft_isspace(line[i]))
+			tmp[k++] = line[i];
+		else if ((line[i] == '\"' && quote) || (line[i] == '\'' && dquote))
+			tmp[k++] = line[i];
+		else if (line[i] == '$' && (dquote || (!dquote && !quote)))
+		{
+			if (ft_isdigit(line[i + 1]))
+				i += 2;
+			else if (line[i] == '$' && !line[i + 1])
+				i++;
+			else if (line[i] == '$')
+			{
+				i++;
+				tmp[k++] = '\"';
+				while (ft_isalnum(line[i]) || line[i] == '_')
+					tmp[k++] = line[i++];
+			}
+			continue ;
+		}
+		else if (line[i] != '\'' && line[i] != '\"')
+			tmp[k++] = line[i];
+		i++;
 	}
+	tmp[k] = 0;
+	return (tmp);
+}
+t_cmd	*get_token_builtins(char *line, int j)
+{
+	if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "echo", 5))
+	{
+		has_option = echo_has_option(line + i + j, &i);
+		cmd = builtin_constructor(ft_strdup("echo"), \
+		has_option, quotes(line, i + j));
+		echo(cmd);
+	}
+	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "cd", 3))
+	{
+		cmd = builtin_constructor(ft_strdup("echo"), \
+		has_option, quotes(line, i + j));
+	}
+	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "pwd", 4))
+	{
+		cmd = builtin_constructor(ft_strdup("echo"), \
+		has_option, quotes(line, i + j));
+	}
+	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "unset", 6))
+	{
+		cmd = builtin_constructor(ft_strdup("echo"), \
+		has_option, quotes(line, i + j));
+	}
+	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "env", 4))
+	{
+		cmd = builtin_constructor(ft_strdup("echo"), \
+		has_option, quotes(line, i + j));
+	}
+	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "export", 7))
+	{
+		cmd = builtin_constructor(ft_strdup("echo"), \
+		has_option, quotes(line, i + j));
+	}
+	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "exit", 5))
+	{
+		cmd = builtin_constructor(ft_strdup("echo"), \
+		has_option, quotes(line, i + j));
+	}
+	
 }
 
 /*	cmd / built-in /arguments / options	*/
 t_cmd	*get_token_order(char *line)
 {
-	// t_cmd	*cmd;
+	t_cmd	*cmd;
 	int		i;
 	int		j;
 	int		has_option;
@@ -372,30 +444,13 @@ t_cmd	*get_token_order(char *line)
 	i = 0;
 	j = 0;
 	has_option = 0;
+	cmd = NULL;
 	while (ft_isspace(line[i]))
 		i++;
 	while (line[i + j] && !ft_isspace(line[i + j]))
 		j++;
-	if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "echo", 5))
-	{
-		has_option = echo_has_option(line + i + j, &i);
-		quotes(&line, i + j);
-	t_arg *a = new_arg(0, 0, 1);
-	i = 0;
-	while (a)
-	{
-		printf("%d: [%s][%d]\n",i++, a->token, a->x_token);
-		a = a->next;
-	}
-	exit(1);
-	new_arg(0, 0, -1);
-		// cmd = builtin_constructor(ft_strdup("echo"), \
-		// has_option, \
-		// select_arguments(line + i + j, \
-		// count_arguments(line + i + j)));
-		
-	}
-	return (NULL);
+	get_token_builtins(ft_strdup(line + i), j);
+	return (cmd);
 }
 
 t_cmd	*get_token_redir(char *line)

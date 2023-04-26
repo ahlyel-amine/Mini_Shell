@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/26 15:31:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/26 21:18:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_cmd	*word_constructor(char *str)
 	return ((t_cmd *)word);
 }
 
-t_cmd	*builtin_constructor(char *str, int has_option, char **cmd)
+t_cmd	*builtin_constructor(char *str, int has_option, char *cmd)
 {
 	t_builtin	*builtin;
 
