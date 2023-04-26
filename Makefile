@@ -1,7 +1,7 @@
 
 READLINE_DIR    = /Users/aahlyel/homebrew/opt/readline
 
-SRC = src/minishell.c src/constructors.c src/parsing/parsing_controll.c src/parsing/translater.c src/parsing/spliter.c src/parsing/tokenizer.c src/parsing/heredoc_controll.c src/parsing/spliter_handlers.c src/parsing/not_complete_line_checker.c src/parsing_tools/parsing_tools.c src/parsing_tools/parsing_tools2.c
+SRC = src/minishell.c src/constructors.c  src/echo.c src/parsing/parsing_controll.c src/parsing/translater.c src/parsing/spliter.c src/parsing/tokenizer.c src/parsing/heredoc_controll.c src/parsing/spliter_handlers.c src/parsing/not_complete_line_checker.c src/parsing_tools/parsing_tools.c src/parsing_tools/parsing_tools2.c
 
 OBJ =  ${SRC:.c=.o}
 

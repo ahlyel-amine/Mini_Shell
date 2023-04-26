@@ -82,7 +82,7 @@ typedef struct s_builtin
 {
 	int		type;
 	char	*builtin;
-	char	**cmd;
+	char	*cmd;
 	int		has_option:1;
 }	t_builtin;
 
@@ -110,7 +110,7 @@ typedef struct s_redir
 
 # include "parsing.h"
 
-t_cmd	*builtin_constructor(char *str, int has_option, char **cmd);
+t_cmd	*builtin_constructor(char *str, int has_option, char *cmd);
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
@@ -119,4 +119,5 @@ t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
 t_cmd	*word_constructor(char *str);
 t_cmd	*execcmd_constructor();
 
+void	echo(t_cmd *cmd);
 #endif
