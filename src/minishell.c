@@ -6,43 +6,27 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/21 03:29:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/26 08:33:01 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-t_tree	*new_node(char *data)
-{
-	t_tree	*new;
-
-	new = malloc(sizeof(t_tree));
-	if (!new)
-		return (NULL);
-	new->data = data;
-	new->left = NULL;
-	new->right = NULL;
-	new->prev = NULL;
-	return (new);
-}
-void fun()
-{
-	system("leaks minishell");
-}
-// char	**get_env(char **envp)
+// t_tree	*new_node(char *data)
 // {
-// 	char	**program_env;
+// 	t_tree	*new;
 
-	
+// 	new = malloc(sizeof(t_tree));
+// 	if (!new)
+// 		return (NULL);
+// 	(void)data;
+// 	new->left = NULL;
+// 	new->right = NULL;
+// 	return (new);
 // }
-
 int	main(int ac, char **av, char **env)
 {
-	t_tree	*tree;
-
-	tree = NULL;
-
 	(void)ac;
 	(void)av;
 	(void)env;
@@ -56,7 +40,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		else
 			add_history(line);
-		parsing_controll(&tree, line);
+		parsing_controll(line);
 	}
 	return (0);
 }
