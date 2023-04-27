@@ -17,9 +17,10 @@ char		**parser(char **words);
 void		read_until_chr(char **line, char c);
 void		tokenizer(char **words);
 t_arg	*new_arg(char *token, t_token x_token, int ref);
+void	*env_variables(char	**env, int ref);
 
 /*	tools	*/
-
+char		**ft_split_char(char const *s, char c);
 char		**parenthesis_checker(char **words);
 int			ft_isprint_nspc(int c);
 char		*ft_strjoin_free(char *s1, char *s2);

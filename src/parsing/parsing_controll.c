@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/26 21:34:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 10:40:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,8 +391,11 @@ char	*quotes(char *line, int i)
 	tmp[k] = 0;
 	return (tmp);
 }
-t_cmd	*get_token_builtins(char *line, int j)
+
+t_cmd	*get_token_builtins(char *line, int i, int j)
 {
+	t_cmd *cmd= NULL;
+	int has_option = 0;
 	if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "echo", 5))
 	{
 		has_option = echo_has_option(line + i + j, &i);
@@ -402,35 +405,81 @@ t_cmd	*get_token_builtins(char *line, int j)
 	}
 	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "cd", 3))
 	{
-		cmd = builtin_constructor(ft_strdup("echo"), \
+		cmd = builtin_constructor(ft_strdup("cd"), \
 		has_option, quotes(line, i + j));
 	}
 	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "pwd", 4))
 	{
-		cmd = builtin_constructor(ft_strdup("echo"), \
+		cmd = builtin_constructor(ft_strdup("pwd"), \
 		has_option, quotes(line, i + j));
 	}
 	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "unset", 6))
 	{
-		cmd = builtin_constructor(ft_strdup("echo"), \
+		cmd = builtin_constructor(ft_strdup("unset"), \
 		has_option, quotes(line, i + j));
 	}
 	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "env", 4))
 	{
-		cmd = builtin_constructor(ft_strdup("echo"), \
+		cmd = builtin_constructor(ft_strdup("env"), \
 		has_option, quotes(line, i + j));
 	}
 	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "export", 7))
 	{
-		cmd = builtin_constructor(ft_strdup("echo"), \
+		cmd = builtin_constructor(ft_strdup("export"), \
 		has_option, quotes(line, i + j));
 	}
 	else if (!ft_strncmp(nul_terminate_at(ft_strdup(line + i), j), "exit", 5))
 	{
-		cmd = builtin_constructor(ft_strdup("echo"), \
+		cmd = builtin_constructor(ft_strdup("exit"), \
 		has_option, quotes(line, i + j));
 	}
-	
+	return (cmd);
+}
+
+int	check_cmd(char **path, char *cmd, int j)
+{
+	char	*new_cmd;
+	char	*tmp_path;
+	int		i;
+
+	i = 0;
+	new_cmd = quotes(ft_substr(cmd, 0, j), 0);
+	if (!access(new_cmd, F_OK | X_OK))
+		return (1);
+	while (path[i])
+	{
+		tmp_path = NULL;
+		tmp_path = ft_strjoin(path[i], "/");
+		tmp_path = ft_strjoin_free(tmp_path, ft_strdup(new_cmd));
+		if (!access(tmp_path, F_OK | X_OK))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+t_cmd	*get_token_cmd(char *line, int j)
+{
+	t_cmd	*cmd;
+	int		has_option;
+	cmd = NULL;
+	has_option = 0;
+	if (!check_cmd((char **)env_variables(0, GET), line, j))
+		return (NULL);
+	cmd = execcmd_constructor(ft_split_char(line, ' '));
+	return (free(line), cmd);
+}
+
+t_cmd	*get_token_variable_assignement(char *line, int j)
+{
+	t_cmd	*cmd;
+	int		has_option;
+	cmd = NULL;
+	has_option = 0;
+	if (!check_cmd((char **)env_variables(0, GET), line, j))
+		return (NULL);
+	cmd = execcmd_constructor(ft_split_char(line, ' '));
+	return (free(line), cmd);
 }
 
 /*	cmd / built-in /arguments / options	*/
@@ -445,11 +494,16 @@ t_cmd	*get_token_order(char *line)
 	j = 0;
 	has_option = 0;
 	cmd = NULL;
+
 	while (ft_isspace(line[i]))
 		i++;
 	while (line[i + j] && !ft_isspace(line[i + j]))
 		j++;
-	get_token_builtins(ft_strdup(line + i), j);
+	cmd = get_token_builtins(ft_strdup(line + i), i, j);
+	if (!cmd)
+		cmd = get_token_cmd(ft_strdup(line + i), j);
+	else
+		cmd = get_token_variable_assignement(ft_strdup(line + i), j);
 	return (cmd);
 }
 
@@ -609,5 +663,4 @@ void parsing_controll(char *line)
 
 	complete_line(&line);
 	cmd = get_token_operator(ft_strdup(line));
-	// `ma
 }

@@ -18,7 +18,8 @@ typedef struct s_arg
 	// t_cmd			cmd;
 	struct s_arg	*next;
 }	t_arg;
-
+# define SET 0
+# define GET 1
 enum s_type
 {
 	EXEC = 1,
@@ -75,7 +76,6 @@ typedef struct s_execcmd
 {
 	int		type;
 	char	**cmd;
-	char	**ecmd;
 }	t_execcmd;
 
 typedef struct s_builtin
@@ -116,8 +116,8 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
 t_cmd	*and_constructor(t_cmd *left, t_cmd *right);
 t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
+t_cmd	*execcmd_constructor(char **cmds);
 t_cmd	*word_constructor(char *str);
-t_cmd	*execcmd_constructor();
 
 void	echo(t_cmd *cmd);
 #endif
