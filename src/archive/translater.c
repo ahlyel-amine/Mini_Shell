@@ -6,11 +6,11 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:51:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/20 15:25:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:43:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "archive.h"
 
 char	**split_to_3(char *word, char *separater, int befor_sep)
 {

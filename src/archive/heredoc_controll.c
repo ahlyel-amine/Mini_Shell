@@ -6,11 +6,11 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:02:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/25 08:33:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:43:09 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "archive.h"
 
 char	*get_delimiter(char *word, int j)
 {

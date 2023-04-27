@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 13:17:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:23:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*set_homedir(char **env)
+static char	*set_homedir(char **env)
 {
 	char	*dir;
 	int		i;
@@ -39,7 +39,7 @@ char	*set_homedir(char **env)
 	}
 	return (dir);
 }
-char	**set_path(char **env)
+static char	**set_path(char **env)
 {
 	char	**path;
 	int		i;
@@ -82,10 +82,11 @@ char	*get_prompt_line(char *old_pwd)
 	char	*pwd;
 	char	*homedir;
 
-	
 	homedir = set__get_option_variables(0, GET | GET_HOME);
 	pwd = old_pwd;
-	if (!ft_strncmp(homedir, pwd,ft_strlen(homedir)))
+	printf("%s\n", pwd);
+	printf("%s\n", homedir);
+	if (!ft_strncmp(homedir, pwd, ft_strlen(homedir)))
 	{
 		pwd = ft_strjoin("~", old_pwd + 14);
 		free (old_pwd);

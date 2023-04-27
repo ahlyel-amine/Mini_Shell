@@ -6,16 +6,25 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:20:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/19 00:15:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:36:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_isprint_nspc(int c)
+int	ft_chrpos(char *line,  char c)
 {
-	return (c > 0x20 && c <= 0x7e);
+	int	i = 0;
+	
+	if (!line)
+		return (-1);
+	while (line[i] && line[i] != c)
+		i++;
+	if (line[i] == c)
+		return (i);
+	return (-1);
 }
+
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*str;
@@ -34,51 +43,3 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (free(s1), free(s2), str);
 }
 
-
-int	ft_chrpos(char *line,  char c)
-{
-	int	i = 0;
-	
-	if (!line)
-		return (-1);
-	while (line[i] && line[i] != c)
-		i++;
-	if (line[i] == c)
-		return (i);
-	return (-1);
-}
-
-size_t ft_double_strlen(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	**ft_joindstrs(char **ds1, char* *ds2)
-{
-	char	**words;
-	int		ds1_len;	
-	int		ds2_len;
-	int		i;
-	int		j;
-	
-	ds1_len = ft_double_strlen(ds1);
-	ds2_len = ft_double_strlen(ds2);
-	i = -1;
-	j = 0;
-	words = malloc(sizeof(char *) * (ds1_len + ds2_len + 1));
-	if (!words)
-		return (NULL);
-	while (ds1[++i])
-		words[i] = ds1[i];
-	while (ds2[j])
-		words[i++] = ds2[j++];
-	words[i] = NULL;
-	return (words);
-}
