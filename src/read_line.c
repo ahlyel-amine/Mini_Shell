@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 13:16:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:24:01 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ void	read_line(char	**line)
 	pwd = NULL;
 	while (1)
 	{
-		free(pwd);
 		pwd = NULL;
-
 		pwd = getcwd(pwd, 0);
 		pwd = get_prompt_line(pwd);
 		(*line) = readline(pwd);
+		free(pwd);
 		if (!(*line) || !ft_strncmp((*line), "exit", 5))
 			exit(0);
 		if (!*(*line))

@@ -10,48 +10,6 @@
 # include  <string.h>
 # include "dictionary.h"
 
-
-typedef struct s_arg
-{
-	char			*token;
-	short			x_token:4;
-	// t_cmd			cmd;
-	struct s_arg	*next;
-}	t_arg;
-
-# define SET 0
-# define GET 1
-# define GET_ENV 010
-# define GET_PATH 0100
-# define GET_HOME 01000
-
-enum s_type
-{
-	EXEC = 1,
-	REDIR,
-	BUILTIN,
-	AND,
-	OR,
-	PIPE,
-	ASSIGNEMENT,
-	INVALID
-};
-
-enum s_redir_type
-{
-	HEREDOC = 1,
-	IN_REDIR,
-	OUT_REDIR,
-	APPEND
-};
-
-typedef struct s_tree
-{
-	int				type;
-	void			*left;
-	void			*right;
-}	t_tree;
-
 typedef struct s_cmd
 {
 	int	type;
@@ -122,8 +80,8 @@ typedef struct s_redir
 }	t_redir;
 
 # include "parsing.h"
-void	*set__get_option_variables(char	**env, int set__get_option);
 
+void	*set__get_option_variables(char	**env, int set__get_option);
 t_cmd	*builtin_constructor(char *str, int has_option, char *cmd);
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);

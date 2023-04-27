@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 12:54:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:37:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	read_until_chr(char **line, char c)
 			dquote = readline("dquote> ");
 		if (!dquote)
 		{
-			new_arg(0, 0, -1);
 			ft_putendl_fd("unexpected EOF while looking for matching \"\'", 2);
 			ft_putendl_fd("minishell: syntax error: unexpected end of file", 2);
 			return ;

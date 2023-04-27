@@ -9,7 +9,8 @@
 		"string.h": "c",
 		"fcntl.h": "c",
 		"stdio.h": "c",
-		"dictionary.h": "c"
+		"dictionary.h": "c",
+		"archive.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

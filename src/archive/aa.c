@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
  #include <fcntl.h>
+ 
 void	mydup2(int fd1, int fd2)
 {
 	close(fd2);

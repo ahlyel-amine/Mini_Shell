@@ -6,11 +6,12 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 12:53:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 13:29:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
+
 
 void parse_line(char *line)
 {
@@ -19,7 +20,8 @@ void parse_line(char *line)
 	t_cmd	*right;
 
 	complete_line(&line);
-	cmd = get_token_operator(ft_strdup(line));
+	cmd = tokenize_line(line);
+	
 	if (cmd->type == PIPE)
 	{
 		left = ((t_pipe *)cmd)->left;
