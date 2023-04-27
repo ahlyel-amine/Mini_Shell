@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 12:39:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 19:47:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,44 +59,50 @@ int	echo_has_option(char *line, int *i)
 
 t_cmd	*get_token_builtins(char *line, int i, int j)
 {
-	t_cmd *cmd= NULL;
+	t_cmd	*cmd;
+	char	*tmp;
+	char	*quote;
+	
+	cmd = NULL;
 	int has_option = 0;
-	if (!ft_strncmp(ft_substr(line + i, 0, j), "echo", 5))
+	tmp = ft_substr(line + i, 0, j);
+	quote = quotes(line, i + j);
+	if (!ft_strncmp(tmp, "echo", 5))
 	{
 		has_option = echo_has_option(line + i + j, &i);
 		cmd = builtin_constructor(ft_strdup("echo"), \
-		has_option, quotes(line, i + j));
+		has_option, quote);
 		echo(cmd);
 	}
-	else if (!ft_strncmp(ft_substr(line + i, 0, j), "cd", 3))
+	else if (!ft_strncmp(tmp, "cd", 3))
 	{
 		cmd = builtin_constructor(ft_strdup("cd"), \
-		has_option, quotes(line, i + j));
+		has_option, quote);
 	}
-	else if (!ft_strncmp(ft_substr(line + i, 0, j), "pwd", 4))
+	else if (!ft_strncmp(tmp, "pwd", 4))
 	{
 		cmd = builtin_constructor(ft_strdup("pwd"), \
-		has_option, quotes(line, i + j));
+		has_option, quote);
 	}
-	else if (!ft_strncmp(ft_substr(line + i, 0, j), "unset", 6))
+	else if (!ft_strncmp(tmp, "unset", 6))
 	{
 		cmd = builtin_constructor(ft_strdup("unset"), \
-		has_option, quotes(line, i + j));
+		has_option, quote);
 	}
-	else if (!ft_strncmp(ft_substr(line + i, 0, j), "env", 4))
+	else if (!ft_strncmp(tmp, "env", 4))
 	{
 		cmd = builtin_constructor(ft_strdup("env"), \
-		has_option, quotes(line, i + j));
+		has_option, quote);
 	}
-	else if (!ft_strncmp(ft_substr(line + i, 0, j), "export", 7))
+	else if (!ft_strncmp(tmp, "export", 7))
 	{
 		cmd = builtin_constructor(ft_strdup("export"), \
-		has_option, quotes(line, i + j));
+		has_option, quote);
 	}
-	else if (!ft_strncmp(ft_substr(line + i, 0, j), "exit", 5))
+	else if (!ft_strncmp(tmp, "exit", 5))
 	{
 		cmd = builtin_constructor(ft_strdup("exit"), \
-		has_option, quotes(line, i + j));
+		has_option, quote);
 	}
-	return (cmd);
+	return (free (line), free(tmp), free(quote), cmd);
 }

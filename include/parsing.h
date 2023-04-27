@@ -4,12 +4,12 @@
 # include "minishell.h"
 
 
-void		parse_line(char *line);
-void		read_until_chr(char **line, char c);
+char		*parse_line(char *line);
+char		*read_until_chr(char *line, char c);
 void		tokenizer(char **words);
 void		read_line(char	**line);
 void		complete_line(char **line);
-char		*get_prompt_line(char *old_pwd);
+char		*get_prompt_line();
 t_cmd		*tokenize_line(char *line);
 
 /*	tokenizers*/
@@ -20,7 +20,7 @@ t_cmd	*get_token_operator(char *line);
 t_cmd	*get_token_order(char *line);
 t_cmd	*get_token_operator_pipe(char *line);
 t_cmd	*get_token_redir(char *line);
-t_cmd	*get_token_variable_assignement(char *line, int j);
+t_cmd	*get_token_variable_assignement(char *line);
 
 /*helpers*/
 char	*quotes(char *line, int i);

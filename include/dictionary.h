@@ -4,11 +4,14 @@
 # include "minishell.h"
 
 
-# define SET 0
-# define GET 1
-# define GET_ENV 010
-# define GET_PATH 0100
-# define GET_HOME 01000
+# define SET		00
+# define SET_PWD	010
+# define GET		01
+# define GET_ENV	010
+# define GET_PATH	0100
+# define GET_HOME	01000
+# define GET_PWD	010000
+# define FREE		011111111
 
 enum s_type
 {
@@ -29,6 +32,5 @@ enum s_redir_type
 	OUT_REDIR,
 	APPEND
 };
-
 
 #endif

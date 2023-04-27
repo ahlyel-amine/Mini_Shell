@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 12:41:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 19:43:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,6 @@ t_cmd	*get_token_redir(char *line)
 		i++;
 	}
 	if (i != -1)
-		redirection = get_token_order(line);
+		redirection = get_token_order(ft_strdup(line));
 	return (redirection);
 }
