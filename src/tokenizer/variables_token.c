@@ -6,12 +6,11 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:51 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 12:34:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 20:07:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 int	check_is_assignement(char *line, int *value)
 {
@@ -22,7 +21,6 @@ int	check_is_assignement(char *line, int *value)
 	i = 0;
 	quote = 0;
 	dquote = 0;
-	(void)value;
 	while (line[i] && line[i] != '=' && line[i] != '\'' && line[i] != '\"')
 		i++;
 	if (line[i] != '=')
@@ -34,7 +32,6 @@ int	check_is_assignement(char *line, int *value)
 	{
 		check_out_of_quotes(line[i], &quote, &dquote);
 			i++;
-		
 	}
 	while (ft_isspace(line[i]))
 		i++;
@@ -43,19 +40,22 @@ int	check_is_assignement(char *line, int *value)
 	return (0);
 }
 
-t_cmd	*get_token_variable_assignement(char *line, int j)
+t_cmd	*get_token_variable_assignement(char *line)
 {
 	t_cmd	*cmd;
+	char	*tmp;
 	int		value;
 
 	cmd = NULL;
-
+	tmp = NULL;
 	value = 0;
-	(void)j;
 	if (!check_is_assignement(line, &value))
 		cmd = invalid_constructor(line);
 	else
-		cmd = assignement_constructor(ft_substr(line, 0, value),
-			quotes(ft_substr(line, value, ft_strlen(line + value)), 0));
+	{
+		tmp = ft_substr(line, value, ft_strlen(line + value));
+		cmd = assignement_constructor(ft_substr(line, 0, value), quotes(tmp, 0));
+		free (tmp);
+	}
 	return (free(line), cmd);
 }

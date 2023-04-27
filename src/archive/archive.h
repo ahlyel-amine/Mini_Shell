@@ -33,6 +33,8 @@ typedef struct s_arg
 	struct s_arg	*next;
 }	t_arg;
 
+int			count_arguments(char *line);
+char		**select_arguments(char *line, int count);
 char		*get_delimiter(char *word, int j);
 void		write_herdoc(char *delemiter);
 void		check_for_heredoc(t_arg *arg);

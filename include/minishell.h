@@ -22,12 +22,18 @@ typedef struct s_pipe
 	t_cmd	*right;
 }	t_pipe;
 
+t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
+void	pipe_destructor(t_cmd *structor);
+
 typedef struct s_and
 {
 	int		type;
 	t_cmd	*left;
 	t_cmd	*right;
 }	t_and;
+
+t_cmd	*and_constructor(t_cmd *left, t_cmd *right);
+void	and_destructor(t_cmd *structor);
 
 typedef struct s_or
 {
@@ -36,11 +42,17 @@ typedef struct s_or
 	t_cmd	*right;
 }	t_or;
 
+t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
+void	or_destructor(t_cmd *structor);
+
 typedef struct s_execcmd
 {
 	int		type;
 	char	**cmd;
 }	t_execcmd;
+
+t_cmd	*execcmd_constructor(char **cmds);
+void	execcmd_destructor(t_cmd *structor);
 
 typedef struct s_assignement
 {
@@ -48,6 +60,9 @@ typedef struct s_assignement
 	char	*key;
 	char	*value;
 }	t_assignement;
+
+t_cmd	*assignement_constructor(char *key, char *value);
+void	assignement_destructor(t_cmd *structor);
 
 typedef struct s_builtin
 {
@@ -57,19 +72,25 @@ typedef struct s_builtin
 	int		has_option:1;
 }	t_builtin;
 
+t_cmd	*builtin_constructor(char *str, int has_option, char *cmd);
+void	builtin_destructor(t_cmd *structor);
+
 typedef struct s_invalid
 {
 	int		type;
 	char	*str;
 }	t_invalid;
 
+t_cmd	*invalid_constructor(char *str);
+void	invalid_destructor(t_cmd *structor);
+
 typedef struct s_redir_content
 {
+	int		type;
 	char	*file_name;
 	char	*efile_name;
 	int		mode;
 	int		fd;
-	int		type;
 }	t_redir_content;
 
 typedef struct s_redir
@@ -79,18 +100,26 @@ typedef struct s_redir
 	t_cmd			*cmd;
 }	t_redir;
 
+t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
+void	redir_destructor(t_cmd *structor);
+
 # include "parsing.h"
 
 void	*set__get_option_variables(char	**env, int set__get_option);
-t_cmd	*builtin_constructor(char *str, int has_option, char *cmd);
-t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
-t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
-t_cmd	*assignement_constructor(char *key, char *value);
-t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
-t_cmd	*and_constructor(t_cmd *left, t_cmd *right);
-t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
-t_cmd	*execcmd_constructor(char **cmds);
-t_cmd	*invalid_constructor(char *str);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void	echo(t_cmd *cmd);
 #endif

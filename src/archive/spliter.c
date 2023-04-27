@@ -6,11 +6,115 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 05:57:23 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 13:43:24 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 17:02:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "archive.h"
+
+int	count_arguments(char *line)
+{
+	int	i;
+	int	quote;
+	int	dquote;
+	int counter;
+
+	counter = 0;
+	dquote = 0;
+	quote = 0;
+	i = 0;
+	while (line[i])
+	{
+		while (ft_isspace(line[i]))
+			i++;
+		check_out_of_quotes(line[i], &quote, &dquote);
+		while (line[i] && !quote && !dquote && !ft_isspace(line[i]))
+		{
+			check_out_of_quotes(line[i], &quote, &dquote);
+			i++;
+		}
+		if (ft_isspace(line[i]) || !line[i])
+				counter++;
+		else if (quote)
+		{
+			while (line[i] != '\'')
+				i++;
+			if (ft_isspace(line[i]) || !line[i])
+				counter++;
+		}
+		else if (dquote)
+		{
+			while (line[i] != '\"')
+				i++;
+			if (line[i] == '\"')
+				i++;
+			if (ft_isspace(line[i]) || !line[i])
+				counter++;
+		}
+	}
+	return (counter);
+}
+
+char	**select_arguments(char *line, int count)
+{
+	int		i;
+	int		quote;
+	int		dquote;
+	int 	j;
+	char	**cmd;
+
+	cmd = malloc(sizeof (char *) * (count + 1));
+	cmd[count] = NULL;
+	count = 0;
+	quote = 0;
+	dquote = 0;
+	i = 0;
+	j = 0;
+
+	while (line[i + j])
+	{
+		while (ft_isspace(line[i + j]))
+			j++;
+		check_out_of_quotes(line[i + j], &quote, &dquote);
+		while (line[i + j] && !quote && !dquote && !ft_isspace(line[i + j]))
+		{
+			check_out_of_quotes(line[i + j], &quote, &dquote);
+			j++;
+		}
+		if (ft_isspace(line[i + j]) || !line[i + j])
+		{
+			cmd[count++] = ft_substr(line, i, j);
+			i += j;
+		}
+		else if (quote)
+		{
+			while (line[i + j] != '\'')
+				j++;
+			if (ft_isspace(line[i + j]) || !line[i + j])
+			{
+				cmd[count++] = ft_substr(line, i, j);
+				i += j;
+			}
+		}
+		else if (dquote)
+		{
+			while (line[i + j] != '\"')
+				j++;
+			if (line[i + j] == '\"')
+				j++;
+			if (ft_isspace(line[i + j]) || !line[i + j])
+			{
+				cmd[count++] = ft_substr(line, i, j - 1);
+				i += j;
+			}
+		}
+		j = 0;
+	}
+	j = 0;
+	while (cmd[j])
+		printf("|%s|\n", cmd[j++]);
+	return (cmd);
+}
 
 char	**alloc_for_words(int words_nbr)
 {
