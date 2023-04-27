@@ -18,8 +18,13 @@ typedef struct s_arg
 	// t_cmd			cmd;
 	struct s_arg	*next;
 }	t_arg;
+
 # define SET 0
 # define GET 1
+# define GET_ENV 010
+# define GET_PATH 0100
+# define GET_HOME 01000
+
 enum s_type
 {
 	EXEC = 1,
@@ -28,7 +33,8 @@ enum s_type
 	AND,
 	OR,
 	PIPE,
-	WORD
+	ASSIGNEMENT,
+	INVALID
 };
 
 enum s_redir_type
@@ -78,6 +84,13 @@ typedef struct s_execcmd
 	char	**cmd;
 }	t_execcmd;
 
+typedef struct s_assignement
+{
+	int		type;
+	char	*key;
+	char	*value;
+}	t_assignement;
+
 typedef struct s_builtin
 {
 	int		type;
@@ -86,11 +99,11 @@ typedef struct s_builtin
 	int		has_option:1;
 }	t_builtin;
 
-typedef struct s_word
+typedef struct s_invalid
 {
 	int		type;
-	char	*word;
-}	t_word;
+	char	*str;
+}	t_invalid;
 
 typedef struct s_redir_content
 {
@@ -109,15 +122,17 @@ typedef struct s_redir
 }	t_redir;
 
 # include "parsing.h"
+void	*set__get_option_variables(char	**env, int set__get_option);
 
 t_cmd	*builtin_constructor(char *str, int has_option, char *cmd);
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
+t_cmd	*assignement_constructor(char *key, char *value);
 t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
 t_cmd	*and_constructor(t_cmd *left, t_cmd *right);
 t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
 t_cmd	*execcmd_constructor(char **cmds);
-t_cmd	*word_constructor(char *str);
+t_cmd	*invalid_constructor(char *str);
 
 void	echo(t_cmd *cmd);
 #endif

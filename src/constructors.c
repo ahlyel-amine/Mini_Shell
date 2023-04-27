@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 10:29:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 12:12:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,15 @@ t_cmd	*or_constructor(t_cmd *left, t_cmd *right)
 	return ((t_cmd *)or);
 }
 
-t_cmd	*word_constructor(char *str)
+t_cmd	*invalid_constructor(char *str)
 {
-	t_word	*word;
+	t_invalid	*invalid;
 
-	word = malloc(sizeof(t_word));
-	ft_memset(word, 0, sizeof(t_word));
-	word->type = WORD;
-	word->word = str;
-	return ((t_cmd *)word);
+	invalid = malloc(sizeof(t_invalid));
+	ft_memset(invalid, 0, sizeof(t_invalid));
+	invalid->type = INVALID;
+	invalid->str = str;
+	return ((t_cmd *)invalid);
 }
 
 t_cmd	*builtin_constructor(char *str, int has_option, char *cmd)
@@ -92,4 +92,16 @@ t_cmd	*builtin_constructor(char *str, int has_option, char *cmd)
 	builtin->cmd = cmd;
 	builtin->has_option = has_option;
 	return ((t_cmd *)builtin);
+}
+
+t_cmd	*assignement_constructor(char *key, char *value)
+{
+	t_assignement	*assignement;
+
+	assignement = malloc(sizeof(t_assignement));
+	ft_memset(assignement, 0, sizeof(t_assignement));
+	assignement->type = ASSIGNEMENT;
+	assignement->key = key;
+	assignement->value = value;
+	return ((t_cmd *)assignement);
 }

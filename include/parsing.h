@@ -4,7 +4,7 @@
 # include "minishell.h"
 
 
-void		parsing_controll(char *line);
+void		parse_line(char *line);
 void		spliter(char *line);
 char		**set_splited(char *line, int count_inc, int call_count);
 int			quote_handler(char **line, int i);
@@ -16,8 +16,26 @@ void		heredoc_controll();
 char		**parser(char **words);
 void		read_until_chr(char **line, char c);
 void		tokenizer(char **words);
-t_arg	*new_arg(char *token, t_token x_token, int ref);
-void	*env_variables(char	**env, int ref);
+t_arg		*new_arg(char *token, t_token x_token, int ref);
+
+void	read_line(char	**line);
+void	complete_line(char **line);
+char	*get_prompt_line(char *old_pwd);
+
+/*	tokenizers*/
+
+t_cmd	*get_token_builtins(char *line, int i, int j);
+t_cmd	*get_token_cmd(char *line, int j);
+t_cmd	*get_token_operator(char *line);
+t_cmd	*get_token_order(char *line);
+t_cmd	*get_token_operator_pipe(char *line);
+t_cmd	*get_token_redir(char *line);
+t_cmd	*get_token_variable_assignement(char *line, int j);
+
+/*helpers*/
+char	*quotes(char *line, int i);
+void	check_out_of_quotes(char c, int *quote, int *dquote);
+void	something_wrong(char *error);
 
 /*	tools	*/
 char		**ft_split_char(char const *s, char c);
