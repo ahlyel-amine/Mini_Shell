@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/26 21:18:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/27 10:29:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right)
 	pipe->right = right;
 	return ((t_cmd *)pipe);
 }
-t_cmd	*execcmd_constructor()
+t_cmd	*execcmd_constructor(char **cmds)
 {
 	t_execcmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd));
-	ft_memset(cmd, 0, sizeof(t_cmd));
+	cmd = malloc(sizeof(t_execcmd));
+	ft_memset(cmd, 0, sizeof(t_execcmd));
 	cmd->type = EXEC;
-	return ((t_cmd *)pipe);
+	cmd->cmd = cmds;
+	return ((t_cmd *)cmd);
 }
 
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
