@@ -1,4 +1,4 @@
-#include "lib/libft/include/libft.h"
+#include "../../lib/libft/include/libft.h"
 #include <unistd.h>
 
 
@@ -65,12 +65,12 @@ int main(int argc, char  *argv[], char **envp)
 	while (paths[i])
 	{
 		paths[i] = ft_strjoin(paths[i], "/");
-		paths[i] = ft_strjoin(paths[i], "echo");
+		paths[i] = ft_strjoin(paths[i], "file");
 		int a = access(paths[i], F_OK | X_OK);
 		if (!a)
 			break ;
 		i++;
 	}
-	execve(paths[i], argv, envp);
+	execve(paths[i], ft_split("\" $l ahlyel\"", '\0'), envp);
 	return 0;
 }
