@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:40 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 19:33:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 08:28:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmd	*get_token_operator(char *line)
 	}
 	if (!operator_and && ! operator_or)
 	{
-		operator = get_token_operator_pipe(line);
+		operator = get_token_operator_pipe(ft_strdup(line));
 		free (line);
 	}
 	return (operator);
