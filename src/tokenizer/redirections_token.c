@@ -6,11 +6,12 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 19:31:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 21:50:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+// need to handle "str"str"str" withoute using quotes functions cause of she doesn't return the lenght of skiped characters
 static int	fill_is_quote_content(char *line, t_redir_content *red, int quote, int dquote)
 {
 	int	i;
