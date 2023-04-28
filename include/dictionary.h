@@ -4,14 +4,21 @@
 # include "minishell.h"
 
 
-# define SET		00
-# define SET_PWD	010
-# define GET		01
-# define GET_ENV	010
-# define GET_PATH	0100
-# define GET_HOME	01000
-# define GET_PWD	010000
-# define FREE		011111111
+# define SET		0b0
+# define SET_PWD	0b10
+# define GET		0b1
+# define GET_ENV	0b10
+# define GET_PATH	0b100
+# define GET_HOME	0b1000
+# define GET_PWD	0b10000
+# define FREE		0b11111111
+
+
+# define F_HEREDOC	0b100
+# define F_APPEND	0b101
+# define F_IN_RED	0b10
+# define F_OUT_RED	0b11
+
 
 enum s_type
 {

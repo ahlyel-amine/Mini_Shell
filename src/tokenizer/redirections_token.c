@@ -6,108 +6,67 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 13:54:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:20:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	fill_redir_content_herdoc(char *line, int i, t_redir_content *red)
+static int	fill_is_quote_content(char *line, t_redir_content *red, int quote, int dquote)
 {
+	int	i;
+	int	j;
+
+	j = 0;
+	i = red->fd;
+	i++;
+	red->file_name = ft_strdup(line + i);
+	check_out_of_quotes(red->file_name[j], &quote, &dquote);
+	while (red->file_name[j] && (quote || dquote))
+	{
+		// if (red->file_name[j] == '\\')
+		// 	something_wrong("asyntax error near unexpected token `newline'\\", red->file_name);
+		j++;
+		check_out_of_quotes(red->file_name[j], &quote, &dquote);
+	}
+	i += j + 1;
+	red->efile_name = red->file_name;
+	red->file_name = ft_substr(red->file_name, 0, j);
+	free (red->efile_name);
+	return (i);
+}
+int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
+{
+	int	j;
 	int	quote;
 	int	dquote;
-	int	k;
 
-	i += 2;
-	k = 0;
 	quote = 0;
 	dquote = 0;
+	j = 0;
+	i = i + (ref >> 1);
+	red->file_name = NULL;
 	while (ft_isspace(line[i]))
 		i++;
-	if (!line[i])
-		something_wrong("Asyntax error near unexpected token `newline'", line);
 	check_out_of_quotes(line[i], &quote, &dquote);
 	if (quote || dquote)
-		k++;
-	red->file_name = ft_strdup(line + i + k);
-	while ((ft_isalnum(line[i + k]) || line[i + k] == '_') || (ft_isspace(line[i + k])  && (quote || dquote)))
-		check_out_of_quotes(line[i++ + k], &quote, &dquote);
-	red->efile_name = line + i + k;
-	if (red->file_name == red->efile_name)
-		something_wrong("Bsyntax error near unexpected token `newline'", line);
-	red->fd = 0;
-	red->mode = 0;
-	red->type = HEREDOC;
-	return (i + k);
+	{
+		red->fd = i;
+		fill_is_quote_content(line, red, quote, dquote);
+	}
+	else
+	{
+		red->file_name = ft_strdup(line + i);
+		while (red->file_name[j] && !ft_isspace(red->file_name[j]))
+			j++;
+		if (red->file_name[j] && !ft_isspace(red->file_name[j]))
+			something_wrong("syntax error near unexpected token", red->file_name);
+		i += j;
+		red->efile_name = red->file_name;
+		red->file_name = ft_substr(red->file_name, 0, j);
+		free (red->efile_name);
+	}
+	return (i);
 }
-
-int	fill_redir_content_inredir(char *line, int i, t_redir_content *red)
-{
-	int	j;
-
-	j = 0;
-	line = quotes(line, i + 1);
-	while (ft_isspace(line[j]))
-		j++;
-	if (!line[j])
-		something_wrong("Asyntax error near unexpected token `newline'", line);
-	red->file_name = ft_strdup(line + j);
-	while (!ft_isspace(line[j]) && !ft_strchr("|&$<>", line[j]))
-		j++;
-	red->efile_name = line + j;
-	if (red->file_name == red->efile_name)
-		something_wrong("Bsyntax error near unexpected token `newline'", line);
-	red->fd = 0;
-	red->mode = O_RDONLY;
-	red->type = IN_REDIR;
-	return (free(line), i + j + 1);
-}
-
-int	fill_redir_content_append(char *line, int i, t_redir_content *red)
-{
-	int	j;
-
-	j = 0;
-	line = quotes(line, i + 2);
-	while (ft_isspace(line[j]))
-		j++;
-	if (!line[j])
-		something_wrong("Esyntax error near unexpected token `newline'", line);
-	red->file_name = ft_strdup(line + j);
-	while (!ft_isspace(line[j]) && !ft_strchr("|&$<>", line[j]))
-		j++;
-	red->efile_name = line + i;
-	if (red->file_name == red->efile_name)
-		something_wrong("Fsyntax error near unexpected token `newline'", line);
-	red->fd = 1;
-	red->mode = O_APPEND | O_WRONLY | O_CREAT;
-	red->type = APPEND;
-	return (free(line), i + j + 2);
-}
-
-int	fill_redir_content_outredir(char *line, int i, t_redir_content *red)
-{
-	int	j;
-
-	j = 0;
-	line = quotes(line, i + 1);
-	while (ft_isspace(line[j]))
-		j++;
-	if (!line[j])
-		something_wrong("Esyntax error near unexpected token `newline'", line);
-	red->file_name = ft_strdup(line + j);
-	while (!ft_isspace(line[j]) && !ft_strchr("|&$<>", line[j]))
-		j++;
-	red->efile_name = line + j;
-	if (red->file_name == red->efile_name)
-		something_wrong("Esyntax error near unexpected token `newline'", line);
-	red->fd = 1;
-	red->mode = O_TRUNC | O_WRONLY | O_CREAT;
-	red->type = APPEND;
-	return (free(line), i + j + 1);
-
-}
-
 t_cmd	*get_token_redir(char *line)
 {
 	t_cmd			*redirection;
@@ -135,7 +94,7 @@ t_cmd	*get_token_redir(char *line)
 			if (line[i] == '<' && line[i + 1] == '<')
 			{
 				quote = i;
-				i = fill_redir_content_herdoc(line, i, &red);
+				i = fill_redir_content(line, i, &red, F_HEREDOC);
 				redirection = redir_constructor(\
 				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
@@ -145,7 +104,8 @@ t_cmd	*get_token_redir(char *line)
 			else if (line[i] == '<')
 			{
 				quote = i;
-				i = fill_redir_content_inredir(line, i, &red);
+				i = fill_redir_content(line, i, &red, F_IN_RED);
+				// i = fill_redir_content_inredir(line, i, &red);
 				redirection = redir_constructor(\
 				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
@@ -155,7 +115,8 @@ t_cmd	*get_token_redir(char *line)
 			else if (line[i] == '>' && line[i + 1] == '>')
 			{
 				quote = i;
-				i = fill_redir_content_append(line, i, &red);
+				i = fill_redir_content(line, i, &red, F_APPEND);
+				// i = fill_redir_content_append(line, i, &red);
 				redirection = redir_constructor(\
 				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
@@ -165,7 +126,8 @@ t_cmd	*get_token_redir(char *line)
 			else if (line[i] == '>')
 			{
 				quote = i;
-				i = fill_redir_content_outredir(line, i, &red);
+				i = fill_redir_content(line, i, &red, F_OUT_RED);
+				// i = fill_redir_content_outredir(line, i, &red);
 				redirection = redir_constructor(\
 				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);

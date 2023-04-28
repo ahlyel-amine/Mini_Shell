@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:40 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 08:28:59 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:11:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cmd	*get_token_operator(char *line)
 	i = 0;
 	operator_and = 0;
 	operator_or = 0;
-	while (line[i])
+	while (line[i] && line[i] != '\\')
 	{
 		check_out_of_quotes(line[i], &quote, &dquote);
 		if (i - 2 >= 0 && !quote && !dquote)
@@ -69,6 +69,8 @@ t_cmd	*get_token_operator(char *line)
 		}
 		i++;
 	}
+	// if (line[i] == '\\')
+	// 	something_wrong("unexwpted \\", line);
 	if (!operator_and && ! operator_or)
 	{
 		operator = get_token_operator_pipe(ft_strdup(line));

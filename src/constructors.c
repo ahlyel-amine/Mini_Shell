@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 13:05:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:14:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ t_cmd	*execcmd_constructor(char **cmds)
 	cmd = malloc(sizeof(t_execcmd));
 	ft_memset(cmd, 0, sizeof(t_execcmd));
 	cmd->type = EXEC;
+	int i = 0;
+	while (cmds[i])
+		printf("%s\n", cmds[i++]);
 	cmd->cmd = cmds;
 	return ((t_cmd *)cmd);
 }
@@ -43,7 +46,6 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
 	redir->type = REDIR;
 	printf("execcmd_cnstr[%p]\n", cmd);
 	printf("filename_cnstr[%s]\n", content.file_name);
-	printf("filename_cnstr[%s]\n", content.efile_name);
 	redir->cmd = cmd;
 	redir->red = content;
 	return ((t_cmd *)redir);
