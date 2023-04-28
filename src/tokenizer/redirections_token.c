@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 19:20:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:31:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	fill_is_quote_content(char *line, t_redir_content *red, int quote, in
 	i = red->fd;
 	i++;
 	red->file_name = ft_strdup(line + i);
+	quotes(line, i);
 	check_out_of_quotes(red->file_name[j], &quote, &dquote);
 	while (red->file_name[j] && (quote || dquote))
 	{
@@ -29,6 +30,24 @@ static int	fill_is_quote_content(char *line, t_redir_content *red, int quote, in
 		check_out_of_quotes(red->file_name[j], &quote, &dquote);
 	}
 	i += j + 1;
+	red->efile_name = red->file_name;
+	red->file_name = ft_substr(red->file_name, 0, j);
+	free (red->efile_name);
+	return (i);
+}
+static int	fill_no_quote_content(char *line, t_redir_content *red)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = red->fd;
+	red->file_name = ft_strdup(line + i);
+	while (red->file_name[j] && !ft_isspace(red->file_name[j]))
+		j++;
+	if (red->file_name[j] && !ft_isspace(red->file_name[j]))
+		something_wrong("syntax error near unexpected token", red->file_name);
+	i += j;
 	red->efile_name = red->file_name;
 	red->file_name = ft_substr(red->file_name, 0, j);
 	free (red->efile_name);
@@ -55,15 +74,8 @@ int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 	}
 	else
 	{
-		red->file_name = ft_strdup(line + i);
-		while (red->file_name[j] && !ft_isspace(red->file_name[j]))
-			j++;
-		if (red->file_name[j] && !ft_isspace(red->file_name[j]))
-			something_wrong("syntax error near unexpected token", red->file_name);
-		i += j;
-		red->efile_name = red->file_name;
-		red->file_name = ft_substr(red->file_name, 0, j);
-		free (red->efile_name);
+		red->fd = i;
+		fill_no_quote_content(line, red);
 	}
 	return (i);
 }
