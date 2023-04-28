@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 20:09:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 09:09:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ int	check_cmd(char **path, char *cmd, int j)
 		tmp_path = ft_strjoin_free(tmp_path, ft_strdup(new_cmd));
 		if (!access(tmp_path, F_OK | X_OK))
 			return (free(tmp_path), free(new_cmd), 1);
-		free (tmp_path);
+		if (path[i + 1])
+			free (tmp_path);
 		i++;
 	}
-	return (free(new_cmd), free(tmp_path), 0);
+	return (free(tmp_path), free(new_cmd),0);
 }
+
 
 t_cmd	*get_token_cmd(char *line, int j)
 {

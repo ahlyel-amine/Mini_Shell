@@ -6,15 +6,17 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 19:31:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 13:52:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	something_wrong(char *error)
+void	something_wrong(char *error, void *to_free)
 {
+	free(to_free);
 	ft_putendl_fd(error, 2);
+	set__get_option_variables(0, FREE);
 	exit(1);
 }
 

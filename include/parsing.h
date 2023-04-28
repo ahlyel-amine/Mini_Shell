@@ -11,6 +11,7 @@ void		read_line(char	**line);
 void		complete_line(char **line);
 char		*get_prompt_line();
 t_cmd		*tokenize_line(char *line);
+void		free_line(t_cmd *cmd);
 
 /*	tokenizers*/
 
@@ -25,7 +26,7 @@ t_cmd	*get_token_variable_assignement(char *line);
 /*helpers*/
 char	*quotes(char *line, int i);
 void	check_out_of_quotes(char c, int *quote, int *dquote);
-void	something_wrong(char *error);
+void	something_wrong(char *error, void *to_free);
 
 /*	tools	*/
 char		**ft_split_char(char const *s, char c);

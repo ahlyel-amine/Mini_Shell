@@ -107,19 +107,5 @@ void	redir_destructor(t_cmd *structor);
 
 void	*set__get_option_variables(char	**env, int set__get_option);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void	echo(t_cmd *cmd);
 #endif

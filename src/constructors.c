@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 12:12:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/28 13:05:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
 	redir = malloc(sizeof(t_redir));
 	ft_memset(redir, 0, sizeof(t_redir));
 	redir->type = REDIR;
+	printf("execcmd_cnstr[%p]\n", cmd);
+	printf("filename_cnstr[%s]\n", content.file_name);
+	printf("filename_cnstr[%s]\n", content.efile_name);
 	redir->cmd = cmd;
 	redir->red = content;
 	return ((t_cmd *)redir);
