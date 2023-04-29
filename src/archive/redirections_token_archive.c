@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:10:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 19:10:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 12:24:21 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,6 @@ int	fill_redir_content_outredir(char *line, int i, t_redir_content *red)
 		something_wrong("Esyntax error near unexpected token `newline'", line);
 	red->fd = 1;
 	red->mode = O_TRUNC | O_WRONLY | O_CREAT;
-	red->type = APPEND;
+	red->type = OUT_REDIR;
 	return (free(line), i + j + 1);
 }

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 12:15:43 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 12:30:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ char	*skip_quote_redir_names(char *line, int *j, int i)
 	return (tmp);
 }
 
-static int	fill_is_quote_content(char *line, t_redir_content *red)
+static int	get_is_quote_name(char *line, t_redir_content *red)
 {
 	int	k;
 
 	red->file_name = skip_quote_redir_names(line, &k, red->fd);
 	return (k);
 }
-static int	fill_no_quote_content(char *line, t_redir_content *red)
+static int	get_no_quote_name(char *line, t_redir_content *red)
 {
 	int	i;
 	int	j;
@@ -74,6 +74,31 @@ static int	fill_no_quote_content(char *line, t_redir_content *red)
 	free (red->efile_name);
 	return (i);
 }
+
+static void	fill_red_content(t_redir_content *red, int ref)
+{
+	red->fd = 0;
+	red->mode = 0;
+	if (ref == F_HEREDOC)
+	{
+		red->type = HEREDOC;
+	}
+	else if (ref == F_APPEND)
+	{
+		red->fd = 1;
+		red->mode = O_APPEND | O_WRONLY | O_CREAT;
+		red->type = APPEND;
+	}
+	else if (ref == F_IN_RED)
+		red->type = IN_REDIR;
+	else if (ref == F_OUT_RED)
+	{
+		red->fd = 1;
+		red->mode = O_TRUNC | O_WRONLY | O_CREAT;
+		red->type = OUT_REDIR;
+	}
+}
+
 int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 {
 	int	j;
@@ -91,13 +116,14 @@ int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 	if (quote || dquote)
 	{
 		red->fd = i;
-		i = fill_is_quote_content(line, red);
+		i = get_is_quote_name(line, red);
 	}
 	else
 	{
 		red->fd = i;
-		i = fill_no_quote_content(line, red);
+		i = get_no_quote_name(line, red);
 	}
+	fill_red_content(red, ref);
 	return (i);
 }
 t_cmd	*get_token_redir(char *line)
@@ -139,7 +165,6 @@ t_cmd	*get_token_redir(char *line)
 			{
 				quote = i;
 				i = fill_redir_content(line, i, &red, F_IN_RED);
-				// i = fill_redir_content_inredir(line, i, &red);
 				redirection = redir_constructor(\
 				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
@@ -150,7 +175,6 @@ t_cmd	*get_token_redir(char *line)
 			{
 				quote = i;
 				i = fill_redir_content(line, i, &red, F_APPEND);
-				// i = fill_redir_content_append(line, i, &red);
 				redirection = redir_constructor(\
 				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
@@ -161,7 +185,6 @@ t_cmd	*get_token_redir(char *line)
 			{
 				quote = i;
 				i = fill_redir_content(line, i, &red, F_OUT_RED);
-				// i = fill_redir_content_outredir(line, i, &red);
 				redirection = redir_constructor(\
 				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
