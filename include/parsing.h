@@ -12,6 +12,7 @@ void		complete_line(char **line);
 char		*get_prompt_line();
 t_cmd		*tokenize_line(char *line);
 void		free_line(t_cmd *cmd);
+char	*remove_unused_parantheses(char *line);
 
 /*	tokenizers*/
 
