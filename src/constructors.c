@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 11:10:34 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 12:27:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
 	redir->red = content;
 	printf("-------------redir_constructor----------------\n");
 	printf("filename: |%s|\n", redir->red.file_name);
+	printf("mode : |%d| fd : |%d| type : |%d|\n", redir->red.mode, redir->red.fd, redir->red.type);
+	if (cmd)
+	printf("has cmd type |%d|\n", redir->cmd->type);
 	printf("----------------------------------------------\n");
 	return ((t_cmd *)redir);
 }
@@ -111,7 +114,7 @@ t_cmd	*builtin_constructor(char *str, int has_option, char *cmd)
 	printf("builtin: |%s|\n", builtin->builtin);
 	if (has_option)
 	printf("echo has option -n \n");
-	printf("arguments : |%s|\n", builtin->cmd);
+	printf("arguments : |%s|\n", builtin->cmd);	
 	printf("----------------------------------------------\n");
 	return ((t_cmd *)builtin);
 }
