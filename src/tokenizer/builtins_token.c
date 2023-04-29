@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 19:47:24 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 11:09:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,18 @@ t_cmd	*get_token_builtins(char *line, int i, int j)
 	t_cmd	*cmd;
 	char	*tmp;
 	char	*quote;
-	
+
 	cmd = NULL;
 	int has_option = 0;
-	tmp = ft_substr(line + i, 0, j);
-	quote = quotes(line, i + j);
+	tmp = ft_substr(line, 0, j);
+	quote = quotes(line, j);
+	
 	if (!ft_strncmp(tmp, "echo", 5))
 	{
-		has_option = echo_has_option(line + i + j, &i);
+		has_option = echo_has_option(line + j, &i);
 		cmd = builtin_constructor(ft_strdup("echo"), \
-		has_option, quote);
-		echo(cmd);
+		has_option, quotes(line, j + i));
+		free (quote);
 	}
 	else if (!ft_strncmp(tmp, "cd", 3))
 	{
@@ -104,5 +105,7 @@ t_cmd	*get_token_builtins(char *line, int i, int j)
 		cmd = builtin_constructor(ft_strdup("exit"), \
 		has_option, quote);
 	}
-	return (free (line), free(tmp), free(quote), cmd);
+	else
+		free(quote);
+	return (free (line), free(tmp), cmd);
 }
