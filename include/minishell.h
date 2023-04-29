@@ -30,9 +30,10 @@ typedef struct s_and
 	int		type;
 	t_cmd	*left;
 	t_cmd	*right;
+	int		is_parenthese:1;
 }	t_and;
 
-t_cmd	*and_constructor(t_cmd *left, t_cmd *right);
+t_cmd	*and_constructor(t_cmd *left, t_cmd *right, int is_parenthese);
 void	and_destructor(t_cmd *structor);
 
 typedef struct s_or
@@ -40,9 +41,10 @@ typedef struct s_or
 	int		type;
 	t_cmd	*left;
 	t_cmd	*right;
+	int		is_parenthese:1;
 }	t_or;
 
-t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
+t_cmd	*or_constructor(t_cmd *left, t_cmd *right, int is_parenthese);
 void	or_destructor(t_cmd *structor);
 
 typedef struct s_execcmd

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:40 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 19:11:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 20:01:04 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd	*get_token_operator(char *line)
 			{
 				operator_and = 1;
 				operator = and_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
+				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))), 0);
 				free (line);
 				break ;
 			}
@@ -43,7 +43,7 @@ t_cmd	*get_token_operator(char *line)
 			{
 				operator_or = 1;
 				operator = or_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
+				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))), 0);
 				free (line);
 				break ;
 			}
@@ -54,7 +54,7 @@ t_cmd	*get_token_operator(char *line)
 			{
 				operator_and = 1;
 				operator = and_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
+				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))), 0);
 				free (line);
 				break ;
 			}
@@ -62,7 +62,7 @@ t_cmd	*get_token_operator(char *line)
 			{
 				operator_or = 1;
 				operator = or_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
+				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))), 0);
 				free (line);
 				break ;
 			}
