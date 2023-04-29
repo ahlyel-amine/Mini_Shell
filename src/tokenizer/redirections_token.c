@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 10:52:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 12:15:43 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,8 @@ t_cmd	*get_token_redir(char *line)
 				quote = i;
 				i = fill_redir_content(line, i, &red, F_HEREDOC);
 				redirection = redir_constructor(\
-				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
-					while (1)
-					;
 				i = -1;
 				break ;
 			}
@@ -143,7 +141,7 @@ t_cmd	*get_token_redir(char *line)
 				i = fill_redir_content(line, i, &red, F_IN_RED);
 				// i = fill_redir_content_inredir(line, i, &red);
 				redirection = redir_constructor(\
-				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
 				i = -1;
 				break ;
@@ -154,7 +152,7 @@ t_cmd	*get_token_redir(char *line)
 				i = fill_redir_content(line, i, &red, F_APPEND);
 				// i = fill_redir_content_append(line, i, &red);
 				redirection = redir_constructor(\
-				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
 				i = -1;
 				break ;
@@ -165,7 +163,7 @@ t_cmd	*get_token_redir(char *line)
 				i = fill_redir_content(line, i, &red, F_OUT_RED);
 				// i = fill_redir_content_outredir(line, i, &red);
 				redirection = redir_constructor(\
-				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
 				i = -1;
 				break ;
