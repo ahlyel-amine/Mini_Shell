@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 08:19:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 09:13:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	complete_line(char **line)
 	int		dquote;
 	int		operator;
 	char	*tmp;
-	char	*tmp2;
 
 	quote = 0;
 	operator = 0;
@@ -101,10 +100,7 @@ void	complete_line(char **line)
 	else if (operator)
 	{
 		tmp = readline("> ");
-		tmp2 = *line;
-		*line = ft_strjoin(*line, tmp);
-		free(tmp2);
-		free(tmp);
+		*line = ft_strjoin_free(*line, tmp);
 	}
 	else
 		return ;

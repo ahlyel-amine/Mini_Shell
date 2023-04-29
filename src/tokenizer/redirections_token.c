@@ -6,35 +6,55 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 21:50:02 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/29 10:52:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 // need to handle "str"str"str" withoute using quotes functions cause of she doesn't return the lenght of skiped characters
-static int	fill_is_quote_content(char *line, t_redir_content *red, int quote, int dquote)
-{
-	int	i;
-	int	j;
 
-	j = 0;
-	i = red->fd;
-	i++;
-	red->file_name = ft_strdup(line + i);
-	quotes(line, i);
-	check_out_of_quotes(red->file_name[j], &quote, &dquote);
-	while (red->file_name[j] && (quote || dquote))
+char	*skip_quote_redir_names(char *line, int *j, int i)
+{
+	int		k;
+	int		quote;
+	int		dquote;
+	char	*tmp;
+
+	tmp = malloc(ft_strlen(line + i) + 1);
+	quote = 0;
+	dquote = 0;
+	k = 0;
+	while (line[i])
 	{
-		// if (red->file_name[j] == '\\')
-		// 	something_wrong("asyntax error near unexpected token `newline'\\", red->file_name);
-		j++;
-		check_out_of_quotes(red->file_name[j], &quote, &dquote);
+		if (line[i] == '\"' && !quote)
+			dquote++;
+		else if (line[i] == '\'' && !dquote)
+			quote++;
+		if (dquote == 2)
+			dquote = 0;
+		else if (quote == 2)
+			quote = 0;
+		if (ft_isspace(line[i]) && !quote && !dquote)
+			break ;
+		if ((quote || dquote) && ft_isspace(line[i]))
+			tmp[k++] = line[i];
+		else if ((line[i] == '\"' && quote) || (line[i] == '\'' && dquote))
+			tmp[k++] = line[i];
+		else if (line[i] != '\'' && line[i] != '\"')
+			tmp[k++] = line[i];
+		i++;
 	}
-	i += j + 1;
-	red->efile_name = red->file_name;
-	red->file_name = ft_substr(red->file_name, 0, j);
-	free (red->efile_name);
-	return (i);
+	*j = i;
+	tmp[k] = 0;
+	return (tmp);
+}
+
+static int	fill_is_quote_content(char *line, t_redir_content *red)
+{
+	int	k;
+
+	red->file_name = skip_quote_redir_names(line, &k, red->fd);
+	return (k);
 }
 static int	fill_no_quote_content(char *line, t_redir_content *red)
 {
@@ -71,12 +91,12 @@ int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 	if (quote || dquote)
 	{
 		red->fd = i;
-		fill_is_quote_content(line, red, quote, dquote);
+		i = fill_is_quote_content(line, red);
 	}
 	else
 	{
 		red->fd = i;
-		fill_no_quote_content(line, red);
+		i = fill_no_quote_content(line, red);
 	}
 	return (i);
 }
@@ -91,6 +111,7 @@ t_cmd	*get_token_redir(char *line)
 	quote = 0;
 	dquote = 0;
 	i = 0;
+
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &quote, &dquote);
@@ -111,6 +132,8 @@ t_cmd	*get_token_redir(char *line)
 				redirection = redir_constructor(\
 				get_token_order(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
+					while (1)
+					;
 				i = -1;
 				break ;
 			}
