@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 20:00:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 16:30:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
 	return ((t_cmd *)redir);
 }
 
-t_cmd	*and_constructor(t_cmd *left, t_cmd *right, int is_parenthese)
+t_cmd	*and_constructor(t_cmd *left, t_cmd *right)
 {
 	t_and	*and;
 
@@ -71,11 +71,10 @@ t_cmd	*and_constructor(t_cmd *left, t_cmd *right, int is_parenthese)
 	and->type = AND;
 	and->left = left;
 	and->right = right;
-	and->is_parenthese = is_parenthese;
 	return ((t_cmd *)and);
 }
 
-t_cmd	*or_constructor(t_cmd *left, t_cmd *right, int is_parenthese)
+t_cmd	*or_constructor(t_cmd *left, t_cmd *right)
 {
 	t_or	*or;
 
@@ -84,7 +83,6 @@ t_cmd	*or_constructor(t_cmd *left, t_cmd *right, int is_parenthese)
 	or->type = OR;
 	or->left = left;
 	or->right = right;
-	or->is_parenthese = is_parenthese;
 	return ((t_cmd *)or);
 }
 

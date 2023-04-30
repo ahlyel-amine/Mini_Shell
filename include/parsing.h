@@ -12,7 +12,7 @@ void		complete_line(char **line);
 char		*get_prompt_line();
 t_cmd		*tokenize_line(char *line);
 void		free_line(t_cmd *cmd);
-char	*remove_unused_parantheses(char *line);
+char	*remove_unused_parenthesis(char *line);
 
 /*	tokenizers*/
 
@@ -23,10 +23,13 @@ t_cmd	*get_token_order(char *line);
 t_cmd	*get_token_operator_pipe(char *line);
 t_cmd	*get_token_redir(char *line);
 t_cmd	*get_token_variable_assignement(char *line);
+t_cmd	*get_token_parenthesis_operator(char *line);
 
 /*helpers*/
 char	*quotes(char *line, int i);
-void	check_out_of_quotes(char c, int *quote, int *dquote);
+void	check_out_of_quotes(char c, t_var *var);
+void	set_zero_var(t_var *var);
+
 void	something_wrong(char *error, void *to_free);
 
 /*	tools	*/
