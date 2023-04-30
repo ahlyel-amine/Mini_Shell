@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 16:13:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 22:06:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,16 @@ t_cmd	*get_token_redir(char *line)
 {
 	t_cmd			*redirection;
 	int				i;
+	int				j;
+	int				space;
 	t_redir_content	red;
 	t_var	var;
 
 
 	set_zero_var(&var);
 	i = 0;
+	j = 0;
+	space = 0;
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
@@ -147,6 +151,20 @@ t_cmd	*get_token_redir(char *line)
 			// 	break ;
 			// else if (is_outredir())
 			// 	break ;
+			if ((line[i] == '<' && line[i + 1] == '<')  || (line[i] == '>' && line[i + 1] == '>') || (line[i] == '<') || (line[i] == '>'))
+			{
+				j++;
+				if (line[i + 1] == '<' || line[i + 1] == '>')
+					j++;
+				while (ft_isspace(line[i + j + space]))
+					space++;
+				if (!line[i + j + space] || line[i + j + space] == '<' || line[i + j + space] == '>')
+				{
+					free (line);
+					ft_putendl_fd("minishell : syntax error near unexpected token `newline'", 2);
+					return (NULL);
+				}
+			}
 			if (line[i] == '<' && line[i + 1] == '<')
 			{
 				var.quote = i;
