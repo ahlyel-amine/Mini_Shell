@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 17:35:34 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 21:01:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ t_cmd	*get_token_parenthesis_operator(char *line)
 				}
 				else
 				{
-					printf("don't freeeeeeee me\n");
-					something_wrong("syntax error", line);
+					free (line);
+					// printf("don't freeeeeeee me\n");
+					ft_putendl_fd("syntax error", 2);
+					return (NULL);
 				}
 			}
 		}

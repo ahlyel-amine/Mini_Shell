@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:40 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 17:32:51 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 22:13:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,51 +19,55 @@ t_cmd	*get_token_operator(char *line)
 	int		operator_and;
 	int		operator_or;
 	t_var	var;
+	char	*tmp;
 
 	set_zero_var(&var);
 	i = 0;
 	operator_and = 0;
 	operator_or = 0;
-	while (line[i] && line[i] != '\\')
+	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
-		if (i - 2 >= 0 && !var.quote && !var.dquote)
+		if (!var.quote && !var.dquote && line[i] == '&' && line[i + 1] == '&')
 		{
-			if (line[i - 1] == '&' && line[i] == '&')
+			operator_and = 1;
+			tmp = ft_substr_skip_space(line, 0, i);
+			if (!*tmp)
 			{
-				operator_and = 1;
-				operator = and_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
 				free (line);
-				break ;
+				free (tmp);
+				ft_putendl_fd("minishell: syntax error near unexpected token `&&'\n", 2);
+				return (NULL);
 			}
-			else if (line[i - 1] == '|' && line[i] == '|')
+			else
 			{
-				operator_or = 1;
-				operator = or_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
-				free (line);
-				break ;
+				operator = get_token_operator(tmp);
+				if (operator)
+					operator = and_constructor(operator,
+					get_token_operator(ft_substr(line, i + 2, ft_strlen(line + i + 2))));
 			}
+			free (line);
+			break ;
 		}
-		if (i - 1 >= 0)
+		else if (!var.quote && !var.dquote && line[i] == '|' && line[i + 1] == '|')
 		{
-			if (line[i - 1] == '&' && line[i] == '&')
+			operator_or = 1;
+			tmp = ft_substr_skip_space(line, 0, i);
+			if (!*tmp)
 			{
-				operator_and = 1;
-				operator = and_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
 				free (line);
-				break ;
+				free (tmp);
+				ft_putendl_fd("minishell: syntax error near unexpected token `||'\n", 2);
+				return (NULL);
 			}
-			else if (line[i - 1] == '|' && line[i] == '|')
+			else
 			{
-				operator_or = 1;
-				operator = or_constructor(get_token_operator(ft_substr(line, 0, i - 1)), 
-				get_token_operator(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
-				free (line);
-				break ;
+				operator = get_token_operator(tmp);
+				operator = or_constructor(operator, 
+				get_token_operator(ft_substr(line, i + 2, ft_strlen(line + i + 2))));
 			}
+			free (line);
+			break ;
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 16:30:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 20:45:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right)
 {
 	t_pipe	*pipe;
 
+	printf("^^^^^^^^^^^^^^^pipe_constructor_caled^^^^^^^^^^^^^^^\n");
 	pipe = malloc(sizeof(t_pipe));
 	ft_memset(pipe, 0, sizeof(t_pipe));
 	pipe->type = PIPE;
@@ -66,6 +67,7 @@ t_cmd	*and_constructor(t_cmd *left, t_cmd *right)
 {
 	t_and	*and;
 
+	printf("^^^^^^^^^^^^^^^and_constructor_caled^^^^^^^^^^^^^^^\n");
 	and = malloc(sizeof(t_and));
 	ft_memset(and, 0, sizeof(t_and));
 	and->type = AND;
@@ -78,6 +80,7 @@ t_cmd	*or_constructor(t_cmd *left, t_cmd *right)
 {
 	t_or	*or;
 
+	printf("^^^^^^^^^^^^^^^or_constructor_caled^^^^^^^^^^^^^^^\n");
 	or = malloc(sizeof(t_or));
 	ft_memset(or, 0, sizeof(t_or));
 	or->type = OR;

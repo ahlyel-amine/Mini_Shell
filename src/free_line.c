@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 08:35:28 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 11:11:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 21:09:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,26 @@ void	free_line(t_cmd *cmd)
 {
 	if (cmd->type == AND)
 	{
-		free_line(((t_and *)cmd)->left);
-		free_line(((t_and *)cmd)->right);
+		if (((t_and *)cmd)->left)
+			free_line(((t_and *)cmd)->left);
+		if (((t_and *)cmd)->right)
+			free_line(((t_and *)cmd)->right);
 		and_destructor(cmd);
 	}
 	else if (cmd->type == OR)
 	{
-		free_line(((t_or *)cmd)->left);
-		free_line(((t_or *)cmd)->right);
+		if (((t_or *)cmd)->left)
+			free_line(((t_or *)cmd)->left);
+		if (((t_or *)cmd)->right)
+			free_line(((t_or *)cmd)->right);
 		or_destructor(cmd);
 	}
 	else if (cmd->type == PIPE)
 	{
-		free_line(((t_pipe *)cmd)->left);
-		free_line(((t_pipe *)cmd)->right);
+		if (((t_pipe *)cmd)->left)
+			free_line(((t_pipe *)cmd)->left);
+		if (((t_pipe *)cmd)->right)
+			free_line(((t_pipe *)cmd)->right);
 		pipe_destructor(cmd);
 	}
 	else
