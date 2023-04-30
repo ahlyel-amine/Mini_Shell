@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 22:36:01 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 23:36:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,6 @@ char	*get_is_complete(char *line, int *quote, int *dquote, int *operator)
 			(*quote) = !(*quote);
 		if (!line[i + 1] || only_spaces_left(line + i + 1))
 		{
-			// if (i - 2 >= 0)
-			// {
-			// 	if ((!ft_isspace(line[i - 2]) && line[i - 1] == '&' && line[i] == '&')
-			// 	|| (!ft_isspace(line[i - 2]) && line[i - 1] == '|' && line[i] == '|'))
-			// 	{
-			// 		int space = 0;
-			// 		while (ft_isspace(line[space]))
-			// 			space++;
-			// 		if ((space == i - 1) || )
-			// 		*operator = 1;
-			// 	}
-			// }
 			if (i - 2 >= 0)
 			{
 				if ((line[i - 1] == '&' && line[i] == '&') || (line[i - 1] == '|' && line[i] == '|'))
@@ -83,14 +71,14 @@ char	*get_is_complete(char *line, int *quote, int *dquote, int *operator)
 					int space = 0;
 					while (ft_isspace(line[space]))
 						space++;
-					if (space == i - 2)
+					if (space == i - 1)
 					{
+						if (line[i] == '&')
+						ft_putendl_fd("minishell: syntax error near unexpected token `&&'\n", 2);
+						else
+						ft_putendl_fd("minishell: syntax error near unexpected token `||'\n", 2);
 						free(line);
 						line = NULL;
-						if (line[i] == '&')
-						ft_putendl_fd("minishell: syntax error near unexpected token `&&'", 2);
-						else
-						ft_putendl_fd("minishell: syntax error near unexpected token `||'", 2);
 						break ;
 					}
 					*operator = 1;	
@@ -103,14 +91,11 @@ char	*get_is_complete(char *line, int *quote, int *dquote, int *operator)
 					int space = 0;
 					while (ft_isspace(line[space]))
 						space++;
-					if (space == i - 1)
+					if (space == i)
 					{
+						ft_putendl_fd("minishell: syntax error near unexpected token `|'\n", 2);
 						free(line);
 						line = NULL;
-						if (line[i] == '&')
-						ft_putendl_fd("minishell: syntax error near unexpected token `&&'", 2);
-						else
-						ft_putendl_fd("minishell: syntax error near unexpected token `||'", 2);
 						break ;
 					}
 					*operator = 1;
