@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:51 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 16:14:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 23:46:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,12 @@ t_cmd	*get_token_variable_assignement(char *line)
 	if (!check_is_assignement(line, &value))
 	{
 		if (*line)
-			cmd = invalid_constructor(ft_strdup(line));
+		{
+			ft_putendl_fd("minishell:  dsdfghj: command not found tkherbi9", 2);
+			free (line);
+			return (NULL);
+			// cmd = invalid_constructor(ft_strdup(line));
+		}
 	}
 	else
 	{

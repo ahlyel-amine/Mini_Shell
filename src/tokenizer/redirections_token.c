@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 22:06:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 23:43:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ t_cmd	*get_token_redir(char *line)
 				if (!line[i + j + space] || line[i + j + space] == '<' || line[i + j + space] == '>')
 				{
 					free (line);
-					ft_putendl_fd("minishell : syntax error near unexpected token `newline'", 2);
+					ft_putendl_fd("minishell : syntax error near unexpected token\n", 2);
 					return (NULL);
 				}
 			}
@@ -169,8 +169,14 @@ t_cmd	*get_token_redir(char *line)
 			{
 				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_HEREDOC);
-				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))); 
+				if (redirection)
+					redirection = redir_constructor(redirection, red);
+				else
+				{
+					free (line);
+					return (NULL);
+				}
 				free (line);
 				i = -1;
 				break ;
@@ -179,8 +185,14 @@ t_cmd	*get_token_redir(char *line)
 			{
 				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_IN_RED);
-				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i))));
+				if (redirection)
+					redirection = redir_constructor(redirection, red);
+				else
+				{
+					free (line);
+					return (NULL);
+				}
 				free (line);
 				i = -1;
 				break ;
@@ -189,8 +201,14 @@ t_cmd	*get_token_redir(char *line)
 			{
 				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_APPEND);
-				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i))));
+				if (redirection)
+					redirection = redir_constructor(redirection, red);
+				else
+				{
+					free (line);
+					return (NULL);
+				}
 				free (line);
 				i = -1;
 				break ;
@@ -199,8 +217,14 @@ t_cmd	*get_token_redir(char *line)
 			{
 				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_OUT_RED);
-				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i))));
+				if (redirection)
+					redirection = redir_constructor(redirection, red);
+				else
+				{
+					free (line);
+					return (NULL);
+				}
 				free (line);
 				i = -1;
 				break ;

@@ -9,7 +9,8 @@ OBJ =  ${SRC:.c=.o}
 
 OBJ_DIR = obj/
 BIN_DIR = bin/
-CFLAGS		= -Wall -Wextra -Werror    -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror  
+#   -fsanitize=address
 LIBRARIES	= -L ${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
 NAME = minishell

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:46 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 22:22:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 23:39:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_cmd	*get_token_operator_pipe(char *line)
 		check_out_of_quotes(line[i], &var);
 		if (!var.quote && !var.dquote && line[i] == '|')
 		{
-			puts("in");
 			operator_pipe = 1;
 			tmp = ft_substr_skip_space(line, 0, i);
 			if (!*tmp)
