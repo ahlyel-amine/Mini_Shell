@@ -40,4 +40,10 @@ enum s_redir_type
 	APPEND
 };
 
+typedef struct s_var
+{
+	int	quote:1;
+	int	dquote:1;
+}	t_var;
+
 #endif

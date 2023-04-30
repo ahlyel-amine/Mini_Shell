@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:51 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 11:15:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 16:14:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 int	check_is_assignement(char *line, int *value)
 {
 	int	i;
-	int	quote;
-	int	dquote;
+	t_var	var;
 
+	set_zero_var(&var);
 	i = 0;
-	quote = 0;
-	dquote = 0;
 	while (line[i] && line[i] != '=' && line[i] != '\'' && line[i] != '\"')
 		i++;
 	if (line[i] != '=')
@@ -28,9 +26,9 @@ int	check_is_assignement(char *line, int *value)
 	i++;
 	*value = i;
 	while (line[i] && line[i] != '$' && line[i] != '&' && line[i] != '|'
-	&& (!ft_isspace(line[i]) || (quote || dquote)))
+	&& (!ft_isspace(line[i]) || (var.quote || var.dquote)))
 	{
-		check_out_of_quotes(line[i], &quote, &dquote);
+		check_out_of_quotes(line[i], &var);
 			i++;
 	}
 	while (ft_isspace(line[i]))

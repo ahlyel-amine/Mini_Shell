@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 12:30:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 16:13:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,16 @@ static void	fill_red_content(t_redir_content *red, int ref)
 int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 {
 	int	j;
-	int	quote;
-	int	dquote;
+	t_var	var;
 
-	quote = 0;
-	dquote = 0;
+	set_zero_var(&var);
 	j = 0;
 	i = i + (ref >> 1);
 	red->file_name = NULL;
 	while (ft_isspace(line[i]))
 		i++;
-	check_out_of_quotes(line[i], &quote, &dquote);
-	if (quote || dquote)
+	check_out_of_quotes(line[i], &var);
+	if (var.quote || var.dquote)
 	{
 		red->fd = i;
 		i = get_is_quote_name(line, red);
@@ -130,18 +128,16 @@ t_cmd	*get_token_redir(char *line)
 {
 	t_cmd			*redirection;
 	int				i;
-	int				quote;
-	int				dquote;
 	t_redir_content	red;
+	t_var	var;
 
-	quote = 0;
-	dquote = 0;
+
+	set_zero_var(&var);
 	i = 0;
-
 	while (line[i])
 	{
-		check_out_of_quotes(line[i], &quote, &dquote);
-		if (!quote && !dquote)
+		check_out_of_quotes(line[i], &var);
+		if (!var.quote && !var.dquote)
 		{
 			// if (is_herdoc())
 			// 	break ;
@@ -153,40 +149,40 @@ t_cmd	*get_token_redir(char *line)
 			// 	break ;
 			if (line[i] == '<' && line[i + 1] == '<')
 			{
-				quote = i;
+				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_HEREDOC);
 				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
 				i = -1;
 				break ;
 			}
 			else if (line[i] == '<')
 			{
-				quote = i;
+				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_IN_RED);
 				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
 				i = -1;
 				break ;
 			}
 			else if (line[i] == '>' && line[i + 1] == '>')
 			{
-				quote = i;
+				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_APPEND);
 				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
 				i = -1;
 				break ;
 			}
 			else if (line[i] == '>')
 			{
-				quote = i;
+				var.quote = i;
 				i = fill_redir_content(line, i, &red, F_OUT_RED);
 				redirection = redir_constructor(\
-				get_token_redir(ft_strjoin_free(ft_substr(line, 0, quote), ft_substr(line, i, ft_strlen(line + i)))), red);
+				get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))), red);
 				free (line);
 				i = -1;
 				break ;

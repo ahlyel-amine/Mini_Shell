@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 19:31:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/04/30 16:08:01 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	something_wrong(char *error, void *to_free)
 	exit(1);
 }
 
-void	check_out_of_quotes(char c, int *quote, int *dquote)
+void	check_out_of_quotes(char c, t_var *var)
 {
-	if (c == '\"' && !(*quote))
-			(*dquote) = !(*dquote);
-	if (c == '\'' && !(*dquote))
-		(*quote) = !(*quote);
+	if (c == '\"' && !(var->quote))
+			(var->dquote) = !(var->dquote);
+	if (c == '\'' && !(var->dquote))
+		(var->quote) = !(var->quote);
 }
 
 char	*quotes(char *line, int i)
