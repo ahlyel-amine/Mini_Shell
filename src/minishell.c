@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 23:46:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/01 13:28:59 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av, char **env)
 
 	atexit(fun);
 	set__get_option_variables(env, SET);
+	int merged;
 	read_line();
 	return (0);
 }
