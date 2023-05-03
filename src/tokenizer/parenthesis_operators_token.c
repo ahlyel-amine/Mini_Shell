@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 21:01:51 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/01 10:33:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ t_cmd	*get_token_parenthesis_operator(char *line)
 		while (line[i + ++j])
 		{
 			check_out_of_quotes(line[i + j], &var);
-			if (line[i + j] == '(' && !var.quote && !var.dquote)
+			if (line[i + j] == '(' && !var.quote && !var.dquote && is.open != is.closed)
 				is.open++;
-			else if (line[i + j] == ')' && !var.quote && !var.dquote)
+			else if (line[i + j] == ')' && !var.quote && !var.dquote && is.open != is.closed)
 			{
 				is.closed++;
-				k = i + j++;
+				k = i + j;
+				continue ;
 			}
 			if (is.open == is.closed)
 			{
@@ -58,7 +59,6 @@ t_cmd	*get_token_parenthesis_operator(char *line)
 					j++;
 				if (line[i + j] == '&' && line[i + j + 1] == '&')
 				{
-
 					operator = and_constructor(
 						get_token_parenthesis_operator(ft_substr(line, i, k - i)),
 						get_token_parenthesis_operator(remove_unused_parenthesis(ft_substr(line, i + j + 2, ft_strlen(line + i + j + 2)))));
@@ -78,10 +78,18 @@ t_cmd	*get_token_parenthesis_operator(char *line)
 				{
 					free (line);
 					// printf("don't freeeeeeee me\n");
-					ft_putendl_fd("syntax error", 2);
+					ft_putendl_fd("syntax error\n", 2);
 					return (NULL);
 				}
 			}
+		}
+		if (is.open != is.closed)
+		{
+			free (line);
+			// printf("don't freeeeeeee me\n");
+			ft_putendl_fd("syntax error\n", 2);
+			return (NULL);
+
 		}
 	}
 	else

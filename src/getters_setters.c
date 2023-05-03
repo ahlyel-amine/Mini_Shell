@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 18:11:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/03 20:37:58 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*set_homedir(char **env, char *home)
+static char	*set_homedir(t_hold *env, char *home)
 {
+	t_list	*tmp_e;
 	char	*dir;
 	int		i;
 	int		j;
@@ -21,44 +22,49 @@ static char	*set_homedir(char **env, char *home)
 	j = 0;
 	i = 0;
 	dir = NULL;
-	while (env[i])
+	tmp_e = env->lst;
+	while (tmp_e)
 	{
-		if (!ft_strncmp(env[i], "HOME=", ft_strlen("HOME=")))
+		if (!ft_strncmp(tmp_e->content, "HOME=", ft_strlen("HOME=")))
 		{
-			dir = env[i];
+			dir = tmp_e->content;
 			break ;
 		}
-		i++;
+		// i++;
+		tmp_e = tmp_e->next;
 	}
 	if (dir)
 	{
-		while (env[i][j] != '=')
+		while (ft_strncmp(&(tmp_e->content[j]), "=", 1))
 			j++;
-		dir = ft_strdup(env[i] + j + 1);
+		dir = ft_strdup(tmp_e->content + j + 1);
 	}
 	free (home);
 	return (dir);
 }
 
-static char	**set_path(char **env, char **old_path)
+static char	**set_path(t_hold *env, char **old_path)
 {
 	char	**path;
+	t_list	*tmp_e;
 	char	*tmp;
 	int		i;
 
 	i = 0;
 	path = NULL;
-	while (env[i])
+	tmp_e = env->lst;
+	while (tmp_e)
 	{
-		if (!ft_strncmp(env[i], "PATH=", ft_strlen("PATH=")))
+		if (!ft_strncmp(tmp_e->content, "PATH=", ft_strlen("PATH=")))
 		{
-			tmp = ft_substr(env[i], 5, ft_strlen(env[i] + 5));
+			tmp = ft_substr(tmp_e->content, 5, ft_strlen(tmp_e->content + 5));
 			path = ft_split(tmp, ':');
 			free (tmp);
 		}
-		i++;
+		// i++;
+		tmp_e = tmp_e->next;
 	}
-	i = 0;
+
 	while (old_path && old_path[i])
 		free (old_path[i++]);
 	free (old_path);
@@ -96,6 +102,8 @@ void	unset(char ***path, char **pwd, char **homedir)
 		free ((*path)[i++]);
 	free (*path);
 	*path = NULL;
+	
+	
 }
 
 size_t ft_double_strlen(char **str)
@@ -126,14 +134,39 @@ char	**ft_dstrdup(char **ds1)
 	words[j] = NULL;
 	return (words);
 }
-char	**set_env(char **env)
-{
-	char **envp;
+// char	**set_env(char **env)
+// {
+// 	char **envp;
 
-	envp = ft_dstrdup(env);
-	return (envp);
+// 	envp = ft_dstrdup(env);
+// 	return (envp);
+// }
+
+char **env_str(t_hold *env_var)
+{
+	char	**env;
+	short	iter;
+	iter = 0;
+	env = (char **)malloc(sizeof(char *) * env_var->size + 1);
+	while (env_var->lst)
+	{
+		env[iter++] = ft_strdup(env_var->lst->content);
+		env_var->lst = env_var->lst->next;
+	}
+	env[iter] = NULL;
+	return (env);
 }
-void	*set__get_option_variables(char	**env, int set__get_option)
+
+void	free_env(char **env)
+{
+	int	iter;
+
+	iter = 0;
+	while (env && env[iter])
+		free(env[iter++]);
+	free(env);
+}
+void	*set__get_option_variables(t_hold *env, int set__get_option)
 {
 	static char	**path;
 	static char	**envs;
@@ -142,9 +175,10 @@ void	*set__get_option_variables(char	**env, int set__get_option)
 
 	if (set__get_option == SET)
 	{
-		envs = env;
-		path = set_path(env, path);
-		home_dir = set_homedir(env, home_dir);
+		
+		envs = (char **)env;
+		path = set_path((t_hold *)envs, path);
+		home_dir = set_homedir((t_hold *)envs, home_dir);
 	}
 	else if (set__get_option == (SET | SET_PWD))
 		pwd = set_pwd(pwd);
