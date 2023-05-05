@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/04 16:32:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/05 13:00:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,30 @@ char	*quotes(char *line, int i)
 	}
 	tmp[k] = 0;
 	return (tmp);
+}
+
+int	skip_spaces_front(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isspace(line[i]))
+		i++;
+	return (i);
+}
+
+void	pr_custom_err(char *error, void *ptr)
+{
+	char	*msg;
+
+	msg = ft_strjoin(ERR_, error);
+	ft_putendl_fd(msg, 2);
+	ft_putchar_fd('\n', 2);
+	free(msg);
+	free (ptr);
+}
+void	panic_recursive(char *error, void *ptr)
+{
+	ft_putendl_fd(error, 2);
+	free (ptr);
 }

@@ -1,0 +1,33 @@
+[((ls) && (wc)) && ((ls) || (wc))) && cd]
+[(ls) && (wc)) && ((ls) || (wc))]
+[ls) && (wc)]
+-------------execcmd_constructor--------------
+cmd : ls
+----------------------------------------------
+-------------execcmd_constructor--------------
+cmd : wc
+----------------------------------------------
+^^^^^^^^^^^^^^^and_constructor_caled^^^^^^^^^^^^^^^
+[ls) || (wc)]
+-------------execcmd_constructor--------------
+cmd : ls
+----------------------------------------------
+-------------execcmd_constructor--------------
+cmd : wc
+----------------------------------------------
+^^^^^^^^^^^^^^^or_constructor_caled^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^and_constructor_caled^^^^^^^^^^^^^^^
+-------------builtin_constructor--------------
+builtin: |cd|
+arguments : ||
+----------------------------------------------
+^^^^^^^^^^^^^^^and_constructor_caled^^^^^^^^^^^^^^^
+destructor execcmd called 
+destructor execcmd called 
+destructor and called 
+destructor execcmd called 
+destructor execcmd called 
+destructor or called 
+destructor and called 
+destructor builtin called 
+destructor and called 
