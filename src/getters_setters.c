@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/03 20:37:58 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:12:37 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static char	*set_homedir(t_hold *env, char *home)
 			dir = tmp_e->content;
 			break ;
 		}
-		// i++;
 		tmp_e = tmp_e->next;
 	}
 	if (dir)
@@ -61,7 +60,6 @@ static char	**set_path(t_hold *env, char **old_path)
 			path = ft_split(tmp, ':');
 			free (tmp);
 		}
-		// i++;
 		tmp_e = tmp_e->next;
 	}
 
@@ -89,7 +87,7 @@ char	*set_pwd(char *old_pwd)
 	free (old_pwd);
 	return (pwd);
 }
-void	unset(char ***path, char **pwd, char **homedir)
+void	unset(t_hold *env, char ***path, char **pwd, char **homedir)
 {
 	int	i;
 
@@ -102,7 +100,7 @@ void	unset(char ***path, char **pwd, char **homedir)
 		free ((*path)[i++]);
 	free (*path);
 	*path = NULL;
-	
+	ft_lstclear(&(env->lst), free);
 	
 }
 
@@ -191,7 +189,7 @@ void	*set__get_option_variables(t_hold *env, int set__get_option)
 	else if (set__get_option == (GET | GET_PWD))
 		return (pwd);
 	else if (set__get_option == FREE)
-		unset(&path, &home_dir, &pwd);
+		unset((t_hold *)envs, &path, &home_dir, &pwd);
 	return (NULL);
 }
 
