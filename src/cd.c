@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/05 21:03:14 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/05 21:52:33 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,67 +80,35 @@ char    **vars(char *var)
     }
     return (tmp);
 }
+
 char    *dbl_join(char **vars)
 {
-    short   iter = -1;
+    short   iter;
     char    *joined;
-    // char    *tmp;
+
+    iter = -1;
     joined = ft_strdup("");
     while (vars && vars[++iter])
     {
-        
         joined = ft_strjoin_free(joined, vars[iter]);
-        if (*(joined + (ft_strlen(joined) - 1)) == 0x20 && vars[iter + 1])
-        {
-            *(joined + (ft_strlen(joined) - 1)) = 0;
-        }    
-
+        // if (*(joined + (ft_strlen(joined) - 1)) == 0x20 && vars[iter + 1])
+        //     *(joined + (ft_strlen(joined) - 1)) = 0;
     }
     free(vars);
     return (joined);
 }
 
-// char    *var_expand(char *arg)
-// {
-//     char    *var;
-//     char    buf[1024];
-//     short   iter = 0;
-//     int i = 0;
-//     var = ft_memchr(arg, 0x22, ft_strlen(arg)) + 1;
-//     while (*arg)
-//     {
-//         if (*arg != 0x22 && *arg)
-//             buf[iter] = *arg;
-//         arg++;
-//     }
-//     while(var && *(var + (iter)))
-//         if (ft_isalnum(*(var + iter)) || *(var + iter) == 0x5f)
-//             iter++;
-//         else
-//             break;
-//     t_hold *env = (t_hold *)set__get_option_variables(0, (GET | GET_ENV));
-//     var = ft_substr(arg, (var) - (arg), iter);
-//     t_list *tmp = env->lst;
-//     while (tmp)
-//     {
-//         if (ft_strncmp(var, tmp->content, ft_strlen(var)))
-//             tmp = tmp->next;
-//         else
-//             while(((char *)(tmp->content)) && ((char *)tmp->content)[i])
-//                 buf[iter++] = ((char *)tmp->content)[i++];
-//     }
-//     return (buf);
-//     // if (!var)
-//     //     return (NULL);
-//     // return (ft_strdup(var + iter));
-// }
 void    cd(t_cmd *cmd)
 {
     t_builtin *cd;
     cd = (t_builtin *)cmd;
-    char    *var = dbl_join(vars((cd->cmd + 1)));
-    printf("<%s>\n", var);
-    free(var);
+    char    **var = NULL;
+    // if (!is_var(cd->cmd))
+        var = vars((cd->cmd));
+    // if (!*cd->cmd)
+    //     chdir(getenv("HOME"));
+    // printf("<%s>\n", var);
+    // free(var);
     // printf("%s\n", cd->cmd);
     // char *old = getenv("OLDPWD");
     // printf("<%s>\n", old);
@@ -158,16 +126,16 @@ void    cd(t_cmd *cmd)
     //     printf(" «%s« \n", tmp->content);
     //     tmp = tmp->next;
     // }
-    // char *tt;
-    // char **t = var;
-    // while (var && *var)
-    // {
-    //     tt = *var;
-    //     printf("<%s>\n", *(var));
-    //     free(tt);
-    //     var++;
-    // }    
+    char *tt;
+    char **t = var;
+    while (var && *var)
+    {
+        tt = *var;
+        printf("<%s>\n", *(var));
+        free(tt);
+        var++;
+    }    
         
-    // free(t);
+    free(t);
     // printf("%s\n", var);
 }
