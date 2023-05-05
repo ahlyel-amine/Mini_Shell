@@ -36,5 +36,9 @@ void	something_wrong(char *error, void *to_free);
 char		**ft_split_char(char const *s, char c);
 char		*ft_strjoin_free(char *s1, char *s2);
 int			ft_chrpos(char *line,  char c);
+int	skip_spaces_front(char *line);
+void	panic_recursive(char *error, void *ptr);
+void	pr_custom_err(char *error, void *ptr);
+
 
 #endif
