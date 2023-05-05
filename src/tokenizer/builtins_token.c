@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 11:09:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/05 13:17:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_cmd	*get_token_builtins(char *line, int i, int j)
 		cmd = builtin_constructor(ft_strdup("echo"), \
 		has_option, quotes(line, j + i));
 		free (quote);
+		echo(cmd);
 	}
 	else if (!ft_strncmp(tmp, "cd", 3))
 	{

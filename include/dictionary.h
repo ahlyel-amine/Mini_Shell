@@ -22,6 +22,7 @@
 # define ERR_					"minishell : syntax error near unexpected token : "
 # define ERR_AND				"minishell: syntax error near unexpected token `&&'\n"
 # define ERR_OR					"minishell: syntax error near unexpected token `||'\n"
+# define ERR_PIPE				"minishell: syntax error near unexpected token `|'\n"
 # define ERR_UNLCSD_PARNETHISE	"minishell: syntax error near unexpected token `('\n"
 
 
