@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/05 15:12:37 by aelbrahm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/05 13:18:32 by aahlyel          ###   ########.fr       */
->>>>>>> 62b55775058d704653bd101d2cf208b36fc4645d
+/*   Created: 2023/05/05 17:42:21 by aelbrahm          #+#    #+#             */
+/*   Updated: 2023/05/05 17:42:24 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../include/minishell.h"
 
