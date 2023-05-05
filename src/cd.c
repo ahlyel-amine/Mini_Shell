@@ -6,11 +6,58 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/03 20:43:49 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/05 19:04:23 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+char    *replace_str(char *var, char *lst_cnt)
+{
+    char    *tmp;
+    char    *expand;
+    size_t     var_len = ft_strlen(var);
+    size_t     lst_len = ft_strlen(lst_cnt);
+
+    tmp = var;
+
+    expand = ft_substr(lst_cnt, (var_len + 1), (lst_len - var_len));
+    free(var);
+    return (expand);
+}
+char    *
+char    **vars(char *var)
+{
+    char    **tmp;
+    t_hold  *env;
+    t_list  *lst_tmp;
+    int     iter = -1;
+    int     flag = 0;
+    env = set__get_option_variables(0, (GET | GET_ENV));
+    // lst_tmp = env->lst;
+    tmp = ft_split(var, 0x22);
+    if (!tmp)
+        return (NULL);
+    while (tmp[++iter])
+    {
+        lst_tmp = env->lst;
+        flag = 0;
+        while (lst_tmp)
+        {
+            if (!ft_strncmp(tmp[iter], lst_tmp->content, ft_strlen(tmp[iter])) && ((char *)lst_tmp->content)[ft_strlen(tmp[iter])] == 0x3d)
+            {
+                flag = 1;
+                tmp[iter] = replace_str(tmp[iter], lst_tmp->content);
+            }   
+            lst_tmp = lst_tmp->next;
+        }
+        if (!flag)
+        {
+            free(tmp[iter]);
+            tmp[iter] = ft_strdup("");
+        }
+    }
+    return (tmp);
+}
 // char    *var_expand(char *arg)
 // {
 //     char    *var;
@@ -49,6 +96,7 @@ void    cd(t_cmd *cmd)
 {
     t_builtin *cd;
     cd = (t_builtin *)cmd;
+    char    **var = vars(cd->cmd);
     // printf("%s\n", var_expand(cd->cmd));
     // printf("%s\n", cd->cmd);
     // char *old = getenv("OLDPWD");
@@ -66,5 +114,16 @@ void    cd(t_cmd *cmd)
 	// {
     //     printf(" «%s« \n", tmp->content);
     //     tmp = tmp->next;
-    // }	
+    // }
+    char *tt;
+    char **t = var;
+    while (var && *var)
+    {
+        tt = *var;
+        printf("%s\n", *(var));
+        free(tt);
+        var++;
+    }    
+        
+    free(t);
 }
