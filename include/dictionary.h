@@ -19,6 +19,13 @@
 # define F_IN_RED	0b10
 # define F_OUT_RED	0b11
 
+# define ERR_					"minishell : syntax error near unexpected token : "
+# define ERR_AND				"minishell: syntax error near unexpected token `&&'\n"
+# define ERR_OR					"minishell: syntax error near unexpected token `||'\n"
+# define ERR_UNLCSD_PARNETHISE	"minishell: syntax error near unexpected token `('\n"
+
+
+
 
 enum s_type
 {

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 23:36:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/04 20:09:14 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*get_is_complete(char *line, int *quote, int *dquote, int *operator)
 			(*quote) = !(*quote);
 		if (!line[i + 1] || only_spaces_left(line + i + 1))
 		{
-			if (i - 2 >= 0)
+			if (i - 1 >= 0)
 			{
 				if ((line[i - 1] == '&' && line[i] == '&') || (line[i - 1] == '|' && line[i] == '|'))
 				{
@@ -84,23 +84,20 @@ char	*get_is_complete(char *line, int *quote, int *dquote, int *operator)
 					*operator = 1;	
 				}
 			}
-			if (i - 1 >= 0)
+			if (line[i] == '|')
 			{
-				if (line[i] == '|')
+				int space = 0;
+				while (ft_isspace(line[space]))
+					space++;
+				if (space == i)
 				{
-					int space = 0;
-					while (ft_isspace(line[space]))
-						space++;
-					if (space == i)
-					{
-						ft_putendl_fd("minishell: syntax error near unexpected token `|'\n", 2);
-						free(line);
-						line = NULL;
-						break ;
-					}
-					*operator = 1;
-					*operator = 1;
+					ft_putendl_fd("minishell: syntax error near unexpected token `|'\n", 2);
+					free(line);
+					line = NULL;
+					break ;
 				}
+				*operator = 1;
+				*operator = 1;
 			}
 		}
 		i++;
