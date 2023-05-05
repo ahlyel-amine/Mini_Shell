@@ -6,11 +6,12 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/05 19:04:23 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/05 21:03:14 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 char    *replace_str(char *var, char *lst_cnt)
 {
     char    *tmp;
@@ -24,7 +25,29 @@ char    *replace_str(char *var, char *lst_cnt)
     free(var);
     return (expand);
 }
-char    *
+
+short   is_expandble(char *var)
+{
+    while (*var)
+    {
+        if (!(ft_isalnum(*var) || (*var == 0x5f)))
+            return (1);
+        var++;
+    }  
+    return (0);
+}
+
+short   is_var(char *var)
+{
+    short   iter;
+
+    iter = -1;
+    while (var[++iter])
+        if (var[iter] == 0x22)
+            return (0);
+    return (1);
+}
+
 char    **vars(char *var)
 {
     char    **tmp;
@@ -33,9 +56,8 @@ char    **vars(char *var)
     int     iter = -1;
     int     flag = 0;
     env = set__get_option_variables(0, (GET | GET_ENV));
-    // lst_tmp = env->lst;
     tmp = ft_split(var, 0x22);
-    if (!tmp)
+    if (is_var(var) || !tmp)
         return (NULL);
     while (tmp[++iter])
     {
@@ -50,7 +72,7 @@ char    **vars(char *var)
             }   
             lst_tmp = lst_tmp->next;
         }
-        if (!flag)
+        if (!flag && !is_expandble(tmp[iter]))
         {
             free(tmp[iter]);
             tmp[iter] = ft_strdup("");
@@ -58,6 +80,26 @@ char    **vars(char *var)
     }
     return (tmp);
 }
+char    *dbl_join(char **vars)
+{
+    short   iter = -1;
+    char    *joined;
+    // char    *tmp;
+    joined = ft_strdup("");
+    while (vars && vars[++iter])
+    {
+        
+        joined = ft_strjoin_free(joined, vars[iter]);
+        if (*(joined + (ft_strlen(joined) - 1)) == 0x20 && vars[iter + 1])
+        {
+            *(joined + (ft_strlen(joined) - 1)) = 0;
+        }    
+
+    }
+    free(vars);
+    return (joined);
+}
+
 // char    *var_expand(char *arg)
 // {
 //     char    *var;
@@ -96,8 +138,9 @@ void    cd(t_cmd *cmd)
 {
     t_builtin *cd;
     cd = (t_builtin *)cmd;
-    char    **var = vars(cd->cmd);
-    // printf("%s\n", var_expand(cd->cmd));
+    char    *var = dbl_join(vars((cd->cmd + 1)));
+    printf("<%s>\n", var);
+    free(var);
     // printf("%s\n", cd->cmd);
     // char *old = getenv("OLDPWD");
     // printf("<%s>\n", old);
@@ -115,15 +158,16 @@ void    cd(t_cmd *cmd)
     //     printf(" «%s« \n", tmp->content);
     //     tmp = tmp->next;
     // }
-    char *tt;
-    char **t = var;
-    while (var && *var)
-    {
-        tt = *var;
-        printf("%s\n", *(var));
-        free(tt);
-        var++;
-    }    
+    // char *tt;
+    // char **t = var;
+    // while (var && *var)
+    // {
+    //     tt = *var;
+    //     printf("<%s>\n", *(var));
+    //     free(tt);
+    //     var++;
+    // }    
         
-    free(t);
+    // free(t);
+    // printf("%s\n", var);
 }
