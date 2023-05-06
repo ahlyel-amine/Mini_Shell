@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:10:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/29 12:24:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:20:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	fill_redir_content_herdoc(char *line, int i, t_redir_content *red)
 	if (quote || dquote)
 		k++;
 	red->fd = /*ft_strdup(line +*/ i + k/*)*/;
-	printf("[%c]\n", line[i + k]);
+	// printf("[%c]\n", line[i + k]);
 	while (line[i + k] && ((ft_isalnum(line[i + k]) || line[i + k] == '_') || (quote || dquote)))
 	{
 		check_out_of_quotes(line[++i + k], &quote, &dquote);
-	printf("[%c]\n", line[i + k]);
+	// printf("[%c]\n", line[i + k]);
 	}
-	printf("[%s]\n", ft_substr(line, red->fd, red->fd + 1));
+	// printf("[%s]\n", ft_substr(line, red->fd, red->fd + 1));
 	
 	red->file_name = ft_substr(line, red->fd, i + k);
 	red->efile_name  = NULL;
