@@ -46,8 +46,28 @@ int	echo_has_option(char *line)
 	}
 	return (has_option);
 }
-int main(int argc, char *argv[])
+
+#include <unistd.h>
+#include <stdlib.h>
+int main(int argc, char *argv[], char **envp)
 {
-	printf("%d\n", echo_has_option("-n  \"   -sn\" -n -n \"-n\""));
+	// printf("%d\n", echo_has_option("-n  \"   -sn\" -n -n \"-n\""));
+	printf("%d\n", access("//", X_OK));
+	char	**a;
+	a = malloc(sizeof (char *) * 2);
+	a[0] = malloc(10);
+	a[0][0] = '~';
+	a[0][1] = '/';
+	a[0][2] = 'D';
+	a[0][3] = 'e';
+	a[0][4] = 's';
+	a[0][5] = 'k';
+	a[0][6] = 't';
+	a[0][7] = 'o';
+	a[0][8] = 'p';
+	a[0][9] = 0;
+	a[1] = NULL;
+	if (execve("~/Desktop", a, envp) == -1)
+		perror("");
 	return 0;
 }
