@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/06 19:15:33 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/06 19:40:16 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_list  *expander(char *var)
     t_list  *expend;
     int     iter;
     int     j;
+
     iter = -1;
     expend = NULL;
     while (var[++iter])

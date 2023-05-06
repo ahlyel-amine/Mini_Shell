@@ -3,23 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/05 17:50:48 by aahlyel          ###   ########.fr       */
-=======
-/*   Created: 2023/05/05 17:42:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/05 17:42:24 by aelbrahm         ###   ########.fr       */
->>>>>>> 7dda418dfab15f3c0400d125fdaa43e55101f91f
+/*   Updated: 2023/05/06 19:36:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 7dda418dfab15f3c0400d125fdaa43e55101f91f
 #include "../include/minishell.h"
 
 static char	*set_homedir(t_hold *env, char *home)

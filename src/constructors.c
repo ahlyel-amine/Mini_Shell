@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 20:45:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 20:02:09 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
 	printf("filename: |%s|\n", redir->red.file_name);
 	printf("mode : |%d| fd : |%d| type : |%d|\n", redir->red.mode, redir->red.fd, redir->red.type);
 	if (cmd)
-	printf("has cmd type |%d|\n", redir->cmd->type);
+		printf("has cmd type |%d|\n", redir->cmd->type);
 	printf("----------------------------------------------\n");
 	return ((t_cmd *)redir);
 }

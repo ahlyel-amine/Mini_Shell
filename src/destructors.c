@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 17:18:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 20:01:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ printf("destructor execcmd called \n");
 void	redir_destructor(t_cmd *structor)
 {
 	t_redir	*redir;
-printf("destructor redir called \n");
+	printf("destructor redir called \n");
 	redir = (t_redir *)structor;
 	if (redir->cmd != NULL && redir->cmd->type == EXEC)
 		execcmd_destructor(redir->cmd);
-	if (redir->cmd != NULL && redir->cmd->type == BUILTIN)
+	else if (redir->cmd != NULL && redir->cmd->type == BUILTIN)
 		builtin_destructor(redir->cmd);
-	if (redir->cmd != NULL && redir->cmd->type == INVALID)
+	else if (redir->cmd != NULL && redir->cmd->type == INVALID)
 		invalid_destructor(redir->cmd);
-	if (redir->cmd != NULL && redir->cmd->type == REDIR)
+	else if (redir->cmd != NULL && redir->cmd->type == REDIR)
 		redir_destructor(redir->cmd);
 	free (redir->red.file_name);
 	free (redir);

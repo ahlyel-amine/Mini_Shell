@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 19:02:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:49:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ t_cmd	*get_token_order(char *line)
 		i++;
 	while (line[i + j] && !ft_isspace(line[i + j]))
 		j++;
-	cmd = get_token_builtins(ft_strdup(line + i), i, j);
+	cmd = get_token_builtins(ft_strdup(line + i), j);
 	if (!cmd)
 		cmd = get_token_cmd(ft_strdup(line + i), j);
 	if (!cmd)
-		cmd = get_token_variable_assignement(ft_strdup(line + i));
+		return (pr_custom_err(ERR_CMD, line, line + i), NULL);
+		// cmd = get_token_variable_assignement(ft_strdup(line + i));
 	free (line);
 	return (cmd);
 }

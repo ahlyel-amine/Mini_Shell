@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 19:06:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:43:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,13 @@ t_cmd	*search_for_builtin(char *tmp, char *quote)
 	return (cmd);
 }
 
-t_cmd	*get_token_builtins(char *line, int i, int j)
+t_cmd	*get_token_builtins(char *line, int j)
 {
 	t_cmd	*cmd;
 	char	*tmp;
 	char	*quote;
 	int		space;
+	int		i;
 
 	cmd = NULL;
 	space  = skip_spaces_front(line + j);

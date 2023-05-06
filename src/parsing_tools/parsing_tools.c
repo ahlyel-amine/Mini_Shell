@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:20:43 by aahlyel           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/05 20:42:33 by aelbrahm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/05 18:49:35 by aahlyel          ###   ########.fr       */
->>>>>>> 48d1e29e91d6be16ebff03c962f57f95cfec7e49
+/*   Updated: 2023/05/06 19:36:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
