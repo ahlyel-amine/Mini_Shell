@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:46 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/05 14:52:34 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:15:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ t_cmd	*get_token_operator_pipe(char *line)
 	t_var	var;
 
 	set_zero_var(&var);
-	i = -1;
 	operator_pipe = 0;
-	while (line[++i])
+	i = 0;
+	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
-		pipe_line = check_for_pipe(line, i, &operator_pipe, var);
+		pipe_line = check_for_pipe(line, i++, &operator_pipe, var);
 		if (pipe_line)
 			break ;
 	}

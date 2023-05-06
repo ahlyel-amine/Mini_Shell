@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 19:49:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:11:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_cmd	*get_token_order(char *line)
 	j = 0;
 	has_option = 0;
 	cmd = NULL;
+	printf("[%s]\n", line);
 	if (!*line)
 		return (free(line), NULL);
 	while (ft_isspace(line[i]))
