@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:40 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/05 15:13:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:14:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ t_cmd	*get_token_operator(char *line)
 	t_var	var;
 
 	set_zero_var(&var);
-	i = -1;
 	operator_true = 0;
-	while (line[++i])
+	i = 0;
+	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
-		operator = check_for_operators(line, i, var);
+		operator = check_for_operators(line, i++, var);
 		if (operator)
 		{
 			operator_true = 1;
