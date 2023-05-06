@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/05 21:52:33 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/06 19:15:33 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,85 +26,75 @@ char    *replace_str(char *var, char *lst_cnt)
     return (expand);
 }
 
-short   is_expandble(char *var)
+int    replace(t_list **lst, char *var)
 {
-    while (*var)
-    {
-        if (!(ft_isalnum(*var) || (*var == 0x5f)))
-            return (1);
-        var++;
-    }  
-    return (0);
-}
-
-short   is_var(char *var)
-{
-    short   iter;
-
-    iter = -1;
-    while (var[++iter])
-        if (var[iter] == 0x22)
-            return (0);
-    return (1);
-}
-
-char    **vars(char *var)
-{
-    char    **tmp;
-    t_hold  *env;
+    int i = 1;
+    t_hold *env = set__get_option_variables(0, (GET | GET_ENV));
+    char    *tmp;
     t_list  *lst_tmp;
-    int     iter = -1;
-    int     flag = 0;
-    env = set__get_option_variables(0, (GET | GET_ENV));
-    tmp = ft_split(var, 0x22);
-    if (is_var(var) || !tmp)
-        return (NULL);
-    while (tmp[++iter])
+    while (var[i] != 0x22)
+        i++;
+    tmp = ft_substr(var, 1, i - 1);
+    lst_tmp = env->lst;
+    while (lst_tmp)
     {
-        lst_tmp = env->lst;
-        flag = 0;
-        while (lst_tmp)
+        if (!ft_strncmp(tmp, lst_tmp->content, ft_strlen(tmp)) && ((char *)lst_tmp->content)[ft_strlen(tmp)] == 0x3d)
         {
-            if (!ft_strncmp(tmp[iter], lst_tmp->content, ft_strlen(tmp[iter])) && ((char *)lst_tmp->content)[ft_strlen(tmp[iter])] == 0x3d)
-            {
-                flag = 1;
-                tmp[iter] = replace_str(tmp[iter], lst_tmp->content);
-            }   
-            lst_tmp = lst_tmp->next;
+            ft_lstadd_back(lst ,ft_lstnew(replace_str(tmp, lst_tmp->content)));
+            break;
         }
-        if (!flag && !is_expandble(tmp[iter]))
-        {
-            free(tmp[iter]);
-            tmp[iter] = ft_strdup("");
-        }
-    }
-    return (tmp);
+        lst_tmp = lst_tmp->next;
+    } 
+    return (i);
 }
 
-char    *dbl_join(char **vars)
+t_list  *expander(char *var)
 {
-    short   iter;
-    char    *joined;
-
+    t_list  *expend;
+    int     iter;
+    int     j;
     iter = -1;
-    joined = ft_strdup("");
-    while (vars && vars[++iter])
+    expend = NULL;
+    while (var[++iter])
     {
-        joined = ft_strjoin_free(joined, vars[iter]);
-        // if (*(joined + (ft_strlen(joined) - 1)) == 0x20 && vars[iter + 1])
-        //     *(joined + (ft_strlen(joined) - 1)) = 0;
+        j = iter;
+        while (var[j] && var[j] != 0x24 && var[j] != 0x22)
+            j++;
+        if (iter != j)
+        {
+            ft_lstadd_back(&expend, ft_lstnew(ft_substr(&var[iter], 0, (j - iter))));
+            iter = j;
+        }   
+        while (var[iter] && var[iter] == 0x24)
+        {
+            ft_lstadd_back(&expend, ft_lstnew(ft_strdup("$")));
+            iter++;
+        }   
+        j = iter;
+        if (var[j] && var[j] == 0x22)
+            iter += replace(&expend, &var[j]);
+        if (iter >= ft_strlen(var))
+            break;
     }
-    free(vars);
-    return (joined);
+    return (expend);
 }
 
 void    cd(t_cmd *cmd)
 {
     t_builtin *cd;
     cd = (t_builtin *)cmd;
-    char    **var = NULL;
+    t_list *lst = expander(cd->cmd);
+    t_list *lst_tmp = lst;
+    while (lst)
+    {
+        printf("<%s>\n", lst->content);
+        lst = lst->next;
+    }
+    // printf("<%d>\n", getpid());
+    // printf("%d\n", var_count(cd->cmd));
+    // char    **var = ft_split(cd->cmd, 0x22);
     // if (!is_var(cd->cmd))
-        var = vars((cd->cmd));
+        // var = ft_split(cd->cmd, 0x22);
     // if (!*cd->cmd)
     //     chdir(getenv("HOME"));
     // printf("<%s>\n", var);
@@ -126,16 +116,6 @@ void    cd(t_cmd *cmd)
     //     printf(" «%s« \n", tmp->content);
     //     tmp = tmp->next;
     // }
-    char *tt;
-    char **t = var;
-    while (var && *var)
-    {
-        tt = *var;
-        printf("<%s>\n", *(var));
-        free(tt);
-        var++;
-    }    
-        
-    free(t);
+    ft_lstclear(&lst_tmp, free);
     // printf("%s\n", var);
 }
