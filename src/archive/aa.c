@@ -46,8 +46,11 @@ int	echo_has_option(char *line)
 	}
 	return (has_option);
 }
+
+#include <unistd.h>
 int main(int argc, char *argv[])
 {
-	printf("%d\n", echo_has_option("-n  \"   -sn\" -n -n \"-n\""));
+	// printf("%d\n", echo_has_option("-n  \"   -sn\" -n -n \"-n\""));
+	printf("%d\n", access("//", X_OK));
 	return 0;
 }
