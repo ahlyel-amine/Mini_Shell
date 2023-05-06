@@ -6,12 +6,11 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/05 15:15:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:20:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-// need to handle "str"str"str" withoute using quotes functions cause of she doesn't return the lenght of skiped characters
 
 char	*skip_quote_redir_names(char *line, int *j, int i)
 {
@@ -124,107 +123,140 @@ int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 	fill_red_content(red, ref);
 	return (i);
 }
+t_cmd	*get_herdoc(char *line, int i)
+{
+	char	*before;
+	char	*after;
+	t_cmd			*redirection;
+	int	tmp;
+	t_redir_content	red;
+	redirection = NULL;
+	before = NULL;
+	after = NULL;
+	if (i - 1 > 0)
+		before = ft_substr(line, 0, i - 1);
+	tmp = fill_redir_content(line, i, &red, F_HEREDOC);
+	if (tmp > i)
+		after = ft_substr(line, tmp, ft_strlen(line + tmp));
+	if (before || after)
+		redirection = get_token_redir(ft_strjoin_free(before, after));
+	redirection = redir_constructor(redirection, red);
+	free (line);
+	return (redirection);
+}
+
+t_cmd	*check_for_redirections(char *line, int i)
+{
+	int	j;
+	t_cmd			*redirection;
+	int	space;
+	t_redir_content	red;
+	int	tmp;
+
+	j = 0;
+	space = 0;
+	// printf("[%s]\n", line);
+		
+	redirection = NULL;
+	if (line[i] == '<' && line[i + 1] == '<')
+	{
+		redirection = get_herdoc(line, i);
+	}
+	else if (line[i] == '<')
+	{
+		// redirection = get_inredir();
+		tmp = i;
+		i = fill_redir_content(line, i, &red, F_IN_RED);
+		redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, tmp), ft_substr(line, i, ft_strlen(line + i))));
+		if (redirection)
+			redirection = redir_constructor(redirection, red);
+		else
+		{
+			free (line);
+			return (NULL);
+		}
+		free (line);
+		i = -1;
+		// break ;
+	}
+	else if (line[i] == '>' && line[i + 1] == '>')
+	{
+		tmp = i;
+		i = fill_redir_content(line, i, &red, F_APPEND);
+		redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, tmp), ft_substr(line, i, ft_strlen(line + i))));
+		if (redirection)
+			redirection = redir_constructor(redirection, red);
+		else
+		{
+			free (line);
+			return (NULL);
+		}
+		free (line);
+		i = -1;
+		// break ;
+	}
+	else if (line[i] == '>')
+	{
+		tmp = i;
+		i = fill_redir_content(line, i, &red, F_OUT_RED);
+		redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, tmp), ft_substr(line, i, ft_strlen(line + i))));
+		if (redirection)
+			redirection = redir_constructor(redirection, red);
+		else
+		{
+			free (line);
+			return (NULL);
+		}
+		free (line);
+		i = -1;
+		// break ;
+	}
+	return (redirection);
+}
+int	check_for_syntax(char *line, int i)
+{
+	int	j;
+	int	space;
+
+	j = 0;
+	space = 0;
+	if ((line[i] == '<' && line[i + 1] == '<')  || (line[i] == '>' && line[i + 1] == '>') || (line[i] == '<') || (line[i] == '>'))
+	{
+		j++;
+		if (line[i + 1] == '<' || line[i + 1] == '>')
+			j++;
+		while (ft_isspace(line[i + j + space]))
+			space++;
+		if (!line[i + j + space] || line[i + j + space] == '<' || line[i + j + space] == '>')
+			return (panic_recursive("minishell : syntax error near unexpected token\n", line), 0);
+	}
+	return (1);
+}
+
 t_cmd	*get_token_redir(char *line)
 {
 	t_cmd			*redirection;
 	int				i;
 	int				j;
 	int				space;
-	t_redir_content	red;
-	t_var	var;
-
+	t_var			var;
 
 	set_zero_var(&var);
 	i = 0;
 	j = 0;
 	space = 0;
+	redirection = NULL;
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
+		if (!check_for_syntax(line, i))
+			return (NULL);
 		if (!var.quote && !var.dquote)
+			redirection = check_for_redirections(line, i);
+		if (redirection)
 		{
-			// if (is_herdoc())
-			// 	break ;
-			// else if (is_inredir())
-			// 	break ;
-			// else if (is_append())
-			// 	break ;
-			// else if (is_outredir())
-			// 	break ;
-			if ((line[i] == '<' && line[i + 1] == '<')  || (line[i] == '>' && line[i + 1] == '>') || (line[i] == '<') || (line[i] == '>'))
-			{
-				j++;
-				if (line[i + 1] == '<' || line[i + 1] == '>')
-					j++;
-				while (ft_isspace(line[i + j + space]))
-					space++;
-				if (!line[i + j + space] || line[i + j + space] == '<' || line[i + j + space] == '>')
-					return (panic_recursive("minishell : syntax error near unexpected token\n", line), NULL);
-			}
-			if (line[i] == '<' && line[i + 1] == '<')
-			{
-				var.quote = i;
-				i = fill_redir_content(line, i, &red, F_HEREDOC);
-				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i)))); 
-				if (redirection)
-					redirection = redir_constructor(redirection, red);
-				else
-				{
-					free (line);
-					return (NULL);
-				}
-				free (line);
-				i = -1;
-				break ;
-			}
-			else if (line[i] == '<')
-			{
-				var.quote = i;
-				i = fill_redir_content(line, i, &red, F_IN_RED);
-				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i))));
-				if (redirection)
-					redirection = redir_constructor(redirection, red);
-				else
-				{
-					free (line);
-					return (NULL);
-				}
-				free (line);
-				i = -1;
-				break ;
-			}
-			else if (line[i] == '>' && line[i + 1] == '>')
-			{
-				var.quote = i;
-				i = fill_redir_content(line, i, &red, F_APPEND);
-				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i))));
-				if (redirection)
-					redirection = redir_constructor(redirection, red);
-				else
-				{
-					free (line);
-					return (NULL);
-				}
-				free (line);
-				i = -1;
-				break ;
-			}
-			else if (line[i] == '>')
-			{
-				var.quote = i;
-				i = fill_redir_content(line, i, &red, F_OUT_RED);
-				redirection = get_token_redir(ft_strjoin_free(ft_substr(line, 0, var.quote), ft_substr(line, i, ft_strlen(line + i))));
-				if (redirection)
-					redirection = redir_constructor(redirection, red);
-				else
-				{
-					free (line);
-					return (NULL);
-				}
-				free (line);
-				i = -1;
-				break ;
-			}
+			i = -1;	
+			break ;
 		}
 		i++;
 	}
