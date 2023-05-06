@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/05 13:00:02 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:24:01 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ char	*quotes(char *line, int i)
 		{
 			if (ft_isdigit(line[i + 1]))
 				i += 2;
-			else if (line[i] == '$' && !line[i + 1])
-				i++;
+			else if (line[i] == '$' && (!line[i + 1] || line[i + 1] == '\"' || ft_isspace(line[i + 1])))
+				tmp[k++] = line[i++];
+			else if (line[i] == '$' && line[i + 1] == '$')
+				tmp[k++] = line[i++];
 			else if (line[i] == '$')
 			{
 				i++;
