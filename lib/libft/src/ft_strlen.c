@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 13:58:05 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/19 18:42:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/05 18:42:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	const char	*c;
 
+	if (!s)
+		return (0);
 	c = s;
 	while (*c)
 		c++;

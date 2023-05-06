@@ -6,7 +6,11 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:20:43 by aahlyel           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/05/05 20:42:33 by aelbrahm         ###   ########.fr       */
+=======
+/*   Updated: 2023/05/05 18:49:35 by aahlyel          ###   ########.fr       */
+>>>>>>> 48d1e29e91d6be16ebff03c962f57f95cfec7e49
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +35,6 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	size_t	s1_len;
 	size_t	s2_len;
 
-	if (!s1 || !s2)
-		return (NULL);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	str = (char *)ft_calloc((s1_len + s2_len + 1), sizeof(char));

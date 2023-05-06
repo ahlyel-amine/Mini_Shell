@@ -6,13 +6,40 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/05 13:17:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:06:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	echo_has_option(char *line, int *i)
+static int check_nl_option(char *line, int i, int j)
+{
+	if (line[i + j] == '-' && line[i + j + 1] == 'n')
+	{
+		j++;
+		while (line[i + j] == 'n')
+			j++;
+	}
+	else if (line[i + j] == '\"' && line[i + j + 1] == '-' && line[i + j + 2] == 'n')
+	{
+		j += 2;
+		while (line[i + j] == 'n')
+			j++;
+		if (line[i + j] == '\"')
+			j++;
+	}
+	else if (line[i + j] == '\'' && line[i + j + 1] == '-' && line[i + j + 2] == 'n')
+	{
+		j += 2;
+		while (line[i + j] == 'n')
+			j++;
+		if (line[i + j] == '\'')
+			j++;
+	}
+	return (j);
+}
+
+static int	echo_has_option(char *line, int *i)
 {
 	int	has_option;
 	int	j;
@@ -24,28 +51,7 @@ int	echo_has_option(char *line, int *i)
 		while (ft_isspace(line[*i]))
 			(*i)++;
 		j = 0;
-		if (line[*i + j] == '-' && line[*i + j + 1] == 'n')
-		{
-			j++;
-			while (line[*i + j] == 'n')
-				j++;
-		}
-		else if (line[*i + j] == '\"' && line[*i + j + 1] == '-' && line[*i + j + 2] == 'n')
-		{
-			j += 2;
-			while (line[*i + j] == 'n')
-				j++;
-			if (line[*i + j] == '\"')
-				j++;
-		}
-		else if (line[*i + j] == '\'' && line[*i + j + 1] == '-' && line[*i + j + 2] == 'n')
-		{
-			j += 2;
-			while (line[*i + j] == 'n')
-				j++;
-			if (line[*i + j] == '\'')
-				j++;
-		}
+		j = check_nl_option(line, *i, j);
 		if (ft_isspace(line[*i + j]) || !line[*i + j])
 		{
 			has_option = 1;
@@ -57,56 +63,55 @@ int	echo_has_option(char *line, int *i)
 	return (has_option);
 }
 
+t_cmd	*call_builtin_constructor(char *quote, char *builtin)
+{
+	t_cmd	*cmd;
+
+	cmd = builtin_constructor(ft_strdup(builtin), 0, quote);
+	return (cmd);
+}
+
+t_cmd	*search_for_builtin(char *tmp, char *quote)
+{
+	t_cmd	*cmd;
+
+	cmd = NULL;
+	if (!ft_strncmp(tmp, "cd", 3))
+		cmd = call_builtin_constructor(quote, "cd");
+	else if (!ft_strncmp(tmp, "pwd", 4))
+		cmd = call_builtin_constructor(quote, "pwd");
+	else if (!ft_strncmp(tmp, "unset", 6))
+		cmd = call_builtin_constructor(quote, "unset");
+	else if (!ft_strncmp(tmp, "env", 4))
+		cmd = call_builtin_constructor(quote, "env");
+	else if (!ft_strncmp(tmp, "export", 7))
+		cmd = call_builtin_constructor(quote, "export");
+	else if (!ft_strncmp(tmp, "exit", 5))
+		cmd = call_builtin_constructor(quote, "exit");
+	else
+		free(quote);
+	return (cmd);
+}
+
 t_cmd	*get_token_builtins(char *line, int i, int j)
 {
 	t_cmd	*cmd;
 	char	*tmp;
 	char	*quote;
+	int		space;
 
 	cmd = NULL;
-	int has_option = 0;
+	space  = skip_spaces_front(line + j);
 	tmp = ft_substr(line, 0, j);
-	quote = quotes(line, j);
-	
+	quote = quotes(line, j + space);
 	if (!ft_strncmp(tmp, "echo", 5))
 	{
-		has_option = echo_has_option(line + j, &i);
+		space = echo_has_option(line + j, &i);
 		cmd = builtin_constructor(ft_strdup("echo"), \
-		has_option, quotes(line, j + i));
+		space, quotes(line, j + i));
 		free (quote);
-		echo(cmd);
-	}
-	else if (!ft_strncmp(tmp, "cd", 3))
-	{
-		cmd = builtin_constructor(ft_strdup("cd"), \
-		has_option, quote);
-	}
-	else if (!ft_strncmp(tmp, "pwd", 4))
-	{
-		cmd = builtin_constructor(ft_strdup("pwd"), \
-		has_option, quote);
-	}
-	else if (!ft_strncmp(tmp, "unset", 6))
-	{
-		cmd = builtin_constructor(ft_strdup("unset"), \
-		has_option, quote);
-	}
-	else if (!ft_strncmp(tmp, "env", 4))
-	{
-		cmd = builtin_constructor(ft_strdup("env"), \
-		has_option, quote);
-	}
-	else if (!ft_strncmp(tmp, "export", 7))
-	{
-		cmd = builtin_constructor(ft_strdup("export"), \
-		has_option, quote);
-	}
-	else if (!ft_strncmp(tmp, "exit", 5))
-	{
-		cmd = builtin_constructor(ft_strdup("exit"), \
-		has_option, quote);
 	}
 	else
-		free(quote);
+		cmd = search_for_builtin(tmp, quote);
 	return (free (line), free(tmp), cmd);
 }
