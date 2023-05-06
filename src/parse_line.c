@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 19:54:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 20:55:41 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	parse_line(char **line)
 
 	cmd = NULL;
 	complete_line(line);
+	printf("%s\n", *line);
 	if (line && *line)
 		cmd = tokenize_line(*line);
 	// if (cmd)

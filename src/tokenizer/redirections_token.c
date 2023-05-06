@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 16:58:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:15:21 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,9 @@ t_cmd	*get_token_redir(char *line)
 	t_var			var;
 
 	set_zero_var(&var);
-	i = -1;
 	redirection = NULL;
-	while (line[++i])
+	i = 0;
+	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
 		if (!check_for_syntax(line, i))
@@ -188,6 +188,7 @@ t_cmd	*get_token_redir(char *line)
 			i = -1;	
 			break ;
 		}
+		i++;
 	}
 	if (i != -1)
 		redirection = get_token_order(ft_strdup(line));
