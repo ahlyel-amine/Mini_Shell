@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 18:48:04 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:08:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_cmd(char **path, char *cmd, int j)
 	char	*tmp_path;
 	char	*tmp_to_free;
 	int		i;
-
+	
 	i = 0;
 	if (!path)
 		return (0);
