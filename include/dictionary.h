@@ -25,9 +25,6 @@
 # define ERR_PIPE				"minishell: syntax error near unexpected token `|'\n"
 # define ERR_UNLCSD_PARNETHISE	"minishell: syntax error near unexpected token `('\n"
 
-
-
-
 enum s_type
 {
 	EXEC = 1,
