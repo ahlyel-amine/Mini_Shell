@@ -16,7 +16,7 @@ char	*remove_unused_parenthesis(char *line);
 
 /*	tokenizers*/
 
-t_cmd	*get_token_builtins(char *line, int i, int j);
+t_cmd	*get_token_builtins(char *line, int j);
 t_cmd	*get_token_cmd(char *line, int j);
 t_cmd	*get_token_operator(char *line);
 t_cmd	*get_token_order(char *line);
@@ -38,7 +38,7 @@ char		*ft_strjoin_free(char *s1, char *s2);
 int			ft_chrpos(char *line,  char c);
 int	skip_spaces_front(char *line);
 void	panic_recursive(char *error, void *ptr);
-void	pr_custom_err(char *error, void *ptr);
+void	pr_custom_err(char *error, void *ptr, char *custom);
 
 
 #endif
