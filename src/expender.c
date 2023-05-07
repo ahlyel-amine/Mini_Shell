@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/06 19:15:33 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:44:52 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char    *replace_str(char *var, char *lst_cnt)
+static char    *replace_str(char *var, char *lst_cnt)
 {
-    char    *tmp;
     char    *expand;
     size_t     var_len = ft_strlen(var);
     size_t     lst_len = ft_strlen(lst_cnt);
 
-    tmp = var;
-
     expand = ft_substr(lst_cnt, (var_len + 1), (lst_len - var_len));
-    free(var);
     return (expand);
 }
 
-int    replace(t_list **lst, char *var)
+static int    replace(t_list **lst, char *var)
 {
     int i = 1;
     t_hold *env = set__get_option_variables(0, (GET | GET_ENV));
@@ -45,7 +41,20 @@ int    replace(t_list **lst, char *var)
         }
         lst_tmp = lst_tmp->next;
     } 
-    return (i);
+    return (free(tmp), (i));
+}
+
+static  int dolr_check(t_list **lst, char *str, int iter)
+{
+    int i;
+
+    i = 0;
+    while (str[iter + (i)] && str[iter + (i)] == 0x24)
+    {
+        ft_lstadd_back(lst, ft_lstnew(ft_strdup("$")));
+        i++;
+    }   
+    return (i - 1);
 }
 
 t_list  *expander(char *var)
@@ -53,6 +62,7 @@ t_list  *expander(char *var)
     t_list  *expend;
     int     iter;
     int     j;
+
     iter = -1;
     expend = NULL;
     while (var[++iter])
@@ -64,12 +74,9 @@ t_list  *expander(char *var)
         {
             ft_lstadd_back(&expend, ft_lstnew(ft_substr(&var[iter], 0, (j - iter))));
             iter = j;
-        }   
-        while (var[iter] && var[iter] == 0x24)
-        {
-            ft_lstadd_back(&expend, ft_lstnew(ft_strdup("$")));
-            iter++;
-        }   
+        }
+        if (var[iter] == 0x24)
+            iter += dolr_check(&expend, var, iter);  
         j = iter;
         if (var[j] && var[j] == 0x22)
             iter += replace(&expend, &var[j]);
@@ -79,43 +86,30 @@ t_list  *expander(char *var)
     return (expend);
 }
 
-void    cd(t_cmd *cmd)
+char    *nodes_join(t_list *lst)
 {
-    t_builtin *cd;
-    cd = (t_builtin *)cmd;
-    t_list *lst = expander(cd->cmd);
-    t_list *lst_tmp = lst;
+    char    *tmp;
+    t_list  *lst_tmp;
+
+    tmp = ft_strdup("");
+    lst_tmp = lst;
     while (lst)
     {
-        printf("<%s>\n", lst->content);
+        lst_tmp = lst;
+        tmp = ft_strjoin_free(tmp, lst_tmp->content);
         lst = lst->next;
+        free(lst_tmp);
     }
-    // printf("<%d>\n", getpid());
-    // printf("%d\n", var_count(cd->cmd));
-    // char    **var = ft_split(cd->cmd, 0x22);
-    // if (!is_var(cd->cmd))
-        // var = ft_split(cd->cmd, 0x22);
-    // if (!*cd->cmd)
-    //     chdir(getenv("HOME"));
-    // printf("<%s>\n", var);
-    // free(var);
-    // printf("%s\n", cd->cmd);
-    // char *old = getenv("OLDPWD");
-    // printf("<%s>\n", old);
-    // char cwd[1024];
-    // if (getcwd(cwd, sizeof(cwd)) != NULL) {
-    //     setenv("OLDPWD", getenv("PWD"), 1);
-    //     setenv("PWD", cwd, 1);
-    // }
-    // t_hold *env = (t_hold *)(set__get_option_variables(0, (GET | GET_ENV)));
-    // char **path = set__get_
-    // t_list *tmp = env->lst;
-    // puts("alo\n");
-	// while (tmp)
-	// {
-    //     printf(" «%s« \n", tmp->content);
-    //     tmp = tmp->next;
-    // }
-    ft_lstclear(&lst_tmp, free);
-    // printf("%s\n", var);
+    return (tmp);
 }
+
+// void    cd(t_cmd *cmd)
+// {
+//     t_builtin *cd;
+//     cd = (t_builtin *)cmd;
+//     char    *var = nodes_join(expander(cd->cmd));
+//     printf("<%s>\n", var);
+//     free(var);
+ 
+
+// }
