@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 20:43:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 21:26:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ static t_cmd	*call_or_constructor(char *line, int i, int j, int k, int *err)
 	else if (line[i + j] == '|')
 	{
 		operator = get_token_operator(remove_unused_parenthesis(line));
-		// if (!operator)
-		// 	*err = 1;
+		if (!operator)
+			*err = 1;
 	}
 	return (operator);
 }
