@@ -8,6 +8,7 @@
 # include  <stdlib.h>
 # include  <fcntl.h>
 # include  <string.h>
+# include <errno.h>
 # include "dictionary.h"
 
 typedef struct s_cmd
@@ -116,6 +117,9 @@ void	*set__get_option_variables(t_hold *env, int set__get_option);
 //-/__________________________________________________________//
 char    *nodes_join(t_list *lst);
 t_list  *expander(char *var);
+char    *replace_str(char *var, char *lst_cnt);
+int    replace(t_list **lst, char *var);
+int dolr_check(t_list **lst, char *str, int iter);
 ////-/__________________________________________________________//
 ///-/                           EXEC                           //
 //-/__________________________________________________________//
