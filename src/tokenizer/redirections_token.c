@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 16:58:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 19:34:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,17 @@ static char	*skip_quote_redir_names(char *line, int *j, int i)
 	return (tmp);
 }
 
-static int	get_name(char *line, t_redir_content *red)
+static int	get_name(char *line, t_redir_content *red, int type)
 {
 	int	k;
 
-	red->file_name = skip_quote_redir_names(line, &k, red->fd);
+	k = red->fd;
+	if (type == F_HEREDOC)
+		red->file_name = skip_quote_redir_names(line, &k, red->fd);
+	else
+		red->file_name = skip_quotes(line, &red->fd, 0, 1);
 	return (k);
 }
-// static int	get_no_quote_name(char *line, t_redir_content *red)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	j = 0;
-// 	i = red->fd;
-// 	red->file_name = ft_strdup(line + i);
-// 	while (red->file_name[j] && !ft_isspace(red->file_name[j]))
-// 		j++;
-// 	if (red->file_name[j] && !ft_isspace(red->file_name[j]))
-// 		something_wrong("syntax error near unexpected token", red->file_name);
-// 	i += j;
-// 	red->efile_name = red->file_name;
-// 	red->file_name = ft_substr(red->file_name, 0, j);
-// 	free (red->efile_name);
-// 	return (i);
-// }
 
 static void	fill_red_content(t_redir_content *red, int ref)
 {
@@ -100,7 +86,7 @@ static int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 	while (ft_isspace(line[i]))
 		i++;
 	red->fd = i;
-	i = get_name(line, red);
+	i = get_name(line, red, ref);
 	fill_red_content(red, ref);
 	return (i);
 }
@@ -174,9 +160,9 @@ t_cmd	*get_token_redir(char *line)
 	t_var			var;
 
 	set_zero_var(&var);
-	i = -1;
 	redirection = NULL;
-	while (line[++i])
+	i = 0;
+	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
 		if (!check_for_syntax(line, i))
@@ -188,6 +174,7 @@ t_cmd	*get_token_redir(char *line)
 			i = -1;	
 			break ;
 		}
+		i++;
 	}
 	if (i != -1)
 		redirection = get_token_order(ft_strdup(line));
