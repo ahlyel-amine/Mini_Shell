@@ -6,13 +6,13 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/07 19:05:01 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:34:03 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char    *replace_str(char *var, char *lst_cnt)
+char    *replace_str(char *var, char *lst_cnt)
 {
     char    *expand;
     size_t     var_len = ft_strlen(var);
@@ -22,7 +22,7 @@ static char    *replace_str(char *var, char *lst_cnt)
     return (expand);
 }
 
-static int    replace(t_list **lst, char *var)
+int    replace(t_list **lst, char *var)
 {
     int i = 1;
     t_hold *env = set__get_option_variables(0, (GET | GET_ENV));
@@ -44,7 +44,7 @@ static int    replace(t_list **lst, char *var)
     return (free(tmp), (i));
 }
 
-static  int dolr_check(t_list **lst, char *str, int iter)
+int dolr_check(t_list **lst, char *str, int iter)
 {
     int i;
 
