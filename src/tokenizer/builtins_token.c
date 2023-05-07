@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 19:32:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 22:43:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ t_cmd	*get_token_builtins(char *line, int j)
 	cmd = NULL;
 	space  = skip_spaces_front(line + j);
 	tmp = ft_substr(line, 0, j);
+
 	quote = skip_quotes(line, NULL, j + space, 0);
 	if (!ft_strncmp(tmp, "echo", 5))
 	{

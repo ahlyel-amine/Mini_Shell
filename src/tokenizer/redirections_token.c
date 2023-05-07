@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 19:34:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 22:56:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	get_name(char *line, t_redir_content *red, int type)
 	if (type == F_HEREDOC)
 		red->file_name = skip_quote_redir_names(line, &k, red->fd);
 	else
-		red->file_name = skip_quotes(line, &red->fd, 0, 1);
+		red->file_name = skip_quotes(line, &k, 0, 1);
 	return (k);
 }
 

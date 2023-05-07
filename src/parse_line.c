@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/07 19:06:46 by aelbrahm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/07 20:09:31 by aahlyel          ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2023/05/07 22:41:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +18,7 @@ void	parse_line(char **line)
 
 	cmd = NULL;
 	complete_line(line);
-<<<<<<< HEAD
 	// printf("[%s]\n", line);
-=======
-	printf("%s\n", *line);
->>>>>>> parsing
 	if (line && *line)
 		cmd = tokenize_line(*line);
 	if (cmd)
