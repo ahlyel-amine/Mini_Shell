@@ -1,8 +1,8 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -111,8 +111,14 @@ void	redir_destructor(t_cmd *structor);
 # include "parsing.h"
 
 void	*set__get_option_variables(t_hold *env, int set__get_option);
-
+////-/__________________________________________________________//
+///-/                      VAR_EXPENDER                        //
+//-/__________________________________________________________//
+char    *nodes_join(t_list *lst);
+t_list  *expander(char *var);
+////-/__________________________________________________________//
+///-/                           EXEC                           //
+//-/__________________________________________________________//
 void	echo(t_cmd *cmd);
 void	cd(t_cmd *cmd);
-
 #endif
