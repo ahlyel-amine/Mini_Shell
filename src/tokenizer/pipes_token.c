@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:46 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 21:15:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 23:38:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ static t_cmd	*check_for_pipe(char *line, int i, int *operator_pipe, t_var var)
 		else
 		{
 			pipe_line = get_token_operator_pipe(tmp);
-			if (pipe_line)
-				pipe_line = pipe_constructor(pipe_line, \
-				get_token_operator_pipe(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
+			pipe_line = pipe_constructor(pipe_line, \
+			get_token_operator_pipe(ft_substr(line, i + 1, ft_strlen(line + i + 1))));
 		}
 		free (line);
 	}
