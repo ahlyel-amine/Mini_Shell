@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 18:03:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 20:50:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 14:53:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ char	*ft_substr_skip_space(char *s, unsigned int start, size_t len)
 	if (start >= ft_strlen(s))
 		return (ft_strdup(""));
 	while (ft_isspace(*s))
+	{
 		s++;
+		len--;
+	}
 	s_len = ft_strlen(s + start);
 	if (len > s_len)
 		len = s_len;

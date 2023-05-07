@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:10:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 16:20:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 19:01:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	fill_redir_content_append(char *line, int i, t_redir_content *red)
 	int	j;
 
 	j = 0;
-	line = quotes(line, i + 2);
+	line = skip_quotes(line, i + 2);
 	while (ft_isspace(line[j]))
 		j++;
 	if (!line[j])
@@ -104,7 +104,7 @@ int	fill_redir_content_outredir(char *line, int i, t_redir_content *red)
 	int	j;
 
 	j = 0;
-	line = quotes(line, i + 1);
+	line = skip_quotes(line, i + 1);
 	while (ft_isspace(line[j]))
 		j++;
 	if (!line[j])
