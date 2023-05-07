@@ -26,9 +26,10 @@ t_cmd	*get_token_variable_assignement(char *line);
 t_cmd	*get_token_parenthesis_operator(char *line);
 
 /*helpers*/
-char	*quotes(char *line, int i);
+char	*skip_quotes(char *line, int *i, int j, int is_word);
 void	check_out_of_quotes(char c, t_var *var);
 void	set_zero_var(t_var *var);
+void	expand_dollar(char *line, int *i, int *k, char **tmp);
 
 void	something_wrong(char *error, void *to_free);
 

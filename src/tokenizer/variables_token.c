@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:51 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/30 23:46:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 19:32:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_cmd	*get_token_variable_assignement(char *line)
 	else
 	{
 		tmp = ft_substr(line, value, ft_strlen(line + value));
-		cmd = assignement_constructor(ft_substr(line, 0, value), quotes(tmp, 0));
+		cmd = assignement_constructor(ft_substr(line, 0, value), skip_quotes(tmp, NULL, 0, 0));
 		free (tmp);
 	}
 	return (free(line), cmd);
