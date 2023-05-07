@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/05 14:27:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 20:06:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_cmd	*get_token_parenthesis_operator(char *line)
 	i = 0;
 	operator = NULL;
 	i = skip_spaces_front(line);
+	if (line[i] == ')')
+			return (panic_recursive(ERR_ClSD_PARNETHISE, line), NULL);
 	if (line[i] && line[i] == '(' && ++i)
 	{
 		if (parhenthises_closed(line + i, &k, &j))
@@ -35,7 +37,7 @@ t_cmd	*get_token_parenthesis_operator(char *line)
 			if (!operator)
 				operator = call_or_constructor(line, i, j, k);
 			if (!operator)
-				return (pr_custom_err(line + i + j, line), NULL);
+				return (pr_custom_err(ERR_TOKEN, line, line + i + j), NULL);
 		}
 		else
 			return (panic_recursive(ERR_UNLCSD_PARNETHISE, line), NULL);

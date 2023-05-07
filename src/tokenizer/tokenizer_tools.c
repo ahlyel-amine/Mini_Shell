@@ -3,12 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/05/06 19:41:18 by aelbrahm         ###   ########.fr       */
+=======
+/*   Updated: 2023/05/06 19:50:11 by aahlyel          ###   ########.fr       */
+>>>>>>> 4a2f53b42a5b4ef4ba82793c0184b512c7d858e9
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
@@ -96,11 +101,11 @@ int	skip_spaces_front(char *line)
 	return (i);
 }
 
-void	pr_custom_err(char *error, void *ptr)
+void	pr_custom_err(char *error, void *ptr, char *custom)
 {
 	char	*msg;
 
-	msg = ft_strjoin(ERR_, error);
+	msg = ft_strjoin(error, custom);
 	ft_putendl_fd(msg, 2);
 	ft_putchar_fd('\n', 2);
 	free(msg);
