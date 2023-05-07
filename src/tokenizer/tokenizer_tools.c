@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 21:34:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 22:54:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,35 @@ int	delete_quotes(char *line, char **tmp, int i, int is_word)
 	return (i);
 }
 
+int	count_dollars(char *line, int *i, int j)
+{
+	int begin;
+	int dollars;
+	
+	if (i)
+		begin = *i;
+	else
+		begin = j;
+	dollars = 0;
+	while (line[begin])
+	{
+		if (line[begin] == '$')
+			dollars++;
+		begin++;
+	}
+	return (begin);
+}
+
 char	*skip_quotes(char *line, int *i, int j, int is_word)
 {
 	char	*tmp;
 	int		a;
 
+	a = count_dollars(line, i, j);
 	if (is_word)
-		tmp = ft_calloc(1, ft_strlen(line + *i) + 1);
+		tmp = ft_calloc(1, ft_strlen(line + *i) + a + 1);
 	else
-		tmp = ft_calloc(1, ft_strlen(line + j) + 1);
+		tmp = ft_calloc(1, ft_strlen(line + j) + a + 1);
 	if (!tmp)
 		return (NULL);
 	if (is_word)
