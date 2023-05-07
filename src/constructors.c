@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 20:02:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:07:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ t_cmd	*execcmd_constructor(char **cmds)
 	while (cmds[i])
 	{
 		if (!i)
-		printf("cmd : %s\n", cmds[i++]);
+		printf("cmd : |%s|\n", cmds[i++]);
 		else
-		printf("options/argumets : %s\n", cmds[i++]);
+		printf("options/argumets : |%s|\n", cmds[i++]);
 	}
 	printf("----------------------------------------------\n");
 	return ((t_cmd *)cmd);
