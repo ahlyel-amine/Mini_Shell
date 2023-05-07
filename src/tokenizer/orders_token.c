@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 21:11:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/07 23:40:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ t_cmd	*get_token_order(char *line)
 	if (!cmd)
 		cmd = get_token_cmd(ft_strdup(line + i), j);
 	if (!cmd)
-		return (pr_custom_err(ERR_CMD, line, line + i), NULL);
+		cmd = invalid_constructor(ft_strdup(line));
+		// return (pr_custom_err(ERR_CMD, line, line + i), NULL);
 		// cmd = get_token_variable_assignement(ft_strdup(line + i));
 	free (line);
 	return (cmd);
