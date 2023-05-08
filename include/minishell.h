@@ -120,9 +120,9 @@ t_list  *expander(char *var);
 char    *replace_str(char *var, char *lst_cnt);
 int    replace(t_list **lst, char *var);
 int dolr_check(t_list **lst, char *str, int iter);
-////-/__________________________________________________________//
-///-/                           EXEC                           //
-//-/__________________________________________________________//
+////-/__________________________________________________________//-|
+///-/                           EXEC                           //--|
+//-/__________________________________________________________//---|
 void	echo(t_cmd *cmd);
 void	cd(t_cmd *cmd);
 #endif

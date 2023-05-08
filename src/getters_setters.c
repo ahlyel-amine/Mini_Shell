@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 19:06:02 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:59:42 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*set_pwd(char *old_pwd)
 	pwd = ipwd;
 	if (homedir && !ft_strncmp(homedir, pwd, ft_strlen(homedir)))
 	{
-		pwd = ft_strjoin("~", ipwd + 14);
+		pwd = ft_strjoin("~", ipwd);
 		free (ipwd);
 	}
 	free (old_pwd);
@@ -173,7 +173,6 @@ void	*set__get_option_variables(t_hold *env, int set__get_option)
 
 	if (set__get_option == SET)
 	{
-		
 		envs = (char **)env;
 		path = set_path((t_hold *)envs, path);
 		home_dir = set_homedir((t_hold *)envs, home_dir);
