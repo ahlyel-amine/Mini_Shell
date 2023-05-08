@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:26:35 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/01 10:17:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:38:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,20 @@ char	*remove_selected_parenthesis(char *line, int i, int j, int k)
 	}
 	return (line);
 }
+
 void	set_zero_var(t_var *var)
 {
 	var->dquote = 0;
 	var->quote = 0;
 }
 
-char	*select_unused_parenthesis(char *line, int i)
+char	*select_unused_parenthesis(char *line, int i, t_var var, int is_open)
 {
 	int		j;
-	int		is_open;
 	int		is_closed;
 	int		k;
-	t_var	var;
 
-	set_zero_var(&var);
 	k = 0;
-	is_open = 1;
 	is_closed = 0;
 	j = -1;
 	while (line[i + ++j])
@@ -70,7 +67,9 @@ char	*remove_unused_parenthesis(char *line)
 	int		i;
 	int		is_open;
 	int		is_closed;
+	t_var	var;
 
+	set_zero_var(&var);
 	i = 0;
 	is_open = 0;
 	is_closed = 0;
@@ -82,7 +81,7 @@ char	*remove_unused_parenthesis(char *line)
 		i++;
 	}
 	if (is_open)
-		line = select_unused_parenthesis(line, i);
+		line = select_unused_parenthesis(line, i, var, is_open);
 	return (line);
 }
 
