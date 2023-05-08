@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/08 20:04:07 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/08 20:55:19 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void    reset_env(char *pwd, char *o_pwd)
         }
         lst = lst->next;
     }
-    
+    if (!flg)
+        ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)));
 }
 
 void    cd(t_cmd *cmd)
@@ -113,7 +114,7 @@ void    cd(t_cmd *cmd)
                 printf("[%s]\n", lst->content);
                 lst = lst->next;
             }
-            printf("<%s>\n", (char *)set__get_option_variables(0, (GET | GET_PWD)) + 1);
+            printf("<%s>\n", (char *)set__get_option_variables(0, (GET | GET_PWD)));
         }
         // eset_env(path, getenv("OLDPWD"));
     }
