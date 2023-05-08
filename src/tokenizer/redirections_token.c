@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 22:56:36 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/09 00:33:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,15 @@ static void	fill_red_content(t_redir_content *red, int ref)
 	red->fd = 0;
 	red->mode = 0;
 	if (ref == F_HEREDOC)
-	{
 		red->type = HEREDOC;
-	}
+	else if (ref == F_IN_RED)
+		red->type = IN_REDIR;
 	else if (ref == F_APPEND)
 	{
 		red->fd = 1;
 		red->mode = O_APPEND | O_WRONLY | O_CREAT;
 		red->type = APPEND;
 	}
-	else if (ref == F_IN_RED)
-		red->type = IN_REDIR;
 	else if (ref == F_OUT_RED)
 	{
 		red->fd = 1;
@@ -74,7 +72,7 @@ static void	fill_red_content(t_redir_content *red, int ref)
 	}
 }
 
-static int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
+int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 {
 	int	j;
 	t_var	var;
@@ -133,14 +131,16 @@ static t_cmd	*check_for_redirections(char *line, int i)
 		redirection = get_redirection(line, i, F_OUT_RED);
 	return (redirection);
 }
-static int	check_for_syntax(char *line, int i)
+
+int	check_for_syntax(char *line, int i)
 {
 	int	j;
 	int	space;
 
 	j = 0;
 	space = 0;
-	if ((line[i] == '<' && line[i + 1] == '<')  || (line[i] == '>' && line[i + 1] == '>') || (line[i] == '<') || (line[i] == '>'))
+	if ((line[i] == '<' && line[i + 1] == '<')  || (line[i] == '>' && \
+	line[i + 1] == '>') || (line[i] == '<') || (line[i] == '>'))
 	{
 		j++;
 		if (line[i + 1] == '<' || line[i + 1] == '>')
