@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 23:39:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:50:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 static int		parhenthises_closed(char *line, int *k, int *i);
 static t_cmd	*call_and_constructor(char *line, int i, int j, int k);
 static t_cmd	*call_or_constructor(char *line, int i, int j, int k);
+
+t_cmd	*check_for_operators(char *line, int i, int j, int k)
+{
+	t_cmd	*operator;
+
+	j += skip_spaces_front(line + i + j);
+	operator = call_and_constructor(line, i, j, k);
+	if (!operator)
+		operator = call_or_constructor(line, i, j, k);
+	if (!operator)
+		return (pr_custom_err(ERR_TOKEN, line, line + i + j), NULL);
+	return (operator);
+}
 
 t_cmd	*get_token_parenthesis_operator(char *line)
 {
@@ -32,6 +45,8 @@ t_cmd	*get_token_parenthesis_operator(char *line)
 	{
 		if (parhenthises_closed(line + i, &k, &j))
 		{
+			// if (!check_for_operators(line, i, j, k))
+			// 	return (NULL);
 			j += skip_spaces_front(line + i + j);
 			operator = call_and_constructor(line, i, j, k);
 			if (!operator)
@@ -111,7 +126,14 @@ static t_cmd	*call_or_constructor(char *line, int i, int j, int k)
 	}
 	else if (line[i + j] == '|')
 	{
-		operator = get_token_operator(remove_unused_parenthesis(line));
+		operator = get_token_parenthesis_operator(remove_unused_parenthesis(ft_substr(line, i, k)));
+		operator = pipe_constructor(operator,
+			get_token_parenthesis_operator(\
+			remove_unused_parenthesis(\
+			ft_substr(line, i + j + 1, \
+			ft_strlen(line + i + j + 1)))));
+		free (line);
+		// operator = get_token_operator(remove_unused_parenthesis(line));
 	}
 	return (operator);
 }
