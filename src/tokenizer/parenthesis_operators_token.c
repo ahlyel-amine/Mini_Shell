@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/09 00:35:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/09 18:11:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,13 +150,47 @@ static t_cmd	*call_redir_constructor(char *line, int i, int j, int k)
 		if (!check_for_syntax(line, i + j))
 			return (NULL);
 		operator = get_token_parenthesis_operator(remove_unused_parenthesis(ft_substr(line, i, k)));
-		fill_redir_content(line, i + j, &red, F_HEREDOC);
-		operator = redir_constructor(operator, );
-		operator = or_constructor(operator,
-			get_token_parenthesis_operator(\
-			remove_unused_parenthesis(\
-			ft_substr(line, i + j + 2, \
-			ft_strlen(line + i + j + 2)))));
+		k = fill_redir_content(line, i + j, &red, F_HEREDOC);
+		j = skip_spaces_front(line + k);
+		if (line[k + j])
+			return (NULL);
+		operator = redir_constructor(operator, red);
+		free (line);
+	}
+	else if (line[i + j] == '<')
+	{
+		if (!check_for_syntax(line, i + j))
+			return (NULL);
+		operator = get_token_parenthesis_operator(remove_unused_parenthesis(ft_substr(line, i, k)));
+		k = fill_redir_content(line, i + j, &red, F_IN_RED);
+		j = skip_spaces_front(line + k);
+		if (line[k + j])
+			return (NULL);
+		operator = redir_constructor(operator, red);
+		free (line);
+	}
+	else if (line[i + j] == '>'  && line[i + j + 1] == '>')
+	{
+		if (!check_for_syntax(line, i + j))
+			return (NULL);
+		operator = get_token_parenthesis_operator(remove_unused_parenthesis(ft_substr(line, i, k)));
+		k = fill_redir_content(line, i + j, &red, F_APPEND);
+		j = skip_spaces_front(line + k);
+		if (line[k + j])
+			return (NULL);
+		operator = redir_constructor(operator, red);
+		free (line);
+	}
+	else if (line[i + j] == '>')
+	{
+		if (!check_for_syntax(line, i + j))
+			return (NULL);
+		operator = get_token_parenthesis_operator(remove_unused_parenthesis(ft_substr(line, i, k)));
+		k = fill_redir_content(line, i + j, &red, F_OUT_RED);
+		j = skip_spaces_front(line + k);
+		if (line[k + j])
+			return (NULL);
+		operator = redir_constructor(operator, red);
 		free (line);
 	}
 	else if (line[i + j] == '|')
