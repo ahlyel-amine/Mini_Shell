@@ -19,8 +19,8 @@
 # define F_IN_RED	0b10
 # define F_OUT_RED	0b11
 
-# define ERR_TOKEN				"minishell : syntax error near unexpected token : "
-# define ERR_CMD				"minishell : command not found: "
+# define ERR_TOKEN				"minishell: syntax error near unexpected token : "
+# define ERR_CMD				"minishell: command not found: "
 # define ERR_AND				"minishell: syntax error near unexpected token `&&'\n"
 # define ERR_OR					"minishell: syntax error near unexpected token `||'\n"
 # define ERR_PIPE				"minishell: syntax error near unexpected token `|'\n"

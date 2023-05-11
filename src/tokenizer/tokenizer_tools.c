@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 22:54:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/10 00:34:00 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,9 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 	free(msg);
 	free (ptr);
 }
-void	panic_recursive(char *error, void *ptr)
+void	panic_recursive(char *error, char **ptr)
 {
 	ft_putendl_fd(error, 2);
 	free (ptr);
+	ptr = NULL;
 }

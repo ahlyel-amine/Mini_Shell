@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:26:35 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/08 15:38:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/10 23:28:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ char	*remove_unused_parenthesis(char *line)
 t_cmd	*tokenize_line(char *line)
 {
 	line = remove_unused_parenthesis(ft_strdup(line));
-	return (get_token_parenthesis_operator(line));
+	return (get_token_parenthesis_and(line));
 }
