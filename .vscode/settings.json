@@ -10,7 +10,8 @@
 		"fcntl.h": "c",
 		"stdio.h": "c",
 		"dictionary.h": "c",
-		"archive.h": "c"
+		"archive.h": "c",
+		"execute.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
