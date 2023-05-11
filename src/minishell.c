@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 16:58:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/10 21:49:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,9 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	atexit(fun);
+	// atexit(fun);
 	t_hold	*env_var = NULL;
 	env_var = env_dup(env_var, env);
-
-	
-	
-
 	set__get_option_variables(env_var, SET);
 	read_line(&(env_var->lst));
 	// ft_lstclear(&(env_var->lst), free);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 20:05:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/11 01:08:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ t_cmd	*get_token_cmd(char *line, int j)
 	char	**path;
 
 	cmd = NULL;
-	path = (char **)set__get_option_variables(0, GET | GET_PATH);
-	if (!path)
-		return (NULL);
-	if (!check_cmd(path, line, j))
-		return (free(line), NULL);
-	cmd_line = skip_quotes(line, NULL, 0, 0);
-	cmd = execcmd_constructor(ft_split_char(cmd_line, ' '));
-	return (free(line), free(cmd_line), cmd);
+	// path = (char **)set__get_option_variables(0, GET | GET_PATH);
+	// if (!path)
+	// 	return (NULL);
+	// if (!check_cmd(path, line, j))
+	// 	return (free(line), NULL);
+	// cmd_line = skip_quotes(line, NULL, 0, 0);
+	cmd = execcmd_constructor(ft_split_char(line, ' '));
+	return (free(line), /*free(cmd_line),*/ cmd);
 }

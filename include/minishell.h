@@ -1,8 +1,8 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -11,15 +11,15 @@
 # include <errno.h>
 # include "dictionary.h"
 
-typedef struct s_cmd
-{
-	int	type;
-}	t_cmd;
-
 typedef struct s_hold{
 	t_list	*lst;
 	int		size : 16;
 }	t_hold;
+
+typedef struct s_cmd
+{
+	int	type;
+}	t_cmd;
 
 typedef struct s_pipe
 {
@@ -109,7 +109,6 @@ typedef struct s_redir
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 void	redir_destructor(t_cmd *structor);
 
-# include "parsing.h"
 
 void	*set__get_option_variables(t_hold *env, int set__get_option);
 ////-/__________________________________________________________//
@@ -125,4 +124,7 @@ int dolr_check(t_list **lst, char *str, int iter);
 //-/__________________________________________________________//---|
 void	echo(t_cmd *cmd);
 void	cd(t_cmd *cmd);
+# include "parsing.h"
+# include "execute.h"
+
 #endif

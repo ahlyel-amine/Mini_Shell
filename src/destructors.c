@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 20:01:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/10 14:36:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	redir_destructor(t_cmd *structor)
 		invalid_destructor(redir->cmd);
 	else if (redir->cmd != NULL && redir->cmd->type == REDIR)
 		redir_destructor(redir->cmd);
+	else if (redir->cmd != NULL && redir->cmd->type == AND)
+		free_line(redir->cmd);
+	else if (redir->cmd != NULL && redir->cmd->type == OR)
+		free_line(redir->cmd);
+	else if (redir->cmd != NULL && redir->cmd->type == PIPE)
+		free_line(redir->cmd);
 	free (redir->red.file_name);
 	free (redir);
 }
