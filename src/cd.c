@@ -6,12 +6,12 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/08 20:55:19 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/11 01:40:24 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-//Need function to set env node if PWD changed
+
 char    *get_owd(char *env_var)
 {
     t_hold  *env;
@@ -34,8 +34,7 @@ void    reset_env(char *pwd, char *o_pwd)
     t_hold  *env;
     t_list  *lst;
     short   flg = 0;
-    // char    *cwd;
-    // cwd = getcwd(cwd, 0);
+
     env = set__get_option_variables(0, (GET | GET_ENV));
     lst = env->lst;
     while (lst)
@@ -57,66 +56,93 @@ void    reset_env(char *pwd, char *o_pwd)
         ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)));
 }
 
-void    cd(t_cmd *cmd)
+char    *extend_option(char *arg, char *ex_with, int opt)
+{
+    char    *ret;
+    char    *past;
+    char    *tmp;
+
+    ret = NULL;
+    past = NULL;
+    if (!opt)
+        tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));
+    else if (opt == 1)
+        tmp = ft_substr(arg, 1, (ft_strlen(arg) - 1));
+    ret = ft_strjoin_free(ex_with, tmp);
+    return (free(arg), ret);
+}
+
+char    *get_prev_path(char *path)
+{
+    int iter;
+    int len;
+    char    *tmp;
+    
+    len = ft_strlen(path);
+    len--;
+    iter = len;
+    while (path[iter] != '/' && iter >= 0)
+        iter--;
+    if (iter != len)
+       tmp = ft_substr(path, 0, iter);
+    else if (path[iter] == '/' && iter == len)
+        return (ft_strdup("/"));
+    
+    return (tmp);
+}
+
+int ft_go_to(int opt)
+{
+    char        *env_path;
+    char        cwd[1024];
+    int         ret;
+
+    env_path = NULL;
+    getcwd(cwd, sizeof(cwd));
+    if (!opt)
+    {
+        env_path = get_owd("HOME=");
+        if (!env_path)
+            return (ft_putendl_fd("minishell : cd: HOME not set", STDERR_FILENO), (-1));
+        reset_env(env_path, cwd);
+    }   
+    else if (opt == 1)
+    {
+        env_path = get_owd("OLDPWD=");
+        if (!env_path)
+            return (ft_putendl_fd("minishell : cd: OLDPWD not set", STDERR_FILENO), (-1));
+        reset_env(env_path, cwd);
+    }
+    ret = chdir(env_path);
+    return (ret);
+}
+
+int    tt_cd(t_cmd *cmd)
 {
     t_builtin   *cd;
     char        *path;
-    char        *home = get_owd("HOME=");
-    char        *oldpwd = get_owd("OLDPWD=");
+    int         ret;
     char        cwd[1024];
+
     getcwd(cwd, sizeof(cwd));
     cd = (t_builtin *)cmd;
     path = nodes_join(expander(cd->cmd));
-    if (!*path || !ft_strncmp(path, "~", 2))
-    {
-        if (!home)
-            printf("cd: OLDPWD not set\n");
-        else
-        {
-            chdir(home);
-            reset_env(home, cwd);
-        }
-    }   
-    else if (!ft_strncmp(path, "-", 2))
-    {
-        if (!oldpwd)
-            printf("cd: OLDPWD not set\n");
-        else
-        {
-
-            chdir(oldpwd);
-            reset_env(oldpwd, cwd);
-            // printf("<%s>\n", (char *)set__get_option_variables(0, (GET | GET_PWD)));
-            // // set__get_option_variables(0, (SET_PWD));
-            // // printf("<%s>\n", getenv("PWD"));
-            // reset_env(oldpwd, getenv("PWD"));
-            t_hold *env = set__get_option_variables(0, GET | GET_ENV);
-            t_list *lst = env->lst;
-            while (lst)
-            {
-                printf("[%s]\n", lst->content);
-                lst = lst->next;
-            }
-            printf("<%s>\n", (char *)set__get_option_variables(0, (GET | GET_PWD)) + 1);
-        }   
-    }
+    if (!*path)
+        ret = ft_go_to(0);
+    else if (!ft_memcmp(path, "-", 2))
+        ret = ft_go_to(1);   
     else
     {
-        if (chdir(path) == -1)
+        if (!ft_memcmp(path, "..", 2))
+            path = extend_option(path, get_prev_path(cwd), 0);
+        else if (!ft_memcmp(path, ".", 1))
+            path = extend_option(path, ft_strdup(cwd), 1);
+        ret = chdir(path);
+        if (ret == -1)
             printf("cd: %s: %s\n", path, strerror(errno));
         else
-        {
             reset_env(path, cwd);
-            t_hold *env = set__get_option_variables(0, GET | GET_ENV);
-            t_list *lst = env->lst;
-            while (lst)
-            {
-                printf("[%s]\n", lst->content);
-                lst = lst->next;
-            }
-            printf("<%s>\n", (char *)set__get_option_variables(0, (GET | GET_PWD)));
-        }
-        // eset_env(path, getenv("OLDPWD"));
     }
-    // printf("%s\n", get_owd("OLDPWD="));
+    printf("{%d}\n", ret);
+    return (free(path),ret);
 }
