@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/05/11 01:40:24 by aelbrahm         ###   ########.fr       */
+=======
+/*   Updated: 2023/05/12 17:36:35 by aahlyel          ###   ########.fr       */
+>>>>>>> parsing
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +103,13 @@ int ft_go_to(int opt)
 
     env_path = NULL;
     getcwd(cwd, sizeof(cwd));
+<<<<<<< HEAD
     if (!opt)
+=======
+    cd = (t_builtin *)cmd;
+    path = nodes_join(expander(cd->arguments->str));
+    if (!*path || !ft_strncmp(path, "~", 2))
+>>>>>>> parsing
     {
         env_path = get_owd("HOME=");
         if (!env_path)

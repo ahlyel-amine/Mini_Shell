@@ -6,55 +6,37 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 20:05:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 20:10:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	check_cmd(char **path, char *cmd, int j)
-{
-	char	*new_cmd;
-	char	*tmp_path;
-	char	*tmp;
-	int		i;
-	
-	i = 0;
-	tmp = ft_substr(cmd, 0, j);
-	new_cmd = skip_quotes(tmp, NULL, 0, 0);
-	if (!*new_cmd)
-		return (free(new_cmd), free (tmp), 0);
-	if (!access(new_cmd, F_OK | X_OK))
-		return (free(new_cmd), free (tmp), 1);
-	tmp_path = NULL;
-	while (path[i])
-	{
-		tmp_path = NULL;
-		tmp_path = ft_strjoin(path[i], "/");
-		tmp_path = ft_strjoin_free(tmp_path, ft_strdup(new_cmd));
-		if (!access(tmp_path, F_OK | X_OK))
-			return (free(tmp_path), free(new_cmd), free (tmp), 1);
-		if (path[i + 1])
-			free (tmp_path);
-		i++;
-	}
-	return (free(tmp_path), free(new_cmd), free (tmp), 0);
-}
-
-
 t_cmd	*get_token_cmd(char *line, int j)
 {
-	t_cmd	*cmd;
-	char	*cmd_line;
-	char	**path;
+	t_arguments	*args;
+	char		*tmp;
+	t_cmd		*cmd;
+	int			i;
+	t_var		var;
 
-	cmd = NULL;
-	path = (char **)set__get_option_variables(0, GET | GET_PATH);
-	if (!path)
+	i = 0;
+	if (!*line)
 		return (NULL);
-	if (!check_cmd(path, line, j))
-		return (free(line), NULL);
-	cmd_line = skip_quotes(line, NULL, 0, 0);
-	cmd = execcmd_constructor(ft_split_char(cmd_line, ' '));
-	return (free(line), free(cmd_line), cmd);
+	set_zero_var(&var);
+	while (line[i])
+	{
+		check_out_of_quotes(line[i], &var);
+		if (!var.quote && !var.dquote && ft_isspace(line[i]))
+			break ;
+		i++;
+	}
+	tmp = ft_substr(line, 0, i);
+	args = get_argument(tmp, 0, 0, 0);
+	free (tmp);
+	i += skip_spaces_front(line + i);
+	if (line[i])
+		args->next = get_argument(line + i, 0, 0, 0);
+	cmd = execcmd_constructor(args);
+	return (free(line), /*free(cmd_line),*/ cmd);
 }

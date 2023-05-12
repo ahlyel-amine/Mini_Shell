@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/09 00:33:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 20:15:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ static char	*skip_quote_redir_names(char *line, int *j, int i)
 
 static int	get_name(char *line, t_redir_content *red, int type)
 {
-	int	k;
+	t_arguments	*args;
+	int			k;
 
+	args = NULL;
 	k = red->fd;
 	if (type == F_HEREDOC)
-		red->file_name = skip_quote_redir_names(line, &k, red->fd);
+		red->file_name = arguments_constructor(args, skip_quote_redir_names(line, &k, red->fd), IS_STR);
 	else
-		red->file_name = skip_quotes(line, &k, 0, 1);
+		red->file_name = get_argument(line, &k, 0, 1);
 	return (k);
 }
 
@@ -61,7 +63,7 @@ static void	fill_red_content(t_redir_content *red, int ref)
 	else if (ref == F_APPEND)
 	{
 		red->fd = 1;
-		red->mode = O_APPEND | O_WRONLY | O_CREAT;
+		red->mode = (O_APPEND | O_WRONLY | O_CREAT);
 		red->type = APPEND;
 	}
 	else if (ref == F_OUT_RED)
@@ -132,22 +134,22 @@ static t_cmd	*check_for_redirections(char *line, int i)
 	return (redirection);
 }
 
-int	check_for_syntax(char *line, int i)
+int	check_for_syntax(char **line, int i)
 {
 	int	j;
 	int	space;
 
 	j = 0;
 	space = 0;
-	if ((line[i] == '<' && line[i + 1] == '<')  || (line[i] == '>' && \
-	line[i + 1] == '>') || (line[i] == '<') || (line[i] == '>'))
+	if (((*line)[i] == '<' && (*line)[i + 1] == '<')  || ((*line)[i] == '>' && \
+	(*line)[i + 1] == '>') || ((*line)[i] == '<') || ((*line)[i] == '>'))
 	{
 		j++;
-		if (line[i + 1] == '<' || line[i + 1] == '>')
+		if ((*line)[i + 1] == '<' || (*line)[i + 1] == '>')
 			j++;
-		while (ft_isspace(line[i + j + space]))
+		while (ft_isspace((*line)[i + j + space]))
 			space++;
-		if (!line[i + j + space] || line[i + j + space] == '<' || line[i + j + space] == '>')
+		if (!(*line)[i + j + space] || (*line)[i + j + space] == '<' || (*line)[i + j + space] == '>')
 			return (panic_recursive("minishell : syntax error near unexpected token\n", line), 0);
 	}
 	return (1);
@@ -165,7 +167,7 @@ t_cmd	*get_token_redir(char *line)
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
-		if (!check_for_syntax(line, i))
+		if (!check_for_syntax(&line, i))
 			return (NULL);
 		if (!var.quote && !var.dquote)
 			redirection = check_for_redirections(line, i);
