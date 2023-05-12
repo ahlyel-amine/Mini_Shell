@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 21:07:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 20:22:04 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,25 @@ t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right)
 	pipe->right = right;
 	return ((t_cmd *)pipe);
 }
-t_cmd	*execcmd_constructor(char **cmds)
+t_cmd	*execcmd_constructor(t_arguments *arguments)
 {
 	t_execcmd	*cmd;
 
 	cmd = malloc(sizeof(t_execcmd));
 	ft_memset(cmd, 0, sizeof(t_execcmd));
 	cmd->type = EXEC;
-	cmd->cmd = cmds;
+	cmd->arguments = arguments;
 	printf("-------------execcmd_constructor--------------\n");
 	int i = 0;
-	while (cmds[i])
+	t_arguments *a = arguments;
+	while (a)
 	{
 		if (!i)
-		printf("cmd : |%s|\n", cmds[i++]);
+		printf("cmd : |%s|\n", a->str);
 		else
-		printf("options/argumets : |%s|\n", cmds[i++]);
+		printf("options/argumets : |%s|\n", a->str);
+		a = a->next;
+		i++;
 	}
 	printf("----------------------------------------------\n");
 	return ((t_cmd *)cmd);
@@ -55,7 +58,13 @@ t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content)
 	redir->cmd = cmd;
 	redir->red = content;
 	printf("-------------redir_constructor----------------\n");
-	printf("filename: |%s|\n", redir->red.file_name);
+	t_arguments *a;
+	a = redir->red.file_name;
+	while (a)
+	{
+		printf("type[%d] | filename: |%s|\n", a->type, a->str);
+		a = a->next;
+	}
 	printf("mode : |%d| fd : |%d| type : |%d|\n", redir->red.mode, redir->red.fd, redir->red.type);
 	if (cmd)
 		printf("has cmd type |%d|\n", redir->cmd->type);
@@ -103,7 +112,7 @@ t_cmd	*invalid_constructor(char *str)
 	return ((t_cmd *)invalid);
 }
 
-t_cmd	*builtin_constructor(char *str, int has_option, char *cmd)
+t_cmd	*builtin_constructor(char *str, unsigned short has_option, t_arguments *arguments)
 {
 	t_builtin	*builtin;
 
@@ -111,13 +120,19 @@ t_cmd	*builtin_constructor(char *str, int has_option, char *cmd)
 	ft_memset(builtin, 0, sizeof(t_builtin));
 	builtin->type = BUILTIN;
 	builtin->builtin = str;
-	builtin->cmd = cmd;
+	builtin->arguments = arguments;
 	builtin->has_option = has_option;
 	printf("-------------builtin_constructor--------------\n");
 	printf("builtin: |%s|\n", builtin->builtin);
 	if (has_option)
 	printf("echo has option -n \n");
-	printf("arguments : |%s|\n", builtin->cmd);	
+	t_arguments *a;
+	a = arguments;
+	while (a)
+	{
+		printf("type : |[%d]| arguments : |%s|\n",a->type, a->str);
+		a = a->next;
+	}
 	printf("----------------------------------------------\n");
 	return ((t_cmd *)builtin);
 }

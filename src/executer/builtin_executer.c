@@ -1,37 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   orders_token.c                                     :+:      :+:    :+:   */
+/*   builtin_executer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 12:31:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 18:14:39 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/05/10 21:45:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_cmd	*get_token_order(char *line)
+int builtin_executer(t_cmd *cmd, int infile, int outfile)
 {
-	t_cmd	*cmd;
-	int		i;
-	int		j;
-	int		has_option;
-
-	i = 0;
-	j = 0;
-	has_option = 0;
-	cmd = NULL;
-	if (!*line)
-		return (free(line), NULL);
-	while (ft_isspace(line[i]))
-		i++;
-	while (line[i + j] && !ft_isspace(line[i + j]))
-		j++;
-	cmd = get_token_builtins(ft_strdup(line + i), j);
-	if (!cmd)
-		cmd = get_token_cmd(ft_strdup(line + i), j);
-	free (line);
-	return (cmd);
+	(void)cmd;
+	(void)infile;
+	(void)outfile;
+	return (0);
 }

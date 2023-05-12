@@ -1,8 +1,8 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -11,15 +11,21 @@
 # include <errno.h>
 # include "dictionary.h"
 
+typedef struct s_hold{
+	t_list	*lst;
+	int		size:16;
+}	t_hold;
+
+typedef struct s_arguments{
+	char				*str;
+	unsigned short		type:1;
+	struct s_arguments	*next;
+}	t_arguments;
+
 typedef struct s_cmd
 {
 	int	type;
 }	t_cmd;
-
-typedef struct s_hold{
-	t_list	*lst;
-	int		size : 16;
-}	t_hold;
 
 typedef struct s_pipe
 {
@@ -53,11 +59,11 @@ void	or_destructor(t_cmd *structor);
 
 typedef struct s_execcmd
 {
-	int		type;
-	char	**cmd;
+	int			type;
+	t_arguments	*arguments;
 }	t_execcmd;
 
-t_cmd	*execcmd_constructor(char **cmds);
+t_cmd	*execcmd_constructor(t_arguments *arguments);
 void	execcmd_destructor(t_cmd *structor);
 
 typedef struct s_assignement
@@ -72,13 +78,13 @@ void	assignement_destructor(t_cmd *structor);
 
 typedef struct s_builtin
 {
-	int		type;
-	char	*builtin;
-	char	*cmd;
-	int		has_option:1;
+	int				type;
+	char			*builtin;
+	t_arguments		*arguments;
+	unsigned short	has_option:1;
 }	t_builtin;
 
-t_cmd	*builtin_constructor(char *str, int has_option, char *cmd);
+t_cmd	*builtin_constructor(char *str, unsigned short has_option, t_arguments *arguments);
 void	builtin_destructor(t_cmd *structor);
 
 typedef struct s_invalid
@@ -92,11 +98,10 @@ void	invalid_destructor(t_cmd *structor);
 
 typedef struct s_redir_content
 {
-	int		type;
-	char	*file_name;
-	char	*efile_name;
-	int		mode;
-	int		fd;
+	int			type;
+	t_arguments	*file_name;
+	int			mode;
+	int			fd;
 }	t_redir_content;
 
 typedef struct s_redir
@@ -109,7 +114,6 @@ typedef struct s_redir
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 void	redir_destructor(t_cmd *structor);
 
-# include "parsing.h"
 
 void	*set__get_option_variables(t_hold *env, int set__get_option);
 ////-/__________________________________________________________//
@@ -124,5 +128,12 @@ int dolr_check(t_list **lst, char *str, int iter);
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
 void	echo(t_cmd *cmd);
+<<<<<<< HEAD
 int	tt_cd(t_cmd *cmd);
+=======
+void	cd(t_cmd *cmd);
+# include "parsing.h"
+# include "execute.h"
+
+>>>>>>> parsing
 #endif
