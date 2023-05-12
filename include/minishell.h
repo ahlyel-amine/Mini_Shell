@@ -128,12 +128,9 @@ int dolr_check(t_list **lst, char *str, int iter);
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
 void	echo(t_cmd *cmd);
-<<<<<<< HEAD
 int	tt_cd(t_cmd *cmd);
-=======
 void	cd(t_cmd *cmd);
 # include "parsing.h"
 # include "execute.h"
 
->>>>>>> parsing
 #endif
