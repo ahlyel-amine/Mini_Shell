@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 00:59:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/11 17:37:40 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ static t_cmd	*call_and(char **line, int i)
 	if ((*line)[i] == '&' && (*line)[i + 1] == '&')
 	{
 		operator = get_token_parenthesis_and(remove_unused_parenthesis(ft_substr((*line), 0, i)));
-		if (operator)
 		operator = and_constructor(operator,
 			get_token_parenthesis_and(\
 			remove_unused_parenthesis(\
@@ -102,7 +101,6 @@ static t_cmd	*call_or(char **line, int i)
 	if ((*line)[i] == '|' && (*line)[i + 1] == '|')
 	{
 		operator = get_token_parenthesis_and(remove_unused_parenthesis(ft_substr((*line), 0, i)));
-		if (!operator)
 		operator = or_constructor(operator,
 			get_token_parenthesis_and(\
 			remove_unused_parenthesis(\
@@ -314,6 +312,6 @@ static t_cmd	*get_token_redirection_parenthises(char *line)
 		i++;
 	}
 	if (!operator && line)
-		operator = get_token_and(remove_unused_parenthesis(line));
+		operator = get_token_redir(remove_unused_parenthesis(line));
 	return (operator);
 }
