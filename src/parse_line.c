@@ -6,13 +6,10 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/11 01:36:53 by aelbrahm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/11 00:31:22 by aahlyel          ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2023/05/12 20:50:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #include "../include/minishell.h"
@@ -25,9 +22,6 @@ void	parse_line(char **line)
 	complete_line(line);
 	if (line && *line)
 		cmd = tokenize_line(*line);
-<<<<<<< HEAD
-	tt_cd(cmd);
-=======
 	printf("\n\n\n\n");
 	if (cmd && cmd->type == AND)
 		and_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
@@ -42,7 +36,6 @@ void	parse_line(char **line)
 	else if (cmd && cmd->type == PIPE)
 		pipe_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
 	printf("\n\n\n\n");
->>>>>>> parsing
 	if (cmd)
 		free_line(cmd);
 }
