@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/08 20:55:19 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/12 17:36:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void    cd(t_cmd *cmd)
     char        cwd[1024];
     getcwd(cwd, sizeof(cwd));
     cd = (t_builtin *)cmd;
-    path = nodes_join(expander(cd->cmd));
+    path = nodes_join(expander(cd->arguments->str));
     if (!*path || !ft_strncmp(path, "~", 2))
     {
         if (!home)

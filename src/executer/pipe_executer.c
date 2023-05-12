@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:58 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/10 23:58:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/11 16:39:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	pipe_executer(t_cmd *cmd, int infile, int outfile)
 	pipe(fd);
 	ret = pipe_part_executer(((t_pipe *)cmd)->left, infile, fd[1]);
 	close(fd[1]);
-	if (ret)
-		ret = pipe_part_executer(((t_pipe *)cmd)->right, fd[0], outfile);
+	ret = pipe_part_executer(((t_pipe *)cmd)->right, fd[0], outfile);
 	close(fd[0]);
 	return (ret);
 }

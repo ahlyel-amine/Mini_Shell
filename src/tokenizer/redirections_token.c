@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 00:51:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 20:15:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ static char	*skip_quote_redir_names(char *line, int *j, int i)
 
 static int	get_name(char *line, t_redir_content *red, int type)
 {
-	int	k;
+	t_arguments	*args;
+	int			k;
 
+	args = NULL;
 	k = red->fd;
 	if (type == F_HEREDOC)
-		red->file_name = skip_quote_redir_names(line, &k, red->fd);
+		red->file_name = arguments_constructor(args, skip_quote_redir_names(line, &k, red->fd), IS_STR);
 	else
-		red->file_name = skip_quotes(line, &k, 0, 1);
+		red->file_name = get_argument(line, &k, 0, 1);
 	return (k);
 }
 

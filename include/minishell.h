@@ -13,8 +13,14 @@
 
 typedef struct s_hold{
 	t_list	*lst;
-	int		size : 16;
+	int		size:16;
 }	t_hold;
+
+typedef struct s_arguments{
+	char				*str;
+	unsigned short		type:1;
+	struct s_arguments	*next;
+}	t_arguments;
 
 typedef struct s_cmd
 {
@@ -53,11 +59,11 @@ void	or_destructor(t_cmd *structor);
 
 typedef struct s_execcmd
 {
-	int		type;
-	char	**cmd;
+	int			type;
+	t_arguments	*arguments;
 }	t_execcmd;
 
-t_cmd	*execcmd_constructor(char **cmds);
+t_cmd	*execcmd_constructor(t_arguments *arguments);
 void	execcmd_destructor(t_cmd *structor);
 
 typedef struct s_assignement
@@ -72,13 +78,13 @@ void	assignement_destructor(t_cmd *structor);
 
 typedef struct s_builtin
 {
-	int		type;
-	char	*builtin;
-	char	*cmd;
-	int		has_option:1;
+	int				type;
+	char			*builtin;
+	t_arguments		*arguments;
+	unsigned short	has_option:1;
 }	t_builtin;
 
-t_cmd	*builtin_constructor(char *str, int has_option, char *cmd);
+t_cmd	*builtin_constructor(char *str, unsigned short has_option, t_arguments *arguments);
 void	builtin_destructor(t_cmd *structor);
 
 typedef struct s_invalid
@@ -92,11 +98,10 @@ void	invalid_destructor(t_cmd *structor);
 
 typedef struct s_redir_content
 {
-	int		type;
-	char	*file_name;
-	char	*efile_name;
-	int		mode;
-	int		fd;
+	int			type;
+	t_arguments	*file_name;
+	int			mode;
+	int			fd;
 }	t_redir_content;
 
 typedef struct s_redir

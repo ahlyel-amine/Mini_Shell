@@ -21,12 +21,13 @@
 
 # define ERR_TOKEN				"minishell: syntax error near unexpected token : "
 # define ERR_CMD				"minishell: command not found: "
+# define ERR_FILE				"minishell: no such file or directory: "
 # define ERR_AND				"minishell: syntax error near unexpected token `&&'\n"
 # define ERR_OR					"minishell: syntax error near unexpected token `||'\n"
 # define ERR_PIPE				"minishell: syntax error near unexpected token `|'\n"
 # define ERR_UNLCSD_PARNETHISE	"minishell: syntax error near unexpected token `('\n"
 # define ERR_ClSD_PARNETHISE	"minishell: syntax error near unexpected token `)'\n"
-
+ 
 enum s_type
 {
 	EXEC = 1,
@@ -49,8 +50,15 @@ enum s_redir_type
 
 typedef struct s_var
 {
-	int	quote:1;
-	int	dquote:1;
+	unsigned int	quote:1;
+	unsigned int	dquote:1;
 }	t_var;
+
+
+enum s_arguments_type
+{
+	IS_VARIABLE,
+	IS_STR
+};
 
 #endif
