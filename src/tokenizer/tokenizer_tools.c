@@ -6,12 +6,14 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/10 00:34:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 20:20:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
+t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
+void	arguments_destructor(t_arguments **arguments);
 
 void	something_wrong(char *error, void *to_free)
 {
@@ -95,10 +97,107 @@ int	count_dollars(char *line, int *i, int j)
 	return (begin);
 }
 
+void	get_dollars(t_arguments	**arguments, char *line, int *i, int *j)
+{
+	int	k;
+
+	k = 1;
+	*i += *j;
+	*j = 0;
+	if (ft_isdigit(line[*i + 1]))
+		*i += 2;
+	else if (line[*i] == '$'  && !(ft_isalnum(line[*i + k]) || line[*i + k] == '_'))
+		(*j)++;
+	else if (line[*i] == '$' && line[*i + 1] == '$')
+		(*j)++;
+	else if (line[*i] == '$' && (ft_isalnum(line[*i + k]) || line[*i + k] == '_'))
+	{
+		while (ft_isalnum(line[*i + k]) || line[*i + k] == '_')
+			k++;
+		*arguments = arguments_constructor(*arguments, ft_substr(line, *i, k), IS_VARIABLE);
+		*i += k;
+	}
+}
+
+t_arguments	*get_arguments(char *line, int *i, int is_word)
+{
+	t_arguments	*arguments;
+	t_var		var;
+	int			j;
+
+	set_zero_var(&var);
+	arguments = NULL;
+	j = 0;
+	while (line[*i + j])
+	{
+		check_out_of_quotes(line[*i + j], &var);
+		if ((var.dquote && line[*i + j] == '\"') || (var.quote && line[*i + j] == '\''))
+		{
+			if (j)
+			{
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+			}
+			*i += j + 1;
+			j = 0;
+			continue ;
+		}
+		if (!var.quote && !var.dquote && ft_isspace(line[*i + j]))
+		{
+			if (is_word)
+			{
+				printf("%p\n",arguments);
+				break;
+			}
+			j++;
+		}
+		else if ((line[*i + j] == '\"' && var.quote) || (line[*i + j] == '\'' && var.dquote))
+			j++;
+		else if (!var.dquote && !var.quote && (line[*i + j] == '\'' || line[*i + j] == '\"'))
+		{
+			if (j)
+			{
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+			}
+			*i += j + 1;
+			j = 0;
+			continue ;
+		}
+		else if (line[*i + j] == '$' && (var.dquote || (!var.dquote && !var.quote)))
+		{
+			if (j)
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+			get_dollars(&arguments, line, i, &j);
+			continue ;
+		}
+		else if (line[*i + j] && line[*i + j] != '\'' && line[*i + j] != '\"')
+			j++;
+	}
+	if (j)
+	{
+		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+		*i += j;
+	}
+	
+	return (arguments);
+}
+
+t_arguments	*get_argument(char *line, int *j, int i, int is_word)
+{
+	t_arguments	*arguments;
+	
+	arguments = NULL;
+	if (is_word)
+		arguments = get_arguments(line, j, is_word);
+	else
+		arguments = get_arguments(line, &i, is_word);
+	return (arguments);
+}
+
 char	*skip_quotes(char *line, int *i, int j, int is_word)
 {
-	char	*tmp;
-	int		a;
+	char		*tmp;
+	int			a;
+	t_arguments	*arguments;
 
 	a = count_dollars(line, i, j);
 	if (is_word)
@@ -139,4 +238,41 @@ void	panic_recursive(char *error, char **ptr)
 	ft_putendl_fd(error, 2);
 	free (ptr);
 	ptr = NULL;
+}
+
+t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type)
+{
+	t_arguments	*new;
+	t_arguments	*tmp;
+
+	new = malloc(sizeof(t_arguments));
+	if (!new)
+		return (NULL);
+	new->str = str;
+	new->type = type;
+	new->next = NULL;
+	if (!arguments)
+		return (new);
+	tmp = arguments;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	return (arguments);
+}
+
+void	arguments_destructor(t_arguments **arguments)
+{
+	t_arguments	*tmp;
+	t_arguments	*head;
+
+	tmp = *arguments;
+	head = *arguments;
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		free (tmp->str);
+		free (tmp);
+	}
+	*arguments = NULL;
 }

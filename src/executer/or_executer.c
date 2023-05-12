@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 01:22:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/11 15:52:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	clor_executer(t_cmd *cmd, int infile, int outfile)
+int	or_executer(t_cmd *cmd, int infile, int outfile)
 {
 	int	ret;
 

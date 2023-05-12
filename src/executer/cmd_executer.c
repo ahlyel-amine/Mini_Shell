@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 01:17:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 18:02:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,34 @@ char	*get_path(char *cmd)
 		free(tmp_to_free);
 		i++;
 	}
+	
 	return (NULL);
+}
+
+char	**arguments_list_to_dstr(t_arguments *args)
+{
+	t_arguments	*tmp;
+	char		**dstr;
+	int			len;
+
+	len = 0;
+	tmp = args;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp->next;
+	}
+	dstr = malloc(sizeof(char *) * (len + 1));
+	if (!dstr)
+		return (NULL);
+	len = 0;
+	while (args)
+	{
+		dstr[len++] = args->str;
+		args = args->next;
+	}
+	dstr[len] = NULL;
+	return (dstr);
 }
 
 int	cmd_executer(t_cmd *cmd, int infile, int outfile)
@@ -43,11 +70,12 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	char	**envp;
     int status;
 
-	exec = ((t_execcmd *)cmd)->cmd;
+	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->arguments);
 	if (exec)
 	path = get_path(exec[0]);
 	envp = (char **)set__get_option_variables(0, GET | GET_ENV);
-
+	if (!path)
+		return (pr_custom_err(ERR_CMD, NULL, exec[0]), 0);
 	pid = fork();
 	if ( pid == -1) {
     	perror("fork failed");
@@ -73,13 +101,13 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	if (wait(&status) == -1)
 	{
         perror("waitpid failed");
-        return (0);
+        return (free(path) , 0);
     }
     if (WIFEXITED(status))
 	{
        status = WEXITSTATUS(status);
 		if (!status)
-			return (1);
+			return (free(path) , 1);
     }
-	return (0);
+	return (free(path) , 0);
 }

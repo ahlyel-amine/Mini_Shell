@@ -6,26 +6,59 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 00:54:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 20:40:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 # include <fcntl.h>
+char	*arguments_to_str(t_arguments *args)
+{
+	t_arguments *tmp;
+	char		*str;
+	int	i;
+	int j;
 
+	i = 0;
+	tmp = args;
+	while (tmp)
+	{
+		i += ft_strlen(tmp->str);
+		tmp = tmp->next;
+	}
+	str = malloc(i + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (args)
+	{
+		j = 0;
+		while (args->str[j])
+			str[i++] = args->str[j++];
+		args = args->next;
+	}
+	str[i] = 0;
+	return (str);
+}
 int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 {
 	int	ret;
 	char	*line;
-		printf("{%d}\n",((t_redir *)cmd)->red.type);
+	char	*file_name;
+
+	file_name = arguments_to_str(((t_redir *)cmd)->red.file_name);
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
 		((t_redir *)cmd)->red.fd = open("/tmp/.heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		if (((t_redir *)cmd)->red.fd < 0)
+			return (pr_custom_err(ERR_FILE, line, file_name), 0);
 		while (1337)
 		{
 			line = readline("heredoc> ");
-			if (!strncmp(line, ((t_redir *)cmd)->red.file_name, ft_strlen(((t_redir *)cmd)->red.file_name)))
+			if (!line)
+				break ;
+			if (!strncmp(line, file_name, ft_strlen(file_name)))
 			{
 				free(line);
 				break;
@@ -36,13 +69,21 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 		}
 		close(((t_redir *)cmd)->red.fd);
 		infile = open("/tmp/.heredoc", O_RDONLY);
+		if (infile < 0)
+			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
 	}
 	else if (((t_redir *)cmd)->red.type == F_IN_RED)
-		infile = open(((t_redir *)cmd)->red.file_name, ((t_redir *)cmd)->red.mode);
+	{
+		infile = open(file_name, ((t_redir *)cmd)->red.mode);
+		if (infile < 0)
+			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
+	}
 	else
 	{
 		printf("%d : [%d]\n",  ((t_redir *)cmd)->red.type, ((t_redir *)cmd)->red.mode);
-		outfile = open(((t_redir *)cmd)->red.file_name, ((t_redir *)cmd)->red.mode, 0644);
+		outfile = open(file_name, ((t_redir *)cmd)->red.mode, 0644);
+		if (outfile < 0)
+			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
 	}
 	if (((t_redir *)cmd)->cmd)
 	{
@@ -63,5 +104,5 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 		close(infile);
 	else
 		close(outfile);
-	return (ret);
+	return (free(file_name), ret);
 }

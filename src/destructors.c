@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/10 14:36:59 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 20:29:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,30 @@ printf("destructor pipe called \n");
 }
 void	execcmd_destructor(t_cmd *structor)
 {
+	t_arguments	*args;
+	t_arguments	*tmp;
 	t_execcmd	*cmd;
-	int			i;
-printf("destructor execcmd called \n");
-	i = 0;
+
+	printf("destructor execcmd called \n");
 	cmd = (t_execcmd *)structor;
-	while (cmd->cmd[i])
-		free (cmd->cmd[i++]);
-	free (cmd->cmd);
+	args = cmd->arguments;
+	tmp = cmd->arguments;
+	while (args)
+	{
+		tmp = args;
+		args = args->next;
+		free (tmp->str);
+		free(tmp);
+	}
 	free (cmd);
 }
 
 void	redir_destructor(t_cmd *structor)
 {
 	t_redir	*redir;
+	t_arguments	*args;
+	t_arguments	*tmp;
+
 	printf("destructor redir called \n");
 	redir = (t_redir *)structor;
 	if (redir->cmd != NULL && redir->cmd->type == EXEC)
@@ -52,7 +62,15 @@ void	redir_destructor(t_cmd *structor)
 		free_line(redir->cmd);
 	else if (redir->cmd != NULL && redir->cmd->type == PIPE)
 		free_line(redir->cmd);
-	free (redir->red.file_name);
+	args = redir->red.file_name;
+	tmp = redir->red.file_name;
+	while (args)
+	{
+		tmp = args;
+		args = args->next;
+		free (tmp->str);
+		free(tmp);
+	}
 	free (redir);
 }
 
@@ -84,9 +102,20 @@ void	invalid_destructor(t_cmd *structor)
 void	builtin_destructor(t_cmd *structor)
 {
 	t_builtin	*builtin;
-printf("destructor builtin called \n");
+	t_arguments	*args;
+	t_arguments	*tmp;
+
+	printf("destructor builtin called \n");
 	builtin = (t_builtin *)structor;
-	free (builtin->cmd);
+	args = builtin->arguments;
+	tmp = builtin->arguments;
+	while (args)
+	{
+		tmp = args;
+		args = args->next;
+		free (tmp->str);
+		free(tmp);
+	}
 	free (builtin->builtin);
 	free (builtin);
 }
