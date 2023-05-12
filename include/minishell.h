@@ -18,6 +18,7 @@ typedef struct s_cmd
 
 typedef struct s_hold{
 	t_list	*lst;
+	t_list	*lst_ex;
 	int		size : 16;
 }	t_hold;
 
@@ -125,4 +126,5 @@ int dolr_check(t_list **lst, char *str, int iter);
 //-/__________________________________________________________//---|
 void	echo(t_cmd *cmd);
 int	tt_cd(t_cmd *cmd);
+int tt_export(t_cmd *cmd);
 #endif
