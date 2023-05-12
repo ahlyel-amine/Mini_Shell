@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 16:58:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 01:51:59 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_hold	*env_dup(t_hold *env_var, char **env)
 	env_var = (t_hold *)malloc(sizeof(t_hold));
     env_var->size = 0;
     env_var->lst = NULL;
+	env_var->lst_ex = NULL;
 	while (env && *env)
     {
         ft_lstadd_back(&(env_var->lst), ft_lstnew(ft_strdup(*(env))));

@@ -1,7 +1,7 @@
 
 READLINE_DIR    = /Users/aelbrahm/.brew/opt/readline
 
-SRC = src/minishell.c src/read_line.c src/free_line.c src/destructors.c src/cd.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/echo.c src/parse_line.c src/parsing_tools/parsing_tools.c src/parsing_tools/ft_split_char.c src/tokenizer/builtins_token.c src/tokenizer/cmds_token.c src/tokenizer/operators_token.c src/tokenizer/orders_token.c src/tokenizer/pipes_token.c src/tokenizer/redirections_token.c src/tokenizer/variables_token.c src/tokenizer/tokenizer_tools.c src/tokenizer/tokenize_line.c src/tokenizer/parenthesis_operators_token.c
+SRC = src/minishell.c src/read_line.c src/free_line.c src/destructors.c src/cd.c src/export.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/echo.c src/parse_line.c src/parsing_tools/parsing_tools.c src/parsing_tools/ft_split_char.c src/tokenizer/builtins_token.c src/tokenizer/cmds_token.c src/tokenizer/operators_token.c src/tokenizer/orders_token.c src/tokenizer/pipes_token.c src/tokenizer/redirections_token.c src/tokenizer/variables_token.c src/tokenizer/tokenizer_tools.c src/tokenizer/tokenize_line.c src/tokenizer/parenthesis_operators_token.c
 
 
 OBJ =  ${SRC:.c=.o}
@@ -9,7 +9,8 @@ OBJ =  ${SRC:.c=.o}
 
 OBJ_DIR = obj/
 BIN_DIR = bin/
-CFLAGS		=  -fsanitize=address
+CFLAGS		=  
+# -fsanitize=address
 LIBRARIES	= -L ${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
 NAME = minishell
