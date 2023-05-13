@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 17:37:40 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 10:14:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,12 @@ t_cmd	*get_token_parenthesis_and(char *line)
 	operator = NULL;
 	set_zero_var(&var);
 	i = skip_spaces_front(line);
-	printf ("[%s]\n" , line);
 	if (line[i] == ')' || line[i] == '&' || line[i] == '|')
-			return (pr_custom_err("allo", line, line + i), NULL);
-			// return (panic_recursive(ERR_ClSD_PARNETHISE, line), NULL);
+			return (pr_custom_err(ERR_ClSD_PARNETHISE, line, line + i), NULL);
 	while (line[i])
 	{
+
+		printf("still here [%c]\n", line[i]);
 		check_out_of_quotes(line[i], &var);
 		if (line[i] == '(' && !var.quote && !var.dquote)
 			i += close_parenthise(line + i + 1);
@@ -243,7 +243,6 @@ static t_cmd	*get_token_redirection_parenthises(char *line)
 	t_redir_content	red;
 		t_var	var;
 	set_zero_var(&var);
-
 	i = 0;
 	operator = NULL;
 	while (line[i])

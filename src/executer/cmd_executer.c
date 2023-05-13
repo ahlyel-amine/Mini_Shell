@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 21:58:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 10:04:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,29 @@ char	**arguments_list_to_dstr(t_arguments *args)
 	return (dstr);
 }
 
+char	**str_to_double(char *str)
+{
+	char	**dstr;
+
+	dstr = malloc(sizeof(char *) * 2);
+	if (!dstr)
+		return (NULL);
+	dstr[0] = str;
+	dstr[1] = NULL;
+	return (dstr);
+}
+
 int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 {
-	int	pid;
+	int		pid;
 	char	**exec;
 	char	*path;
 	char	**envp;
-    int status;
+    int		status;
 
-	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->arguments);
-	int	i= 0;
-	while (exec[i])
-		printf("[%s]\n", exec[i++]);
+	exec = str_to_double(arguments_to_str(((t_execcmd *)cmd)->cmd));
+	exec = ft_joindstrs(exec, \
+	arguments_list_to_dstr(((t_execcmd *)cmd)->options));
 	if (exec)
 	path = get_path(exec[0]);
 	envp = (char **)set__get_option_variables(0, GET | GET_ENV);
@@ -101,6 +112,8 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		perror("");
 		exit(EXIT_FAILURE);
 	}
+	free(exec[0]);
+	free(exec);
 	if (wait(&status) == -1)
 	{
         perror("waitpid failed");
@@ -112,5 +125,6 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		if (!status)
 			return (free(path) , 1);
     }
+
 	return (free(path) , 0);
 }

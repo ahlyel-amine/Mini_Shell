@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/07 21:34:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/13 05:35:22 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int    replace(t_list **lst, char *var)
         if (!ft_strncmp(tmp, lst_tmp->content, ft_strlen(tmp)) && ((char *)lst_tmp->content)[ft_strlen(tmp)] == 0x3d)
         {
             ft_lstadd_back(lst ,ft_lstnew(replace_str(tmp, lst_tmp->content)));
+            env->size++;
             break;
         }
         lst_tmp = lst_tmp->next;
@@ -102,7 +103,17 @@ char    *nodes_join(t_list *lst)
     }
     return (tmp);
 }
-
+void    expend_line(t_cmd *cmd)
+{
+    t_builtin *cmnd;
+    cmnd = (t_builtin *)cmd;
+    t_list  *lst = expander("$HOME lol -");
+    while (lst)
+    {
+        printf("%s\n", lst->content);
+        lst = lst->next;
+    }
+}
 // void    cd(t_cmd *cmd)
 // {
 //     t_builtin *cd;

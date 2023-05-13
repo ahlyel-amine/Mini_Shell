@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 20:29:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 09:44:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,17 @@ void	execcmd_destructor(t_cmd *structor)
 
 	printf("destructor execcmd called \n");
 	cmd = (t_execcmd *)structor;
-	args = cmd->arguments;
-	tmp = cmd->arguments;
+	args = cmd->cmd;
+	tmp = cmd->cmd;
+	while (args)
+	{
+		tmp = args;
+		args = args->next;
+		free (tmp->str);
+		free(tmp);
+	}
+	args = cmd->options;
+	tmp = cmd->options;
 	while (args)
 	{
 		tmp = args;
