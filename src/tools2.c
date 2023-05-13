@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:41:20 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/13 06:13:10 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/13 19:05:19 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,29 @@ void    env_exp_print(t_list *sort_lst, int (*print)(const char*, ...))
         (*print)("Madeclarsh -x %s\n", tmp->content);
         tmp = tmp->next;
     }
+}
+
+char    **env_vars(t_hold *env)
+{
+    t_list  *tmp;
+    char    **_env;
+    int     size;
+
+
+    size = env->size;
+    tmp = env->lst;
+
+    _env = (char **)malloc((size * sizeof(char*)) + 1);
+    if (env)
+    {
+        while (size--)
+        {
+            *_env = (char *)tmp->content;
+            _env++;
+            tmp = tmp->next;
+        }
+        *_env = NULL;
+        return (_env - env->size);
+    }
+    return (NULL);
 }
