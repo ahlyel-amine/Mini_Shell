@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 20:10:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:19:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,13 @@ t_cmd	*get_token_builtins(char *line, int j)
 	char		*tmp;
 	int			space;
 	int			i;
-
+	
+	if (!line)
+		return (NULL);
 	cmd = NULL;
 	space  = skip_spaces_front(line + j);
 	tmp = ft_substr(line, 0, j);
+	tmp = wild_cards(NULL, tmp)	;
 	if (!ft_strncmp(tmp, "echo", 5))
 	{
 		space = echo_has_option(line + j, &i);

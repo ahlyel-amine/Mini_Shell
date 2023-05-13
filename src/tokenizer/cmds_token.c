@@ -6,11 +6,45 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 09:42:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:20:01 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_arguments	*skip_spaces_back(t_arguments *args)
+{
+	t_arguments	*head;
+	int	i;
+	int	j;
+	char	*tmp;
+
+	tmp = NULL;
+	head = args;
+	i = 0;
+	while (head->next)
+		head = head->next;
+	printf("[[[%s]]]\n", head->str);
+	while (head->str[i])
+	{
+		j = 0;
+		while (!head->str[i + j] || ft_isspace(head->str[i + j]))
+		{
+			printf("[%c]\n", head->str[i + j]);
+			if (!head->str[i + j])
+				tmp = ft_substr(head->str, 0, i);
+			j++;
+		}
+		i += j;
+		i++;
+	}
+	if (tmp)
+	{
+		free(head->str);
+		head->str = tmp;
+	}
+	return (args);
+}
 
 t_cmd	*get_token_cmd(char *line, int j)
 {
@@ -21,7 +55,7 @@ t_cmd	*get_token_cmd(char *line, int j)
 	t_var		var;
 
 	i = 0;
-	if (!*line)
+	if (!line || !*line)
 		return (NULL);
 	set_zero_var(&var);
 	while (line[i])

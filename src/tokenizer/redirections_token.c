@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 10:09:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:19:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ t_cmd	*get_token_redir(char *line)
 	int				i;
 	t_var			var;
 
+	if (!line)
+		return (NULL);
 	set_zero_var(&var);
 	redirection = NULL;
 	i = 0;

@@ -9,8 +9,8 @@
 # include  <fcntl.h>
 # include  <string.h>
 # include <errno.h>
+#include <dirent.h>
 # include "dictionary.h"
-
 
 typedef struct s_hold{
 	t_list	*lst;
@@ -19,7 +19,7 @@ typedef struct s_hold{
 
 typedef struct s_arguments{
 	char				*str;
-	unsigned short		type:1;
+	unsigned short		type:4;
 	struct s_arguments	*next;
 }	t_arguments;
 
