@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 09:45:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 14:32:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options)
 	a = options;
 	while (a)
 	{
-		printf("options/argumets : |%s|\n", a->str);
+		printf("type : {%d} options/argumets : |%s|\n",a->type, a->str);
 		a = a->next;
 	}
 	printf("----------------------------------------------\n");

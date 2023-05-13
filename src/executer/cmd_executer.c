@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 10:04:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 14:09:14 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,14 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	char	**envp;
     int		status;
 
-	exec = str_to_double(arguments_to_str(((t_execcmd *)cmd)->cmd));
-	exec = ft_joindstrs(exec, \
-	arguments_list_to_dstr(((t_execcmd *)cmd)->options));
+	((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
+	((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
+	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->options);
+	exec = ft_joindstrs(str_to_double(arguments_to_str(((t_execcmd *)cmd)->cmd)), \
+	exec);
 	if (exec)
 	path = get_path(exec[0]);
-	envp = (char **)set__get_option_variables(0, GET | GET_ENV);
+	// envp = (char **)set__get_option_variables(0, GET | GET_ENV); //need envp char ** aaaa weld nass
 	if (!path)
 		return (pr_custom_err(ERR_CMD, NULL, exec[0]), 0);
 	pid = fork();
@@ -107,7 +109,6 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 			dup2(outfile, STDOUT_FILENO);
 			close(outfile);
 		}
-		
 		execve(path, exec, NULL);
 		perror("");
 		exit(EXIT_FAILURE);

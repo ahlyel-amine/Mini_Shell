@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 18:14:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:19:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_cmd	*get_token_order(char *line)
 	int		j;
 	int		has_option;
 
+	if (!line)
+		return (NULL);
 	i = 0;
 	j = 0;
 	has_option = 0;
