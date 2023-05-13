@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 09:35:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:40:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	parse_line(char **line)
 	complete_line(line);
 	if (line && *line)
 		cmd = tokenize_line(*line);
+
 	printf("\n\n\n\n");
 	if (cmd && cmd->type == AND)
 		and_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
