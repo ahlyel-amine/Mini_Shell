@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/12 20:50:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 09:32:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ void    reset_env(char *pwd, char *o_pwd)
         lst = lst->next;
     }
     if (!flg)
+    {
         ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)));
+        env->size++;
+    }    
 }
 
 char    *extend_option(char *arg, char *ex_with, int opt)
@@ -66,10 +69,14 @@ char    *extend_option(char *arg, char *ex_with, int opt)
     ret = NULL;
     past = NULL;
     if (!opt)
+    {
         tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));
+        printf("{{%s}}\n", tmp);
+    }    
     else if (opt == 1)
         tmp = ft_substr(arg, 1, (ft_strlen(arg) - 1));
     ret = ft_strjoin_free(ex_with, tmp);
+        printf("{{%s}}\n", ret);
     return (free(arg), ret);
 }
 
@@ -84,11 +91,10 @@ char    *get_prev_path(char *path)
     iter = len;
     while (path[iter] != '/' && iter >= 0)
         iter--;
-    if (iter != len)
-       tmp = ft_substr(path, 0, iter);
-    else if (path[iter] == '/' && iter == len)
+    if (path[iter] == '/' && iter == 0)
         return (ft_strdup("/"));
-    
+    else if (iter != len)
+       tmp = ft_substr(path, 0, iter);
     return (tmp);
 }
 
@@ -127,6 +133,7 @@ int    tt_cd(t_cmd *cmd)
     char        *path;
     int         ret;
     char        cwd[1024];
+    char        cwd2[1024];
 
     getcwd(cwd, sizeof(cwd));
     cd = (t_builtin *)cmd;

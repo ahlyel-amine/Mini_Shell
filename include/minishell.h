@@ -11,6 +11,7 @@
 # include <errno.h>
 # include "dictionary.h"
 
+
 typedef struct s_hold{
 	t_list	*lst;
 	int		size:16;
@@ -60,10 +61,11 @@ void	or_destructor(t_cmd *structor);
 typedef struct s_execcmd
 {
 	int			type;
-	t_arguments	*arguments;
+	t_arguments	*cmd;
+	t_arguments	*options;
 }	t_execcmd;
 
-t_cmd	*execcmd_constructor(t_arguments *arguments);
+t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options);
 void	execcmd_destructor(t_cmd *structor);
 
 typedef struct s_assignement
@@ -124,13 +126,36 @@ t_list  *expander(char *var);
 char    *replace_str(char *var, char *lst_cnt);
 int    replace(t_list **lst, char *var);
 int dolr_check(t_list **lst, char *str, int iter);
+void    expend_line(t_cmd *cmd);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
+
+
+////-/__________________________________________________________//-|
+///-/                          TOOLS                           //--|
+//-/__________________________________________________________//---|
+void	sp_free(char **splt);
+char    *app_dup(char *arg);
+int valid_id(char *var);
+t_list  *lst_dup(t_list *lst);
+t_list  *sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
+void    env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
 void	echo(t_cmd *cmd);
 int	tt_cd(t_cmd *cmd);
+int tt_unset(t_cmd *cmd);
 void	cd(t_cmd *cmd);
+void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
+int tt_export(t_cmd *cmd);
 # include "parsing.h"
 # include "execute.h"
 
+// #endif
+
+
+// int	tt_cd(t_cmd *cmd);
+// // void	cd(t_cmd *cmd);
+// # include "parsing.h"
+// # include "execute.h"
 #endif
+
