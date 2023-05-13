@@ -11,6 +11,8 @@
 # include <errno.h>
 #include <dirent.h>
 # include "dictionary.h"
+# include "parsing.h"
+# include "execute.h"
 
 typedef struct s_hold{
 	t_list	*lst;
@@ -136,22 +138,17 @@ void    expend_line(t_cmd *cmd);
 ///-/                          TOOLS                           //--|
 //-/__________________________________________________________//---|
 void	sp_free(char **splt);
-char    *app_dup(char *arg);
-int valid_id(char *var);
-t_list  *lst_dup(t_list *lst);
-t_list  *sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
-void    env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
-<<<<<<< HEAD
-char    **env_vars(t_hold *env);
-=======
+char	*app_dup(char *arg);
+void	env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
 void	echo(t_cmd *cmd);
-int	tt_cd(t_cmd *cmd);
-int tt_unset(t_cmd *cmd);
-void	cd(t_cmd *cmd);
-void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
-int tt_export(t_cmd *cmd);
-# include "parsing.h"
-# include "execute.h"
+int		tt_cd(t_cmd *cmd);
+int		tt_unset(t_cmd *cmd);
+t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
+t_list	*lst_dup(t_list *lst);
+int		valid_id(char *var);
+
+void	ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
+int		tt_export(t_cmd *cmd);
 
 // #endif
 
@@ -160,6 +157,5 @@ int tt_export(t_cmd *cmd);
 // // void	cd(t_cmd *cmd);
 // # include "parsing.h"
 // # include "execute.h"
->>>>>>> parsing
 #endif
 

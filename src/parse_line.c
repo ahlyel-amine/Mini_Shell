@@ -3,15 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/13 17:26:21 by aelbrahm         ###   ########.fr       */
-=======
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 18:40:10 by aahlyel          ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2023/05/13 21:56:08 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +20,6 @@ void	parse_line(char **line)
 	complete_line(line);
 	if (line && *line)
 		cmd = tokenize_line(*line);
-<<<<<<< HEAD
-	echo(cmd);
-=======
 
 	printf("\n\n\n\n");
 	if (cmd && cmd->type == AND)
@@ -46,7 +38,6 @@ void	parse_line(char **line)
 	if (cmd)
 		free_line(cmd);
 	// tt_unset(cmd);
->>>>>>> parsing
 	// printf("\n\n\n\n");
 	// if (cmd && cmd->type == AND)
 	// 	and_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
