@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 20:22:04 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 09:45:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,28 @@ t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right)
 	pipe->right = right;
 	return ((t_cmd *)pipe);
 }
-t_cmd	*execcmd_constructor(t_arguments *arguments)
+t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options)
 {
 	t_execcmd	*cmd;
 
 	cmd = malloc(sizeof(t_execcmd));
 	ft_memset(cmd, 0, sizeof(t_execcmd));
 	cmd->type = EXEC;
-	cmd->arguments = arguments;
+	cmd->cmd = cmds;
+	cmd->options = options;
 	printf("-------------execcmd_constructor--------------\n");
 	int i = 0;
-	t_arguments *a = arguments;
+	t_arguments *a = cmds;
 	while (a)
 	{
-		if (!i)
 		printf("cmd : |%s|\n", a->str);
-		else
+		a = a->next;
+	}
+	a = options;
+	while (a)
+	{
 		printf("options/argumets : |%s|\n", a->str);
 		a = a->next;
-		i++;
 	}
 	printf("----------------------------------------------\n");
 	return ((t_cmd *)cmd);

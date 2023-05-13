@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/08 16:59:42 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/13 09:52:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,6 @@ void	unset(t_hold *env, char ***path, char **pwd, char **homedir)
 	
 }
 
-size_t ft_double_strlen(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
 char	**ft_dstrdup(char **ds1)
 {
 	char	**words;
@@ -164,6 +152,7 @@ void	free_env(char **env)
 		free(env[iter++]);
 	free(env);
 }
+
 void	*set__get_option_variables(t_hold *env, int set__get_option)
 {
 	static char	**path;

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 17:03:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 10:07:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_hold	*env_dup(t_hold *env_var, char **env)
 	env_var = (t_hold *)malloc(sizeof(t_hold));
     env_var->size = 0;
     env_var->lst = NULL;
+
 	while (env && *env)
     {
         ft_lstadd_back(&(env_var->lst), ft_lstnew(ft_strdup(*(env))));
@@ -37,7 +38,7 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	atexit(fun);
+	// atexit(fun);
 	t_hold	*env_var = NULL;
 	env_var = env_dup(env_var, env);
 	set__get_option_variables(env_var, SET);
