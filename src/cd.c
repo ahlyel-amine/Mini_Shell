@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/11 22:42:52 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:27:19 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void    reset_env(char *pwd, char *o_pwd)
 
     env = set__get_option_variables(0, (GET | GET_ENV));
     lst = env->lst;
-
     while (lst)
     {
         if (!ft_strncmp("PWD=", lst->content, 4))
@@ -54,7 +53,10 @@ void    reset_env(char *pwd, char *o_pwd)
         lst = lst->next;
     }
     if (!flg)
+    {
         ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)));
+        env->size++;
+    }    
 }
 
 char    *extend_option(char *arg, char *ex_with, int opt)
