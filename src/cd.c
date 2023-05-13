@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/13 03:35:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/13 03:54:03 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int    tt_cd(t_cmd *cmd)
 
     getcwd(cwd, sizeof(cwd));
     cd = (t_builtin *)cmd;
-    path = nodes_join(expander(cd->cmd));
+    path = nodes_join(expander(cd->arguments->str));
     if (!*path)
         ret = ft_go_to(0);
     else if (!ft_memcmp(path, "-", 2))
