@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/11 01:40:24 by aelbrahm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/12 17:36:35 by aahlyel          ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2023/05/13 03:35:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +53,10 @@ void    reset_env(char *pwd, char *o_pwd)
         lst = lst->next;
     }
     if (!flg)
+    {
         ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)));
+        env->size++;
+    }    
 }
 
 char    *extend_option(char *arg, char *ex_with, int opt)
@@ -69,10 +68,14 @@ char    *extend_option(char *arg, char *ex_with, int opt)
     ret = NULL;
     past = NULL;
     if (!opt)
+    {
         tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));
+        printf("{{%s}}\n", tmp);
+    }    
     else if (opt == 1)
         tmp = ft_substr(arg, 1, (ft_strlen(arg) - 1));
     ret = ft_strjoin_free(ex_with, tmp);
+        printf("{{%s}}\n", ret);
     return (free(arg), ret);
 }
 
@@ -87,11 +90,10 @@ char    *get_prev_path(char *path)
     iter = len;
     while (path[iter] != '/' && iter >= 0)
         iter--;
-    if (iter != len)
-       tmp = ft_substr(path, 0, iter);
-    else if (path[iter] == '/' && iter == len)
+    if (path[iter] == '/' && iter == 0)
         return (ft_strdup("/"));
-    
+    else if (iter != len)
+       tmp = ft_substr(path, 0, iter);
     return (tmp);
 }
 
@@ -103,13 +105,7 @@ int ft_go_to(int opt)
 
     env_path = NULL;
     getcwd(cwd, sizeof(cwd));
-<<<<<<< HEAD
     if (!opt)
-=======
-    cd = (t_builtin *)cmd;
-    path = nodes_join(expander(cd->arguments->str));
-    if (!*path || !ft_strncmp(path, "~", 2))
->>>>>>> parsing
     {
         env_path = get_owd("HOME=");
         if (!env_path)
@@ -133,6 +129,7 @@ int    tt_cd(t_cmd *cmd)
     char        *path;
     int         ret;
     char        cwd[1024];
+    char        cwd2[1024];
 
     getcwd(cwd, sizeof(cwd));
     cd = (t_builtin *)cmd;
@@ -146,13 +143,13 @@ int    tt_cd(t_cmd *cmd)
         if (!ft_memcmp(path, "..", 2))
             path = extend_option(path, get_prev_path(cwd), 0);
         else if (!ft_memcmp(path, ".", 1))
-            path = extend_option(path, ft_strdup(cwd), 1);
+            path = extend_option(path, ft_strdup(cwd), 1);  
         ret = chdir(path);
+        getcwd(cwd2, sizeof(cwd2));
         if (ret == -1)
             printf("cd: %s: %s\n", path, strerror(errno));
         else
-            reset_env(path, cwd);
+            reset_env(cwd2, cwd); 
     }
-    printf("{%d}\n", ret);
     return (free(path),ret);
 }
