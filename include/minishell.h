@@ -1,16 +1,16 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
 # include  <fcntl.h>
 # include  <string.h>
 # include <errno.h>
+#include <dirent.h>
 # include "dictionary.h"
-
 
 typedef struct s_hold{
 	t_list	*lst;
@@ -19,7 +19,7 @@ typedef struct s_hold{
 
 typedef struct s_arguments{
 	char				*str;
-	unsigned short		type:1;
+	unsigned short		type:4;
 	struct s_arguments	*next;
 }	t_arguments;
 
@@ -61,10 +61,11 @@ void	or_destructor(t_cmd *structor);
 typedef struct s_execcmd
 {
 	int			type;
-	t_arguments	*arguments;
+	t_arguments	*cmd;
+	t_arguments	*options;
 }	t_execcmd;
 
-t_cmd	*execcmd_constructor(t_arguments *arguments);
+t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options);
 void	execcmd_destructor(t_cmd *structor);
 
 typedef struct s_assignement
@@ -129,16 +130,7 @@ void    expend_line(t_cmd *cmd);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
-void	echo(t_cmd *cmd);
 
-int	tt_cd(t_cmd *cmd);
-int tt_unset(t_cmd *cmd);
-void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
-// void	cd(t_cmd *cmd);
-# include "parsing.h"
-# include "execute.h"
-
-int tt_export(t_cmd *cmd);
 
 ////-/__________________________________________________________//-|
 ///-/                          TOOLS                           //--|
@@ -149,6 +141,25 @@ int valid_id(char *var);
 t_list  *lst_dup(t_list *lst);
 t_list  *sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
 void    env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
+<<<<<<< HEAD
 char    **env_vars(t_hold *env);
+=======
+void	echo(t_cmd *cmd);
+int	tt_cd(t_cmd *cmd);
+int tt_unset(t_cmd *cmd);
+void	cd(t_cmd *cmd);
+void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
+int tt_export(t_cmd *cmd);
+# include "parsing.h"
+# include "execute.h"
+
+// #endif
+
+
+// int	tt_cd(t_cmd *cmd);
+// // void	cd(t_cmd *cmd);
+// # include "parsing.h"
+// # include "execute.h"
+>>>>>>> parsing
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 17:37:40 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:37:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,14 @@ t_cmd	*get_token_parenthesis_and(char *line)
 	int		k;
 	t_var	var;
 	
+	if (!line)
+		return (NULL);
 	i = 0;
 	operator = NULL;
 	set_zero_var(&var);
 	i = skip_spaces_front(line);
-	printf ("[%s]\n" , line);
 	if (line[i] == ')' || line[i] == '&' || line[i] == '|')
-			return (pr_custom_err("allo", line, line + i), NULL);
-			// return (panic_recursive(ERR_ClSD_PARNETHISE, line), NULL);
+			return (pr_custom_err(ERR_ClSD_PARNETHISE, line, line + i), NULL);
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
@@ -172,6 +172,8 @@ t_cmd	*get_token_parenthesis_or(char *line)
 	int		k;
 	t_var	var;
 	
+	if (!line)
+		return (NULL);
 	i = 0;
 	operator = NULL;
 	set_zero_var(&var);
@@ -210,6 +212,8 @@ t_cmd	*get_token_parenthesis_pipe(char *line)
 	int		k;
 	t_var	var;
 	
+	if (!line)
+		return (NULL);
 	i = 0;
 	operator = NULL;
 	set_zero_var(&var);
@@ -241,9 +245,11 @@ static t_cmd	*get_token_redirection_parenthises(char *line)
 	int	i;
 	t_cmd	*operator;
 	t_redir_content	red;
-		t_var	var;
+	t_var	var;
+	
+	if (!line)
+		return (NULL);
 	set_zero_var(&var);
-
 	i = 0;
 	operator = NULL;
 	while (line[i])

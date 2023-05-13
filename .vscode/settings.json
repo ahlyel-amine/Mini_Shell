@@ -11,7 +11,8 @@
 		"stdio.h": "c",
 		"dictionary.h": "c",
 		"archive.h": "c",
-		"execute.h": "c"
+		"execute.h": "c",
+		"__config": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
