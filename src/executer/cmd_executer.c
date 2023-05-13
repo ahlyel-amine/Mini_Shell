@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 14:09:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:42:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,12 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		perror("");
 		exit(EXIT_FAILURE);
 	}
+
 	free(exec[0]);
 	free(exec);
 	if (wait(&status) == -1)
 	{
+	printf("HEY\n");
         perror("waitpid failed");
         return (free(path) , 0);
     }

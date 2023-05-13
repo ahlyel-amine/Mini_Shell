@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 18:10:58 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 21:32:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		if ((var.dquote && line[*i + j] == '\"') || (var.quote && line[*i + j] == '\''))
 		{
 			if (j)
-			{
 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR );
-			}
 			*i += j + 1;
 			j = 0;
 			continue ;
@@ -146,14 +144,9 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		if (!var.quote && !var.dquote && ft_isspace(line[*i + j]))
 		{
 			if (is_word)
-			{
-				printf("%p\n",arguments);
 				break;
-			}
 			if (j)
-			{
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR );
-			}
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 			*i += j + 1;
 			j = 0;
 			continue ;
@@ -163,9 +156,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		else if (!var.dquote && !var.quote && (line[*i + j] == '\'' || line[*i + j] == '\"'))
 		{
 			if (j)
-			{
 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR| DONT_EXPAND_WILD_CARDS);
-			}
 			*i += j + 1;
 			j = 0;
 			continue ;
@@ -202,10 +193,8 @@ t_arguments	*split_merged(t_arguments *arguments)
 	while (head)
 	{
 		i = 0;
-
 		if (head->type == 1)
 		{
-					
 			str = ft_split(head->str, ' ');
 			len = ft_double_strlen(str);
 			if (len == 1)
@@ -217,16 +206,6 @@ t_arguments	*split_merged(t_arguments *arguments)
 			}
 			while (i < len)
 				new = arguments_constructor(new, str[i++], IS_STR | MERGED);
-				// if (j == 1)
-				// 	{
-						
-				// 	while (head)
-				// 	{
-				// 		printf("|%d|%s|\n", head->type, head->str);
-				// 		head = head->next;
-				// 	}
-				// 		exit(1);
-				// 	}
 			free (str);
 			tmp = head->next;
 			if (head == arguments)
@@ -251,6 +230,8 @@ t_arguments	*merge_arguments(t_arguments *arguments)
 	t_arguments	*head;
 	t_arguments	*tmp;
 
+	if (!arguments)
+		return (NULL);
 	head = arguments;
 	while (head->next)
 	{
