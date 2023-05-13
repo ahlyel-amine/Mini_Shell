@@ -149,5 +149,6 @@ int valid_id(char *var);
 t_list  *lst_dup(t_list *lst);
 t_list  *sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
 void    env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
+char    **env_vars(t_hold *env);
 #endif
 
