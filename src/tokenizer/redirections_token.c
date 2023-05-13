@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 20:15:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:19:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	check_for_syntax(char **line, int i)
 		while (ft_isspace((*line)[i + j + space]))
 			space++;
 		if (!(*line)[i + j + space] || (*line)[i + j + space] == '<' || (*line)[i + j + space] == '>')
-			return (panic_recursive("minishell : syntax error near unexpected token\n", line), 0);
+			return (panic_recursive("minishell : syntax error near unexpected token\n", NULL), 0);
 	}
 	return (1);
 }
@@ -161,6 +161,8 @@ t_cmd	*get_token_redir(char *line)
 	int				i;
 	t_var			var;
 
+	if (!line)
+		return (NULL);
 	set_zero_var(&var);
 	redirection = NULL;
 	i = 0;

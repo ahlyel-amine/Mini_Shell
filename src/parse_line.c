@@ -3,10 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: Invalid date        by                   #+#    #+#             */
 /*   Updated: 2023/05/13 17:26:21 by aelbrahm         ###   ########.fr       */
+=======
+/*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/05/13 18:40:10 by aahlyel          ###   ########.fr       */
+>>>>>>> parsing
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +25,28 @@ void	parse_line(char **line)
 	complete_line(line);
 	if (line && *line)
 		cmd = tokenize_line(*line);
+<<<<<<< HEAD
 	echo(cmd);
+=======
+
+	printf("\n\n\n\n");
+	if (cmd && cmd->type == AND)
+		and_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+	else if (cmd && cmd->type == OR)
+		or_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+	else if (cmd && cmd->type == REDIR)
+		redirect_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+	else if (cmd && cmd->type == EXEC)
+		cmd_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+	else if (cmd && cmd->type == BUILTIN)
+		builtin_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+	else if (cmd && cmd->type == PIPE)
+		pipe_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+	printf("\n\n\n\n");
+	if (cmd)
+		free_line(cmd);
+	// tt_unset(cmd);
+>>>>>>> parsing
 	// printf("\n\n\n\n");
 	// if (cmd && cmd->type == AND)
 	// 	and_executer(cmd, STDIN_FILENO, STDOUT_FILENO);

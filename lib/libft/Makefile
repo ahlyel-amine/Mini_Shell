@@ -64,15 +64,14 @@ INCLUDE = include/libft.h
 
 all : ${NAME}
 
-${NAME} : ${dir} ${OBJS}
+${NAME} : ${OBJS}
+	mkdir -p bin
 	${AR} ${NAME} ${OBJS}
 
 obj/%.o : src/%.c ${INCLUDE}
-	@printf ${HBLU}"[%-30s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
-	@ ${CC} ${CFLAGS} -c $< -o $@
-
-${dir} :
-	@mkdir -p ${dir}
+	mkdir -p $(dir $@)
+	printf ${HBLU}" [%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	${CC} ${CFLAGS} -c $< -o $@
 
 clean :
 	${RM} obj
@@ -80,6 +79,7 @@ clean :
 fclean : clean
 	${RM} bin
 
-.PHONY : fclean clean  dir
 
-.SILENT : fclean clean  ${NAME} dir
+.PHONY : fclean clean all re
+
+.SILENT : fclean clean $(OBJS) ${NAME} 

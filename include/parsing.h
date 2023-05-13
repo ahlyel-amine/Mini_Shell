@@ -33,6 +33,7 @@ void	expand_dollar(char *line, int *i, int *k, char **tmp);
 int		check_for_syntax(char **line, int i); // in redirect token file and used in parenthises operators token file
  int	fill_redir_content(char *line, int i, t_redir_content *red, int ref); // in redirect token file and used in parenthises operators token file
 t_arguments	*get_argument(char *line, int *j, int i, int is_word);
+size_t ft_double_strlen(char **str);
 
 void	something_wrong(char *error, void *to_free);
 
@@ -45,5 +46,6 @@ void	panic_recursive(char *error, char **ptr);
 void	pr_custom_err(char *error, void *ptr, char *custom);
 
 t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
+void	*wild_cards(t_arguments *args, char *word);
 
 #endif

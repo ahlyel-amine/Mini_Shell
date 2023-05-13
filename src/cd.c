@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/13 03:54:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/13 09:32:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -97,31 +98,34 @@ char    *get_prev_path(char *path)
     return (tmp);
 }
 
-int ft_go_to(int opt)
-{
-    char        *env_path;
-    char        cwd[1024];
-    int         ret;
+// int ft_go_to(int opt)
+// {
+//     char        *env_path;
+//     char        cwd[1024];
+//     int         ret;
 
-    env_path = NULL;
-    getcwd(cwd, sizeof(cwd));
-    if (!opt)
-    {
-        env_path = get_owd("HOME=");
-        if (!env_path)
-            return (ft_putendl_fd("minishell : cd: HOME not set", STDERR_FILENO), (-1));
-        reset_env(env_path, cwd);
-    }   
-    else if (opt == 1)
-    {
-        env_path = get_owd("OLDPWD=");
-        if (!env_path)
-            return (ft_putendl_fd("minishell : cd: OLDPWD not set", STDERR_FILENO), (-1));
-        reset_env(env_path, cwd);
-    }
-    ret = chdir(env_path);
-    return (ret);
-}
+//     env_path = NULL;
+//     getcwd(cwd, sizeof(cwd));
+//     if (!opt)
+//     cd = (t_builtin *)cmd;
+//     path = nodes_join(expander(cd->arguments->str));
+//     if (!*path || !ft_strncmp(path, "~", 2))
+//     {
+//         env_path = get_owd("HOME=");
+//         if (!env_path)
+//             return (ft_putendl_fd("minishell : cd: HOME not set", STDERR_FILENO), (-1));
+//         reset_env(env_path, cwd);
+//     }   
+//     else if (opt == 1)
+//     {
+//         env_path = get_owd("OLDPWD=");
+//         if (!env_path)
+//             return (ft_putendl_fd("minishell : cd: OLDPWD not set", STDERR_FILENO), (-1));
+//         reset_env(env_path, cwd);
+//     }
+//     ret = chdir(env_path);
+//     return (ret);
+// }
 
 int    tt_cd(t_cmd *cmd)
 {
@@ -134,22 +138,22 @@ int    tt_cd(t_cmd *cmd)
     getcwd(cwd, sizeof(cwd));
     cd = (t_builtin *)cmd;
     path = nodes_join(expander(cd->arguments->str));
-    if (!*path)
-        ret = ft_go_to(0);
-    else if (!ft_memcmp(path, "-", 2))
-        ret = ft_go_to(1);   
-    else
-    {
-        if (!ft_memcmp(path, "..", 2))
-            path = extend_option(path, get_prev_path(cwd), 0);
-        else if (!ft_memcmp(path, ".", 1))
-            path = extend_option(path, ft_strdup(cwd), 1);  
-        ret = chdir(path);
-        getcwd(cwd2, sizeof(cwd2));
-        if (ret == -1)
-            printf("cd: %s: %s\n", path, strerror(errno));
-        else
-            reset_env(cwd2, cwd); 
-    }
+    // if (!*path)
+        // ret = ft_go_to(0);
+    // else if (!ft_memcmp(path, "-", 2))
+    //     ret = ft_go_to(1);   
+    // else
+    // {
+    //     if (!ft_memcmp(path, "..", 2))
+    //         path = extend_option(path, get_prev_path(cwd), 0);
+    //     else if (!ft_memcmp(path, ".", 1))
+    //         path = extend_option(path, ft_strdup(cwd), 1);
+    //     ret = chdir(path);
+    //     if (ret == -1)
+    //         printf("cd: %s: %s\n", path, strerror(errno));
+    //     else
+    //         reset_env(path, cwd);
+    // }
+    printf("{%d}\n", ret);
     return (free(path),ret);
 }
