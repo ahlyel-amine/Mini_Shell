@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/13 03:14:28 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/13 03:57:43 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,13 @@
 short is_export_var(char *str)
 {
     t_hold  *hold;
-    t_list  *lst_tmp;
     t_list  *lst_env;
     size_t  len;
-
+    int size;
     hold = set__get_option_variables(0, GET | GET_ENV);
-    lst_tmp = hold->lst_ex;
     lst_env = hold->lst;
     len = ft_strlen(str);
-    int size= hold->size;
+    size = hold->size;
     while (size--)
     {
         if (!ft_strncmp(str, lst_env->content, len) && *((char *)lst_env->content + len) == '=')
@@ -138,7 +136,7 @@ int tt_export(t_cmd *cmd)
 
     ret = 0;
     export = (t_builtin *)cmd;
-    if (!*export->cmd)
+    if (!*export->arguments->str)
     {
         hold = set__get_option_variables(0, GET | GET_ENV);
         lst_tmp = lst_dup(hold->lst);
@@ -147,6 +145,6 @@ int tt_export(t_cmd *cmd)
         ft_lstclear(&lst_tmp, free);
     }
     else
-        ret = get_operator(export->cmd);
+        ret = get_operator(export->arguments->str);
     return (ret);
 }

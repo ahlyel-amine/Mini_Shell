@@ -1,8 +1,8 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -26,12 +26,6 @@ typedef struct s_cmd
 {
 	int	type;
 }	t_cmd;
-
-typedef struct s_hold{
-	t_list	*lst;
-	t_list	*lst_ex;
-	int		size : 16;
-}	t_hold;
 
 typedef struct s_pipe
 {
@@ -61,7 +55,7 @@ typedef struct s_or
 }	t_or;
 
 t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
-void	or_destructor(t_cmd *structor);
+// void	or_destructor(t_cmd *structor);
 
 typedef struct s_execcmd
 {
@@ -70,7 +64,7 @@ typedef struct s_execcmd
 }	t_execcmd;
 
 t_cmd	*execcmd_constructor(t_arguments *arguments);
-void	execcmd_destructor(t_cmd *structor);
+// void	execcmd_destructor(t_cmd *structor);
 
 typedef struct s_assignement
 {
@@ -80,7 +74,7 @@ typedef struct s_assignement
 }	t_assignement;
 
 t_cmd	*assignement_constructor(char *key, char *value);
-void	assignement_destructor(t_cmd *structor);
+// void	assignement_destructor(t_cmd *structor);
 
 typedef struct s_builtin
 {
@@ -91,7 +85,7 @@ typedef struct s_builtin
 }	t_builtin;
 
 t_cmd	*builtin_constructor(char *str, unsigned short has_option, t_arguments *arguments);
-void	builtin_destructor(t_cmd *structor);
+// void	builtin_destructor(t_cmd *structor);
 
 typedef struct s_invalid
 {
@@ -100,7 +94,7 @@ typedef struct s_invalid
 }	t_invalid;
 
 t_cmd	*invalid_constructor(char *str);
-void	invalid_destructor(t_cmd *structor);
+// void	invalid_destructor(t_cmd *structor);
 
 typedef struct s_redir_content
 {
@@ -118,7 +112,7 @@ typedef struct s_redir
 }	t_redir;
 
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
-void	redir_destructor(t_cmd *structor);
+// void	redir_destructor(t_cmd *structor);
 
 
 void	*set__get_option_variables(t_hold *env, int set__get_option);
@@ -137,7 +131,7 @@ void	echo(t_cmd *cmd);
 
 int	tt_cd(t_cmd *cmd);
 
-void	cd(t_cmd *cmd);
+// void	cd(t_cmd *cmd);
 # include "parsing.h"
 # include "execute.h"
 
