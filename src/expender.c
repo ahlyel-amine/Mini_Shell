@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/07 21:34:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:29:01 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int    replace(t_list **lst, char *var)
         if (!ft_strncmp(tmp, lst_tmp->content, ft_strlen(tmp)) && ((char *)lst_tmp->content)[ft_strlen(tmp)] == 0x3d)
         {
             ft_lstadd_back(lst ,ft_lstnew(replace_str(tmp, lst_tmp->content)));
+            env->size++;
             break;
         }
         lst_tmp = lst_tmp->next;
