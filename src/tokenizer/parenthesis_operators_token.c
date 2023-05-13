@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 10:14:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/13 18:19:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ static t_cmd	*call_and(char **line, int i)
 	if ((*line)[i] == '&' && (*line)[i + 1] == '&')
 	{
 		operator = get_token_parenthesis_and(remove_unused_parenthesis(ft_substr((*line), 0, i)));
+		printf("[%p]\n", get_token_parenthesis_and(remove_unused_parenthesis(\
+			ft_substr((*line), i + 2, \
+			ft_strlen((*line) + i + 2)))));
+		while (1)
+		;
 		operator = and_constructor(operator,
 			get_token_parenthesis_and(\
 			remove_unused_parenthesis(\
@@ -139,6 +144,8 @@ t_cmd	*get_token_parenthesis_and(char *line)
 	int		k;
 	t_var	var;
 	
+	if (!line)
+		return (NULL);
 	i = 0;
 	operator = NULL;
 	set_zero_var(&var);
@@ -147,8 +154,6 @@ t_cmd	*get_token_parenthesis_and(char *line)
 			return (pr_custom_err(ERR_ClSD_PARNETHISE, line, line + i), NULL);
 	while (line[i])
 	{
-
-		printf("still here [%c]\n", line[i]);
 		check_out_of_quotes(line[i], &var);
 		if (line[i] == '(' && !var.quote && !var.dquote)
 			i += close_parenthise(line + i + 1);
@@ -172,6 +177,8 @@ t_cmd	*get_token_parenthesis_or(char *line)
 	int		k;
 	t_var	var;
 	
+	if (!line)
+		return (NULL);
 	i = 0;
 	operator = NULL;
 	set_zero_var(&var);
@@ -210,6 +217,8 @@ t_cmd	*get_token_parenthesis_pipe(char *line)
 	int		k;
 	t_var	var;
 	
+	if (!line)
+		return (NULL);
 	i = 0;
 	operator = NULL;
 	set_zero_var(&var);
@@ -241,7 +250,10 @@ static t_cmd	*get_token_redirection_parenthises(char *line)
 	int	i;
 	t_cmd	*operator;
 	t_redir_content	red;
-		t_var	var;
+	t_var	var;
+	
+	if (!line)
+		return (NULL);
 	set_zero_var(&var);
 	i = 0;
 	operator = NULL;

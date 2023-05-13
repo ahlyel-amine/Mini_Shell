@@ -57,8 +57,11 @@ typedef struct s_var
 
 enum s_arguments_type
 {
-	IS_VARIABLE,
-	IS_STR
+	IS_VARIABLE = 0b0,
+	IS_STR = 0b1,
+	DONT_EXPAND_WILD_CARDS = 0b10,
+	DONT_SPLIT = 0b100,
+	MERGED = 0b1000
 };
 
 #endif
