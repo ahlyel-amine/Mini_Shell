@@ -127,4 +127,14 @@ int dolr_check(t_list **lst, char *str, int iter);
 void	echo(t_cmd *cmd);
 int	tt_cd(t_cmd *cmd);
 int tt_export(t_cmd *cmd);
+
+////-/__________________________________________________________//-|
+///-/                          TOOLS                           //--|
+//-/__________________________________________________________//---|
+void	sp_free(char **splt);
+char    *app_dup(char *arg);
+int valid_id(char *var);
+t_list  *lst_dup(t_list *lst);
+t_list  *sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
+void    env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
 #endif
