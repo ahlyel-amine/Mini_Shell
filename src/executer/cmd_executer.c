@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 18:02:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/12 21:58:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
     int status;
 
 	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->arguments);
+	int	i= 0;
+	while (exec[i])
+		printf("[%s]\n", exec[i++]);
 	if (exec)
 	path = get_path(exec[0]);
 	envp = (char **)set__get_option_variables(0, GET | GET_ENV);
