@@ -11,6 +11,7 @@
 # include <errno.h>
 # include "dictionary.h"
 
+
 typedef struct s_hold{
 	t_list	*lst;
 	int		size:16;
@@ -55,7 +56,7 @@ typedef struct s_or
 }	t_or;
 
 t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
-// void	or_destructor(t_cmd *structor);
+void	or_destructor(t_cmd *structor);
 
 typedef struct s_execcmd
 {
@@ -64,7 +65,7 @@ typedef struct s_execcmd
 }	t_execcmd;
 
 t_cmd	*execcmd_constructor(t_arguments *arguments);
-// void	execcmd_destructor(t_cmd *structor);
+void	execcmd_destructor(t_cmd *structor);
 
 typedef struct s_assignement
 {
@@ -74,7 +75,7 @@ typedef struct s_assignement
 }	t_assignement;
 
 t_cmd	*assignement_constructor(char *key, char *value);
-// void	assignement_destructor(t_cmd *structor);
+void	assignement_destructor(t_cmd *structor);
 
 typedef struct s_builtin
 {
@@ -85,7 +86,7 @@ typedef struct s_builtin
 }	t_builtin;
 
 t_cmd	*builtin_constructor(char *str, unsigned short has_option, t_arguments *arguments);
-// void	builtin_destructor(t_cmd *structor);
+void	builtin_destructor(t_cmd *structor);
 
 typedef struct s_invalid
 {
@@ -94,7 +95,7 @@ typedef struct s_invalid
 }	t_invalid;
 
 t_cmd	*invalid_constructor(char *str);
-// void	invalid_destructor(t_cmd *structor);
+void	invalid_destructor(t_cmd *structor);
 
 typedef struct s_redir_content
 {
@@ -112,7 +113,7 @@ typedef struct s_redir
 }	t_redir;
 
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
-// void	redir_destructor(t_cmd *structor);
+void	redir_destructor(t_cmd *structor);
 
 
 void	*set__get_option_variables(t_hold *env, int set__get_option);
@@ -124,13 +125,15 @@ t_list  *expander(char *var);
 char    *replace_str(char *var, char *lst_cnt);
 int    replace(t_list **lst, char *var);
 int dolr_check(t_list **lst, char *str, int iter);
+void    expend_line(t_cmd *cmd);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
 void	echo(t_cmd *cmd);
 
 int	tt_cd(t_cmd *cmd);
-
+int tt_unset(t_cmd *cmd);
+void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
 // void	cd(t_cmd *cmd);
 # include "parsing.h"
 # include "execute.h"
