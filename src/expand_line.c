@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/14 06:46:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/14 08:02:43 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ char	*tilde_replace(char *arg)
 	len = ft_strlen(arg);
 	_HOME = getenv("HOME"); 
 	if (len == 1)
-	{	if (_HOME)
+	{
+		if (_HOME)
 			return (ft_strdup(_HOME));
-		return (ft_strdup(""));}
+		return (ft_strdup(""));
+	}
 	else if (len > 1 && (*(arg + 1) == '+' || *(arg + 1) == '-'))
 	{
-		if ((*(arg + 1) == '+' && !*(arg + 2)) || (len > 2 && *(arg + 1) == '+' && *(arg + 2) == '/'))
+		if ((*(arg + 1) == '+' && !*(arg + 2)) || (len >= 2 && *(arg + 1) == '+' && *(arg + 2) == '/'))
 		{
 			_HOME = get_owd("PWD=");
 			if (_HOME)
@@ -53,7 +55,7 @@ void	tilde_expansion(t_arguments *arg)
 	tilde = arg->str;
 	if (!*tilde || *tilde != '~')
 		return ;
-	else if (*tilde == '~')
+	else if (*tilde == '~' && arg->type == 1)
 	{
 		arg->str = tilde_replace(tilde);
 		free(tilde);
@@ -103,8 +105,9 @@ void	*expand_line(t_arguments *arg)
 	if (arg)
 	{	
 	printf(" === %s === \n", arg->str);
-		tilde_expansion(arg);
+		tilde_expansion(expand);
 	var_expand(arg);
+	puts("<<tst>>");
 	printf(" --- %s --- \n", arg->str);
 	}
 }
