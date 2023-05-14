@@ -1,4 +1,4 @@
-READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+READLINE_DIR = /Users/aahlyel/opt/readline
 
 SRC = src/minishell.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/cd.c src/expand_line.c src/pwd.c src/export.c src/tt_unset.c src/tools.c src/tools2.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/echo.c src/parse_line.c src/parsing_tools/parsing_tools.c src/parsing_tools/ft_split_char.c src/tokenizer/builtins_token.c src/tokenizer/cmds_token.c src/tokenizer/operators_token.c src/tokenizer/orders_token.c src/tokenizer/pipes_token.c src/tokenizer/redirections_token.c src/tokenizer/variables_token.c src/tokenizer/tokenizer_tools.c src/tokenizer/tokenize_line.c src/tokenizer/parenthesis_operators_token.c\
 		src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c src/executer/builtin_executer.c
