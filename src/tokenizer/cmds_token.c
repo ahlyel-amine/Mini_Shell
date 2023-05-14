@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 18:20:01 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 22:31:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@ t_arguments	*skip_spaces_back(t_arguments *args)
 	i = 0;
 	while (head->next)
 		head = head->next;
-	printf("[[[%s]]]\n", head->str);
 	while (head->str[i])
 	{
 		j = 0;
 		while (!head->str[i + j] || ft_isspace(head->str[i + j]))
 		{
-			printf("[%c]\n", head->str[i + j]);
 			if (!head->str[i + j])
 				tmp = ft_substr(head->str, 0, i);
 			j++;

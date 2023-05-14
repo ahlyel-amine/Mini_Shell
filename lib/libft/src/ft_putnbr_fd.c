@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 09:18:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/19 18:42:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 11:54:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 	if (b > 9)
 		ft_putnbr_fd(b / 10, fd);
-	ft_putchar_fd((b % 10) + 0x30, fd);
+	ft_putchar_fd((b % 10) + '0', fd);
 }

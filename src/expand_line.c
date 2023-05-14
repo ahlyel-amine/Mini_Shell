@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/14 08:02:43 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/14 11:57:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	*tilde_replace(char *arg)
 		else
 			return (ft_strdup(arg));
 	}
+	return (NULL);
 }
 
 void	tilde_expansion(t_arguments *arg)
@@ -89,11 +90,9 @@ void	var_expand(t_arguments *arg)
 	while (tmp)
 	{
 		arg_str = tmp->str;
-		if (arg_str && tmp->type == 0x0)
-		{
+		if (arg_str && tmp->type == IS_VARIABLE)
 			tmp->str = is_env_var(tmp->str);
-		}
-		tmp = tmp->next; 
+		tmp = tmp->next;
 	}
 }
 
@@ -110,4 +109,5 @@ void	*expand_line(t_arguments *arg)
 	puts("<<tst>>");
 	printf(" --- %s --- \n", arg->str);
 	}
+	return (NULL);
 }
