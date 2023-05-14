@@ -1,19 +1,21 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
 # include  <fcntl.h>
 # include  <string.h>
 # include <errno.h>
+# include <limits.h>
 #include <dirent.h>
 # include "dictionary.h"
-# include "parsing.h"
-# include "execute.h"
-
+// # include "parsing.h"
+// # include "execute.h"
+#define ENV 0
+#define EXP 1
 typedef struct s_hold{
 	t_list	*lst;
 	int		size:16;
@@ -155,7 +157,35 @@ int		tt_export(t_cmd *cmd);
 
 // int	tt_cd(t_cmd *cmd);
 // // void	cd(t_cmd *cmd);
-// # include "parsing.h"
-// # include "execute.h"
+# include "parsing.h"
+# include "execute.h"
+void	tilde_expansion(t_arguments *arg);
+void	*expand_line(t_arguments *arg);
+char    *get_owd(char *env_var);
 #endif
 
+//Tilde expansion
+// If the input string is empty, return it.
+
+// If the first character of the input string is not a tilde (~), return the input string as is.
+
+// If the first character of the input string is a tilde, look for the first slash (/) character after the tilde.
+
+// If there is no slash character after the tilde, replace the tilde character with the path to the current user's home directory and return the resulting string.
+
+// If there is a slash character after the tilde, extract the username from the input string. The username is the substring between the tilde and the slash character.
+
+// If the username is empty, replace the tilde character with the path to the current user's home directory and append the rest of the input string after the slash character.
+
+// If the username is not empty, look up the home directory path for that user and replace the tilde and username with the home directory path. If the user is not found or does not have a home directory, return an error.
+
+// If there are multiple tilde characters in the input string, repeat steps 3-7 for each tilde character.
+
+// If the input string ends with a tilde character, append the path to the current user's home directory to the input string.
+
+// echo $PWD$OLD
+// export $PWD$PA=alo
+// unset "$VAR $VAR1 $VAR2" != unset $VAR $VAR1 $VAR2
+// [echo "$PWD $VAR"]
+// [echo "$PWD $VAR"]
+// [1]    52519 segmentation fault  ./minishell;
