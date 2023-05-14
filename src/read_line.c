@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/08 15:34:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 22:55:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	read_line()
 	while (1)
 	{
 		pwd = get_prompt_line();
-		line = readline(pwd);
+		if (pwd)
+			line = readline(pwd);
+		else
+			line = readline("#minishell> ");
 		free(pwd);
 		if (!line || !ft_strncmp(line, "exit", 5))
 		{

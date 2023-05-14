@@ -12,7 +12,8 @@
 		"dictionary.h": "c",
 		"archive.h": "c",
 		"execute.h": "c",
-		"__config": "c"
+		"__config": "c",
+		"limits.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
