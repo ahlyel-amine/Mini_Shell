@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/13 08:21:40 by aelbrahm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/13 09:33:32 by aahlyel          ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2023/05/14 04:16:36 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +48,4 @@ int tt_unset(t_cmd *cmd)
     t_list  *tmp = env->lst;
     ft_list_remove(&tmp, (unset->arguments->str + 1), ft_strncmp);
     env_exp_print(env->lst, printf);
-<<<<<<< HEAD
-=======
-    return (1337);
->>>>>>> parsing
 }
