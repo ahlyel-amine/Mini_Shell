@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 18:37:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 22:32:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ t_cmd	*get_token_parenthesis_and(char *line)
 	set_zero_var(&var);
 	i = skip_spaces_front(line);
 	if (line[i] == ')' || line[i] == '&' || line[i] == '|')
-			return (pr_custom_err(ERR_ClSD_PARNETHISE, line, line + i), NULL);
+			return (pr_custom_err(ERR_SNTX, line, line + i), NULL);
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
@@ -178,7 +178,6 @@ t_cmd	*get_token_parenthesis_or(char *line)
 	operator = NULL;
 	set_zero_var(&var);
 	i = skip_spaces_front(line);
-	printf ("[%s]\n" , line);
 	if (line[i] == ')' || line[i] == '&' || line[i] == '|')
 			return (pr_custom_err("allo", line, line + i), NULL);
 			// return (panic_recursive(ERR_ClSD_PARNETHISE, line), NULL);
@@ -218,7 +217,6 @@ t_cmd	*get_token_parenthesis_pipe(char *line)
 	operator = NULL;
 	set_zero_var(&var);
 	i = skip_spaces_front(line);
-	printf ("[%s]\n" , line);
 	if (line[i] == ')' || line[i] == '&' || line[i] == '|')
 			return (pr_custom_err("allo", line, line + i), NULL);
 	while (line[i])

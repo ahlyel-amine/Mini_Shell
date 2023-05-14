@@ -5,8 +5,11 @@ a.excalidraw
 cat
 ls
 minishell
+srcvar.cwc
 var.c
+w*c
 wc
+wc*t
 
 include:
 dictionary.h

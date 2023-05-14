@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:14:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 13:43:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 11:56:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	ft_isprint_nspc(int c)
 {
-	return (c > 0x20 && c <= 0x7e);
+	return (c > 32 && c <= 127);
 }
-
-
 
 size_t ft_double_strlen(char **str)
 {

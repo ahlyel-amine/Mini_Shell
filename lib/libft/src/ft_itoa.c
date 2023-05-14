@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 01:47:51 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/19 18:41:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 11:54:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ char	*ft_itoa(int n)
 		tmp = -tmp;
 	while (chr_count && tmp)
 	{
-		*(nbr + --chr_count) = tmp % 10 + 0x30;
+		*(nbr + --chr_count) = tmp % 10 + '0';
 		tmp /= 10;
 	}
 	if (chr_count)
-		*nbr = 0x2D;
+		*nbr = '-';
 	return (nbr);
 }
 
