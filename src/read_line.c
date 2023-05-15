@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/14 22:55:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/15 15:48:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ void	read_line()
 	while (1)
 	{
 		pwd = get_prompt_line();
-		if (pwd)
-			line = readline(pwd);
-		else
+		// if (pwd)
+		// 	line = readline(pwd);
+		// else
 			line = readline("#minishell> ");
 		free(pwd);
 		if (!line || !ft_strncmp(line, "exit", 5))
 		{
 			set__get_option_variables(0, FREE);
-			// free(env_var);
 			exit(0);
 		}
 		if (!*line)
@@ -37,9 +36,8 @@ void	read_line()
 			free (line);
 			continue ;
 		}
-		else
-			add_history(line);
-		parse_line(&line);
+		controll_line(&line);
+		add_history(line);
 		free(line);
 	}
 }
