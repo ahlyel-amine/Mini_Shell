@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/14 08:02:43 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/15 04:18:42 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ char	*tilde_replace(char *arg)
 		if (_HOME)
 			return (ft_strdup(_HOME));
 		return (ft_strdup(""));
+	}
+	else if (len > 1 && *(arg + 1) == '/')
+	{
+		if (_HOME)
+			return (ft_strjoin(_HOME, (arg + 1)));
+		return (ft_strjoin("", (arg + 1)));
 	}
 	else if (len > 1 && (*(arg + 1) == '+' || *(arg + 1) == '-'))
 	{
