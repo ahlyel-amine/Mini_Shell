@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/12 20:40:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 22:45:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,15 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 	int	ret;
 	char	*line;
 	char	*file_name;
-
+	t_arguments	*check;
+	
+	if (((t_redir *)cmd)->red.type != HEREDOC)
+	{
+		
+		((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name, NULL);
+		if ((((t_redir *)cmd)->red.file_name)->next)
+			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
+	}
 	file_name = arguments_to_str(((t_redir *)cmd)->red.file_name);
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
@@ -80,7 +88,6 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 	}
 	else
 	{
-		printf("%d : [%d]\n",  ((t_redir *)cmd)->red.type, ((t_redir *)cmd)->red.mode);
 		outfile = open(file_name, ((t_redir *)cmd)->red.mode, 0644);
 		if (outfile < 0)
 			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);

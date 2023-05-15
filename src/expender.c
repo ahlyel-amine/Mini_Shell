@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/13 05:35:22 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/14 11:56:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int    replace(t_list **lst, char *var)
     t_hold *env = set__get_option_variables(0, (GET | GET_ENV));
     char    *tmp;
     t_list  *lst_tmp;
-    while (var[i] != 0x22)
+    while (var[i] != '\"')
         i++;
     tmp = ft_substr(var, 1, i - 1);
     lst_tmp = env->lst;
     while (lst_tmp)
     {
-        if (!ft_strncmp(tmp, lst_tmp->content, ft_strlen(tmp)) && ((char *)lst_tmp->content)[ft_strlen(tmp)] == 0x3d)
+        if (!ft_strncmp(tmp, lst_tmp->content, ft_strlen(tmp)) && ((char *)lst_tmp->content)[ft_strlen(tmp)] == '=')
         {
             ft_lstadd_back(lst ,ft_lstnew(replace_str(tmp, lst_tmp->content)));
             env->size++;
@@ -50,7 +50,7 @@ int dolr_check(t_list **lst, char *str, int iter)
     int i;
 
     i = 0;
-    while (str[iter + (i)] && str[iter + (i)] == 0x24)
+    while (str[iter + (i)] && str[iter + (i)] == '$')
     {
         ft_lstadd_back(lst, ft_lstnew(ft_strdup("$")));
         i++;
@@ -69,17 +69,17 @@ t_list  *expander(char *var)
     while (var[++iter])
     {
         j = iter;
-        while (var[j] && var[j] != 0x24 && var[j] != 0x22)
+        while (var[j] && var[j] != '$' && var[j] != '\"')
             j++;
         if (iter != j)
         {
             ft_lstadd_back(&expend, ft_lstnew(ft_substr(&var[iter], 0, (j - iter))));
             iter = j;
         }
-        if (var[iter] == 0x24)
+        if (var[iter] == '$')
             iter += dolr_check(&expend, var, iter);  
         j = iter;
-        if (var[j] && var[j] == 0x22)
+        if (var[j] && var[j] == '\"')
             iter += replace(&expend, &var[j]);
         if (iter >= ft_strlen(var))
             break;
