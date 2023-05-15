@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/15 06:17:14 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/15 08:56:11 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	tilde_expansion(t_arguments *arg)
 		free(tilde);
 	}	
 }
+
 char	*is_env_var(char *str)
 {
     t_hold  *hold;
@@ -99,9 +100,30 @@ char	*is_env_var(char *str)
             return (free(str), ft_strdup((char *)lst_env->content + len + 1));
         lst_env = lst_env->next;
     }
+	//SEGV::ABoRT
 	return (free(str), ft_strdup(str));
 }
-
+char	*data_analyse(char *arg)
+{
+	char	*tmp;
+	char	*symbol;
+	t_list	*lst;
+	
+	lst = NULL;
+	tmp = arg;
+	
+	// while (*tmp)
+	// {
+		symbol = ft_strchr(tmp, '$');
+		if (symbol)
+		{
+			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp, (symbol - tmp))));
+		}
+			tmp += (symbol - tmp);
+	// 		puts("ALO");
+	// }
+	return (lst->content);
+}
 void	var_expand(t_arguments *arg)
 {
 	t_arguments	*tmp;
@@ -113,6 +135,10 @@ void	var_expand(t_arguments *arg)
 		arg_str = tmp->str;
 		if (arg_str && tmp->type == IS_VARIABLE)
 			tmp->str = is_env_var(tmp->str);
+		if (arg_str && tmp->type == IS_STR)
+		{
+			printf("[÷÷ %s ÷÷]\n", data_analyse(arg_str));
+		}
 		tmp = tmp->next;
 	}
 }
