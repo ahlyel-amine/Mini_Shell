@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/15 08:56:11 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:44:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,32 +97,74 @@ char	*is_env_var(char *str)
     while (size--)
     {
         if (!ft_strncmp((str + 1), lst_env->content, len) && *((char *)lst_env->content + len) == '=')
-            return (free(str), ft_strdup((char *)lst_env->content + len + 1));
+            return (ft_strdup((char *)lst_env->content + len + 1));
         lst_env = lst_env->next;
     }
 	//SEGV::ABoRT
-	return (free(str), ft_strdup(str));
+	return (ft_strdup(""));
+}
+int		var_len(char *str)
+{
+	int	iter = 0;
+	while (str[iter] && (ft_isalnum(str[iter]) || str[iter] == '_'))
+		iter++;
+	return (iter);
+}
+char	*data_manipulate(char *str)
+{
+	int	iter = 0;
+	char	*tmp = str + 1;
+	while (tmp[iter] && !ft_isalpha(tmp[iter]) && tmp[iter] != '_')
+		iter++;
+	if (!tmp[iter])
+	{
+		tmp = ft_strdup("");
+		free(str);
+		return ((tmp));
+	}
+	else if (iter)
+	{
+		tmp = ft_strndup(tmp + iter, ft_strlen(tmp + iter));
+		free(str);
+		return ((tmp));
+	}
+	else
+	{
+		tmp = is_env_var(str);
+		free(str);
+		return ((tmp));
+	}
 }
 char	*data_analyse(char *arg)
 {
 	char	*tmp;
 	char	*symbol;
 	t_list	*lst;
-	
+	size_t	len;
+
 	lst = NULL;
 	tmp = arg;
-	
-	// while (*tmp)
-	// {
-		symbol = ft_strchr(tmp, '$');
+	symbol = ft_strchr(tmp, '$');
+	if (!symbol)
+		return (arg);
+	len = 0;
+	while (len < ft_strlen(arg))
+	{
+		symbol = ft_strchr(tmp + len, '$');
 		if (symbol)
 		{
-			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp, (symbol - tmp))));
+			if (symbol != (tmp + len))
+				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
+			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
 		}
-			tmp += (symbol - tmp);
-	// 		puts("ALO");
-	// }
-	return (lst->content);
+		else
+		{
+			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
+			break ;
+		}
+			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
+	}
+	return (nodes_join(lst));
 }
 void	var_expand(t_arguments *arg)
 {
@@ -134,10 +176,15 @@ void	var_expand(t_arguments *arg)
 	{
 		arg_str = tmp->str;
 		if (arg_str && tmp->type == IS_VARIABLE)
-			tmp->str = is_env_var(tmp->str);
-		if (arg_str && tmp->type == IS_STR)
 		{
-			printf("[÷÷ %s ÷÷]\n", data_analyse(arg_str));
+			tmp->str = is_env_var(tmp->str);
+			free(arg_str);
+		}	
+		else if (arg_str && tmp->type == IS_STR)
+		{
+			tmp->str = data_analyse(arg_str);
+			
+			printf("[÷÷ %s ÷÷]\n", tmp->str);
 		}
 		tmp = tmp->next;
 	}
@@ -151,7 +198,7 @@ void	*expand_line(t_arguments *arg)
 	if (arg)
 	{	
 	printf(" %d --- %s --- \n", arg->type, arg->str);
-		tilde_expansion(expand);
+	// tilde_expansion(expand);
 	var_expand(arg);
 	puts("<<tst>>");
 	while (expand)
