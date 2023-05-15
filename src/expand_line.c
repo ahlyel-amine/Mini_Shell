@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/15 04:25:16 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/15 06:17:14 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,31 @@ char	*tilde_replace(char *arg)
 	}
 	return (NULL);
 }
+int	space_skip(char	*str)
+{
+	int	iter;
 
+	iter = 0;
+	while (str[iter] && str[iter] == ' ')
+		iter++;
+	return (iter);
+	
+}
 void	tilde_expansion(t_arguments *arg)
 {
 	char	*tilde;
+	char	*tmp;
 
+	tmp = arg->str;
+	if (arg->type == 1)
+		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
 	tilde = arg->str;
 	if (!*tilde || *tilde != '~')
 		return ;
-	else if (*tilde == '~' && arg->type == 1)
+	else if (*tilde == '~' && arg->type != 3)
 	{
+		if (arg->type == 1)
+			free(tmp);
 		arg->str = tilde_replace(tilde);
 		free(tilde);
 	}	
@@ -109,11 +124,15 @@ void	*expand_line(t_arguments *arg)
 	expand = arg;
 	if (arg)
 	{	
-	printf(" === %s === \n", arg->str);
+	printf(" %d --- %s --- \n", arg->type, arg->str);
 		tilde_expansion(expand);
 	var_expand(arg);
 	puts("<<tst>>");
-	printf(" --- %s --- \n", arg->str);
+	while (expand)
+	{
+		printf(" %d --- %s --- \n", expand->type, (expand->str));
+		expand = expand->next;
+	}	
 	}
 	return (NULL);
 }
