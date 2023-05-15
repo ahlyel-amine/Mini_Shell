@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 12:00:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 22:59:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,12 @@ char	*set_pwd(char *old_pwd)
 
 	ipwd = NULL;
 	ipwd = getcwd(ipwd, 0);
+		
 	homedir = set__get_option_variables(0, GET | GET_HOME);
-	pwd = ipwd;
+	if (!ipwd)
+		pwd = homedir;
+	else	
+		pwd = ipwd;
 	if (homedir && !ft_strncmp(homedir, pwd, ft_strlen(homedir)))
 	{
 		pwd = ft_strjoin("~", ipwd);
@@ -185,9 +189,13 @@ char	*get_prompt_line()
 {
 	char	*pwd;
 
+	pwd = NULL;
 	set__get_option_variables(0, SET | SET_PWD);
 	pwd = set__get_option_variables(0, GET | GET_PWD);
-	pwd = ft_strjoin_free(ft_strdup("\n╭─\x1b[43m░▒▓▓▓▓▓\x1b[40m\x1b[44m "), ft_strdup(pwd));
-	pwd = ft_strjoin_free(pwd, ft_strdup(" \x1b[43m minishell \x1b[0m───────────────────────────\x1b[43▓▓▓▓▒░\x1b[0m─\n╰─ "));
+	if (pwd)
+	{
+		pwd = ft_strjoin_free(ft_strdup("\n╭─\x1b[43m░▒▓▓▓▓▓\x1b[40m\x1b[44m "), ft_strdup(pwd));
+		pwd = ft_strjoin_free(pwd, ft_strdup(" \x1b[43m minishell \x1b[0m───────────────────────────\x1b[43▓▓▓▓▒░\x1b[0m─\n╰─ "));
+	}
 	return (pwd);
 }

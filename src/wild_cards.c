@@ -6,12 +6,11 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 18:40:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 22:25:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 char	*find_files(char *files)
 {
@@ -72,14 +71,33 @@ char	*find_files(char *files)
 		closedir(directory);
 	}
 	if (result)
-		return (free(files), result);
+		return (result);
 	else
 		return (files);
+}
+t_arguments	*transform_new_files(char **str)
+{
+	t_arguments	*files;
+	int	i;
+
+	i = 0;
+	files = NULL;
+	while (str[i])
+	{
+		files = arguments_constructor(files, str[i], DONT_SPLIT | IS_STR | DONT_EXPAND_WILD_CARDS);
+		i++;
+	}
+	free (str);
+	return (files);
 }
 
 void	*wild_cards(t_arguments *args, char *word)
 {
 	t_arguments	*head;
+	t_arguments	*tmp;
+	t_arguments	*tmp2;
+	char		*files;
+	int 		a;
 
 	if (word)
 	{
@@ -90,9 +108,30 @@ void	*wild_cards(t_arguments *args, char *word)
 	head = args;
 	while (args)
 	{
+		a = 0;
 		if (!(args->type & DONT_EXPAND_WILD_CARDS) && ft_strchr(args->str, '*'))
-			args->str = find_files(args->str);
+		{
+			files = find_files(args->str);
+			if (files != args->str)
+			{
+				tmp = args->next;
+				if (args == head)
+					a = -1;
+				free (args->str);
+				free (args);
+				args = transform_new_files(ft_split(files, ' '));
+				if (a == -1)
+					head = args;
+				else
+					tmp2->next = args;
+				while (args->next)
+					args = args->next;
+				args->next = tmp;
+			}
+		}
+		tmp2 = args;
 		args = args->next;
 	}
-	return (head);
+	args = head;
+	return (args);
 }

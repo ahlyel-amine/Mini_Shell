@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 21:32:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/14 18:09:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		else if (!var.dquote && !var.quote && (line[*i + j] == '\'' || line[*i + j] == '\"'))
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR| DONT_EXPAND_WILD_CARDS);
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR | DONT_EXPAND_WILD_CARDS);
 			*i += j + 1;
 			j = 0;
 			continue ;
@@ -188,14 +188,33 @@ t_arguments	*split_merged(t_arguments *arguments)
 	t_arguments	*head;
 	t_arguments	*new = NULL;
 	t_arguments	*tmp;
-	int j = 0;
+
+	i = 0;
 	head = arguments;
-	while (head)
+	if (head->type == 1)
 	{
+		str = ft_split(head->str, ' ');
+		len = ft_double_strlen(str);
+		tmp = head->next;
+		free(head->str);
+		free (head);
+		while (i < len)
+				new = arguments_constructor(new, str[i++], IS_STR | MERGED);
+		free (str);
+		head = new;
+		while (new->next)
+			new = new->next;
+		new->next = tmp;
+		arguments = head;
+	}
+	while (head->next)
+	{
+		new = NULL;
 		i = 0;
-		if (head->type == 1)
+		if (head->next->type == 1)
 		{
-			str = ft_split(head->str, ' ');
+
+			str = ft_split(head->next->str, ' ');
 			len = ft_double_strlen(str);
 			if (len == 1)
 			{
@@ -207,20 +226,15 @@ t_arguments	*split_merged(t_arguments *arguments)
 			while (i < len)
 				new = arguments_constructor(new, str[i++], IS_STR | MERGED);
 			free (str);
-			tmp = head->next;
-			if (head == arguments)
-				len = -1;
-			free(head->str);
-			free (head);
-			head = new;
+			tmp = (head->next)->next;
+			free(head->next->str);
+			free (head->next);
+			head->next = new;
 			while (new->next)
 				new = new->next;
 			new->next = tmp;
-			if (len == -1)
-				arguments = head;
 		}
 		head = head->next;
-		j++;
 	}
 	return (arguments);
 }
@@ -235,7 +249,7 @@ t_arguments	*merge_arguments(t_arguments *arguments)
 	head = arguments;
 	while (head->next)
 	{
-		if (head->type == head->next->type)
+		if (head->type == head->next->type && head->type != 0)
 		{
 			tmp = head->next;
 			head->str = ft_strjoin_free(head->str, ft_strdup(" "));
