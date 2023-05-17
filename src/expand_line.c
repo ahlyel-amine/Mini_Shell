@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // /* ************************************************************************** */
 // /*                                                                            */
 // /*                                                        :::      ::::::::   */
@@ -9,6 +10,19 @@
 // /*   Updated: 2023/05/15 20:44:09 by aelbrahm         ###   ########.fr       */
 // /*                                                                            */
 // /* ************************************************************************** */
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_line.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
+/*   Updated: 2023/05/16 22:40:58 by aelbrahm         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+>>>>>>> master
 
 // #include "../include/minishell.h"
 
@@ -69,6 +83,7 @@
 // 	char	*tilde;
 // 	char	*tmp;
 
+<<<<<<< HEAD
 // 	tmp = arg->str;
 // 	if (arg->type == 1)
 // 		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
@@ -83,6 +98,22 @@
 // 		free(tilde);
 // 	}	
 // }
+=======
+	tmp = arg->str;
+	if (arg->type == 1)
+		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
+	tilde = arg->str;
+	if (!*tilde || *tilde != '~')//spaceskip
+		return ;
+	else if (*tilde == '~' && arg->type != 3)
+	{
+		if (arg->type == 1)
+			free(tmp);
+		arg->str = tilde_replace(tilde);
+		free(tilde);
+	}	
+}
+>>>>>>> master
 
 // char	*is_env_var(char *str)
 // {
@@ -142,6 +173,7 @@
 // 	t_list	*lst;
 // 	size_t	len;
 
+<<<<<<< HEAD
 // 	lst = NULL;
 // 	tmp = arg;
 // 	symbol = ft_strchr(tmp, '$');
@@ -189,11 +221,62 @@
 // 		tmp = tmp->next;
 // 	}
 // }
+=======
+	lst = NULL;
+	tmp = arg;
+	symbol = ft_strchr(tmp, '$');
+	if (!symbol)
+		return (arg);
+	len = 0;
+	while (len < ft_strlen(arg))
+	{
+		symbol = ft_strchr(tmp + len, '$');
+		if (symbol)
+		{
+			if (symbol != (tmp + len))
+				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
+			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
+			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
+		}
+		else
+		{
+			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
+			break ;
+		}
+	}
+	return (nodes_join(lst));
+}
+void	var_expand(t_arguments *arg)
+{
+	t_arguments	*tmp;
+	char		*arg_str;
+	char		*store;
+	tmp = arg;
+	while (tmp)
+	{
+		arg_str = tmp->str;
+		if (arg_str && tmp->type == IS_VARIABLE)
+		{
+			tmp->str = is_env_var(tmp->str);
+			free(arg_str);
+		}	
+		// else if (arg_str && tmp->type == IS_STR)
+		// {
+		// 	// if (!ft_strchr(tmp->str, 0x27))
+		// 		tmp->str = data_analyse(arg_str);
+			
+		// 	printf("[÷÷ %s ÷÷]\n", tmp->str);
+		// }
+		tmp = tmp->next;
+	}
+}
+>>>>>>> master
 
 // void	*expand_line(t_arguments *arg)
 // {
 // 	t_arguments	*expand;
 
+<<<<<<< HEAD
 // 	expand = arg;
 // 	if (arg)
 // 	{	
@@ -209,3 +292,23 @@
 // 	}
 // 	return (NULL);
 // }
+=======
+	expand = arg;
+	if (arg)
+	{	
+	// printf(" %d --- %s --- \n", arg->type, arg->str);
+	var_expand(arg);
+	tilde_expansion(expand);
+	// puts("<<tst>>");
+	// while (expand)
+	// {
+	// 	printf(" %d --- %s --- \n", expand->type, (expand->str));
+	// 	expand = expand->next;
+	// }
+	// char	**str=ft_split(arg->str, ' ');
+	// while (str && *str)
+	// 	printf("{<<<<%s>>>>}\n", *str++); 
+	}
+	return (NULL);
+}
+>>>>>>> master
