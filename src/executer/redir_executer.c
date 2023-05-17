@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/15 15:43:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/16 20:11:14 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*arguments_to_str(t_arguments *args)
 	str[i] = 0;
 	return (str);
 }
-int	redirect_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
+int	redirect_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 {
 	int	ret;
 	char	*line;
@@ -94,17 +94,17 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)
-			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == OR)
-			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == PIPE)
-			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == REDIR)
-			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == EXEC)
-			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == BUILTIN)
-			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 	}
 	if (((t_redir *)cmd)->red.type == HEREDOC || (((t_redir *)cmd)->red.type == IN_REDIR))
 		close(infile);

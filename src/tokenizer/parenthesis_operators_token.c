@@ -6,14 +6,14 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:30:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/15 12:13:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 12:54:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static int		parhenthises_closed(char *line, int *k, int *i);
-t_cmd			*get_token_parenthesis_pipe(char *line);
+t_cmd			* get_token_parenthes_is_pipe(char *line);
 t_cmd			*get_token_parenthesis_or(char *line);
 static t_cmd	*get_token_redirection_parenthises(char *line);
 
@@ -183,7 +183,6 @@ t_cmd	*get_token_parenthesis_or(char *line)
 	i = skip_spaces_front(line);
 	if (line[i] == ')' || line[i] == '&' || line[i] == '|')
 			return (pr_custom_err("allo", line, line + i), NULL);
-			// return (panic_recursive(ERR_ClSD_PARNETHISE, line), NULL);
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
@@ -205,11 +204,11 @@ t_cmd	*get_token_parenthesis_or(char *line)
 		i++;
 	}
 	if (!operator && line)
-		operator = get_token_parenthesis_pipe(remove_unused_parenthesis(line));
+		operator =  get_token_parenthes_is_pipe(remove_unused_parenthesis(line));
 	return (operator);
 }
 
-t_cmd	*get_token_parenthesis_pipe(char *line)
+t_cmd	*get_token_parenthes_is_pipe(char *line)
 {
 	t_cmd	*operator;
 	int		i;
