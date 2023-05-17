@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/14 18:09:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:11:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,107 @@ void	get_dollars(t_arguments	**arguments, char *line, int *i, int *j)
 	}
 }
 
+// t_arguments	*get_arguments(char *line, int *i, int is_word)
+// {
+// 	t_arguments	*arguments;
+// 	t_var		var;
+// 	int			j;
+
+// 	set_zero_var(&var);
+// 	arguments = NULL;
+// 	j = 0;
+// 	while (line[*i + j])
+// 	{
+// 		check_out_of_quotes(line[*i + j], &var);
+// 		if ((var.dquote && line[*i + j] == '\"') || (var.quote && line[*i + j] == '\''))
+// 		{
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR );
+// 			*i += j + 1;
+// 			j = 0;
+// 			continue ;
+// 		}
+// 		if (!var.quote && !var.dquote && ft_isspace(line[*i + j]))
+// 		{
+// 			if (is_word)
+// 				break;
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+// 			*i += j + 1;
+// 			j = 0;
+// 			continue ;
+// 		}
+// 		else if ((line[*i + j] == '\"' && var.quote) || (line[*i + j] == '\'' && var.dquote))
+// 			j++;
+// 		else if (!var.dquote && !var.quote && (line[*i + j] == '\'' || line[*i + j] == '\"'))
+// 		{
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR | DONT_EXPAND_WILD_CARDS);
+// 			*i += j + 1;
+// 			j = 0;
+// 			continue ;
+// 		}
+// 		else if (line[*i + j] == '$' && (var.dquote || (!var.dquote && !var.quote)))
+// 		{
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+// 			get_dollars(&arguments, line, i, &j);
+// 			continue ;
+// 		}
+// 		else if (line[*i + j] && line[*i + j] != '\'' && line[*i + j] != '\"')
+// 			j++;
+// 	}
+// 	if (j)
+// 	{
+// 		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+// 		*i += j;
+// 	}
+	
+// 	return (arguments);
+// }
+
+int	close_dquote(t_arguments *arguments, char *line, int i)
+{
+	t_var		var;
+	int			j;
+
+	var.dquote = 1;
+	var.quote = 0;
+	j = 0;
+	while (line[i + j])
+	{
+		check_out_of_quotes(line[i + j], &var);
+		if (!var.dquote)
+		{
+			arguments_constructor(arguments, ft_substr(line, i, j), DQUOTE);
+			break;
+		}
+		j++;
+	}
+	return (j);
+}
+
+int	close_quote(t_arguments *arguments, char *line, int i)
+{
+	t_var		var;
+	int			j;
+
+	var.dquote = 0;
+	var.quote = 1;
+	j = 0;
+	while (line[i + j])
+	{
+		check_out_of_quotes(line[i + j], &var);
+		if (!var.quote)
+		{
+			arguments_constructor(arguments, ft_substr(line, i, j), QUOTE);
+			break;
+		}
+		j++;
+	}
+	return (j);
+}
+
 t_arguments	*get_arguments(char *line, int *i, int is_word)
 {
 	t_arguments	*arguments;
@@ -130,53 +231,37 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 	set_zero_var(&var);
 	arguments = NULL;
 	j = 0;
+		printf("\na\n");
 	while (line[*i + j])
 	{
 		check_out_of_quotes(line[*i + j], &var);
-		if ((var.dquote && line[*i + j] == '\"') || (var.quote && line[*i + j] == '\''))
+		if (var.dquote && line[*i + j] == '\"')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR );
+				arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 			*i += j + 1;
+			j += close_dquote(arguments, line, *i);
 			j = 0;
 			continue ;
 		}
-		if (!var.quote && !var.dquote && ft_isspace(line[*i + j]))
+		else if (var.quote && line[*i + j] == '\'')
 		{
-			if (is_word)
-				break;
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+				arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 			*i += j + 1;
+			j += close_quote(arguments, line, *i);
 			j = 0;
 			continue ;
 		}
-		else if ((line[*i + j] == '\"' && var.quote) || (line[*i + j] == '\'' && var.dquote))
-			j++;
-		else if (!var.dquote && !var.quote && (line[*i + j] == '\'' || line[*i + j] == '\"'))
-		{
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR | DONT_EXPAND_WILD_CARDS);
-			*i += j + 1;
-			j = 0;
-			continue ;
-		}
-		else if (line[*i + j] == '$' && (var.dquote || (!var.dquote && !var.quote)))
-		{
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
-			get_dollars(&arguments, line, i, &j);
-			continue ;
-		}
-		else if (line[*i + j] && line[*i + j] != '\'' && line[*i + j] != '\"')
-			j++;
+		else if (ft_isspace(line[*i + j]) && is_word)
+			break;
+		j++;
 	}
 	if (j)
 	{
-		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+		arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 		*i += j;
 	}
-	
 	return (arguments);
 }
 
@@ -272,7 +357,7 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 		arguments = get_arguments(line, j, is_word);
 	else
 		arguments = get_arguments(line, &i, is_word);
-	arguments = merge_arguments(arguments);
+	// arguments = merge_arguments(arguments);
 	return (arguments);
 }
 
@@ -350,10 +435,14 @@ t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned s
 	new = malloc(sizeof(t_arguments));
 	if (!new)
 		return (NULL);
-	// type = check_wild_cards(str, type);
-	new->str = str;
+	new->str = NULL;
+	if (type != DQUOTE && type != QUOTE)
+		new->str = str;
 	new->type = type;
 	new->next = NULL;
+	new->down = NULL;
+	if (type == DQUOTE || type == QUOTE)
+		new->down = arguments_constructor(new->down, str, IS_STR);
 	if (!arguments)
 		return (new);
 	tmp = arguments;
