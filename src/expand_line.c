@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/15 20:44:09 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:40:58 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	tilde_expansion(t_arguments *arg)
 	if (arg->type == 1)
 		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
 	tilde = arg->str;
-	if (!*tilde || *tilde != '~')
+	if (!*tilde || *tilde != '~')//spaceskip
 		return ;
 	else if (*tilde == '~' && arg->type != 3)
 	{
@@ -156,13 +156,13 @@ char	*data_analyse(char *arg)
 			if (symbol != (tmp + len))
 				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
 			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
+			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
 		}
 		else
 		{
 			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
 			break ;
 		}
-			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
 	}
 	return (nodes_join(lst));
 }
@@ -180,12 +180,13 @@ void	var_expand(t_arguments *arg)
 			tmp->str = is_env_var(tmp->str);
 			free(arg_str);
 		}	
-		else if (arg_str && tmp->type == IS_STR)
-		{
-			tmp->str = data_analyse(arg_str);
+		// else if (arg_str && tmp->type == IS_STR)
+		// {
+		// 	// if (!ft_strchr(tmp->str, 0x27))
+		// 		tmp->str = data_analyse(arg_str);
 			
-			printf("[÷÷ %s ÷÷]\n", tmp->str);
-		}
+		// 	printf("[÷÷ %s ÷÷]\n", tmp->str);
+		// }
 		tmp = tmp->next;
 	}
 }
@@ -197,15 +198,18 @@ void	*expand_line(t_arguments *arg)
 	expand = arg;
 	if (arg)
 	{	
-	printf(" %d --- %s --- \n", arg->type, arg->str);
-	// tilde_expansion(expand);
+	// printf(" %d --- %s --- \n", arg->type, arg->str);
 	var_expand(arg);
-	puts("<<tst>>");
-	while (expand)
-	{
-		printf(" %d --- %s --- \n", expand->type, (expand->str));
-		expand = expand->next;
-	}	
+	tilde_expansion(expand);
+	// puts("<<tst>>");
+	// while (expand)
+	// {
+	// 	printf(" %d --- %s --- \n", expand->type, (expand->str));
+	// 	expand = expand->next;
+	// }
+	// char	**str=ft_split(arg->str, ' ');
+	// while (str && *str)
+	// 	printf("{<<<<%s>>>>}\n", *str++); 
 	}
 	return (NULL);
 }
