@@ -24,6 +24,7 @@ typedef struct s_hold{
 typedef struct s_arguments{
 	char				*str;
 	unsigned short		type:4;
+	struct s_arguments	*down;
 	struct s_arguments	*next;
 }	t_arguments;
 

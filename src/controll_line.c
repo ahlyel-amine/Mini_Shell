@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/15 13:21:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:06:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,42 @@ void	controll_line(char **line)
 	cmd = NULL;
 	complete_line(line);
 	if (line && *line)
-		cmd = tokenize_line(*line);
-	if (!check_parsing(cmd))
 	{
-		if (cmd)
-			free_line(cmd);
-		return ;
+		cmd = tokenize_line(*line);
+		// t_execcmd *cmds = (t_execcmd *)cmd;
+		// printf("---------cmd----------\n");
+		// while (cmds->cmd)
+		// {
+		// 	if (cmds->cmd->type == IS_STR)
+		// 		printf("[%s]\n", cmds->cmd->str);
+		// 	else
+		// 		printf("[%s]\n", (cmds->cmd->down)->str);
+		// 	cmds->cmd = cmds->cmd->next;
+		// }
+		// printf("--------------------------\n");
+		// printf("---------options----------\n");
+		// while (cmds->options)
+		// {
+		// 	if (cmds->options->type == IS_STR)
+		// 		printf("[%s]\n", cmds->options->str);
+		// 	else
+		// 		printf("[%s]\n", (cmds->options->down)->str);
+		// 	cmds->options = cmds->options->next;
+		// }
+		// printf("--------------------------\n");
 	}
-	if (cmd->type == BUILTIN)
-		echo(cmd);
-	printf("\n\n\n\n");
-	execute_line(cmd);
-	printf("\n\n\n\n");
-	if (cmd)
-		free_line(cmd);
+	return ;
+	// if (!check_parsing(cmd))
+	// {
+	// 	if (cmd)
+	// 		free_line(cmd);
+	// 	return ;
+	// }
+	// if (cmd->type == BUILTIN)
+	// 	echo(cmd);
+	// printf("\n\n\n\n");
+	// execute_line(cmd);
+	// printf("\n\n\n\n");
+	// if (cmd)
+	// 	free_line(cmd);
 }

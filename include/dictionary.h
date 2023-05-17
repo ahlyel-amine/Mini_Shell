@@ -58,6 +58,8 @@ typedef struct s_var
 
 enum s_arguments_type
 {
+	DQUOTE = 0b0,
+	QUOTE = 0b1,
 	IS_VARIABLE = 0b0,
 	IS_STR = 0b1,
 	DONT_EXPAND_WILD_CARDS = 0b10,
