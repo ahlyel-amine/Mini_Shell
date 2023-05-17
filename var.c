@@ -17,7 +17,7 @@ parsing.h
 lib:
 libft
 
-obj:
+(obj:kjs(((d &&  || lx/)))f,dsl;cmldsn) && (kajsbnme;dl && djksnflm l;) && (ajkdsn || (jahsb && kefjsdn))
 src
 
 src:

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/15 16:02:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/16 20:18:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,15 @@ char	**str_to_double(char *str)
 	return (dstr);
 }
 
-int	cmd_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
+int	cmd_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 {
 	int		pid;
 	char	**exec;
 	char	*path;
 	char	**envp;
     int		status;
-
+	static int call;
+	call++;
 	((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
 	((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
 	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->options);
@@ -95,8 +96,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
 		return (0);
 	}
 	pid = fork();
-	printf("pid:%d\n", pid);
-	if ( pid == -1) {
+	if (pid == -1) {
     	perror("fork failed");
     	return (0);
     }
@@ -107,34 +107,42 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
 			dup2(infile, STDIN_FILENO);
 			close(infile);
 		}
+		else
+			close(fds[1]);
+		// if (call == 2)
+		// 	while (1)
+		// 		;
 		if (outfile != STDOUT_FILENO)
 		{
 			dup2(outfile, STDOUT_FILENO);
 			close(outfile);
 		}
+		else
+			close(fds[0]);
 		execve(path, exec, NULL);
-		perror("");
 		exit(EXIT_FAILURE);
 	}
-	// free(exec[0]);
-	// free(exec);
-	else
-	{
-		if (!is_pipe)
+	free(exec[0]);
+	free(exec);
+	// if (fds)
+		return (free(path), pid);
+	// else
+	// {
+		printf("last cmd pid[%d]\n", pid);
+		if (waitpid(pid, &status, 0) == -1)
 		{
-			printf("%s\n", exec[0]);
-			if (waitpid(pid, &status, 0) == -1)
+			perror("waitpid failed");
+			return (free(path) , 0);
+		}
+		if (WIFEXITED(status))
+		{
+			status = WEXITSTATUS(status);
+			if (!status)
 			{
-				perror("waitpid failed");
-				return (free(path) , 0);
-			}
-			if (WIFEXITED(status))
-			{
-				status = WEXITSTATUS(status);
-				if (!status)
-					return (free(path) , 1);
+		printf("has been waited successfully\n");
+				return (free(path) , 1);
 			}
 		}
-	}
+	// }
 	return (free(path) , 0);
 }
