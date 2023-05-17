@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/14 11:57:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/15 20:44:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ char	*tilde_replace(char *arg)
 		if (_HOME)
 			return (ft_strdup(_HOME));
 		return (ft_strdup(""));
+	}
+	else if (len > 1 && *(arg + 1) == '/')
+	{
+		if (_HOME)
+			return (ft_strjoin(_HOME, (arg + 1)));
+		return (ft_strjoin("", (arg + 1)));
 	}
 	else if (len > 1 && (*(arg + 1) == '+' || *(arg + 1) == '-'))
 	{
@@ -48,20 +54,36 @@ char	*tilde_replace(char *arg)
 	}
 	return (NULL);
 }
+int	space_skip(char	*str)
+{
+	int	iter;
 
+	iter = 0;
+	while (str[iter] && str[iter] == ' ')
+		iter++;
+	return (iter);
+	
+}
 void	tilde_expansion(t_arguments *arg)
 {
 	char	*tilde;
+	char	*tmp;
 
+	tmp = arg->str;
+	if (arg->type == 1)
+		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
 	tilde = arg->str;
 	if (!*tilde || *tilde != '~')
 		return ;
-	else if (*tilde == '~' && arg->type == 1)
+	else if (*tilde == '~' && arg->type != 3)
 	{
+		if (arg->type == 1)
+			free(tmp);
 		arg->str = tilde_replace(tilde);
 		free(tilde);
 	}	
 }
+
 char	*is_env_var(char *str)
 {
     t_hold  *hold;
@@ -75,12 +97,75 @@ char	*is_env_var(char *str)
     while (size--)
     {
         if (!ft_strncmp((str + 1), lst_env->content, len) && *((char *)lst_env->content + len) == '=')
-            return (free(str), ft_strdup((char *)lst_env->content + len + 1));
+            return (ft_strdup((char *)lst_env->content + len + 1));
         lst_env = lst_env->next;
     }
-	return (free(str), ft_strdup(str));
+	//SEGV::ABoRT
+	return (ft_strdup(""));
 }
+int		var_len(char *str)
+{
+	int	iter = 0;
+	while (str[iter] && (ft_isalnum(str[iter]) || str[iter] == '_'))
+		iter++;
+	return (iter);
+}
+char	*data_manipulate(char *str)
+{
+	int	iter = 0;
+	char	*tmp = str + 1;
+	while (tmp[iter] && !ft_isalpha(tmp[iter]) && tmp[iter] != '_')
+		iter++;
+	if (!tmp[iter])
+	{
+		tmp = ft_strdup("");
+		free(str);
+		return ((tmp));
+	}
+	else if (iter)
+	{
+		tmp = ft_strndup(tmp + iter, ft_strlen(tmp + iter));
+		free(str);
+		return ((tmp));
+	}
+	else
+	{
+		tmp = is_env_var(str);
+		free(str);
+		return ((tmp));
+	}
+}
+char	*data_analyse(char *arg)
+{
+	char	*tmp;
+	char	*symbol;
+	t_list	*lst;
+	size_t	len;
 
+	lst = NULL;
+	tmp = arg;
+	symbol = ft_strchr(tmp, '$');
+	if (!symbol)
+		return (arg);
+	len = 0;
+	while (len < ft_strlen(arg))
+	{
+		symbol = ft_strchr(tmp + len, '$');
+		if (symbol)
+		{
+			if (symbol != (tmp + len))
+				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
+			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
+		}
+		else
+		{
+			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
+			break ;
+		}
+			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
+	}
+	return (nodes_join(lst));
+}
 void	var_expand(t_arguments *arg)
 {
 	t_arguments	*tmp;
@@ -91,7 +176,16 @@ void	var_expand(t_arguments *arg)
 	{
 		arg_str = tmp->str;
 		if (arg_str && tmp->type == IS_VARIABLE)
+		{
 			tmp->str = is_env_var(tmp->str);
+			free(arg_str);
+		}	
+		else if (arg_str && tmp->type == IS_STR)
+		{
+			tmp->str = data_analyse(arg_str);
+			
+			printf("[÷÷ %s ÷÷]\n", tmp->str);
+		}
 		tmp = tmp->next;
 	}
 }
@@ -103,11 +197,15 @@ void	*expand_line(t_arguments *arg)
 	expand = arg;
 	if (arg)
 	{	
-	printf(" === %s === \n", arg->str);
-		tilde_expansion(expand);
+	printf(" %d --- %s --- \n", arg->type, arg->str);
+	// tilde_expansion(expand);
 	var_expand(arg);
 	puts("<<tst>>");
-	printf(" --- %s --- \n", arg->str);
+	while (expand)
+	{
+		printf(" %d --- %s --- \n", expand->type, (expand->str));
+		expand = expand->next;
+	}	
 	}
 	return (NULL);
 }
