@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/16 16:34:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:05:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ void	read_line()
 		add_history(line);
 		free(line);
 	}
-	rl_clear_history();
+	// rl_clear_history();
 }
