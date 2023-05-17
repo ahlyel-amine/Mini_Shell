@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/14 22:59:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 01:31:50 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,10 +188,10 @@ void	*set__get_option_variables(t_hold *env, int set__get_option)
 char	*get_prompt_line()
 {
 	char	*pwd;
-
 	pwd = NULL;
 	set__get_option_variables(0, SET | SET_PWD);
 	pwd = set__get_option_variables(0, GET | GET_PWD);
+	// pwd = get_owd("PWD=");
 	if (pwd)
 	{
 		pwd = ft_strjoin_free(ft_strdup("\n╭─\x1b[43m░▒▓▓▓▓▓\x1b[40m\x1b[44m "), ft_strdup(pwd));
