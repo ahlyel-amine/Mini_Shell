@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/17 17:06:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 22:37:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,29 +91,44 @@ void	controll_line(char **line)
 	if (line && *line)
 	{
 		cmd = tokenize_line(*line);
+		return ;
+
 		// t_execcmd *cmds = (t_execcmd *)cmd;
 		// printf("---------cmd----------\n");
+		// if (!cmds)
+		// 	return ;
 		// while (cmds->cmd)
 		// {
-		// 	if (cmds->cmd->type == IS_STR)
-		// 		printf("[%s]\n", cmds->cmd->str);
+		// 	if (cmds->cmd->type == IS_STR || cmds->cmd->type == IS_VARIABLE)
+		// 		printf("%d[%s]\n",cmds->cmd->type , cmds->cmd->str);
 		// 	else
-		// 		printf("[%s]\n", (cmds->cmd->down)->str);
+		// 	{
+		// 		while (cmds->cmd->down)
+		// 		{
+		// 			printf("%d]%s[\n",(cmds->cmd->down)->type , (cmds->cmd->down)->str);
+		// 			cmds->cmd->down = (cmds->cmd->down)->next;
+		// 		}
+		// 	}
 		// 	cmds->cmd = cmds->cmd->next;
 		// }
 		// printf("--------------------------\n");
 		// printf("---------options----------\n");
 		// while (cmds->options)
 		// {
-		// 	if (cmds->options->type == IS_STR)
-		// 		printf("[%s]\n", cmds->options->str);
+		// 	if (cmds->options->type == IS_STR || cmds->options->type == IS_VARIABLE)
+		// 		printf("%d[%s]\n",cmds->options->type , cmds->options->str);
 		// 	else
-		// 		printf("[%s]\n", (cmds->options->down)->str);
+		// 	{
+		// 		while (cmds->options->down)
+		// 		{
+		// 			printf("%d]%s[\n",(cmds->options->down)->type ,(cmds->options->down)->str);
+		// 			cmds->options->down = (cmds->options->down)->next;
+		// 		}
+		// 	}
 		// 	cmds->options = cmds->options->next;
 		// }
 		// printf("--------------------------\n");
 	}
-	return ;
 	// if (!check_parsing(cmd))
 	// {
 	// 	if (cmd)

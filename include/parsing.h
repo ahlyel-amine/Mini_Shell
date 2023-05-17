@@ -47,5 +47,6 @@ void	pr_custom_err(char *error, void *ptr, char *custom);
 
 t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
 void	*wild_cards(t_arguments *args, char *word);
+int	ft_isvariable(char c);
 
 #endif

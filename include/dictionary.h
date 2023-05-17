@@ -60,8 +60,8 @@ enum s_arguments_type
 {
 	DQUOTE = 0b0,
 	QUOTE = 0b1,
-	IS_VARIABLE = 0b0,
-	IS_STR = 0b1,
+	IS_STR = 0b10,
+	IS_VARIABLE = 0b100,
 	DONT_EXPAND_WILD_CARDS = 0b10,
 	DONT_SPLIT = 0b100,
 	MERGED = 0b1000
