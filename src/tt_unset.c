@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/14 11:57:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/16 20:09:50 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int tt_unset(t_cmd *cmd)
     t_hold  *env = set__get_option_variables(0, GET | GET_ENV);
     t_list  *tmp = env->lst;
     ft_list_remove(&tmp, (unset->arguments->str + 1), ft_strncmp);
-    env_exp_print(env->lst, printf);
+    // env_exp_print(env->lst, printf);
 	return (1337);
 }

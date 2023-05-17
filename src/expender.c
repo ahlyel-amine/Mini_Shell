@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/14 11:56:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/16 23:13:32 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,22 @@ t_list  *expander(char *var)
     return (expend);
 }
 
+char    *nodes_join_b(t_arguments *lst)
+{
+    char    *tmp;
+    t_arguments  *lst_tmp;
+
+    tmp = ft_strdup("");
+    lst_tmp = lst;
+    while (lst)
+    {
+        lst_tmp = lst;
+        tmp = ft_strjoin_free(tmp, lst_tmp->str);
+        lst = lst->next;
+        free(lst_tmp);
+    }
+    return (tmp);
+}
 char    *nodes_join(t_list *lst)
 {
     char    *tmp;
@@ -103,17 +119,17 @@ char    *nodes_join(t_list *lst)
     }
     return (tmp);
 }
-void    expend_line(t_cmd *cmd)
-{
-    t_builtin *cmnd;
-    cmnd = (t_builtin *)cmd;
-    t_list  *lst = expander("$HOME lol -");
-    while (lst)
-    {
-        printf("%s\n", lst->content);
-        lst = lst->next;
-    }
-}
+// void    expend_line(t_cmd *cmd)
+// {
+//     t_builtin *cmnd;
+//     cmnd = (t_builtin *)cmd;
+//     t_list  *lst = expander("$HOME lol -");
+//     while (lst)
+//     {
+//         printf("%s\n", lst->content);
+//         lst = lst->next;
+//     }
+// }
 // void    cd(t_cmd *cmd)
 // {
 //     t_builtin *cd;
