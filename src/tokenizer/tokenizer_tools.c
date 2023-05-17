@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/17 17:11:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 22:35:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,29 @@ int	count_dollars(char *line, int *i, int j)
 	return (begin);
 }
 
-void	get_dollars(t_arguments	**arguments, char *line, int *i, int *j)
-{
-	int	k;
+// void	get_dollars(t_arguments	**arguments, char *line, int *i, int *j)
+// {
+// 	int	k;
 
-	k = 1;
-	*i += *j;
-	*j = 0;
-	if (ft_isdigit(line[*i + 1]))
-		*i += 2;
-	// else if (line[*i] == '$'  && line[*i + k] == '\"')
-	// 	(*i)++;
-	else if (line[*i] == '$'  && !(ft_isalnum(line[*i + k]) || line[*i + k] == '_'))
-		(*j)++;
-	else if (line[*i] == '$' && line[*i + 1] == '$')
-		(*j)++;
-	else if (line[*i] == '$' && (ft_isalnum(line[*i + k]) || line[*i + k] == '_'))
-	{
-		while (ft_isalnum(line[*i + k]) || line[*i + k] == '_')
-			k++;
-		*arguments = arguments_constructor(*arguments, ft_substr(line, *i, k), IS_VARIABLE);
-		*i += k;
-	}
-}
+// 	k = 1;
+// 	*i += *j;
+// 	*j = 0;
+// 	if (ft_isdigit(line[*i + 1]))
+// 		*i += 2;
+// 	// else if (line[*i] == '$'  && line[*i + k] == '\"')
+// 	// 	(*i)++;
+// 	else if (line[*i] == '$'  && !(ft_isalnum(line[*i + k]) || line[*i + k] == '_'))
+// 		(*j)++;
+// 	else if (line[*i] == '$' && line[*i + 1] == '$')
+// 		(*j)++;
+// 	else if (line[*i] == '$' && (ft_isalnum(line[*i + k]) || line[*i + k] == '_'))
+// 	{
+// 		while (ft_isalnum(line[*i + k]) || line[*i + k] == '_')
+// 			k++;
+// 		*arguments = arguments_constructor(*arguments, ft_substr(line, *i, k), IS_VARIABLE);
+// 		*i += k;
+// 	}
+// }
 
 // t_arguments	*get_arguments(char *line, int *i, int is_word)
 // {
@@ -231,25 +231,26 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 	set_zero_var(&var);
 	arguments = NULL;
 	j = 0;
-		printf("\na\n");
 	while (line[*i + j])
 	{
 		check_out_of_quotes(line[*i + j], &var);
 		if (var.dquote && line[*i + j] == '\"')
 		{
 			if (j)
-				arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 			*i += j + 1;
-			j += close_dquote(arguments, line, *i);
+			*i += close_dquote(arguments, line, *i) + 1;
+			var.dquote = 0;
 			j = 0;
 			continue ;
 		}
 		else if (var.quote && line[*i + j] == '\'')
 		{
 			if (j)
-				arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 			*i += j + 1;
-			j += close_quote(arguments, line, *i);
+			*i += close_quote(arguments, line, *i) + 1;
+			var.quote = 0;
 			j = 0;
 			continue ;
 		}
@@ -259,100 +260,129 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 	}
 	if (j)
 	{
-		arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 		*i += j;
 	}
 	return (arguments);
 }
 
-t_arguments	*split_merged(t_arguments *arguments)
-{
-	char	**str;
-	int		len;
-	int		i;
-	t_arguments	*head;
-	t_arguments	*new = NULL;
-	t_arguments	*tmp;
+// t_arguments	*split_merged(t_arguments *arguments)
+// {
+// 	char	**str;
+// 	int		len;
+// 	int		i;
+// 	t_arguments	*head;
+// 	t_arguments	*new = NULL;
+// 	t_arguments	*tmp;
 
-	i = 0;
-	head = arguments;
-	if (head->type == 1)
-	{
-		str = ft_split(head->str, ' ');
-		len = ft_double_strlen(str);
-		tmp = head->next;
-		free(head->str);
-		free (head);
-		while (i < len)
-				new = arguments_constructor(new, str[i++], IS_STR | MERGED);
-		free (str);
-		head = new;
-		while (new->next)
-			new = new->next;
-		new->next = tmp;
-		arguments = head;
-	}
-	while (head->next)
-	{
-		new = NULL;
-		i = 0;
-		if (head->next->type == 1)
-		{
+// 	i = 0;
+// 	head = arguments;
+// 	if (head->type == 1)
+// 	{
+// 		str = ft_split(head->str, ' ');
+// 		len = ft_double_strlen(str);
+// 		tmp = head->next;
+// 		free(head->str);
+// 		free (head);
+// 		while (i < len)
+// 				new = arguments_constructor(new, str[i++], IS_STR | MERGED);
+// 		free (str);
+// 		head = new;
+// 		while (new->next)
+// 			new = new->next;
+// 		new->next = tmp;
+// 		arguments = head;
+// 	}
+// 	while (head->next)
+// 	{
+// 		new = NULL;
+// 		i = 0;
+// 		if (head->next->type == 1)
+// 		{
 
-			str = ft_split(head->next->str, ' ');
-			len = ft_double_strlen(str);
-			if (len == 1)
-			{
-				free (str[i]);
-				free (str);
-				head = head->next;
-				continue ;
-			}
-			while (i < len)
-				new = arguments_constructor(new, str[i++], IS_STR | MERGED);
-			free (str);
-			tmp = (head->next)->next;
-			free(head->next->str);
-			free (head->next);
-			head->next = new;
-			while (new->next)
-				new = new->next;
-			new->next = tmp;
-		}
-		head = head->next;
-	}
-	return (arguments);
-}
+// 			str = ft_split(head->next->str, ' ');
+// 			len = ft_double_strlen(str);
+// 			if (len == 1)
+// 			{
+// 				free (str[i]);
+// 				free (str);
+// 				head = head->next;
+// 				continue ;
+// 			}
+// 			while (i < len)
+// 				new = arguments_constructor(new, str[i++], IS_STR | MERGED);
+// 			free (str);
+// 			tmp = (head->next)->next;
+// 			free(head->next->str);
+// 			free (head->next);
+// 			head->next = new;
+// 			while (new->next)
+// 				new = new->next;
+// 			new->next = tmp;
+// 		}
+// 		head = head->next;
+// 	}
+// 	return (arguments);
+// }
 
-t_arguments	*merge_arguments(t_arguments *arguments)
-{
-	t_arguments	*head;
-	t_arguments	*tmp;
+// t_arguments	*merge_arguments(t_arguments *arguments)
+// {
+// 	t_arguments	*head;
+// 	t_arguments	*tmp;
 
-	if (!arguments)
-		return (NULL);
-	head = arguments;
-	while (head->next)
-	{
-		if (head->type == head->next->type && head->type != 0)
-		{
-			tmp = head->next;
-			head->str = ft_strjoin_free(head->str, ft_strdup(" "));
-			head->str = ft_strjoin_free(head->str, (head->next)->str);
-			head->next = (head->next)->next;
-			free (tmp);
-		}
-		else
-			head = head->next;
-	}
-	return (split_merged(arguments));
-}
+// 	if (!arguments)
+// 		return (NULL);
+// 	head = arguments;
+// 	while (head->next)
+// 	{
+// 		if (head->type == head->next->type && head->type != 0)
+// 		{
+// 			tmp = head->next;
+// 			head->str = ft_strjoin_free(head->str, ft_strdup(" "));
+// 			head->str = ft_strjoin_free(head->str, (head->next)->str);
+// 			head->next = (head->next)->next;
+// 			free (tmp);
+// 		}
+// 		else
+// 			head = head->next;
+// 	}
+// 	return (split_merged(arguments));
+// }
+
+// t_arguments	*merge_arguments(t_arguments *arguments)
+// {
+// 	t_arguments	*head;
+// 	t_arguments	*tmp;
+
+// 	if (!arguments)
+// 		return (NULL);
+// 	head = arguments;
+// 	while (head->next)
+// 	{
+// 		while (head->next && head->type == IS_STR)
+// 		{
+// 			if (head->type == head->next->type)
+// 			{
+// 				tmp = head->next;
+// 				head->str = ft_strjoin_free(head->str, ft_strdup(" "));
+// 				head->str = ft_strjoin_free(head->str, (head->next)->str);
+// 				head->next = (head->next)->next;
+// 				free (tmp);
+// 			}
+// 			else
+// 				break ;
+// 		}
+		
+// 	}
+// 	return (split_merged(arguments));
+// }
 
 t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 {
 	t_arguments	*arguments;
 	
 	arguments = NULL;
+
 	if (is_word)
 		arguments = get_arguments(line, j, is_word);
 	else
@@ -426,11 +456,58 @@ unsigned short	check_wild_cards(char *str, unsigned short type)
 		type = 1;
 	return (type);
 }
+t_arguments *tokenize_variables(t_arguments *arguments, int type)
+{
+	int		i;
+	int		j;
+	int		is_var;
+	char	*tmp;
+	
+	i = 0;
+	j = 0;
+	is_var = 0;
+	if (!arguments || !arguments->str)
+		return (NULL);
+	tmp = arguments->str;
+	while (tmp[i + j] && !(type & QUOTE))
+	{
+		if (tmp[i + j] == '$' && !ft_isdigit(tmp[i + j + 1]) && ft_isvariable(tmp[i + j + 1]))
+		{
+			is_var++;
+			if (is_var == 1)
+			{
+				free(arguments);
+				arguments = NULL;
+			}
+			if (j)
+				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+			i += j + 1;
+			j = 0;
+			while (ft_isvariable(tmp[i + j]))
+				j++;
+			arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_VARIABLE);
+			i += j;
+			j = -1;
+		}
+		j++;
+	}
+	if (j && is_var)
+		arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+	if (is_var)
+		free(tmp);
+	// while (arguments)
+	// {
+	// 	printf("|%s|\n", arguments->str);
+	// 	arguments = arguments->next;
+	// }
+	return (arguments);
+}
 
 t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type)
 {
 	t_arguments	*new;
 	t_arguments	*tmp;
+
 
 	new = malloc(sizeof(t_arguments));
 	if (!new)
@@ -442,7 +519,13 @@ t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned s
 	new->next = NULL;
 	new->down = NULL;
 	if (type == DQUOTE || type == QUOTE)
-		new->down = arguments_constructor(new->down, str, IS_STR);
+	{
+		new->down = arguments_constructor(new->down, str, IS_STR | type);
+		// if (!(type & QUOTE))
+			new->down = tokenize_variables(new->down, type);
+	}
+	else
+		new = tokenize_variables(new, type);
 	if (!arguments)
 		return (new);
 	tmp = arguments;

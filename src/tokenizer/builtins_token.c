@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 18:19:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 21:12:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,34 +63,32 @@ static int	echo_has_option(char *line, int *i)
 	return (has_option);
 }
 
-t_cmd	*call_builtin_constructor(t_arguments *quote, char *builtin)
+t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
 {
 	t_cmd	*cmd;
+	t_arguments	*args;
 
-	cmd = builtin_constructor(ft_strdup(builtin), 0, quote);
+	args = NULL;
+	args = arguments_constructor(NULL, ft_strdup(line + j), IS_STR);
+	cmd = builtin_constructor(ft_strdup(builtin), 0, args);
 	return (cmd);
 }
 
-t_cmd	*search_for_builtin(char *tmp, t_arguments *args)
+t_cmd	*search_for_builtin(char *tmp, char *line, int j)
 {
 	t_cmd	*cmd;
 
 	cmd = NULL;
 	if (!ft_strncmp(tmp, "pwd", 4))
-		cmd = call_builtin_constructor(args, "pwd");
+		cmd = call_builtin_constructor(line, j, "pwd");
 	else if (!ft_strncmp(tmp, "unset", 6))
-		cmd = call_builtin_constructor(args, "unset");
+		cmd = call_builtin_constructor(line, j, "unset");
 	else if (!ft_strncmp(tmp, "env", 4))
-		cmd = call_builtin_constructor(args, "env");
+		cmd = call_builtin_constructor(line, j, "env");
 	else if (!ft_strncmp(tmp, "export", 7))
-		cmd = call_builtin_constructor(args, "export");
+		cmd = call_builtin_constructor(line, j, "export");
 	else if (!ft_strncmp(tmp, "exit", 5))
-		cmd = call_builtin_constructor(args, "exit");
-	else
-	{
-		free(args->str);
-		free(args);
-	}
+		cmd = call_builtin_constructor(line, j, "exit");
 	return (cmd);
 }
 
@@ -121,8 +119,7 @@ t_cmd	*get_token_builtins(char *line, int j)
 	}
 	else
 	{
-		args = arguments_constructor(NULL, ft_strdup(line + j), IS_STR);
-		cmd = search_for_builtin(tmp, args);
+		cmd = search_for_builtin(tmp, line, j);
 	}
 	return (free (line), free(tmp), cmd);
 }
