@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/16 23:30:54 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/18 08:36:14 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	parse_line(char **line)
 	complete_line(line);
 	if (line && *line)
 		cmd = tokenize_line(*line);
-	if (cmd && cmd->type == BUILTIN)
-		tt_cd(cmd);
+	// if (cmd && cmd->type == BUILTIN)
+		echo(cmd);
 	// printf("\n\n\n\n");
 	// if (cmd && cmd->type == AND)
 	// 	and_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
