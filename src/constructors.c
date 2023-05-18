@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 14:32:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/18 08:21:00 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,16 @@ t_cmd	*builtin_constructor(char *str, unsigned short has_option, t_arguments *ar
 	a = arguments;
 	while (a)
 	{
-		printf("type : |[%d]| arguments : |%s|\n",a->type, a->str);
+		if (a->type == IS_STR || a->type == IS_VARIABLE)
+			printf("type : |[%d]| arguments : |%s|\n",a->type, a->str);
+		else
+		{
+			while (a->down)
+			{
+				printf("type : |[%d]| arguments : |%s|\n",a->down->type, a->down->str);
+				a->down = a->down->next;
+			}
+		}
 		a = a->next;
 	}
 	printf("----------------------------------------------\n");
