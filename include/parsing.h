@@ -4,7 +4,7 @@
 # include "minishell.h"
 
 
-void		parse_line(char **line);
+void		controll_line(char **line);
 char		*read_until_chr(char *line, char c);
 void		tokenizer(char **words);
 void		read_line();
@@ -12,7 +12,7 @@ void		complete_line(char **line);
 char		*get_prompt_line();
 t_cmd		*tokenize_line(char *line);
 void		free_line(t_cmd *cmd);
-char	*remove_unused_parenthesis(char *line);
+char		*remove_unused_parenthesis(char *line);
 
 /*	tokenizers*/
 
@@ -47,5 +47,6 @@ void	pr_custom_err(char *error, void *ptr, char *custom);
 
 t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
 void	*wild_cards(t_arguments *args, char *word);
+int	ft_isvariable(char c);
 
 #endif

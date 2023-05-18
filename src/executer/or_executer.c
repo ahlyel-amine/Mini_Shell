@@ -6,37 +6,40 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/11 15:52:36 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/16 20:11:14 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	or_executer(t_cmd *cmd, int infile, int outfile)
+int	or_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 {
 	int	ret;
 
-	ret = or_part_executer(((t_or *)cmd)->left, infile, outfile);
-	if (!ret)
-		ret = or_part_executer(((t_or *)cmd)->right, infile, outfile);
+	if (((t_and *)cmd)->left && ((t_and *)cmd)->right)
+	{
+		ret = or_part_executer(((t_or *)cmd)->left, infile, outfile,  fds);
+		if (!ret)
+			ret = or_part_executer(((t_or *)cmd)->right, infile, outfile,  fds);
+	}
 	return (ret);
 }
 
-int	or_part_executer(t_cmd *cmd, int infile, int outfile)
+int	or_part_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 {
 	int	ret;
 
 	if (cmd->type == REDIR)
-		ret = redirect_executer(cmd, infile, outfile);
+		ret = redirect_executer(cmd, infile, outfile,  fds);
 	else if (cmd->type == EXEC)
-		ret = cmd_executer(cmd, infile, outfile);
+		ret = cmd_executer(cmd, infile, outfile,  fds);
 	else if (cmd->type == BUILTIN)
-		ret = builtin_executer(cmd, infile, outfile);
+		ret = builtin_executer(cmd, infile, outfile,  fds);
 	else if (cmd->type == AND)
-		ret = and_executer(cmd, infile, outfile);
+		ret = and_executer(cmd, infile, outfile,  fds);
 	else if (cmd->type == OR)
-		ret = or_executer(cmd, infile, outfile);
+		ret = or_executer(cmd, infile, outfile,  fds);
 	else if (cmd->type == PIPE)
-		ret = pipe_executer(cmd, infile, outfile);
+		ret = pipe_executer(cmd, infile, outfile,  fds);
 	return (ret);
 }
