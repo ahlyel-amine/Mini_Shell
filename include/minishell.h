@@ -1,8 +1,8 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -14,8 +14,10 @@
 # include "dictionary.h"
 // # include "parsing.h"
 // # include "execute.h"
+
 #define ENV 0
 #define EXP 1
+
 typedef struct s_hold{
 	t_list	*lst;
 	int		size:16;
