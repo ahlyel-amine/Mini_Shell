@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/18 15:01:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/18 23:11:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
-t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
+
 void	arguments_destructor(t_arguments **arguments);
 
 void	something_wrong(char *error, void *to_free)
@@ -358,17 +358,18 @@ t_arguments	*str_to_arguments(char *str)
 	return (arguments);
 }
 
-t_arguments	*merge_arguments(t_arguments *arguments)
+t_arguments	*merge_arguments(t_arguments **arguments)
 {
 	t_arguments	*head;
 	t_arguments	*new = NULL;
 	t_arguments	*tmp;
 	t_arguments	*prev = NULL;
 	char		**splited;
-	int	i;
-	if (!arguments)
+	int			i;
+
+	if (!*arguments)
 		return (NULL);
-	head = arguments;
+	head = *arguments;
 	prev = head;
 	while (head)
 	{
@@ -376,17 +377,18 @@ t_arguments	*merge_arguments(t_arguments *arguments)
 		if (head->type & IS_STR)
 		{
 			tmp = head->next;
-			splited = ft_split(head->str, ' ');
-			while (splited[i])
-				new = arguments_constructor(new, splited[i++], IS_STR);
-			while (new->next)
+			new = ft_split_str_to_args(head->str);
+			if (head == prev)
+				*arguments = new;
+			else
+				prev->next = new;
+			while (new && new->next)
 				new = new->next;
 			new->next = tmp;
 		}
 		prev = head;
 		head = head->next;
 	}
-	return (arguments);
 }
 
 t_arguments	*get_argument(char *line, int *j, int i, int is_word)
@@ -398,8 +400,18 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 	if (is_word)
 		arguments = get_arguments(line, j, is_word);
 	else
+	{
 		arguments = get_arguments(line, &i, is_word);
-	// arguments = merge_arguments(arguments);
+		merge_arguments(&arguments);
+	}
+	// if (!is_word)
+	// puts("to");
+	// while (arguments)
+	// {
+	// 	printf("%s\n", arguments->str);
+	// 	arguments = arguments->next;
+	// }
+	// puts("to");
 	return (arguments);
 }
 

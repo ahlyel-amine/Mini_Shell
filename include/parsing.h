@@ -36,6 +36,8 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word);
 size_t ft_double_strlen(char **str);
 
 void	something_wrong(char *error, void *to_free);
+t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
+t_arguments	*ft_split_str_to_args(char *str);
 
 /*	tools	*/
 char		**ft_split_char(char const *s, char c);
@@ -45,10 +47,8 @@ int	skip_spaces_front(char *line);
 void	panic_recursive(char *error, char **ptr);
 void	pr_custom_err(char *error, void *ptr, char *custom);
 
-t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
 void	*wild_cards(t_arguments *args, char *word);
 int	ft_isvariable(char c);
 void	var_expand(t_arguments *arg);
-t_arguments	*ft_split_str_to_args(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:26:35 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/18 15:47:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/18 21:48:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,73 +143,4 @@ int	count_it(int *j, int *i, int word)
 	*j = 0;
 	return (word);
 }
-int	space_break(char *str, int *j, int *i, int* word)
-{
-	if(!ft_isspace(str[*i + *j]) && str[*i + *j])
-	{
-		if (*j)
-			(*word)++;
-		*i += *j;
-		*j = 0;
-		return (1);
-	}
-	return (0);
-}
 
-int	no_space_break(char *str, int *j, int *i, int* word)
-{
-	if(ft_isspace(str[*i + *j]) && str[*i + *j])
-	{
-		if (*j)
-			(*word)++;
-		*i += *j;
-		*j = 0;
-		return (1);
-	}
-	return (0);
-}
-void	still_word(int j, int *word, int *i)
-{
-	if (j)
-	{
-		(*word)++;
-		*i += j;
-	}
-}
-int	count_words(char *str)
-{
-	int	i;
-	int	j;
-	int	word;
-
-	i = 0;
-	word = 0;
-	while (str[i])
-	{
-		j = 0;
-		while (str[i + j])
-		{
-			if (space_break(str, &j, &i, &word))
-				break ;
-			j++;
-		}
-		while (str[i + j])
-		{
-			if (no_space_break(str, &j, &i, &word))
-				break ;
-			j++;
-		}
-		still_word(j, &word, &i);
-	}
-	return (word);
-}
-
-t_arguments	*ft_split_str_to_args(char *str)
-{
-	int	len;
-
-	len = count_words(str);
-	
-	
-	return (NULL);
-}
