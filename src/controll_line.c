@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/17 22:37:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/18 19:07:04 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	controll_line(char **line)
 	if (line && *line)
 	{
 		cmd = tokenize_line(*line);
-		return ;
+		// return ;
 
 		// t_execcmd *cmds = (t_execcmd *)cmd;
 		// printf("---------cmd----------\n");
