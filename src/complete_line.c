@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/06 21:05:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/15 14:15:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,44 +62,6 @@ char	*get_is_complete(char *line, int *quote, int *dquote, int *operator)
 			(*dquote) = !(*dquote);
 		if (line[i] == '\'' && !(*dquote))
 			(*quote) = !(*quote);
-		if (!line[i + 1] || only_spaces_left(line + i + 1))
-		{
-			if (i - 1 >= 0)
-			{
-				if ((line[i - 1] == '&' && line[i] == '&') || (line[i - 1] == '|' && line[i] == '|'))
-				{
-					int space = 0;
-					while (ft_isspace(line[space]))
-						space++;
-					if (space == i - 1)
-					{
-						if (line[i] == '&')
-						ft_putendl_fd("minishell: syntax error near unexpected token `&&'\n", 2);
-						else
-						ft_putendl_fd("minishell: syntax error near unexpected token `||'\n", 2);
-						free(line);
-						line = NULL;
-						break ;
-					}
-					*operator = 1;	
-				}
-			}
-			if (line[i] == '|')
-			{
-				int space = 0;
-				while (ft_isspace(line[space]))
-					space++;
-				if (space == i)
-				{
-					ft_putendl_fd("minishell: syntax error near unexpected token `|'\n", 2);
-					free(line);
-					line = NULL;
-					break ;
-				}
-				*operator = 1;
-				*operator = 1;
-			}
-		}
 		i++;
 	}
 	return (line);
@@ -124,11 +86,11 @@ void	complete_line(char **line)
 		*line = read_until_chr(ft_strdup(*line), '\"');
 	else if (quote)
 		*line = read_until_chr(ft_strdup(*line), '\'');
-	else if (operator)
-	{
-		tmp = readline("> ");
-		*line = ft_strjoin_free(*line, tmp);
-	}
+	// else if (operator)
+	// {
+	// 	tmp = readline("> ");
+	// 	*line = ft_strjoin_free(*line, tmp);
+	// }
 	else
 		return ;
 	complete_line(line);

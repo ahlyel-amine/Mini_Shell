@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/14 22:45:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/16 20:11:14 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*arguments_to_str(t_arguments *args)
 	str[i] = 0;
 	return (str);
 }
-int	redirect_executer(t_cmd *cmd, int infile, int outfile)
+int	redirect_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 {
 	int	ret;
 	char	*line;
@@ -50,7 +50,6 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 	
 	if (((t_redir *)cmd)->red.type != HEREDOC)
 	{
-		
 		((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name, NULL);
 		if ((((t_redir *)cmd)->red.file_name)->next)
 			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
@@ -95,17 +94,17 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)
-			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == OR)
-			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == PIPE)
-			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == REDIR)
-			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == EXEC)
-			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 		else if (((t_redir *)cmd)->cmd->type == BUILTIN)
-			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
 	}
 	if (((t_redir *)cmd)->red.type == HEREDOC || (((t_redir *)cmd)->red.type == IN_REDIR))
 		close(infile);

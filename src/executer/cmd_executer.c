@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/14 22:31:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/17 20:31:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*get_path(char *cmd)
 		free(tmp_to_free);
 		i++;
 	}
-	
 	return (NULL);
 }
 
@@ -74,14 +73,15 @@ char	**str_to_double(char *str)
 	return (dstr);
 }
 
-int	cmd_executer(t_cmd *cmd, int infile, int outfile)
+int	cmd_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 {
 	int		pid;
 	char	**exec;
 	char	*path;
 	char	**envp;
     int		status;
-
+	static int call;
+	call++;
 	((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
 	((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
 	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->options);
@@ -89,11 +89,14 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	exec);
 	if (exec)
 	path = get_path(exec[0]);
-	// envp = (char **)set__get_option_variables(0, GET | GET_ENV); //need envp char ** aaaa weld nass
 	if (!path)
-		return (pr_custom_err(ERR_CMD, NULL, exec[0]), 0);
+	{
+		pr_custom_err(ERR_CMD, exec[0], exec[0]);
+		free(exec);
+		return (0);
+	}
 	pid = fork();
-	if ( pid == -1) {
+	if (pid == -1) {
     	perror("fork failed");
     	return (0);
     }
@@ -104,29 +107,42 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 			dup2(infile, STDIN_FILENO);
 			close(infile);
 		}
+		else
+			close(fds[1]);
+		// if (call == 2)
+		// 	while (1)
+		// 		;
 		if (outfile != STDOUT_FILENO)
 		{
 			dup2(outfile, STDOUT_FILENO);
 			close(outfile);
 		}
+		else
+			close(fds[0]);
 		execve(path, exec, NULL);
-		perror("");
 		exit(EXIT_FAILURE);
 	}
-
 	free(exec[0]);
 	free(exec);
-	if (wait(&status) == -1)
-	{
-        perror("waitpid failed");
-        return (free(path) , 0);
-    }
-    if (WIFEXITED(status))
-	{
-       status = WEXITSTATUS(status);
-		if (!status)
-			return (free(path) , 1);
-    }
-
+	// if (fds)
+		return (free(path), pid);
+	// else
+	// {
+		printf("last cmd pid[%d]\n", pid);
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("waitpid failed");
+			return (free(path) , 0);
+		}
+		if (WIFEXITED(status))
+		{
+			status = WEXITSTATUS(status);
+			if (!status)
+			{
+		printf("has been waited successfully\n");
+				return (free(path) , 1);
+			}
+		}
+	// }
 	return (free(path) , 0);
 }
