@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/14 05:38:41 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:09:40 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int ac, char **av, char **env)
 	atexit(fun);
 	t_hold	*env_var = NULL;
 	env_var = env_dup(env_var, env);
+
 	set__get_option_variables(env_var, SET);
 	read_line(&(env_var->lst));
 	// ft_lstclear(&(env_var->lst), free);

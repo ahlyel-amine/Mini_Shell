@@ -13,7 +13,8 @@
 		"archive.h": "c",
 		"execute.h": "c",
 		"__config": "c",
-		"limits.h": "c"
+		"limits.h": "c",
+		"ios": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
