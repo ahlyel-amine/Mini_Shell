@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/18 04:38:23 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/18 14:02:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/minishell.h"
+
 int     stat_check(char *path)
 {
     struct  stat file_info;
@@ -251,6 +252,8 @@ int    d_point_extend(char  *path, char *cwd)
         reset_env(cwd2, pwd);    
         return (free(pwd), ret);
     }
+    return (1); // update it
+    
 }
 
 int    tt_cd(t_cmd *cmd)

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/17 20:31:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/18 14:51:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
     int		status;
 	static int call;
 	call++;
+			
+	var_expand(((t_execcmd *)cmd)->cmd);
+	var_expand(((t_execcmd *)cmd)->options);
 	((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
 	((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
 	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->options);
