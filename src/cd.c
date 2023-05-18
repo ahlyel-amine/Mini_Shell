@@ -6,13 +6,25 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/17 14:08:24 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/18 04:38:23 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/minishell.h"
-
+int     stat_check(char *path)
+{
+    struct  stat file_info;
+    if (stat(path, &file_info) == 0)
+    {
+        if (!(file_info.st_mode & S_IRUSR))
+            return (printf("cd: permission denied: %s\n", path), (0));
+        else
+            return (1);       
+    }
+    else
+        return (1);
+}
 char    *get_owd(char *env_var)
 {
     t_hold  *env;
@@ -108,6 +120,8 @@ int ft_go_to(int opt, char *path, char *cwd)
     if (!opt)
     {
         env_path = get_owd("HOME=");
+        if (!stat_check(env_path))
+            return (-1);
         if (!env_path)
             return (ft_putendl_fd("minishell : cd: HOME not set", STDERR_FILENO), (-1));
         if (!*cwd)
@@ -118,13 +132,12 @@ int ft_go_to(int opt, char *path, char *cwd)
     else if (opt == 1)
     {
         env_path = get_owd("OLDPWD=");
-        if (env_path && !*env_path)
-            env_path = get_owd("PWD=");
-        printf("<<<%s>>>\n", env_path);
+        if (!stat_check(env_path))
+            return (-1);
         if (!env_path)
             return (ft_putendl_fd("minishell : cd: OLDPWD not set", STDERR_FILENO), (-1));
         if (!*cwd)
-            reset_env(env_path, get_owd("PWD="));
+            return (printf("cd: %s: %s\n", path, "No such file or directory"), (-1));
         else    
             reset_env(env_path, cwd);
     }
@@ -158,72 +171,86 @@ int     d_point_check(char *path)
     splited = ft_split(path, '/');
     while (splited && splited[indx])
     {
-        if (ft_memcmp(splited[indx], "..", 2))
+        if (ft_memcmp(splited[indx], ".", 1) && ft_memcmp(splited[indx], "..", 2))
             is_valid = 0;
         indx++;
     }
     sp_free(splited);
     return (is_valid);
 }
-int     d_point_validat(char *path, int count)
+int     d_point_validat(char *path, char *o_pwd, int count)
 {
     char    *dir;
     int indx;
     int ret;
 
-    indx = ft_strlen(path) - 1;
+    indx = ft_strlen(path);
     while (indx > 0)
     {
-        if (indx > 0 && path[indx] == '/')
+        if (indx > 0 && path[indx - 1] == '/')
             indx--;
-        while (indx > 0 && path[indx] != '/' && path[indx] == '.')
+        while (indx > 0 && path[indx - 1] == '.')
             indx--;
-        if (path[indx] != '/' && path[indx] != '.')
+        if (path[indx - 1] != '/' && path[indx - 1] != '.')
             break;
     }
     while (count)
     {
-        if (indx > 0 && path[indx] == '/')
+        if (indx > 0 && path[indx - 1] == '/')
             indx--;
-        while (indx > 0 && path[indx] != '/')
+        while (indx > 0 && path[indx - 1] != '/')
             indx--;
         count--;
     }
     dir = ft_substr(path, 0, indx);
     ret = chdir(dir);
     if (!ret)
-        reset_env(dir, get_owd("OLDPWD="));
+        reset_env(dir, o_pwd);
+    printf(" %s --- %d ---\n", dir, ret);
     return (free(dir), ret);
 }
+
 int    d_point_extend(char  *path, char *cwd)
 {
     char    *pwd;
+    char    cwd2[PATH_MAX];
     int     ret;
     int     count;
+
     pwd = get_owd("PWD=");
     if (!pwd)
         pwd = ft_strdup("");
-    else if (pwd && pwd[ft_strlen(pwd) - 1] != '/')
-        pwd = ft_strjoin(pwd, "/");
     else
         pwd = ft_strdup(pwd);
     if (!*cwd && d_point_check(path))
     {
-        // int ret = chdir(path);
-        // printf("--[%d]--\n", ret);
+        puts("alo");
+        if (pwd && pwd[ft_strlen(pwd) - 1] != '/')
+            pwd = ft_strjoin_free(pwd, ft_strdup("/"));
         count = prev_drictory_count(path);
         if (count >= 3)
             return (free(pwd), printf("cd: %s: No such file or directory", path), -1);
         count += prev_drictory_count(pwd);
-        ret = d_point_validat(pwd, count);
+        printf("--- count = %d\n", count);
+        ret = d_point_validat(pwd, get_owd("OLDPWD="), count);
         if (ret == -1)
         {
             pwd = ft_strjoin_free(pwd, ft_strdup(path));
             reset_env(pwd, get_owd("PWD="));
             return  (free(pwd), printf("cd: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno)), -1);
         }
-    }    
-    
+    }
+    else if (cwd)
+    {
+        if (!stat_check(path))
+            return (-1);
+        ret = chdir(path);
+        if (ret == -1)
+            return (free(pwd), printf("cd: %s: %s\n", path, strerror(errno)), (-1));
+        getcwd(cwd2, sizeof(cwd2));
+        reset_env(cwd2, pwd);    
+        return (free(pwd), ret);
+    }
 }
 
 int    tt_cd(t_cmd *cmd)
@@ -231,40 +258,36 @@ int    tt_cd(t_cmd *cmd)
     t_builtin   *cd;
     char        *path;
     int         ret;
-    char        cwd[1024];
-    char        cwd2[1024];
+    char        cwd[PATH_MAX];
+    char        cwd2[PATH_MAX];
     ret = 0;
     cd = (t_builtin *)cmd;
     if (!getcwd(cwd, sizeof(cwd)))
         cwd[0] = '\0';
     (expand_line(cd->arguments));
     path = nodes_join_b(cd->arguments);
-    // if (!getcwd(cwd, sizeof(cwd)))
-    //     return (printf("cd: %s\n", strerror(errno)), 1);
-    // else
-    // {
-        
-        // printf("cd : arg = %s exec_val = %d\n", path, ret);
-    // }
     if (!*path)
         ret = ft_go_to(0, path, cwd);
     else if (!ft_memcmp(path, "-", 2))
         ret = ft_go_to(1, path, cwd);
     else
     {
-        if (!ft_memcmp(path, "..", 2))
+        if (!ft_memcmp(path, "..", 2) || !ft_memcmp(path, ".", 1))
             ret = d_point_extend(path, cwd);
-        // else if (!ft_memcmp(path, ".", 1))
-        //     path = extend_option(path, ft_strdup(cwd), 1);
-        // ret = chdir(path);
-        // if (ret == -1)
-        //     printf("cd: %s: %s\n", path, strerror(errno));
-        // else
-        //     reset_env(path, cwd);
+        else
+        {
+            if (!stat_check(path))
+                return (1);
+            ret = chdir(path);
+            if (ret == -1)
+                printf("cd: %s: %s\n", path, strerror(errno));
+            else
+            {
+                getcwd(cwd2, sizeof(cwd2));
+               reset_env(cwd2, cwd);    
+            }
+        }
     }
-
-    // printf("cd : PWD = %s OLDPWD = %s\n", get_owd("PWD="), get_owd("OLDPWD="));
-    // printf("{%d}\n", ret);
     t_hold  *env = set__get_option_variables(0, GET | GET_ENV);
     t_list *lst = env->lst;
     while (lst)
