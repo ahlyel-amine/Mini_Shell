@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/17 22:35:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/18 15:01:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,33 +349,45 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 // 	return (split_merged(arguments));
 // }
 
-// t_arguments	*merge_arguments(t_arguments *arguments)
-// {
-// 	t_arguments	*head;
-// 	t_arguments	*tmp;
+t_arguments	*str_to_arguments(char *str)
+{
+	char		**splited;
+	t_arguments	*arguments;
 
-// 	if (!arguments)
-// 		return (NULL);
-// 	head = arguments;
-// 	while (head->next)
-// 	{
-// 		while (head->next && head->type == IS_STR)
-// 		{
-// 			if (head->type == head->next->type)
-// 			{
-// 				tmp = head->next;
-// 				head->str = ft_strjoin_free(head->str, ft_strdup(" "));
-// 				head->str = ft_strjoin_free(head->str, (head->next)->str);
-// 				head->next = (head->next)->next;
-// 				free (tmp);
-// 			}
-// 			else
-// 				break ;
-// 		}
-		
-// 	}
-// 	return (split_merged(arguments));
-// }
+	arguments = NULL;
+	return (arguments);
+}
+
+t_arguments	*merge_arguments(t_arguments *arguments)
+{
+	t_arguments	*head;
+	t_arguments	*new = NULL;
+	t_arguments	*tmp;
+	t_arguments	*prev = NULL;
+	char		**splited;
+	int	i;
+	if (!arguments)
+		return (NULL);
+	head = arguments;
+	prev = head;
+	while (head)
+	{
+		i = 0;
+		if (head->type & IS_STR)
+		{
+			tmp = head->next;
+			splited = ft_split(head->str, ' ');
+			while (splited[i])
+				new = arguments_constructor(new, splited[i++], IS_STR);
+			while (new->next)
+				new = new->next;
+			new->next = tmp;
+		}
+		prev = head;
+		head = head->next;
+	}
+	return (arguments);
+}
 
 t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 {

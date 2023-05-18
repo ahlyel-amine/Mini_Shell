@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/14 22:25:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/18 14:39:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	*wild_cards(t_arguments *args, char *word)
 	while (args)
 	{
 		a = 0;
-		if (!(args->type & DONT_EXPAND_WILD_CARDS) && ft_strchr(args->str, '*'))
+		if ((args->type & IS_STR) && ft_strchr(args->str, '*'))
 		{
 			files = find_files(args->str);
 			if (files != args->str)
