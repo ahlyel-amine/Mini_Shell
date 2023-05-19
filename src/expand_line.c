@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/18 14:17:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/19 13:04:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ void	tilde_expansion(t_arguments *arg)
 		return ;
 	else if (*tilde == '~' && arg->type != 3)
 	{
-		if (arg->type == 1)
-			free(tmp);
-		arg->str = tilde_replace(tilde);
+		puts("HERE");
+		arg = tilde_replace(tilde);
 		free(tilde);
+		printf("tilde => %s\n", arg);
+		return (arg);
 	}	
 }
 
@@ -156,20 +157,21 @@ char	*data_analyse(char *arg)
 			if (symbol != (tmp + len))
 				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
 			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
-			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
 		}
 		else
 		{
 			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
 			break ;
 		}
+			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
 	}
-	return (nodes_join(lst));
+	return (free(arg), nodes_join(lst));
 }
 
 void	var_expand(t_arguments *arg)
 {
 	t_arguments	*tmp;
+	t_arguments	*down;
 	char		*arg_str;
 	char		*store;
 	tmp = arg;
@@ -196,16 +198,7 @@ void	*expand_line(t_arguments *arg)
 	{	
 	printf(" %d --- %s --- \n", arg->type, arg->str);
 	var_expand(arg);
-	tilde_expansion(expand);
-	// puts("<<tst>>");
-	// while (expand)
-	// {
-	// 	printf(" %d --- %s --- \n", expand->type, (expand->str));
-	// 	expand = expand->next;
-	// }
-	// char	**str=ft_split(arg->str, ' ');
-	// while (str && *str)
-	// 	printf("{<<<<%s>>>>}\n", *str++); 
+	puts("<<-------------------------------->>");	
 	}
 	return (NULL);
 }

@@ -1,6 +1,6 @@
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
-
+# include <sys/stat.h>
 # include "minishell.h"
 
 
