@@ -165,7 +165,7 @@ int		tt_export(t_cmd *cmd);
 // // void	cd(t_cmd *cmd);
 # include "parsing.h"
 # include "execute.h"
-void	tilde_expansion(t_arguments *arg);
+char	*tilde_expansion(char *arg, unsigned short type);
 void	*expand_line(t_arguments *arg);
 char    *get_owd(char *env_var);
 char    *ft_strndup(const char *s, size_t n);

@@ -8,6 +8,7 @@ void		controll_line(char **line);
 char		*read_until_chr(char *line, char c);
 void		tokenizer(char **words);
 void		read_line();
+void		parse_line(char **line);
 void		complete_line(char **line);
 char		*get_prompt_line();
 t_cmd		*tokenize_line(char *line);
