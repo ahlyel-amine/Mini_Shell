@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 11:55:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/19 12:53:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	controll_line(char **line)
 			return ;
 	var_expand(((t_execcmd *)cmd)->cmd);
 	var_expand(((t_execcmd *)cmd)->options);
+	((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
+	((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
 		while (cmds->cmd)
 		{
 			if (cmds->cmd->type == IS_STR || cmds->cmd->type == IS_VARIABLE)
