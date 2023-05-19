@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/18 23:11:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/19 11:50:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int	count_dollars(char *line, int *i, int j)
 // 	return (arguments);
 // }
 
-int	close_dquote(t_arguments *arguments, char *line, int i)
+int	close_dquote(t_arguments **arguments, char *line, int i)
 {
 	t_var		var;
 	int			j;
@@ -193,7 +193,7 @@ int	close_dquote(t_arguments *arguments, char *line, int i)
 		check_out_of_quotes(line[i + j], &var);
 		if (!var.dquote)
 		{
-			arguments_constructor(arguments, ft_substr(line, i, j), DQUOTE);
+			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), DQUOTE);
 			break;
 		}
 		j++;
@@ -201,7 +201,7 @@ int	close_dquote(t_arguments *arguments, char *line, int i)
 	return (j);
 }
 
-int	close_quote(t_arguments *arguments, char *line, int i)
+int	close_quote(t_arguments **arguments, char *line, int i)
 {
 	t_var		var;
 	int			j;
@@ -214,7 +214,7 @@ int	close_quote(t_arguments *arguments, char *line, int i)
 		check_out_of_quotes(line[i + j], &var);
 		if (!var.quote)
 		{
-			arguments_constructor(arguments, ft_substr(line, i, j), QUOTE);
+			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), QUOTE);
 			break;
 		}
 		j++;
@@ -239,7 +239,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 			if (j)
 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 			*i += j + 1;
-			*i += close_dquote(arguments, line, *i) + 1;
+			*i += close_dquote(&arguments, line, *i) + 1;
 			var.dquote = 0;
 			j = 0;
 			continue ;
@@ -249,7 +249,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 			if (j)
 				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
 			*i += j + 1;
-			*i += close_quote(arguments, line, *i) + 1;
+			*i += close_quote(&arguments, line, *i) + 1;
 			var.quote = 0;
 			j = 0;
 			continue ;
@@ -358,7 +358,7 @@ t_arguments	*str_to_arguments(char *str)
 	return (arguments);
 }
 
-t_arguments	*merge_arguments(t_arguments **arguments)
+void	merge_arguments(t_arguments **arguments)
 {
 	t_arguments	*head;
 	t_arguments	*new = NULL;
@@ -368,7 +368,7 @@ t_arguments	*merge_arguments(t_arguments **arguments)
 	int			i;
 
 	if (!*arguments)
-		return (NULL);
+		return ;
 	head = *arguments;
 	prev = head;
 	while (head)
@@ -384,6 +384,7 @@ t_arguments	*merge_arguments(t_arguments **arguments)
 				prev->next = new;
 			while (new && new->next)
 				new = new->next;
+			if (new)
 			new->next = tmp;
 		}
 		prev = head;
@@ -400,18 +401,8 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 	if (is_word)
 		arguments = get_arguments(line, j, is_word);
 	else
-	{
 		arguments = get_arguments(line, &i, is_word);
-		merge_arguments(&arguments);
-	}
-	// if (!is_word)
-	// puts("to");
-	// while (arguments)
-	// {
-	// 	printf("%s\n", arguments->str);
-	// 	arguments = arguments->next;
-	// }
-	// puts("to");
+	merge_arguments(&arguments);
 	return (arguments);
 }
 

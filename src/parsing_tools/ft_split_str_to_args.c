@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/18 23:14:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/19 11:42:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ t_arguments	*space_break(char *str, int *j, int *i)
 	t_arguments	*args;
 
 	args = NULL;
-	if(!ft_isspace(str[*i + *j]) && str[*i + *j])
+	if(ft_isspace(str[*i + *j]) && str[*i + *j])
 	{
 		if (*j)
-			args = arguments_constructor(args, ft_strdup(" "), IS_STR);
+			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
 		*i += *j;
 		*j = 0;
 	}
@@ -73,10 +73,10 @@ t_arguments	*no_space_break(char *str, int *j, int *i)
 	t_arguments	*args;
 
 	args = NULL;
-	if(ft_isspace(str[*i + *j]) && str[*i + *j])
+	if(!ft_isspace(str[*i + *j]) && str[*i + *j])
 	{
 		if (*j)
-			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
+			args = arguments_constructor(args, ft_strdup(" "), IS_STR);
 		*i += *j;
 		*j = 0;
 	}
@@ -114,13 +114,6 @@ t_arguments	*ft_split_str_to_args(char *str)
 		no_space_break_loop(str, &i, &j, &args);
 		if (j)
 			args = still_args(str, &j, &i, args);
-	}
-	t_arguments *a;
-	a = args;
-	while (a)
-	{
-		printf("%s\n", a->str);
-		a = a->next;
 	}
 	return (args);
 }
