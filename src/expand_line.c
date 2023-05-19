@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/18 07:35:33 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/19 04:54:31 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*tilde_replace(char *arg)
 			return (ft_strdup(_HOME));
 		return (ft_strdup(""));
 	}
-	else if (len > 1 && *(arg + 1) == '/')
+	else if (len > 1 && (*(arg + 1) == '/' || *(arg + 1) == ' '))
 	{
 		if (_HOME)
 			return (ft_strjoin(_HOME, (arg + 1)));
@@ -33,7 +33,7 @@ char	*tilde_replace(char *arg)
 	}
 	else if (len > 1 && (*(arg + 1) == '+' || *(arg + 1) == '-'))
 	{
-		if ((*(arg + 1) == '+' && !*(arg + 2)) || (len >= 2 && *(arg + 1) == '+' && *(arg + 2) == '/'))
+		if ((*(arg + 1) == '+' && !*(arg + 2)) || (len >= 2 && *(arg + 1) == '+' && (*(arg + 2) == '/' || *(arg + 2) == 0x20)))
 		{
 			_HOME = get_owd("PWD=");
 			if (_HOME)
@@ -41,7 +41,7 @@ char	*tilde_replace(char *arg)
 			else
 				return (ft_strdup(""));
 		}
-		else if ((*(arg + 1) == '-' && !*(arg + 2)) || (len > 2 && *(arg + 1) == '-' && *(arg + 2) == '/'))
+		else if ((*(arg + 1) == '-' && !*(arg + 2)) || (len > 2 && *(arg + 1) == '-' && (*(arg + 2) == '/') || *(arg + 2) == 0x20))
 		{
 			_HOME = get_owd("OLDPWD=");
 			if (_HOME)
@@ -52,7 +52,7 @@ char	*tilde_replace(char *arg)
 		else
 			return (ft_strdup(arg));
 	}
-	return (NULL);
+	return (arg);
 }
 int	space_skip(char	*str)
 {
@@ -64,23 +64,23 @@ int	space_skip(char	*str)
 	return (iter);
 	
 }
-void	tilde_expansion(t_arguments *arg)
+char	*tilde_expansion(char *arg, unsigned short type)
 {
 	char	*tilde;
-	char	*tmp;
+	// char	*tmp;
 
-	tmp = arg->str;
-	if (arg->type == 1)
-		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
-	tilde = arg->str;
+	// tmp = arg->str;
+	// if (arg->type == 1)
+	// 	arg->str = ft_strdup(tmp + space_skip(arg->str));
+	tilde = (arg);
 	if (!*tilde || *tilde != '~')
-		return ;
-	else if (*tilde == '~' && arg->type != 3)
+		return (arg);
+	else if (*tilde == '~' && !(type & QUOTE))
 	{
-		if (arg->type == 1)
-			free(tmp);
-		arg->str = tilde_replace(tilde);
-		free(tilde);
+		puts("HERE");
+		arg = tilde_replace(tilde);
+		printf("tilde => %s\n", arg);
+		return (arg);
 	}	
 }
 
@@ -92,17 +92,18 @@ char	*is_env_var(char *str)
     int size;
     hold = set__get_option_variables(0, GET | GET_ENV);
     lst_env = hold->lst;
-    len = ft_strlen(str) - 1;
+    len = ft_strlen(str);
     size = hold->size;
     while (size--)
     {
-        if (!ft_strncmp((str + 1), lst_env->content, len) && *((char *)lst_env->content + len) == '=')
-            return (ft_strdup((char *)lst_env->content + len + 1));
+        if (!ft_strncmp((str), lst_env->content, len) && *((char *)lst_env->content + len) == '=')
+            return (free(str), ft_strdup((char *)lst_env->content + len + 1));
         lst_env = lst_env->next;
     }
 	//SEGV::ABoRT
-	return (ft_strdup(""));
+	return (free(str), ft_strdup(""));
 }
+
 int		var_len(char *str)
 {
 	int	iter = 0;
@@ -110,6 +111,7 @@ int		var_len(char *str)
 		iter++;
 	return (iter);
 }
+
 char	*data_manipulate(char *str)
 {
 	int	iter = 0;
@@ -135,6 +137,7 @@ char	*data_manipulate(char *str)
 		return ((tmp));
 	}
 }
+
 char	*data_analyse(char *arg)
 {
 	char	*tmp;
@@ -164,28 +167,32 @@ char	*data_analyse(char *arg)
 		}
 			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
 	}
-	return (nodes_join(lst));
+	return (free(arg), nodes_join(lst));
 }
+
 void	var_expand(t_arguments *arg)
 {
 	t_arguments	*tmp;
+	t_arguments	*down;
 	char		*arg_str;
 	char		*store;
 	tmp = arg;
 	while (tmp)
 	{
 		arg_str = tmp->str;
-		if (arg_str && tmp->type == IS_VARIABLE)
-		{
+		if (tmp->type & IS_VARIABLE)
 			tmp->str = is_env_var(tmp->str);
-			free(arg_str);
-		}	
-		else if (arg_str && tmp->type == IS_STR)
+		else if (tmp->type == IS_STR)
 		{
-			tmp->str = data_analyse(arg_str);
-			
-			printf("[÷÷ %s ÷÷]\n", tmp->str);
-		}
+			// tilde_expand(tmp);
+			tmp->str = tilde_expansion(arg_str, tmp->type);
+			arg_str = data_analyse(arg_str);
+		}	
+		else if (tmp->type == DQUOTE)
+		{
+			down = tmp->down;
+			var_expand(down);
+		}	
 		tmp = tmp->next;
 	}
 }
@@ -197,15 +204,10 @@ void	*expand_line(t_arguments *arg)
 	expand = arg;
 	if (arg)
 	{	
-	printf(" %d --- %s --- \n", arg->type, arg->str);
-	tilde_expansion(expand);
+	// printf(" %d --- %s --- \n", arg->type, arg->str);
+	// tilde_expansion(expand);
 	var_expand(arg);
-	puts("<<tst>>");
-	while (expand)
-	{
-		printf(" %d --- %s --- \n", expand->type, (expand->str));
-		expand = expand->next;
-	}	
+	puts("<<-------------------------------->>");	
 	}
 	return (NULL);
 }
