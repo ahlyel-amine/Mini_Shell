@@ -1,8 +1,10 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -164,7 +166,7 @@ int		tt_export(t_cmd *cmd);
 // // void	cd(t_cmd *cmd);
 # include "parsing.h"
 # include "execute.h"
-void	tilde_expansion(t_arguments *arg);
+char	*tilde_expansion(char *arg, unsigned short type);
 void	*expand_line(t_arguments *arg);
 char    *get_owd(char *env_var);
 char    *ft_strndup(const char *s, size_t n);
