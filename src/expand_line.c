@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/19 04:54:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/19 05:47:37 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ char	*tilde_replace(char *arg)
 			else
 				return (ft_strdup(""));
 		}
-		else
-			return (ft_strdup(arg));
+		// else
+		// 	return (ft_strdup(arg));
 	}
-	return (arg);
+	return (ft_strdup(arg));
 }
 int	space_skip(char	*str)
 {
@@ -67,11 +67,6 @@ int	space_skip(char	*str)
 char	*tilde_expansion(char *arg, unsigned short type)
 {
 	char	*tilde;
-	// char	*tmp;
-
-	// tmp = arg->str;
-	// if (arg->type == 1)
-	// 	arg->str = ft_strdup(tmp + space_skip(arg->str));
 	tilde = (arg);
 	if (!*tilde || *tilde != '~')
 		return (arg);
@@ -79,6 +74,7 @@ char	*tilde_expansion(char *arg, unsigned short type)
 	{
 		puts("HERE");
 		arg = tilde_replace(tilde);
+		free(tilde);
 		printf("tilde => %s\n", arg);
 		return (arg);
 	}	
@@ -185,8 +181,8 @@ void	var_expand(t_arguments *arg)
 		else if (tmp->type == IS_STR)
 		{
 			// tilde_expand(tmp);
-			tmp->str = tilde_expansion(arg_str, tmp->type);
-			arg_str = data_analyse(arg_str);
+			tmp->str = tilde_expansion(tmp->str, tmp->type);
+			tmp->str = data_analyse(tmp->str);
 		}	
 		else if (tmp->type == DQUOTE)
 		{
