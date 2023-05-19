@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/20 00:33:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 00:43:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ char	*data_analyse(char *arg)
 	return (free(arg), nodes_join(lst));
 }
 
-void	var_expand(t_arguments *arg)
+void	var_expand(t_arguments *arg) 
 {
 	t_arguments	*tmp;
 	t_arguments	*down;
