@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 12:53:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 00:39:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,10 +382,12 @@ void	merge_arguments(t_arguments **arguments)
 				*arguments = new;
 			else
 				prev->next = new;
+			prev = new;
 			while (new && new->next)
 				new = new->next;
 			if (new)
-			new->next = tmp;
+				new->next = tmp;
+			head = prev;
 		}
 		prev = head;
 		head = head->next;
