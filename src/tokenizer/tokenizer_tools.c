@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 11:50:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/19 12:53:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,17 +504,26 @@ t_arguments *tokenize_variables(t_arguments *arguments, int type)
 			i += j;
 			j = -1;
 		}
+		else if (tmp[i + j] == '$' && ft_isdigit(tmp[i + j + 1]))
+		{
+			is_var++;
+			if (is_var == 1)
+			{
+				free(arguments);
+				arguments = NULL;
+			}
+			if (j)
+				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+			i += j + 2;
+			j = -1;
+		}
 		j++;
 	}
 	if (j && is_var)
 		arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
 	if (is_var)
 		free(tmp);
-	// while (arguments)
-	// {
-	// 	printf("|%s|\n", arguments->str);
-	// 	arguments = arguments->next;
-	// }
+
 	return (arguments);
 }
 
