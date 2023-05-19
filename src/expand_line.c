@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/20 00:33:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/19 13:04:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ void	tilde_expansion(t_arguments *arg)
 	else if (*tilde == '~' && arg->type != 3)
 	{
 		puts("HERE");
-		arg = (t_arguments *)tilde_replace(tilde);
+		arg = tilde_replace(tilde);
 		free(tilde);
-		printf("tilde => %p\n", arg);
-		// return (arg);
+		printf("tilde => %s\n", arg);
+		return (arg);
 	}	
 }
 
