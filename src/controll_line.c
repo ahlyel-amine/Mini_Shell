@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/18 22:28:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/19 11:55:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,20 +96,17 @@ void	controll_line(char **line)
 		printf("---------cmd----------\n");
 		if (!cmds)
 			return ;
-
+	var_expand(((t_execcmd *)cmd)->cmd);
+	var_expand(((t_execcmd *)cmd)->options);
 		while (cmds->cmd)
 		{
-			if (cmds->cmd->type == IS_STR)
+			if (cmds->cmd->type == IS_STR || cmds->cmd->type == IS_VARIABLE)
 				printf("%d[%s]\n",cmds->cmd->type , cmds->cmd->str);
-			else if (cmds->cmd->type == IS_VARIABLE)
-			{
-				printf("%d[%s]\n",cmds->cmd->type , cmds->cmd->str);
-			}
 			else
 			{
 				while (cmds->cmd->down)
 				{
-					printf("%d]%s[\n",(cmds->cmd->down)->type , (cmds->cmd->down)->str);
+					printf("%d]%s[\n",(cmds->cmd->down)->type ,(cmds->cmd->down)->str);
 					cmds->cmd->down = (cmds->cmd->down)->next;
 				}
 			}
