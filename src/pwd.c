@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 21:18:52 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/13 21:54:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/20 14:19:04 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 int	tt_pwd()
 {
 	char	cwd[PATH_MAX];
+	char	*pwd;
 	int		ret;
 
 	ret = 0;
-	if (!getcwd(cwd, sizeof(cwd)))
-		return (printf("Minishell : %s\n", strerror(errno)),(1));
-	ret = chdir(cwd);
-	if (ret == -1)
-		printf("pwd: error:  %s\n", strerror(errno));
-	return ret;
+	pwd = get_owd("PWD=");
+	if (!getcwd(cwd, sizeof(cwd)) && !pwd)
+		return (printf("%s\n", set__get_option_variables(0, GET | GET_PWD)), 0);
+	else if (!getcwd(cwd, sizeof(cwd)) && pwd)
+		return (printf("%s\n", pwd), 0);
+	else
+		return (printf("%s\n", cwd), 0);
 }
