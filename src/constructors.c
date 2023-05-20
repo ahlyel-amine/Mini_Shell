@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 02:48:01 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/20 03:05:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,20 @@ t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options)
 	cmd->cmd = cmds;
 	cmd->options = options;
 	printf("-------------execcmd_constructor--------------\n");
-	int i = 0;
-	t_arguments *a = cmds;
-	while (a)
-	{
-		printf("cmd : |%s|\n", a->str);
-		a = a->next;
-	}
-	a = options;
-	while (a)
-	{
-		printf("type : {%d} options/argumets : |%s|\n",a->type, a->str);
-		a = a->next;
-	}
-	printf("----------------------------------------------\n");
+	// int i = 0;
+	// t_arguments *a = cmds;
+	// while (a)
+	// {
+	// 	printf("cmd : |%s|\n", a->str);
+	// 	a = a->next;
+	// }
+	// a = options;
+	// while (a)
+	// {
+	// 	printf("type : {%d} options/argumets : |%s|\n",a->type, a->str);
+	// 	a = a->next;
+	// }
+	// printf("----------------------------------------------\n");
 	return ((t_cmd *)cmd);
 }
 
