@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 13:03:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 00:33:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,38 @@ int	check_parsing(t_cmd *cmd)
 	return (1);
 }
 
+void	print_arguments(t_arguments *args)
+{
+	printf("--------------------arguments_START-------------------------\n");
+	while (args)
+	{
+		if (args->type == IS_STR || args->type == IS_VARIABLE)
+			printf("%d[%s]\n",args->type , args->str);
+		else
+		{
+			while (args->down)
+			{
+				printf("%d]%s[\n",(args->down)->type ,(args->down)->str);
+				args->down = (args->down)->next;
+			}
+		}
+		args = args->next;
+	}
+	printf("--------------------arguments_END----------------------------\n");
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	t_execcmd *cmds = (t_execcmd *)cmd;
+		printf("---------cmd----------\n");
+		if (!cmds)
+			return ;
+		print_arguments(cmds->cmd);
+		printf("--------------------------\n");
+		printf("---------options----------\n");
+		print_arguments(cmds->options);
+		printf("--------------------------\n");
+}
 void	controll_line(char **line)
 {
 	t_cmd	*cmd;
@@ -89,55 +121,13 @@ void	controll_line(char **line)
 	cmd = NULL;
 	complete_line(line);
 	if (line && *line)
+		cmd = parse_line(*line);
+	if (!check_parsing(cmd))
 	{
-		cmd = tokenize_line(*line);
-		// return ;
-		t_execcmd *cmds = (t_execcmd *)cmd;
-		printf("---------cmd----------\n");
-		if (!cmds)
-			return ;
-	var_expand(((t_execcmd *)cmd)->cmd);
-	var_expand(((t_execcmd *)cmd)->options);
-	((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
-	((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
-		while (cmds->cmd)
-		{
-			if (cmds->cmd->type == IS_STR || cmds->cmd->type == IS_VARIABLE)
-				printf("%d[%s]\n",cmds->cmd->type , cmds->cmd->str);
-			else
-			{
-				while (cmds->cmd->down)
-				{
-					printf("%d]%s[\n",(cmds->cmd->down)->type ,(cmds->cmd->down)->str);
-					cmds->cmd->down = (cmds->cmd->down)->next;
-				}
-			}
-			cmds->cmd = cmds->cmd->next;
-		}
-		printf("--------------------------\n");
-		printf("---------options----------\n");
-		while (cmds->options)
-		{
-			if (cmds->options->type == IS_STR || cmds->options->type == IS_VARIABLE)
-				printf("%d[%s]\n",cmds->options->type , cmds->options->str);
-			else
-			{
-				while (cmds->options->down)
-				{
-					printf("%d]%s[\n",(cmds->options->down)->type ,(cmds->options->down)->str);
-					cmds->options->down = (cmds->options->down)->next;
-				}
-			}
-			cmds->options = cmds->options->next;
-		}
-		printf("--------------------------\n");
+		if (cmd)
+			free_line(cmd);
+		return ;
 	}
-	// if (!check_parsing(cmd))
-	// {
-	// 	if (cmd)
-	// 		free_line(cmd);
-	// 	return ;
-	// }
 	// if (cmd->type == BUILTIN)
 	// 	echo(cmd);
 	// printf("\n\n\n\n");
