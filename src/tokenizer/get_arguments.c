@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 20:44:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 00:31:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,37 +101,21 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 void	merge_arguments(t_arguments **arguments, int is_dquote)
 {
 	t_arguments	*head;
-	t_arguments	*new = NULL;
-	t_arguments	*tmp;
-	t_arguments	*prev = NULL;
-	char		**splited;
-	int			i;
+	t_arguments	*new;
 
 	if (!*arguments)
 		return ;
+	new = NULL;
 	head = *arguments;
-	prev = head;
 	while (head)
 	{
-		i = 0;
 		if (head->type & IS_STR)
 		{
-			tmp = head->next;
 			new = ft_split_str_to_args(head->str, is_dquote);
-			if (head == prev)
-				*arguments = new;
-			else
-				prev->next = new;
-			prev = new;
-			while (new && new->next)
-				new = new->next;
-			if (new)
-			new->next = tmp;
-			head = prev;
+			replace_arg(arguments, head, new);
 		}
 		else if (head->type & DQUOTE)
 			merge_arguments(&head->down, 1);
-		prev = head;
 		head = head->next;
 	}
 }
@@ -141,21 +125,11 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 	t_arguments	*arguments;
 	
 	arguments = NULL;
-
 	if (is_word)
 		arguments = get_arguments(line, j, is_word);
 	else
 		arguments = get_arguments(line, &i, is_word);
-	static int call;
-	call++;
-	
 	merge_arguments(&arguments, 0);
-	// if (call == 2)
-	// 	exit(1);
-	// print_arguments(arguments);
-		print_arguments(arguments);
 	tokenize_variables(&arguments);
-		print_arguments(arguments);
-	// print_arguments(arguments);
 	return (arguments);
 }
