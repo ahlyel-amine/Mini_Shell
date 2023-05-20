@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 03:06:59 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 17:50:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,6 +390,8 @@ void	merge_arguments(t_arguments **arguments)
 			new->next = tmp;
 			head = prev;
 		}
+		else if (head->type & DQUOTE)
+			merge_arguments(&head->down);
 		prev = head;
 		head = head->next;
 	}
@@ -406,9 +408,9 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 	else
 		arguments = get_arguments(line, &i, is_word);
 	merge_arguments(&arguments);
-	print_arguments(arguments);
+	// print_arguments(arguments);
 	tokenize_variables(&arguments);
-	print_arguments(arguments);
+	// print_arguments(arguments);
 	return (arguments);
 }
 
@@ -579,6 +581,8 @@ void	tokenize_variables(t_arguments **arguments)
 	prev = *arguments;
 	while (head)
 	{
+			// printf("head|%d|%d|%s|\n", head->type & QUOTE, head->type & DQUOTE, head->str);
+			// printf("prev|%d|%d|%s|\n", head->type & QUOTE, head->type & DQUOTE, head->str);
 		if (head->type & IS_STR && head->str[0] == '$' && ft_isdigit(head->str[1]))
 		{
 			new = get_vars(head->str);
