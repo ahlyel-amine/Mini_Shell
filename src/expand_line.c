@@ -6,9 +6,10 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/21 00:38:41 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 00:40:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -82,6 +83,12 @@ void	tilde_expansion(t_arguments *arg)
 		return (arg);
 	}
 	return (arg);
+		puts("HERE");
+		arg = (t_arguments *)tilde_replace(tilde);
+		free(tilde);
+		printf("tilde => %p\n", arg);
+		// return (arg);
+	}	
 }
 
 char	*is_env_var(char *str)

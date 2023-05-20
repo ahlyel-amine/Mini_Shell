@@ -6,30 +6,24 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 11:42:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 00:32:04 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	arguments_add_back(t_arguments **head, t_arguments *new)
-{
-	t_arguments	*tmp;
 
-	tmp = *head;
-	if (!*head)
-	{
-		*head = new;
-		return ;
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
 
 t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args)
 {
-	if (ft_isspace(str[*i + *j - 1]))
+	static int	is_dquote;
+
+	if (!str && !i && !args)
+	{
+		is_dquote = *j;
+		return (NULL);
+	}
+	if (ft_isspace(str[*i + *j - 1]) && !is_dquote)
 		args = arguments_constructor(args, ft_strdup(" "), IS_STR);
 	else
 		args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
@@ -68,14 +62,16 @@ void	space_break_loop(char *str, int *i, int *j, t_arguments **args)
 	}
 }
 
-t_arguments	*no_space_break(char *str, int *j, int *i)
+t_arguments	*no_space_break(char *str, int *j, int *i, int is_dquote)
 {
 	t_arguments	*args;
 
 	args = NULL;
 	if(!ft_isspace(str[*i + *j]) && str[*i + *j])
 	{
-		if (*j)
+		if (*j && is_dquote)
+			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
+		else if (*j && !is_dquote)
 			args = arguments_constructor(args, ft_strdup(" "), IS_STR);
 		*i += *j;
 		*j = 0;
@@ -86,10 +82,16 @@ t_arguments	*no_space_break(char *str, int *j, int *i)
 void	no_space_break_loop(char *str, int *i, int *j, t_arguments **args)
 {
 	t_arguments	*tmp;
+	static int	is_dquote;
 
+	if (!str && !j && !args)
+	{
+		is_dquote = *i;
+		return ;
+	}
 	while (str[*i + *j])
 	{
-		tmp = no_space_break(str, j, i);
+		tmp = no_space_break(str, j, i, is_dquote);
 		if (tmp)
 		{
 			arguments_add_back(args, tmp);
@@ -99,7 +101,7 @@ void	no_space_break_loop(char *str, int *i, int *j, t_arguments **args)
 	}
 }
 
-t_arguments	*ft_split_str_to_args(char *str)
+t_arguments	*ft_split_str_to_args(char *str, int is_dquote)
 {
 	t_arguments	*args;
 	int			i;
@@ -107,6 +109,16 @@ t_arguments	*ft_split_str_to_args(char *str)
 
 	i = 0;
 	args = NULL;
+	no_space_break_loop(NULL, &is_dquote, NULL, NULL);
+	still_args(NULL, &is_dquote, NULL, NULL);
+	if (ft_isspace(str[i]))
+	{
+		i += skip_spaces_front(str);
+		if (is_dquote)
+			args = arguments_constructor(args, ft_substr(str, 0, i), IS_STR);
+		else
+			args = arguments_constructor(args, ft_strdup(" "), IS_STR);
+	}
 	while (str[i])
 	{
 		j = 0;

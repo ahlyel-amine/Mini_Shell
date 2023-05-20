@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/15 14:15:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 19:36:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	only_spaces_left(char *line)
 	return (0);
 }
 
-char	*get_is_complete(char *line, int *quote, int *dquote, int *operator)
+char	*get_is_complete(char *line, int *quote, int *dquote)
 {
 	int	i;
 
@@ -71,26 +71,19 @@ void	complete_line(char **line)
 {
 	int		quote;
 	int		dquote;
-	int		operator;
 	char	*tmp;
 
 	quote = 0;
-	operator = 0;
 	dquote = 0;
 	if (!line || !*line)
 		return ;
-	*line = get_is_complete(*line, &quote, &dquote, &operator);
+	*line = get_is_complete(*line, &quote, &dquote);
 	if (!*line)
 		return ;
 	if (dquote)
 		*line = read_until_chr(ft_strdup(*line), '\"');
 	else if (quote)
 		*line = read_until_chr(ft_strdup(*line), '\'');
-	// else if (operator)
-	// {
-	// 	tmp = readline("> ");
-	// 	*line = ft_strjoin_free(*line, tmp);
-	// }
 	else
 		return ;
 	complete_line(line);
