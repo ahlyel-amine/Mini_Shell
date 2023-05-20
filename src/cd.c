@@ -219,7 +219,7 @@ int    d_point_extend(char  *path, char *cwd)
 
     pwd = get_owd("PWD=");
     if (!pwd)
-        pwd = ft_strdup("");
+        pwd = ft_strdup(set__get_option_variables(0, GET | GET_PWD));
     else
         pwd = ft_strdup(pwd);
     if (!*cwd && d_point_check(path))
