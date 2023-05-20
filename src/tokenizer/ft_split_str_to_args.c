@@ -6,26 +6,13 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 20:43:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 00:32:04 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	arguments_add_back(t_arguments **head, t_arguments *new)
-{
-	t_arguments	*tmp;
 
-	tmp = *head;
-	if (!*head)
-	{
-		*head = new;
-		return ;
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
 
 t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args)
 {
