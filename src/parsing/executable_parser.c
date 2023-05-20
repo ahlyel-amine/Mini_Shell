@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   orders_token.c                                     :+:      :+:    :+:   */
+/*   executable_parser.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 12:31:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/13 18:19:42 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/05/20 19:44:04 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/05/20 20:11:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_cmd	*get_token_order(char *line)
+t_cmd	*executable_parser(char *line)
 {
 	t_cmd	*cmd;
 	int		i;

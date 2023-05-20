@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 03:07:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 20:08:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,14 +122,8 @@ void	controll_line(char **line)
 	complete_line(line);
 	if (line && *line)
 	{
-		cmd = tokenize_line(*line);
+		cmd = parse_line(*line);
 		print_cmd(cmd);
-		// return ;
-	// var_expand(((t_execcmd *)cmd)->cmd);
-	// var_expand(((t_execcmd *)cmd)->options);
-	// ((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
-	// ((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
-		
 	}
 	// if (!check_parsing(cmd))
 	// {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_line.c                                    :+:      :+:    :+:   */
+/*   parenthisise_controll.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 13:26:35 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/18 21:48:17 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/05/20 19:38:02 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/05/20 19:38:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ char	*remove_selected_parenthesis(char *line, int i, int j, int k)
 		free(tmp);
 	}
 	return (line);
-}
-
-void	set_zero_var(t_var *var)
-{
-	var->dquote = 0;
-	var->quote = 0;
 }
 
 char	*select_unused_parenthesis(char *line, int i, t_var var, int is_open)
@@ -129,18 +123,3 @@ char	*remove_unused_parenthesis(char *line)
 	// 	}
 	return (line);
 }
-
-t_cmd	*tokenize_line(char *line)
-{
-	line = remove_unused_parenthesis(ft_strdup(line));
-	return (get_token_parenthesis_and(line));
-}
-int	count_it(int *j, int *i, int word)
-{
-	if (*j)
-		word++;
-	*i += *j;
-	*j = 0;
-	return (word);
-}
-
