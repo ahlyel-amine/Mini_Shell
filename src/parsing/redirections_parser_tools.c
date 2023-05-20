@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_token.c                               :+:      :+:    :+:   */
+/*   redirections_parser_has_parenthesis_tools.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/15 12:46:02 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 20:04:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*skip_quote_redir_names(char *line, int *j, int i)
 	return (tmp);
 }
 
-static int	get_name(char *line, t_redir_content *red, int type)
+int	get_name(char *line, t_redir_content *red, int type)
 {
 	t_arguments	*args;
 	int			k;
@@ -109,12 +109,12 @@ static t_cmd	*get_redirection(char *line, int i, int type)
 	if (tmp > i)
 		after = ft_substr(line, tmp, ft_strlen(line + tmp));
 	if (before || after)
-		redirection = get_token_redir(ft_strjoin_free(before, after));
+		redirection = redirections_parser(ft_strjoin_free(before, after));
 	redirection = redir_constructor(redirection, red);
 	return (redirection);
 }
 
-static t_cmd	*check_for_redirections(char *line, int i)
+t_cmd	*check_for_redirections(char *line, int i)
 {
 	int		j;
 	t_cmd	*redirection;
@@ -153,35 +153,4 @@ int	check_for_syntax(char **line, int i)
 			return (panic_recursive("minishell : syntax error near unexpected token\n", NULL), 0);
 	}
 	return (1);
-}
-
-t_cmd	*get_token_redir(char *line)
-{
-	t_cmd			*redirection;
-	int				i;
-	t_var			var;
-
-	if (!line)
-		return (NULL);
-	set_zero_var(&var);
-	redirection = NULL;
-	i = 0;
-	while (line[i])
-	{
-		check_out_of_quotes(line[i], &var);
-		if (!check_for_syntax(&line, i))
-			return (NULL);
-		if (!var.quote && !var.dquote)
-			redirection = check_for_redirections(line, i);
-		if (redirection)
-		{
-			i = -1;	
-			break ;
-		}
-		i++;
-	}
-	if (i != -1)
-		redirection = get_token_order(ft_strdup(line));
-	free (line);
-	return (redirection);
 }

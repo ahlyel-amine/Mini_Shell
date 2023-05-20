@@ -1,20 +1,79 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_tools.c                                  :+:      :+:    :+:   */
+/*   parsing_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 12:53:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 19:46:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
 
-void	arguments_destructor(t_arguments **arguments);
+static int	parhenthises_closed(char *line, int *k, int *i)
+{
+	int		is_closed;
+	int		is_open;
+	t_var	var;
 
+	set_zero_var(&var);
+	*i = -1;
+	is_open = 1;
+	is_closed = 0;
+	while (line[++(*i)])
+	{
+		check_out_of_quotes(line[*i], &var);
+		if (line[*i] == '(' && !var.quote && \
+		!var.dquote && is_open != is_closed)
+			is_open++;
+		else if (line[*i] == ')' && !var.quote && \
+		!var.dquote && is_open != is_closed)
+		{
+			is_closed++;
+			*k = *i;
+			continue ;
+		}
+		if (is_open == is_closed)
+			return (1);
+	}
+	return (0);
+}
+
+int	close_parenthise(char *line)
+{
+	int	i;
+	int	open;
+	int	close;
+	t_var	var;
+
+	i = 0;
+	set_zero_var(&var);
+	open = 1;
+	close = 0;
+	while (line[i])
+	{
+		check_out_of_quotes(line[i], &var);
+		if (line[i] == '(' && !var.dquote && !var.quote)
+			open++;
+		else if (line[i] == ')' && !var.dquote && !var.quote)
+			close++;
+		i++;
+		if (close == open)
+		{
+			i++;
+			break ;
+		}
+	}
+	return (i);
+}
+void	set_zero_var(t_var *var)
+{
+	var->dquote = 0;
+	var->quote = 0;
+}
 void	something_wrong(char *error, void *to_free)
 {
 	free(to_free);
@@ -180,91 +239,8 @@ int	count_dollars(char *line, int *i, int j)
 // 	return (arguments);
 // }
 
-int	close_dquote(t_arguments **arguments, char *line, int i)
-{
-	t_var		var;
-	int			j;
 
-	var.dquote = 1;
-	var.quote = 0;
-	j = 0;
-	while (line[i + j])
-	{
-		check_out_of_quotes(line[i + j], &var);
-		if (!var.dquote)
-		{
-			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), DQUOTE);
-			break;
-		}
-		j++;
-	}
-	return (j);
-}
 
-int	close_quote(t_arguments **arguments, char *line, int i)
-{
-	t_var		var;
-	int			j;
-
-	var.dquote = 0;
-	var.quote = 1;
-	j = 0;
-	while (line[i + j])
-	{
-		check_out_of_quotes(line[i + j], &var);
-		if (!var.quote)
-		{
-			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), QUOTE);
-			break;
-		}
-		j++;
-	}
-	return (j);
-}
-
-t_arguments	*get_arguments(char *line, int *i, int is_word)
-{
-	t_arguments	*arguments;
-	t_var		var;
-	int			j;
-
-	set_zero_var(&var);
-	arguments = NULL;
-	j = 0;
-	while (line[*i + j])
-	{
-		check_out_of_quotes(line[*i + j], &var);
-		if (var.dquote && line[*i + j] == '\"')
-		{
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
-			*i += j + 1;
-			*i += close_dquote(&arguments, line, *i) + 1;
-			var.dquote = 0;
-			j = 0;
-			continue ;
-		}
-		else if (var.quote && line[*i + j] == '\'')
-		{
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
-			*i += j + 1;
-			*i += close_quote(&arguments, line, *i) + 1;
-			var.quote = 0;
-			j = 0;
-			continue ;
-		}
-		else if (ft_isspace(line[*i + j]) && is_word)
-			break;
-		j++;
-	}
-	if (j)
-	{
-		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
-		*i += j;
-	}
-	return (arguments);
-}
 
 // t_arguments	*split_merged(t_arguments *arguments)
 // {
@@ -349,62 +325,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 // 	return (split_merged(arguments));
 // }
 
-t_arguments	*str_to_arguments(char *str)
-{
-	char		**splited;
-	t_arguments	*arguments;
 
-	arguments = NULL;
-	return (arguments);
-}
-
-void	merge_arguments(t_arguments **arguments)
-{
-	t_arguments	*head;
-	t_arguments	*new = NULL;
-	t_arguments	*tmp;
-	t_arguments	*prev = NULL;
-	char		**splited;
-	int			i;
-
-	if (!*arguments)
-		return ;
-	head = *arguments;
-	prev = head;
-	while (head)
-	{
-		i = 0;
-		if (head->type & IS_STR)
-		{
-			tmp = head->next;
-			new = ft_split_str_to_args(head->str);
-			if (head == prev)
-				*arguments = new;
-			else
-				prev->next = new;
-			while (new && new->next)
-				new = new->next;
-			if (new)
-			new->next = tmp;
-		}
-		prev = head;
-		head = head->next;
-	}
-}
-
-t_arguments	*get_argument(char *line, int *j, int i, int is_word)
-{
-	t_arguments	*arguments;
-	
-	arguments = NULL;
-
-	if (is_word)
-		arguments = get_arguments(line, j, is_word);
-	else
-		arguments = get_arguments(line, &i, is_word);
-	merge_arguments(&arguments);
-	return (arguments);
-}
 
 char	*skip_quotes(char *line, int *i, int j, int is_word)
 {
@@ -471,107 +392,61 @@ unsigned short	check_wild_cards(char *str, unsigned short type)
 		type = 1;
 	return (type);
 }
-t_arguments *tokenize_variables(t_arguments *arguments, int type)
-{
-	int		i;
-	int		j;
-	int		is_var;
-	char	*tmp;
+// t_arguments *tokenize_variables(t_arguments *arguments, int type)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		is_var;
+// 	char	*tmp;
 	
-	i = 0;
-	j = 0;
-	is_var = 0;
-	if (!arguments || !arguments->str)
-		return (NULL);
-	tmp = arguments->str;
-	while (tmp[i + j] && !(type & QUOTE))
-	{
-		if (tmp[i + j] == '$' && !ft_isdigit(tmp[i + j + 1]) && ft_isvariable(tmp[i + j + 1]))
-		{
-			is_var++;
-			if (is_var == 1)
-			{
-				free(arguments);
-				arguments = NULL;
-			}
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
-			i += j + 1;
-			j = 0;
-			while (ft_isvariable(tmp[i + j]))
-				j++;
-			arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_VARIABLE);
-			i += j;
-			j = -1;
-		}
-		else if (tmp[i + j] == '$' && ft_isdigit(tmp[i + j + 1]))
-		{
-			is_var++;
-			if (is_var == 1)
-			{
-				free(arguments);
-				arguments = NULL;
-			}
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
-			i += j + 2;
-			j = -1;
-		}
-		j++;
-	}
-	if (j && is_var)
-		arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
-	if (is_var)
-		free(tmp);
+// 	i = 0;
+// 	j = 0;
+// 	is_var = 0;
+// 	if (!arguments || !arguments->str)
+// 		return (NULL);
+// 	tmp = arguments->str;
+// 	while (tmp[i + j] && !(type & QUOTE))
+// 	{
+// 		if (tmp[i + j] == '$' && !ft_isdigit(tmp[i + j + 1]) && ft_isvariable(tmp[i + j + 1]))
+// 		{
+// 			is_var++;
+// 			if (is_var == 1)
+// 			{
+// 				free(arguments);
+// 				arguments = NULL;
+// 			}
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+// 			i += j + 1;
+// 			j = 0;
+// 			while (ft_isvariable(tmp[i + j]))
+// 				j++;
+// 			arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_VARIABLE);
+// 			i += j;
+// 			j = -1;
+// 		}
+// 		else if (tmp[i + j] == '$' && ft_isdigit(tmp[i + j + 1]))
+// 		{
+// 			is_var++;
+// 			if (is_var == 1)
+// 			{
+// 				free(arguments);
+// 				arguments = NULL;
+// 			}
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+// 			i += j + 2;
+// 			j = -1;
+// 		}
+// 		j++;
+// 	}
+// 	if (j && is_var)
+// 		arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+// 	if (is_var)
+// 		free(tmp);
 
-	return (arguments);
-}
-
-t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type)
-{
-	t_arguments	*new;
-	t_arguments	*tmp;
+// 	return (arguments);
+// }
 
 
-	new = malloc(sizeof(t_arguments));
-	if (!new)
-		return (NULL);
-	new->str = NULL;
-	if (type != DQUOTE && type != QUOTE)
-		new->str = str;
-	new->type = type;
-	new->next = NULL;
-	new->down = NULL;
-	if (type == DQUOTE || type == QUOTE)
-	{
-		new->down = arguments_constructor(new->down, str, IS_STR | type);
-		// if (!(type & QUOTE))
-			new->down = tokenize_variables(new->down, type);
-	}
-	else
-		new = tokenize_variables(new, type);
-	if (!arguments)
-		return (new);
-	tmp = arguments;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	return (arguments);
-}
 
-void	arguments_destructor(t_arguments **arguments)
-{
-	t_arguments	*tmp;
-	t_arguments	*head;
-
-	tmp = *arguments;
-	head = *arguments;
-	while (head)
-	{
-		tmp = head;
-		head = head->next;
-		free (tmp->str);
-		free (tmp);
-	}
-	*arguments = NULL;
-}
