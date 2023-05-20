@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/19 05:47:37 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:15:27 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,11 @@ char	*tilde_expansion(char *arg, unsigned short type)
 		return (arg);
 	else if (*tilde == '~' && !(type & QUOTE))
 	{
-		puts("HERE");
 		arg = tilde_replace(tilde);
 		free(tilde);
-		printf("tilde => %s\n", arg);
 		return (arg);
-	}	
+	}
+	return (arg);
 }
 
 char	*is_env_var(char *str)
