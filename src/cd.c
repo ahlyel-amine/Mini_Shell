@@ -6,10 +6,13 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/05/18 14:02:05 by aahlyel          ###   ########.fr       */
+=======
+/*   Updated: 2023/05/20 14:24:06 by aelbrahm         ###   ########.fr       */
+>>>>>>> 395410fe0fbaeb7a1b5847f13ba9f6aae8ac31b9
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -26,6 +29,7 @@ int     stat_check(char *path)
     else
         return (1);
 }
+
 char    *get_owd(char *env_var)
 {
     t_hold  *env;
@@ -48,13 +52,14 @@ void    reset_env(char *pwd, char *o_pwd)
     t_hold  *env;
     t_list  *lst;
     short   flg = 0;
-
+    short   p_flg = 0;
     env = set__get_option_variables(0, (GET | GET_ENV));
     lst = env->lst;
     while (lst)
     {
         if (!ft_strncmp("PWD=", lst->content, 4))
         {
+            p_flg = 1;
             free(lst->content);
             lst->content = ft_strjoin("PWD=", pwd);
         }
@@ -70,7 +75,12 @@ void    reset_env(char *pwd, char *o_pwd)
     {
         ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)));
         env->size++;
-    }    
+    }
+    if (!p_flg)
+    {
+        ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("PWD=", pwd)));
+        env->size++;
+    }
 }
 
 char    *extend_option(char *arg, char *ex_with, int opt)
@@ -137,8 +147,10 @@ int ft_go_to(int opt, char *path, char *cwd)
             return (-1);
         if (!env_path)
             return (ft_putendl_fd("minishell : cd: OLDPWD not set", STDERR_FILENO), (-1));
-        if (!*cwd)
+        if (access(env_path, R_OK) != 0)
             return (printf("cd: %s: %s\n", path, "No such file or directory"), (-1));
+        if (get_owd("PWD=") && !*cwd)
+            reset_env(env_path, get_owd("PWD="));
         else    
             reset_env(env_path, cwd);
     }
@@ -217,10 +229,10 @@ int    d_point_extend(char  *path, char *cwd)
     char    cwd2[PATH_MAX];
     int     ret;
     int     count;
-
+    char    *tmp;
     pwd = get_owd("PWD=");
     if (!pwd)
-        pwd = ft_strdup("");
+        pwd = ft_strdup(set__get_option_variables(0, GET | GET_PWD));
     else
         pwd = ft_strdup(pwd);
     if (!*cwd && d_point_check(path))
@@ -236,6 +248,9 @@ int    d_point_extend(char  *path, char *cwd)
         ret = d_point_validat(pwd, get_owd("OLDPWD="), count);
         if (ret == -1)
         {
+            // tmp = ft_strdup(pwd);
+            // pwd = ft_strjoin_free(pwd, ft_strdup(path));
+            // reset_env(pwd, tmp);
             pwd = ft_strjoin_free(pwd, ft_strdup(path));
             reset_env(pwd, get_owd("PWD="));
             return  (free(pwd), printf("cd: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno)), -1);
@@ -298,5 +313,8 @@ int    tt_cd(t_cmd *cmd)
         printf("[%s]\n", lst->content);
         lst = lst->next;
     }
+    puts("----------------------------------------------------");
+    tt_pwd();
+    puts("----------------------------------------------------");
     return (free(path),ret);
 }
