@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 12:53:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/20 03:06:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../../include/minishell.h"
 
 void	arguments_destructor(t_arguments **arguments);
+void	tokenize_variables(t_arguments **arguments);
 
 void	something_wrong(char *error, void *to_free)
 {
@@ -382,10 +383,12 @@ void	merge_arguments(t_arguments **arguments)
 				*arguments = new;
 			else
 				prev->next = new;
+			prev = new;
 			while (new && new->next)
 				new = new->next;
 			if (new)
 			new->next = tmp;
+			head = prev;
 		}
 		prev = head;
 		head = head->next;
@@ -403,6 +406,9 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 	else
 		arguments = get_arguments(line, &i, is_word);
 	merge_arguments(&arguments);
+	print_arguments(arguments);
+	tokenize_variables(&arguments);
+	print_arguments(arguments);
 	return (arguments);
 }
 
@@ -471,60 +477,127 @@ unsigned short	check_wild_cards(char *str, unsigned short type)
 		type = 1;
 	return (type);
 }
-t_arguments *tokenize_variables(t_arguments *arguments, int type)
-{
-	int		i;
-	int		j;
-	int		is_var;
-	char	*tmp;
+// t_arguments *tokenize_variables(t_arguments *arguments, int type)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		is_var;
+// 	char	*tmp;
 	
-	i = 0;
-	j = 0;
-	is_var = 0;
-	if (!arguments || !arguments->str)
-		return (NULL);
-	tmp = arguments->str;
-	while (tmp[i + j] && !(type & QUOTE))
-	{
-		if (tmp[i + j] == '$' && !ft_isdigit(tmp[i + j + 1]) && ft_isvariable(tmp[i + j + 1]))
-		{
-			is_var++;
-			if (is_var == 1)
-			{
-				free(arguments);
-				arguments = NULL;
-			}
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
-			i += j + 1;
-			j = 0;
-			while (ft_isvariable(tmp[i + j]))
-				j++;
-			arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_VARIABLE);
-			i += j;
-			j = -1;
-		}
-		else if (tmp[i + j] == '$' && ft_isdigit(tmp[i + j + 1]))
-		{
-			is_var++;
-			if (is_var == 1)
-			{
-				free(arguments);
-				arguments = NULL;
-			}
-			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
-			i += j + 2;
-			j = -1;
-		}
-		j++;
-	}
-	if (j && is_var)
-		arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
-	if (is_var)
-		free(tmp);
+// 	i = 0;
+// 	j = 0;
+// 	is_var = 0;
+// 	if (!arguments || !arguments->str)
+// 		return (NULL);
+// 	tmp = arguments->str;
+// 	while (tmp[i + j] && !(type & QUOTE))
+// 	{
+// 		if (tmp[i + j] == '$' && !ft_isdigit(tmp[i + j + 1]) && ft_isvariable(tmp[i + j + 1]))
+// 		{
+// 			is_var++;
+// 			if (is_var == 1)
+// 			{
+// 				free(arguments);
+// 				arguments = NULL;
+// 			}
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+// 			i += j + 1;
+// 			j = 0;
+// 			while (ft_isvariable(tmp[i + j]))
+// 				j++;
+// 			arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_VARIABLE);
+// 			i += j;
+// 			j = -1;
+// 		}
+// 		else if (tmp[i + j] == '$' && ft_isdigit(tmp[i + j + 1]))
+// 		{
+// 			is_var++;
+// 			if (is_var == 1)
+// 			{
+// 				free(arguments);
+// 				arguments = NULL;
+// 			}
+// 			if (j)
+// 				arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+// 			i += j + 2;
+// 			j = -1;
+// 		}
+// 		j++;
+// 	}
+// 	if (j && is_var)
+// 		arguments = arguments_constructor(arguments, ft_substr(tmp, i, j), IS_STR);
+// 	if (is_var)
+// 		free(tmp);
 
-	return (arguments);
+// 	return (arguments);
+// }
+
+t_arguments	*get_vars(char *str)
+{
+	t_arguments	*vars;
+	int			i;
+	int			j;
+
+	i = 0;
+	vars = NULL;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			j = 1;
+			if (ft_isdigit(str[i + 1]) || !ft_isvariable(str[i + 1]))
+			{
+				i++;
+				continue ;
+			}
+			while (ft_isvariable(str[i + j]))
+				j++;
+			vars = arguments_constructor(vars, ft_substr(str, i, j), IS_VARIABLE);
+			i += j;
+		}
+		else
+		{
+			j = 0;
+			while (str[i + j] && str[i + j] != '$')
+				j++;
+			if (j)
+				vars = arguments_constructor(vars, ft_substr(str, i, j), IS_STR);
+			i += j;
+		}
+	}
+	return (vars);
+}
+void	tokenize_variables(t_arguments **arguments)
+{
+	t_arguments	*head;
+	t_arguments	*prev;
+	t_arguments	*new;
+	
+	new = NULL;
+	head = *arguments;
+	prev = *arguments;
+	while (head)
+	{
+		if (head->type & IS_STR && head->str[0] == '$' && ft_isdigit(head->str[1]))
+		{
+			new = get_vars(head->str);
+			if (head == prev)
+				head = new;
+			else
+				prev->next = new;
+			prev = new;
+			while (new)
+				new = new->next;
+			if (new)
+			new->next = head->next;
+			// free (head);
+			// free (head->str);
+			head = prev;
+		}
+		prev = head;
+		head = head->next;
+	}
 }
 
 t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type)
@@ -546,10 +619,10 @@ t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned s
 	{
 		new->down = arguments_constructor(new->down, str, IS_STR | type);
 		// if (!(type & QUOTE))
-			new->down = tokenize_variables(new->down, type);
+		// 	new->down = tokenize_variables(new->down, type);
 	}
-	else
-		new = tokenize_variables(new, type);
+	// else
+	// 	new = tokenize_variables(new, type);
 	if (!arguments)
 		return (new);
 	tmp = arguments;

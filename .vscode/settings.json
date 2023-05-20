@@ -29,7 +29,8 @@
 		"memory": "c",
 		"ratio": "c",
 		"tuple": "c",
-		"utility": "c"
+		"utility": "c",
+		"sstream": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
