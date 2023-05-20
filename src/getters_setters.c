@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/17 01:31:50 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/20 14:17:31 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,28 +69,42 @@ static char	**set_path(t_hold *env, char **old_path)
 	return (path);
 }
 
-char	*set_pwd(char *old_pwd)
-{
-	char	*ipwd;
-	char	*pwd;
-	char	*homedir;
+// char	*set_pwd(char *old_pwd)
+// {
+// 	char	*ipwd;
+// 	char	*pwd;
+// 	char	*homedir;
 
-	ipwd = NULL;
-	ipwd = getcwd(ipwd, 0);
+// 	ipwd = NULL;
+// 	ipwd = getcwd(ipwd, 0);
 		
-	homedir = set__get_option_variables(0, GET | GET_HOME);
-	if (!ipwd)
-		pwd = homedir;
-	else	
-		pwd = ipwd;
-	if (homedir && !ft_strncmp(homedir, pwd, ft_strlen(homedir)))
-	{
-		pwd = ft_strjoin("~", ipwd);
-		free (ipwd);
-	}
-	free (old_pwd);
-	return (pwd);
+// 	homedir = set__get_option_variables(0, GET | GET_HOME);
+// 	if (!ipwd)
+// 		pwd = homedir;
+// 	else	
+// 		pwd = ipwd;
+// 	if (homedir && !ft_strncmp(homedir, pwd, ft_strlen(homedir)))
+// 	{
+// 		pwd = ft_strjoin("~", ipwd);
+// 		free (ipwd);
+// 	}
+// 	free (old_pwd);
+// 	return (pwd);
+// }
+char	*set_pwd(char *o_pwd)
+{
+	char	*pwd;
+	char	cwd[PATH_MAX];
+	
+	if (!getcwd(cwd, sizeof(cwd)) && o_pwd)
+		pwd = ft_strdup(o_pwd);
+	else if (!getcwd(cwd, sizeof(cwd)) && !o_pwd && get_owd("PWD="))
+		return (ft_strdup(get_owd("PWD=")));
+	else
+		pwd = ft_strdup(cwd);
+	return (free(o_pwd), pwd);
 }
+
 void	unset(t_hold *env, char ***path, char **pwd, char **homedir)
 {
 	int	i;
