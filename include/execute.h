@@ -17,5 +17,5 @@ int			redirect_executer(t_cmd *cmd, int infile, int outfile, int fds[3]);
 int			builtin_executer(t_cmd *cmd, int infile, int outfile, int fds[3]);
 size_t		ft_double_strlen(char **str);
 char		**ft_joindstrs(char **ds1, char* *ds2);
-
+int			tt_pwd();
 #endif
