@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/21 20:14:27 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:21:07 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ char	*var_str(char *arg)
 	int	iter;
 
 	iter = 1;
-	
+	if (*arg && arg[iter] == '$')
+		return (arg);
 	while (arg[iter] && (arg[iter] != '_' && !ft_isalpha(arg[iter])))
 		iter++;
 	if (arg[iter])
