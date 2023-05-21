@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/21 19:04:27 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:14:27 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,79 +92,110 @@ char	*is_env_var(char *str)
     size = hold->size;
     while (size--)
     {
-        if (!ft_strncmp((str), lst_env->content, len) && *((char *)lst_env->content + len) == '=')
-            return (free(str), ft_strdup((char *)lst_env->content + len + 1));
+        if (!ft_strncmp((str + 1), lst_env->content, len - 1) && *((char *)lst_env->content + (len - 1)) == '=')
+            return (free(str), ft_strdup((char *)lst_env->content + len));
         lst_env = lst_env->next;
     }
 	//SEGV::ABoRT
 	return (free(str), ft_strdup(""));
 }
 
-int		var_len(char *str)
+// int		var_len(char *str)
+// {
+// 	int	iter = 0;
+// 	while (str[iter] && (ft_isalnum(str[iter]) || str[iter] == '_'))
+// 		iter++;
+// 	return (iter);
+// }
+char	*var_str(char *arg)
 {
-	int	iter = 0;
-	while (str[iter] && (ft_isalnum(str[iter]) || str[iter] == '_'))
-		iter++;
-	return (iter);
-}
+	int	iter;
 
-char	*data_manipulate(char *str)
-{
-	int	iter = 0;
-	char	*tmp = str + 1;
-	while (tmp[iter] && !ft_isalpha(tmp[iter]) && tmp[iter] != '_')
+	iter = 1;
+	
+	while (arg[iter] && (arg[iter] != '_' && !ft_isalpha(arg[iter])))
 		iter++;
-	if (!tmp[iter])
-	{
-		tmp = ft_strdup("");
-		free(str);
-		return ((tmp));
-	}
-	else if (iter)
-	{
-		tmp = ft_strndup(tmp + iter, ft_strlen(tmp + iter));
-		free(str);
-		return ((tmp));
-	}
+	if (arg[iter])
+		return (free(arg), ft_strdup((arg + iter)));
 	else
-	{
-		tmp = is_env_var(str);
-		free(str);
-		return ((tmp));
-	}
+		return (free(arg), ft_strdup(""));
 }
-
+// char	*data_manipulate(char *str)
+// {
+// 	int	iter = 0;
+// 	char	*tmp = str + 1;
+// 	while (tmp[iter] && !ft_isalpha(tmp[iter]) && tmp[iter] != '_')
+// 		iter++;
+// 	if (!tmp[iter])
+// 	{
+// 		tmp = ft_strdup("");
+// 		free(str);
+// 		return ((tmp));
+// 	}
+// 	else if (iter)
+// 	{
+// 		tmp = ft_strndup(tmp + iter, ft_strlen(tmp + iter));
+// 		free(str);
+// 		return ((tmp));
+// 	}
+// 	else
+// 	{
+// 		tmp = is_env_var(str);
+// 		free(str);
+// 		return ((tmp));
+// 	}
+// }
 char	*data_analyse(char *arg)
 {
 	char	*tmp;
-	char	*symbol;
-	t_list	*lst;
-	size_t	len;
 
-	lst = NULL;
-	tmp = arg;
-	symbol = ft_strchr(tmp, '$');
-	if (!symbol)
+	tmp = ft_strchr(arg, '$');
+	if (!tmp)
 		return (arg);
-	len = 0;
-	while (len < ft_strlen(arg))
+	else
 	{
-		symbol = ft_strchr(tmp + len, '$');
-		if (symbol)
-		{
-			if (symbol != (tmp + len))
-				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
-			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
-		}
+		if (ft_strlen(arg) > 1 && arg[1] == '$')
+			return (arg);
 		else
 		{
-			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
-			break ;
+			if (ft_isalpha(arg[1]) || arg[1] == '_')
+				return (is_env_var(arg));
+			else
+				return (var_str(arg));
 		}
-			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
 	}
-	return (free(arg), nodes_join(lst));
 }
+// char	*data_analyse(char *arg)
+// {
+// 	char	*tmp;
+// 	char	*symbol;
+// 	t_list	*lst;
+// 	size_t	len;
+
+// 	lst = NULL;
+// 	tmp = arg;
+// 	symbol = ft_strchr(tmp, '$');
+// 	if (!symbol)
+// 		return (arg);
+// 	len = 0;
+// 	while (len < ft_strlen(arg))
+// 	{
+// 		symbol = ft_strchr(tmp + len, '$');
+// 		if (symbol)
+// 		{
+// 			if (symbol != (tmp + len))
+// 				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
+// 			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
+// 		}
+// 		else
+// 		{
+// 			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
+// 			break ;
+// 		}
+// 			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
+// 	}
+// 	return (free(arg), nodes_join(lst));
+// }
 
 void	var_expand(t_arguments *arg)
 {
