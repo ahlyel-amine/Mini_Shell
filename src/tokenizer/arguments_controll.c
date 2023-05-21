@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 00:32:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 22:54:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,20 @@ void	arguments_destructor(t_arguments **arguments)
 	head = *arguments;
 	while (head)
 	{
-		tmp = head;
-		head = head->next;
-		free (tmp->str);
-		free (tmp);
+		if (head->type & IS_STR || head->type & IS_VARIABLE)
+		{
+			tmp = head;
+			head = head->next;
+			free (tmp->str);
+			free (tmp);
+		}
+		else if (head->type & DQUOTE || head->type & QUOTE)
+		{
+			tmp = head;
+			head = head->next;
+			arguments_destructor(&tmp->down);
+			free(tmp);
+		}
 	}
 	*arguments = NULL;
 }

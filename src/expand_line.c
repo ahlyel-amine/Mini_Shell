@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/21 00:40:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 17:10:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,31 +65,31 @@ int	space_skip(char	*str)
 	return (iter);
 	
 }
-void	tilde_expansion(t_arguments *arg)
-{
-	char	*tilde;
-	char	*tmp;
+// void	tilde_expansion(t_arguments *arg)
+// {
+// 	char	*tilde;
+// 	char	*tmp;
 
-	tmp = arg->str;
-	if (arg->type == 1)
-		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
-	tilde = arg->str;
-	if (!*tilde || *tilde != '~')//spaceskip
-		return ;
-	else if (*tilde == '~' && arg->type != 3)
-	{
-		arg = tilde_replace(tilde);
-		free(tilde);
-		return (arg);
-	}
-	return (arg);
-		puts("HERE");
-		arg = (t_arguments *)tilde_replace(tilde);
-		free(tilde);
-		printf("tilde => %p\n", arg);
-		// return (arg);
-	}	
-}
+// 	tmp = arg->str;
+// 	if (arg->type == 1)
+// 		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
+// 	tilde = arg->str;
+// 	if (!*tilde || *tilde != '~')//spaceskip
+// 		return ;
+// 	else if (*tilde == '~' && arg->type != 3)
+// 	{
+// 		arg = tilde_replace(tilde);
+// 		free(tilde);
+// 		return (arg);
+// 	}
+// 	return (arg);
+// 		puts("HERE");
+// 		arg = (t_arguments *)tilde_replace(tilde);
+// 		free(tilde);
+// 		printf("tilde => %p\n", arg);
+// 		// return (arg);
+// 	}	
+// }
 
 char	*is_env_var(char *str)
 {

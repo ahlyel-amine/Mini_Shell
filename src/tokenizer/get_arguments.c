@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 00:31:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 22:47:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,9 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 		arguments = get_arguments(line, j, is_word);
 	else
 		arguments = get_arguments(line, &i, is_word);
+
 	merge_arguments(&arguments, 0);
-	tokenize_variables(&arguments);
+	// tokenize_variables(&arguments);
+	// while (1);
 	return (arguments);
 }
