@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 00:51:41 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 22:48:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	read_line()
 		free(pwd);
 		if (!line || !ft_strncmp(line, "exit", 5))
 		{
+			free(line);
 			set__get_option_variables(0, FREE);
 			exit(0);
 		}
