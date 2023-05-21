@@ -62,5 +62,7 @@ t_cmd	*redirections_parser_has_parenthesis(char *line);
 t_cmd	*check_for_redirections(char *line, int i);
 void	replace_arg(t_arguments **head, t_arguments *old, t_arguments *new);
 void	arguments_add_back(t_arguments **head, t_arguments *new);
+void	arguments_destructor(t_arguments **arguments);
+int	tt_pwd();
 
 #endif

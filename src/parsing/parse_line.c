@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 20:07:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 20:11:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/21 22:34:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_cmd	*parse_line(char *line)
 {
 	line = remove_unused_parenthesis(ft_strdup(line));
+
 	return (and_parser(line));
 }
 
