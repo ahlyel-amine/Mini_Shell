@@ -1,10 +1,10 @@
 READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
 
-#	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/
+#	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/
 SRC =	\
 		\
-		src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/cd.c src/expand_line.c src/pwd.c \
-		src/export.c src/tt_unset.c src/tools.c src/tools2.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/echo.c src/controll_line.c\
+		src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/expand_line.c \
+		src/tools.c src/tools2.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/controll_line.c\
 		\
 		\
 		src/parsing_tools/parsing_tools.c src/parsing_tools/ft_split_char.c  \
@@ -19,7 +19,10 @@ SRC =	\
 		src/executer/builtin_executer.c\
 		\
 		\
-		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c
+		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c \
+		\
+		\
+		src/builtin/pwd.c src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/tt_unset.c\
 
 HEADERS = include/minishell.h  include/dictionary.h  include/parsing.h  include/execute.h
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 00:33:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:34:07 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ void	controll_line(char **line)
 			free_line(cmd);
 		return ;
 	}
-	// if (cmd->type == BUILTIN)
-	// 	echo(cmd);
+	if (cmd->type == BUILTIN)
+		ft_exit(cmd);
 	// printf("\n\n\n\n");
 	// execute_line(cmd);
 	// printf("\n\n\n\n");

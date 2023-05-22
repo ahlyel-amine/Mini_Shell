@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/21 20:21:07 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:00:43 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,15 +212,13 @@ void	var_expand(t_arguments *arg)
 			tmp->str = is_env_var(tmp->str);
 		else if (tmp->type == IS_STR)
 		{
-			// tilde_expand(tmp);
-			tmp->str = tilde_expansion(tmp->str, tmp->type);
 			tmp->str = data_analyse(tmp->str);
 		}	
 		else if (tmp->type == DQUOTE)
 		{
 			down = tmp->down;
 			var_expand(down);
-		}	
+		}
 		tmp = tmp->next;
 	}
 }
@@ -228,14 +226,21 @@ void	var_expand(t_arguments *arg)
 void	*expand_line(t_arguments *arg)
 {
 	t_arguments	*expand;
-
+	t_arguments	*tmp;
 	expand = arg;
 	if (arg)
 	{	
 	// printf(" %d --- %s --- \n", arg->type, arg->str);
 	// tilde_expansion(expand);
-	var_expand(arg);
-	puts("<<-------------------------------->>");	
+		var_expand(arg);
+		tmp = arg;
+		while (tmp)
+		{
+			if (tmp->type == IS_STR)
+				tmp->str = tilde_expansion(tmp->str, tmp->type);	
+			tmp= tmp->next;
+		}
+		puts("<<-------------------------------->>");	
 	}
 	return (NULL);
 }

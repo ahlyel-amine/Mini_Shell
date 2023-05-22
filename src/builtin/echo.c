@@ -6,11 +6,11 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 05:52:28 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:09:04 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	echo(t_cmd *cmd)
 {

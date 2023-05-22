@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 00:51:41 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:27:17 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	read_line()
 		// else
 			line = readline("#minishell> ");
 		free(pwd);
-		if (!line || !ft_strncmp(line, "exit", 5))
+		if (!line)
 		{
 			set__get_option_variables(0, FREE);
 			exit(0);
