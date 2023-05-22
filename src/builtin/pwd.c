@@ -6,11 +6,11 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 21:18:52 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/20 14:19:04 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:39:37 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	tt_pwd()
 {

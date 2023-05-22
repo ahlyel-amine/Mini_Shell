@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/18 14:02:05 by aahlyel          ###   ########.fr       */
-=======
-/*   Updated: 2023/05/20 14:24:06 by aelbrahm         ###   ########.fr       */
->>>>>>> 395410fe0fbaeb7a1b5847f13ba9f6aae8ac31b9
+/*   Updated: 2023/05/22 12:39:47 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int     stat_check(char *path)
 {
