@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 22:25:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/24 00:00:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,37 +72,39 @@ char	**str_to_double(char *str)
 	dstr[1] = NULL;
 	return (dstr);
 }
+char	**get_dstr(t_cmd *cmd)
+{
+	char	**exec;
+	t_arguments	*nl;
 
-int	cmd_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
+	nl = NULL;
+	var_expand(((t_execcmd *)cmd)->cmd);
+	var_expand(((t_execcmd *)cmd)->options);
+	wild_cards(&((t_execcmd *)cmd)->cmd);
+	wild_cards(&((t_execcmd *)cmd)->options);
+	args_move_down(&((t_execcmd *)cmd)->cmd, &nl);
+	nl = NULL;
+	args_move_down(&((t_execcmd *)cmd)->options, &nl);
+	exec = args_to_cmd_dstr(((t_execcmd *)cmd)->options, args_to_str(((t_execcmd *)cmd)->cmd));
+	return (exec);
+}
+
+int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 {
 	int		pid;
 	char	**exec;
 	char	*path;
-	char	**envp;
     int		status;
-	static int call;
-	call++;
-			
-	var_expand(((t_execcmd *)cmd)->cmd);
-	var_expand(((t_execcmd *)cmd)->options);
-	// ((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
-	// ((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
-	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->options);
-	exec = ft_joindstrs(str_to_double(arguments_to_str(((t_execcmd *)cmd)->cmd)), \
-	exec);
-	if (exec)
+
+	exec = get_dstr(cmd);
+	if (!exec)
+		return (perror(""), 0);
 	path = get_path(exec[0]);
 	if (!path)
-	{
-		pr_custom_err(ERR_CMD, exec[0], exec[0]);
-		free(exec);
-		return (0);
-	}
+		return (pr_custom_err(ERR_CMD, exec[0], exec[0]), free(exec), 0);
 	pid = fork();
-	if (pid == -1) {
-    	perror("fork failed");
-    	return (0);
-    }
+	if (pid == -1)
+    	return (perror("fork failed"), 0);
 	if (!pid)
 	{
 		if (infile != STDIN_FILENO)
@@ -110,42 +112,23 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 			dup2(infile, STDIN_FILENO);
 			close(infile);
 		}
-		else
-			close(fds[1]);
-		// if (call == 2)
-		// 	while (1)
-		// 		;
 		if (outfile != STDOUT_FILENO)
 		{
 			dup2(outfile, STDOUT_FILENO);
 			close(outfile);
 		}
-		else
-			close(fds[0]);
 		execve(path, exec, NULL);
 		exit(EXIT_FAILURE);
 	}
 	free(exec[0]);
 	free(exec);
-	// if (fds)
-		return (free(path), pid);
-	// else
-	// {
-		printf("last cmd pid[%d]\n", pid);
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			perror("waitpid failed");
-			return (free(path) , 0);
-		}
-		if (WIFEXITED(status))
-		{
-			status = WEXITSTATUS(status);
-			if (!status)
-			{
-		printf("has been waited successfully\n");
-				return (free(path) , 1);
-			}
-		}
-	// }
+	if (waitpid(pid, &status, 0) == -1)
+		return (free(path) , 0);
+	if (WIFEXITED(status))
+	{
+		status = WEXITSTATUS(status);
+		if (!status)
+			return (free(path) , 1);
+	}
 	return (free(path) , 0);
 }

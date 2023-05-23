@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 18:21:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 23:34:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ void	arguments_destructor(t_arguments **arguments)
 	*arguments = NULL;
 }
 
-t_arguments	*str_to_arguments(char *str)
-{
-	char		**splited;
-	t_arguments	*arguments;
+// t_arguments	*str_to_arguments(char *str)
+// {
+// 	char		**splited;
+// 	t_arguments	*arguments;
 
-	arguments = NULL;
-	return (arguments);
-}
+// 	arguments = NULL;
+// 	return (arguments);
+// }
 
 void	replace_arg_first_element(t_arguments **head, \
 t_arguments **old, t_arguments *new, \
@@ -101,15 +101,6 @@ void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 		return ;
 	replace_old = new;
 	replace_arg_first_element(head, old, new, replace_old);
-	// if (*head == (*old))
-	// {
-	// 	tmp = (*head)->next;
-	// 	*head = new;
-	// 	while (new->next)
-	// 		new = new->next;
-	// 	new->next = tmp;
-	// 	*old = replace_old;
- 	// }
 	tmp = *head;
 	while (tmp)
 	{

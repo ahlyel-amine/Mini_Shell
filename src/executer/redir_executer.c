@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 22:25:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 23:09:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*arguments_to_str(t_arguments *args)
 	str[i] = 0;
 	return (str);
 }
-int	redirect_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
+int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 {
 	int	ret;
 	char	*line;
@@ -94,17 +94,17 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)
-			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
+			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile);
 		else if (((t_redir *)cmd)->cmd->type == OR)
-			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
+			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile);
 		else if (((t_redir *)cmd)->cmd->type == PIPE)
-			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
+			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile);
 		else if (((t_redir *)cmd)->cmd->type == REDIR)
-			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
+			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile);
 		else if (((t_redir *)cmd)->cmd->type == EXEC)
-			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
+			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile);
 		else if (((t_redir *)cmd)->cmd->type == BUILTIN)
-			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile,  fds);
+			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile);
 	}
 	if (((t_redir *)cmd)->red.type == HEREDOC || (((t_redir *)cmd)->red.type == IN_REDIR))
 		close(infile);
