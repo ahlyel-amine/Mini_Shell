@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 22:38:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 23:16:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,25 +130,28 @@ void	controll_line(char **line)
 	
 	if (line && *line)
 		cmd = parse_line(*line);
-	if (cmd->type == EXEC)
-	{
-		t_execcmd *p;
-		p = (t_execcmd *)cmd;
-		char	*comd;
-		char	**options;
-		t_arguments	*nl = NULL;
-		var_expand(p->cmd);
-		var_expand(p->options);
-		wild_cards(&p->options);
-		args_move_down(&p->cmd, &nl);
-		args_move_down(&p->options, &nl);
-		print_arguments(p->cmd);
-		comd = args_to_str(p->cmd);
-		options = args_to_cmd_dstr(p->options, comd);
-		for (int i =0; options[i]; i++)
-			printf("%s\n", options[i]);
-		free (options);
-	}
+	// if (cmd->type == EXEC)
+	// {
+	// 	t_execcmd *p;
+	// 	p = (t_execcmd *)cmd;
+	// 	char	*comd;
+	// 	char	**options;
+	// 	t_arguments	*nl = NULL;
+	// 	var_expand(p->cmd);
+	// 	var_expand(p->options);
+	// 	wild_cards(&p->options);
+	// 	args_move_down(&p->cmd, &nl);
+	// 	args_move_down(&p->options, &nl);
+	// 	print_arguments(p->cmd);
+	// 	comd = args_to_str(p->cmd);
+	// 	options = args_to_cmd_dstr(p->options, comd);
+	// 	for (int i =0; options[i]; i++)
+	// 		printf("%s\n", options[i]);
+	// 	free (options);
+	// }
 	if (cmd)
+	{
+		execute_line(cmd);
 		free_line(cmd);
+	}
 }

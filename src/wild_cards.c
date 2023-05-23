@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 22:54:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 23:26:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	wild_cards(t_arguments **args)
 		return ;
 	if (((*args)->type & IS_STR) && ft_strchr((*args)->str, '*'))
 	{
-		puts ("am here");
 		tmp = (*args)->str;
 		files = open_cwd((*args)->str);
 		if (files)
@@ -112,10 +111,7 @@ t_arguments	*get_files(char	*str, t_arguments *args, DIR *directory)
 	if (ft_strncmp(dir->d_name, ".", 2) && ft_strncmp(dir->d_name, "..", 3))
 	{
 		if (compare_matches(str, dir->d_name))
-		{
-		printf("<|%s|><|%s|>\n", dir->d_name, str);
 			args = arguments_constructor(args, ft_strdup(dir->d_name), IS_STR);
-		}
 	}
 	args = get_files(str, args, directory);
 	return (args);
