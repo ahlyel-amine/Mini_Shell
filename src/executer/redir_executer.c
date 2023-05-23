@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/16 20:11:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 22:25:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 	
 	if (((t_redir *)cmd)->red.type != HEREDOC)
 	{
-		((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name, NULL);
+		// ((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name, NULL);
 		if ((((t_redir *)cmd)->red.file_name)->next)
 			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
 	}

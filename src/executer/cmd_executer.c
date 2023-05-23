@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/19 11:53:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 22:25:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int fds[3])
 			
 	var_expand(((t_execcmd *)cmd)->cmd);
 	var_expand(((t_execcmd *)cmd)->options);
-	((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
-	((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
+	// ((t_execcmd *)cmd)->cmd = wild_cards(((t_execcmd *)cmd)->cmd, NULL);
+	// ((t_execcmd *)cmd)->options = wild_cards(((t_execcmd *)cmd)->options, NULL);
 	exec = arguments_list_to_dstr(((t_execcmd *)cmd)->options);
 	exec = ft_joindstrs(str_to_double(arguments_to_str(((t_execcmd *)cmd)->cmd)), \
 	exec);

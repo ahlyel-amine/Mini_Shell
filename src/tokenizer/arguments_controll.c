@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 19:09:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:21:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,12 @@ t_arguments	*str_to_arguments(char *str)
 	return (arguments);
 }
 
-void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
+void	replace_arg_first_element(t_arguments **head, \
+t_arguments **old, t_arguments *new, \
+t_arguments *replace_old)
 {
 	t_arguments	*tmp;
-	t_arguments	*replace_old;
-	t_arguments	*prev;
 
-	if (!new)
-		return ;
-	replace_old = new;
 	if (*head == (*old))
 	{
 		tmp = (*head)->next;
@@ -92,6 +89,27 @@ void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 		new->next = tmp;
 		*old = replace_old;
  	}
+}
+
+void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
+{
+	t_arguments	*tmp;
+	t_arguments	*replace_old;
+	t_arguments	*prev;
+
+	if (!new)
+		return ;
+	replace_old = new;
+	replace_arg_first_element(head, old, new, replace_old);
+	// if (*head == (*old))
+	// {
+	// 	tmp = (*head)->next;
+	// 	*head = new;
+	// 	while (new->next)
+	// 		new = new->next;
+	// 	new->next = tmp;
+	// 	*old = replace_old;
+ 	// }
 	tmp = *head;
 	while (tmp)
 	{

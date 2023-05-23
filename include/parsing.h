@@ -47,7 +47,7 @@ int	skip_spaces_front(char *line);
 void	panic_recursive(char *error, char **ptr);
 void	pr_custom_err(char *error, void *ptr, char *custom);
 
-void	*wild_cards(t_arguments *args, char *word);
+// void	*wild_cards(t_arguments *args, char *word);
 int	ft_isvariable(char c);
 void	var_expand(t_arguments *arg);
 /*			for debugging			*/
@@ -73,6 +73,7 @@ char	**args_to_dblstr(t_arguments *args);
 char	**args_to_cmd_dstr(t_arguments *args, char *cmd);
 void	args_move_next_down(t_arguments **args, t_arguments **prev);
 void	args_move_down(t_arguments **args, t_arguments **prev);
+void	wild_cards(t_arguments **args);
 
 // void	args_move_down(t_arguments **args);
 // t_arguments	*args_move_one_down(t_arguments *args, t_arguments *prev);
