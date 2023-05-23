@@ -62,7 +62,8 @@ enum s_arguments_type
 	IS_STR 		= 0b10,
 	IS_VARIABLE = 0b100,
 	DQUOTE 		= 0b1000,
-	IS_SEPARTOR = 0b10000
+	IS_SEPARTOR = 0b10000,
+	IS_FILE		= 0b100000
 };
 
 #endif

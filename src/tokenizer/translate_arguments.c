@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 18:16:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:30:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ void	args_move_down(t_arguments **args, t_arguments **prev)
 	if (*args && (*args)->next)
 	{
 		args_move_next_down(args, prev);
+		if ((*args)->next)
 		args_move_prev_down(args, prev);
 		*prev = *args;
 		args_move_down(&((*args)->next), prev);
