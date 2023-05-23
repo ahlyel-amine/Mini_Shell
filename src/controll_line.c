@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 15:03:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 18:17:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,28 +130,6 @@ void	controll_line(char **line)
 	
 	if (line && *line)
 		cmd = parse_line(*line);
-	
-	// print_arguments(((t_execcmd *)cmd)->cmd);
-	// print_arguments(((t_execcmd *)cmd)->options);
-	// echo(cmd);
-	t_execcmd *exec;
-	exec = (t_execcmd *)cmd;
-	args_move_down(exec->options);
-	print_arguments(exec->options);
-		
-	// if (!check_parsing(cmd))
-	// {
-	// 	if (cmd)
-	// 		free_line(cmd);
-	// 	return ;
-	// }
 	if (cmd)
 		free_line(cmd);
-
-
-	// if (cmd->type == BUILTIN)
-	// 	echo(cmd);
-	// printf("\n\n\n\n");
-	// execute_line(cmd);
-	// printf("\n\n\n\n");
 }
