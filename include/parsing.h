@@ -71,7 +71,10 @@ int	tt_pwd();
 char	*args_to_str(t_arguments *args);
 char	**args_to_dblstr(t_arguments *args);
 char	**args_to_cmd_dstr(t_arguments *args, char *cmd);
-void	args_move_down(t_arguments *args);
+void	args_move_next_down(t_arguments **args, t_arguments **prev);
+void	args_move_down(t_arguments **args, t_arguments **prev);
+
+// void	args_move_down(t_arguments **args);
 // t_arguments	*args_move_one_down(t_arguments *args, t_arguments *prev);
 
 #endif
