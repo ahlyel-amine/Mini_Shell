@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 22:35:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:31:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
 {
 	t_cmd	*cmd;
 	t_arguments	*args;
-
+int space;
 	args = NULL;
-	args = arguments_constructor(NULL, ft_strdup(line + j), IS_STR);
+	
+	space  = skip_spaces_front(line + j);
+	args = get_argument(line, 0, j + space, 0);
+	// args = arguments_constructor(NULL, ft_strdup(line + j), IS_STR);
 	cmd = builtin_constructor(ft_strdup(builtin), 0, args);
 	return (cmd);
 }
@@ -105,7 +108,6 @@ t_cmd	*get_token_builtins(char *line, int j)
 	cmd = NULL;
 	space  = skip_spaces_front(line + j);
 	tmp = ft_substr(line, 0, j);
-	// tmp = wild_cards(NULL, tmp);
 	if (!ft_strncmp(tmp, "echo", 5))
 	{
 		space = echo_has_option(line + j, &i);
@@ -118,8 +120,6 @@ t_cmd	*get_token_builtins(char *line, int j)
 		cmd = builtin_constructor(ft_strdup("cd"), 0, args);
 	}
 	else
-	{
 		cmd = search_for_builtin(tmp, line, j);
-	}
 	return (free (line), free(tmp), cmd);
 }

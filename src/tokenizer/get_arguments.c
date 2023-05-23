@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 22:47:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/23 14:15:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	merge_arguments(t_arguments **arguments, int is_dquote)
 {
 	t_arguments	*head;
 	t_arguments	*new;
+	t_arguments	*tmp;
 
 	if (!*arguments)
 		return ;
@@ -112,7 +113,10 @@ void	merge_arguments(t_arguments **arguments, int is_dquote)
 		if (head->type & IS_STR)
 		{
 			new = ft_split_str_to_args(head->str, is_dquote);
-			replace_arg(arguments, head, new);
+			tmp = head;
+			replace_arg(arguments, &head, new);
+			free (tmp->str);
+			free(tmp);
 		}
 		else if (head->type & DQUOTE)
 			merge_arguments(&head->down, 1);
@@ -129,9 +133,7 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 		arguments = get_arguments(line, j, is_word);
 	else
 		arguments = get_arguments(line, &i, is_word);
-
 	merge_arguments(&arguments, 0);
-	// tokenize_variables(&arguments);
-	// while (1);
+	tokenize_variables(&arguments);
 	return (arguments);
 }

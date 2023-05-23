@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/18 14:39:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:02:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_arguments	*transform_new_files(char **str)
 	files = NULL;
 	while (str[i])
 	{
-		files = arguments_constructor(files, str[i], DONT_SPLIT | IS_STR | DONT_EXPAND_WILD_CARDS);
+		files = arguments_constructor(files, str[i], IS_STR);
 		i++;
 	}
 	free (str);

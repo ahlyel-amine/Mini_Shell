@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 22:54:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:09:09 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	arguments_destructor(t_arguments **arguments)
 	head = *arguments;
 	while (head)
 	{
-		if (head->type & IS_STR || head->type & IS_VARIABLE)
+		if (head->type & IS_STR || head->type & IS_VARIABLE ||  head->type & IS_SEPARTOR)
 		{
 			tmp = head;
 			head = head->next;
@@ -74,30 +74,34 @@ t_arguments	*str_to_arguments(char *str)
 	return (arguments);
 }
 
-void	replace_arg(t_arguments **head, t_arguments *old, t_arguments *new)
+void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 {
 	t_arguments	*tmp;
+	t_arguments	*replace_old;
 	t_arguments	*prev;
 
 	if (!new)
 		return ;
-	if (*head == old)
+	replace_old = new;
+	if (*head == (*old))
 	{
 		tmp = (*head)->next;
 		*head = new;
 		while (new->next)
 			new = new->next;
 		new->next = tmp;
-	}
+		*old = replace_old;
+ 	}
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->next == old)
+		if (tmp->next == (*old))
 		{
 			tmp->next = new;
 			while (new->next)
 				new = new->next;
-			new->next = old->next;
+			new->next = (*old)->next;
+			*old = replace_old;
 		}
 		tmp = tmp->next;
 	}
