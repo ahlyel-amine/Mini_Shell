@@ -6,13 +6,11 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 22:46:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:07:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-
 
 t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args)
 {
@@ -24,7 +22,7 @@ t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args)
 		return (NULL);
 	}
 	if (ft_isspace(str[*i + *j - 1]) && !is_dquote)
-		args = arguments_constructor(args, ft_strdup(" "), IS_STR);
+		args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR);
 	else
 		args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
 	*i += *j;
@@ -72,7 +70,7 @@ t_arguments	*no_space_break(char *str, int *j, int *i, int is_dquote)
 		if (*j && is_dquote)
 			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
 		else if (*j && !is_dquote)
-			args = arguments_constructor(args, ft_strdup(" "), IS_STR);
+			args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR);
 		*i += *j;
 		*j = 0;
 	}
@@ -117,7 +115,7 @@ t_arguments	*ft_split_str_to_args(char *str, int is_dquote)
 		if (is_dquote)
 			args = arguments_constructor(args, ft_substr(str, 0, i), IS_STR);
 		else
-			args = arguments_constructor(args, ft_strdup(" "), IS_STR);
+			args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR);
 	}
 	while (str[i])
 	{

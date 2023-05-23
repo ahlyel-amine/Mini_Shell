@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:38:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 19:38:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 17:22:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	*remove_parenthisis_syntax_checker(char *line)
 	i = 0;
 	while (line[i])
 	{
+		// if (line[i] == '|' || line[i] == '&')
+		// 	break;
 		if (line[i] == '(' && i && !has_syntax_error(line, i))
 		{
 			err = ft_substr(line, 0, i);
@@ -110,7 +112,7 @@ char	*remove_unused_parenthesis(char *line)
 	}
 	if (is_open)
 		line = select_unused_parenthesis(line, i, var, is_open);
-	else	// need update
+	else
 		return (remove_parenthisis_syntax_checker(line));
 	// 	while (line[i])
 	// 	{
