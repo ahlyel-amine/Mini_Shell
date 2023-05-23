@@ -58,35 +58,79 @@
 // 	return (NULL);
 // }
 
-int main(void)
+// int main(void)
+// {
+//     pid_t p = fork();
+// 	char **a;
+// 	a = malloc(sizeof (char *) * 2);
+// 	a[0] = malloc(3);
+// 	a[0][0] = 'l';
+// 	a[0][1] = 's';
+// 	a[0][2] = 0;
+// 	a[1] = NULL;
+//     if ( p == -1 ) {
+//         perror("fork failed");
+//         return EXIT_FAILURE;
+//     }
+//     else if ( p == 0 ) {
+//         execve("/bin/ls", a, NULL);
+//         return EXIT_FAILURE;
+//     }
+
+//     int status;
+//     if ( waitpid(p, &status, 0) == -1 ) {
+//         perror("waitpid failed");
+//         return EXIT_FAILURE;
+//     }
+
+//     if ( WIFEXITED(status) ) {
+//         const int es = WEXITSTATUS(status);
+//         printf("exit status was %d\n", status);
+//     }
+//     return EXIT_SUCCESS;
+// }
+int compare_matches(char *realfile, char *myfile);
+
+int skip_unkown(char *realfile, char *myfile)
 {
-    pid_t p = fork();
-	char **a;
-	a = malloc(sizeof (char *) * 2);
-	a[0] = malloc(3);
-	a[0][0] = 'l';
-	a[0][1] = 's';
-	a[0][2] = 0;
-	a[1] = NULL;
-    if ( p == -1 ) {
-        perror("fork failed");
-        return EXIT_FAILURE;
-    }
-    else if ( p == 0 ) {
-        execve("/bin/ls", a, NULL);
-        return EXIT_FAILURE;
-    }
+	int	i;
+	int	j;
 
-    int status;
-    if ( waitpid(p, &status, 0) == -1 ) {
-        perror("waitpid failed");
-        return EXIT_FAILURE;
-    }
+	i = 0;
+	j = 0;
+    while (realfile[i] == '*')
+        i++;
+    while (realfile[i] && myfile[j] && myfile[j] != realfile[i])
+        j++;
+    if (myfile[j] == realfile[i])
+       return compare_matches(realfile + i, myfile + j);
+    else if (!realfile[i] && !myfile[j])
+        return (1);
+    else
+        return (0);
+}
 
-    if ( WIFEXITED(status) ) {
-        const int es = WEXITSTATUS(status);
-        printf("exit status was %d\n", status);
+int compare_matches(char *realfile, char *myfile)
+{
+	int	i;
+	int	j;
+	i = 0;
+	j = 0;
+    while (realfile[i] && myfile[j] && realfile[i] == myfile[j])
+    {
+        i++;
+        j++;
     }
+    if (realfile[i] == '*')
+        return skip_unkown(realfile + i, myfile + j);
+    else if (!realfile[i] && !myfile[j])
+        return (1);
+    else
+        return (0);
+}
 
-    return EXIT_SUCCESS;
+int main (int ac, char **av)
+{
+    if (ac == 3)
+        printf("%d\n", compare_matches(av[1], av[2]));
 }
