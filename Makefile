@@ -19,7 +19,8 @@ SRC =	\
 		src/executer/builtin_executer.c\
 		\
 		\
-		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c
+		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c\
+		src/tokenizer/translate_arguments.c
 
 HEADERS = include/minishell.h  include/dictionary.h  include/parsing.h  include/execute.h
 
@@ -34,8 +35,8 @@ NC   = '\e[0m'
 HBLU = '\e[1;94m'
 
 BIN_DIR = bin/
-CFLAGS		=
-    # -fsanitize=address
+CFLAGS		= 
+#  -fsanitize=address
 
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
@@ -46,12 +47,12 @@ all : ${NAME}
 
 ${NAME} : ${OBJ}
 	make -C lib/libft
-	cc ${CFLAGS} ${LIBRARIES} ${OBJ} lib/libft/bin/libft.a -o ${NAME}
+	cc -g ${CFLAGS} ${LIBRARIES} ${OBJ} lib/libft/bin/libft.a -o ${NAME}
 
 obj/%.o : %.c $(HEADERS)
 	mkdir -p $(dir $@)
 	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
-	$(CC) $(CFLAGS) ${INCLUDES} -c $< -o $@
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
 
 clean : 
 	make clean -C lib/libft

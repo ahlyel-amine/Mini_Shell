@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 22:55:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:44:00 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	pipe_destructor(t_cmd *structor)
 {
 	t_pipe	*pipe;
-printf("destructor pipe called \n");
+	printf("destructor pipe called \n");
 	pipe = (t_pipe *)structor;
 	free (pipe);
 }
