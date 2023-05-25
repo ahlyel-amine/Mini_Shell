@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:37 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 11:43:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:58:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ t_arguments	*skip_spaces_back(t_arguments *args)
 				tmp = ft_substr(head->str, 0, i);
 			j++;
 		}
-		i += j;
-		i++;
+		i += ++j;
 	}
 	if (tmp)
 	{
@@ -55,7 +54,7 @@ t_cmd	*get_token_cmd(char *line, int j)
 	i = 0;
 	if (!line || !*line)
 		return (NULL);
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);

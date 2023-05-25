@@ -18,7 +18,7 @@ static char	*skip_quote_redir_names(char *line, int *j, int i)
 	char	*tmp;
 	t_var	var;
 
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
 	k = 0;
 	while (line[i])
@@ -79,7 +79,7 @@ int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 	int	j;
 	t_var	var;
 
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	j = 0;
 	i = i + (ref >> 1);
 	red->file_name = NULL;
