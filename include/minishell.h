@@ -1,10 +1,10 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
-
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+int	glo_exit;
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -135,8 +135,8 @@ char    *nodes_join_b(t_arguments *lst);
 char    *nodes_join(t_list *lst);
 t_list  *expander(char *var);
 char    *replace_str(char *var, char *lst_cnt);
-int    replace(t_list **lst, char *var);
-int dolr_check(t_list **lst, char *str, int iter);
+int		replace(t_list **lst, char *var);
+int		dolr_check(t_list **lst, char *str, int iter);
 void    expend_line(t_cmd *cmd);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
@@ -166,7 +166,7 @@ int		tt_export(t_cmd *cmd);
 // // void	cd(t_cmd *cmd);
 # include "parsing.h"
 # include "execute.h"
-void	tilde_expansion(t_arguments *arg);
+// void	tilde_expansion(t_arguments *arg);
 // char	*tilde_expansion(char *arg, unsigned short type);
 void	*expand_line(t_arguments *arg);
 char    *get_owd(char *env_var);
