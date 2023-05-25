@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 20:14:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 12:44:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:58:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 	
 	if (!line)
 		return (NULL);
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	i = 0;
 	operator = NULL;
 	while (line[i])
@@ -80,6 +80,7 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 				line = NULL;
 				return (operator);
 			}
+			break ;
 		}
 		else if (line[i] == '<')
 		{
@@ -94,6 +95,7 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 				pr_custom_err(ERR_SNTX, line, line + i),
 				line = NULL, NULL);
 			}
+			break ;
 		}
 		i++;
 	}
@@ -111,7 +113,7 @@ t_cmd	*redirections_parser(char *line)
 
 	if (!line)
 		return (NULL);
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	redirection = NULL;
 	i = 0;
 	while (line[i])

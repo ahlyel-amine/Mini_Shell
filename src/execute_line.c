@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:19:52 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 23:16:58 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:03:16 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,4 @@ void	execute_line(t_cmd *cmd)
 		builtin_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
 	else if (cmd->type == PIPE)
 		pipe_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
-
 }

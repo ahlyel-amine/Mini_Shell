@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 14:15:56 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:58:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 	t_var		var;
 	int			j;
 
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	arguments = NULL;
 	j = 0;
 	while (line[*i + j])

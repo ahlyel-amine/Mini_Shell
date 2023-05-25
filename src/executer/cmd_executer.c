@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/24 00:00:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:05:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,13 @@ char	**get_dstr(t_cmd *cmd)
 	var_expand(((t_execcmd *)cmd)->options);
 	wild_cards(&((t_execcmd *)cmd)->cmd);
 	wild_cards(&((t_execcmd *)cmd)->options);
+	args_join(&((t_execcmd *)cmd)->cmd);
+	args_join(&((t_execcmd *)cmd)->options);
 	args_move_down(&((t_execcmd *)cmd)->cmd, &nl);
 	nl = NULL;
 	args_move_down(&((t_execcmd *)cmd)->options, &nl);
-	exec = args_to_cmd_dstr(((t_execcmd *)cmd)->options, args_to_str(((t_execcmd *)cmd)->cmd));
+	exec = args_to_cmd_dstr(((t_execcmd *)cmd)->options, \
+	args_to_str(((t_execcmd *)cmd)->cmd));
 	return (exec);
 }
 
@@ -94,7 +97,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	int		pid;
 	char	**exec;
 	char	*path;
-    int		status;
+	int		status;
 
 	exec = get_dstr(cmd);
 	if (!exec)
@@ -104,7 +107,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		return (pr_custom_err(ERR_CMD, exec[0], exec[0]), free(exec), 0);
 	pid = fork();
 	if (pid == -1)
-    	return (perror("fork failed"), 0);
+		return (perror("fork failed"), 0);
 	if (!pid)
 	{
 		if (infile != STDIN_FILENO)
@@ -130,5 +133,5 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		if (!status)
 			return (free(path) , 1);
 	}
-	return (free(path) , 0);
+	return (free(path), 0);
 }
