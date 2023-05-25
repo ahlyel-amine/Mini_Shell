@@ -1,10 +1,10 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 int	glo_exit;
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
-// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>

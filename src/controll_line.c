@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/25 13:32:29 by aelbrahm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/24 17:31:53 by aahlyel          ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2023/05/25 20:54:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +131,8 @@ void	controll_line(char **line)
 	
 	if (line && *line)
 		cmd = parse_line(*line);
+	t_execcmd *a;
+	a = (t_execcmd *)cmd;
 	// if (cmd->type == EXEC)
 	// {
 	// 	t_execcmd *p;
@@ -154,13 +152,17 @@ void	controll_line(char **line)
 	// 		printf("%s\n", options[i]);
 	// 	free (options);
 	// }
+	
 	if (cmd)
 	{
+	if (cmd->type == BUILTIN)
+		tt_pwd(cmd);
+		else
 		execute_line(cmd);
 		free_line(cmd);
 	}
-	if (cmd->type == BUILTIN)
-		ft_exit(cmd);
+	// if (cmd->type == BUILTIN)
+	// 	ft_exit(cmd);
 	// printf("\n\n\n\n");
 	// execute_line(cmd);
 	// printf("\n\n\n\n");
