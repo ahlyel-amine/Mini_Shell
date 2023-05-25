@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/25 13:14:06 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:21:44 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,16 +134,30 @@ char	*is_env_var(char *str)
 char	*var_str(char *arg)
 {
 	int	iter;
+	char	*tmp;
 
 	iter = 1;
 	if (*arg && arg[iter] == '$')
 		return (arg);
-	while (arg[iter] && (arg[iter] != '_' && !ft_isalpha(arg[iter])))
+	if (arg[iter] == '?')
+	{
+		tmp = ft_strjoin("", ft_itoa(glo_exit));
+		if (!arg[++iter])
+			return (free(arg), tmp);
+		else
+		{
+			tmp = ft_strjoin_free(tmp, ft_strdup(arg + iter));
+			return (free(arg), tmp);
+		}	
+	}	
+	else if ((arg[iter] != '_' && !ft_isalpha(arg[iter])))
 		iter++;
+	tmp = arg;
 	if (arg[iter])
-		return (free(arg), ft_strdup((arg + iter)));
+		arg = ft_strdup((arg + iter));
 	else
-		return (free(arg), ft_strdup(""));
+		arg = ft_strdup("");
+	return (free(tmp), arg);
 }
 // char	*data_manipulate(char *str)
 // {
@@ -175,7 +189,7 @@ char	*data_analyse(char *arg)
 	char	*tmp;
 
 	tmp = ft_strchr(arg, '$');
-	if (!tmp)
+	if (!tmp || tmp != arg || (tmp && ft_strlen(arg) == 1))
 		return (arg);
 	else
 	{
