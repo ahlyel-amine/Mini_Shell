@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 19:46:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:59:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	parhenthises_closed(char *line, int *k, int *i)
 	int		is_open;
 	t_var	var;
 
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	*i = -1;
 	is_open = 1;
 	is_closed = 0;
@@ -50,7 +50,7 @@ int	close_parenthise(char *line)
 	t_var	var;
 
 	i = 0;
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	open = 1;
 	close = 0;
 	while (line[i])
@@ -68,11 +68,6 @@ int	close_parenthise(char *line)
 		}
 	}
 	return (i);
-}
-void	set_zero_var(t_var *var)
-{
-	var->dquote = 0;
-	var->quote = 0;
 }
 void	something_wrong(char *error, void *to_free)
 {
@@ -113,7 +108,7 @@ int	delete_quotes(char *line, char **tmp, int i, int is_word)
 	int		k;
 
 	k = 0;
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
@@ -186,7 +181,7 @@ int	count_dollars(char *line, int *i, int j)
 // 	t_var		var;
 // 	int			j;
 
-// 	set_zero_var(&var);
+// 	ft_memset(&var, 0, sizeof(t_var));
 // 	arguments = NULL;
 // 	j = 0;
 // 	while (line[*i + j])

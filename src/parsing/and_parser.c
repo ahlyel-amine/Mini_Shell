@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:40:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 16:47:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:58:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_cmd	*and_parser(char *line)
 		return (NULL);
 	i = 0;
 	operator = NULL;
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	i = skip_spaces_front(line);
 	if (line[i] == ')' || line[i] == '&' || line[i] == '|')
 			return (pr_custom_err(ERR_SNTX, line, line + i), NULL);
