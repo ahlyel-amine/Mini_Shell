@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/24 17:36:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 20:54:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ size_t	args_strslen(t_arguments *args)
 	while (tmp)
 	{
 		i = 0;
-		if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE))
+		if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || (tmp->type & IS_SEPARTOR))
 		{
 			while (tmp->str[i])
 			{
@@ -47,7 +47,7 @@ size_t	args_strslen(t_arguments *args)
 			}
 		}
 		else if (tmp->type & QUOTE || tmp->type & DQUOTE)
-			len += args_strslen(args->down);
+			len += args_strslen(tmp->down);
 		tmp = tmp->next;
 	}
 	return (len);
@@ -78,10 +78,10 @@ char	*args_to_str(t_arguments *args)
 
 	tmp = args;
 	len = args_strslen(args);
+	printf ("%zu\n", len);
+
 	if (!len)
 		return (NULL);
-	if (len == SIZE_T_MAX)
-		len--;
 	str = ft_calloc(sizeof(char), (len + 1));
 	if (!str)
 		return (perror(""), NULL);
