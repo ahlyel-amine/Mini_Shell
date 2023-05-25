@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/23 22:39:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 13:14:06 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -26,7 +25,7 @@ char	*tilde_replace(char *arg)
 			return (ft_strdup(_HOME));
 		return (ft_strdup(""));
 	}
-	else if (len > 1 && *(arg + 1) == '/')
+	else if (len > 1 && (*(arg + 1) == '/' || *(arg + 1) == ' '))
 	{
 		if (_HOME)
 			return (ft_strjoin(_HOME, (arg + 1)));
@@ -34,7 +33,7 @@ char	*tilde_replace(char *arg)
 	}
 	else if (len > 1 && (*(arg + 1) == '+' || *(arg + 1) == '-'))
 	{
-		if ((*(arg + 1) == '+' && !*(arg + 2)) || (len >= 2 && *(arg + 1) == '+' && *(arg + 2) == '/'))
+		if ((*(arg + 1) == '+' && !*(arg + 2)) || (len >= 2 && *(arg + 1) == '+' && (*(arg + 2) == '/' || *(arg + 2) == 0x20)))
 		{
 			_HOME = get_owd("PWD=");
 			if (_HOME)
@@ -42,7 +41,7 @@ char	*tilde_replace(char *arg)
 			else
 				return (ft_strdup(""));
 		}
-		else if ((*(arg + 1) == '-' && !*(arg + 2)) || (len > 2 && *(arg + 1) == '-' && *(arg + 2) == '/'))
+		else if ((*(arg + 1) == '-' && !*(arg + 2)) || (len > 2 && *(arg + 1) == '-' && (*(arg + 2) == '/') || *(arg + 2) == 0x20))
 		{
 			_HOME = get_owd("OLDPWD=");
 			if (_HOME)
@@ -50,10 +49,10 @@ char	*tilde_replace(char *arg)
 			else
 				return (ft_strdup(""));
 		}
-		else
-			return (ft_strdup(arg));
+		// else
+		// 	return (ft_strdup(arg));
 	}
-	return (NULL);
+	return (ft_strdup(arg));
 }
 int	space_skip(char	*str)
 {
@@ -90,6 +89,20 @@ int	space_skip(char	*str)
 // 		// return (arg);
 // 	}	
 // }
+char	*tilde_expansion(char *arg, unsigned short type)
+{
+	char	*tilde;
+	tilde = (arg);
+	if (!*tilde || *tilde != '~')
+		return (arg);
+	else if (*tilde == '~' && !(type & QUOTE))
+	{
+		arg = tilde_replace(tilde);
+		free(tilde);
+		return (arg);
+	}
+	return (arg);
+}
 
 char	*is_env_var(char *str)
 {
@@ -99,80 +112,115 @@ char	*is_env_var(char *str)
     int size;
     hold = set__get_option_variables(0, GET | GET_ENV);
     lst_env = hold->lst;
-    len = ft_strlen(str) - 1;
+    len = ft_strlen(str);
     size = hold->size;
     while (size--)
     {
-        if (!ft_strncmp((str + 1), lst_env->content, len) && *((char *)lst_env->content + len) == '=')
-            return (ft_strdup((char *)lst_env->content + len + 1));
+        if (!ft_strncmp((str + 1), lst_env->content, len - 1) && *((char *)lst_env->content + (len - 1)) == '=')
+            return (free(str), ft_strdup((char *)lst_env->content + len));
         lst_env = lst_env->next;
     }
 	//SEGV::ABoRT
-	return (ft_strdup(""));
+	return (free(str), ft_strdup(""));
 }
-int		var_len(char *str)
+
+// int		var_len(char *str)
+// {
+// 	int	iter = 0;
+// 	while (str[iter] && (ft_isalnum(str[iter]) || str[iter] == '_'))
+// 		iter++;
+// 	return (iter);
+// }
+char	*var_str(char *arg)
 {
-	int	iter = 0;
-	while (str[iter] && (ft_isalnum(str[iter]) || str[iter] == '_'))
+	int	iter;
+
+	iter = 1;
+	if (*arg && arg[iter] == '$')
+		return (arg);
+	while (arg[iter] && (arg[iter] != '_' && !ft_isalpha(arg[iter])))
 		iter++;
-	return (iter);
-}
-char	*data_manipulate(char *str)
-{
-	int	iter = 0;
-	char	*tmp = str + 1;
-	while (tmp[iter] && !ft_isalpha(tmp[iter]) && tmp[iter] != '_')
-		iter++;
-	if (!tmp[iter])
-	{
-		tmp = ft_strdup("");
-		free(str);
-		return ((tmp));
-	}
-	else if (iter)
-	{
-		tmp = ft_strndup(tmp + iter, ft_strlen(tmp + iter));
-		free(str);
-		return ((tmp));
-	}
+	if (arg[iter])
+		return (free(arg), ft_strdup((arg + iter)));
 	else
-	{
-		tmp = is_env_var(str);
-		free(str);
-		return ((tmp));
-	}
+		return (free(arg), ft_strdup(""));
 }
+// char	*data_manipulate(char *str)
+// {
+// 	int	iter = 0;
+// 	char	*tmp = str + 1;
+// 	while (tmp[iter] && !ft_isalpha(tmp[iter]) && tmp[iter] != '_')
+// 		iter++;
+// 	if (!tmp[iter])
+// 	{
+// 		tmp = ft_strdup("");
+// 		free(str);
+// 		return ((tmp));
+// 	}
+// 	else if (iter)
+// 	{
+// 		tmp = ft_strndup(tmp + iter, ft_strlen(tmp + iter));
+// 		free(str);
+// 		return ((tmp));
+// 	}
+// 	else
+// 	{
+// 		tmp = is_env_var(str);
+// 		free(str);
+// 		return ((tmp));
+// 	}
+// }
 char	*data_analyse(char *arg)
 {
 	char	*tmp;
-	char	*symbol;
-	t_list	*lst;
-	size_t	len;
 
-	lst = NULL;
-	tmp = arg;
-	symbol = ft_strchr(tmp, '$');
-	if (!symbol)
+	tmp = ft_strchr(arg, '$');
+	if (!tmp)
 		return (arg);
-	len = 0;
-	while (len < ft_strlen(arg))
+	else
 	{
-		symbol = ft_strchr(tmp + len, '$');
-		if (symbol)
-		{
-			if (symbol != (tmp + len))
-				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
-			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
-		}
+		if (ft_strlen(arg) > 1 && arg[1] == '$')
+			return (arg);
 		else
 		{
-			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
-			break ;
+			if (ft_isalpha(arg[1]) || arg[1] == '_')
+				return (is_env_var(arg));
+			else
+				return (var_str(arg));
 		}
-			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
 	}
-	return (free(arg), nodes_join(lst));
 }
+// char	*data_analyse(char *arg)
+// {
+// 	char	*tmp;
+// 	char	*symbol;
+// 	t_list	*lst;
+// 	size_t	len;
+
+// 	lst = NULL;
+// 	tmp = arg;
+// 	symbol = ft_strchr(tmp, '$');
+// 	if (!symbol)
+// 		return (arg);
+// 	len = 0;
+// 	while (len < ft_strlen(arg))
+// 	{
+// 		symbol = ft_strchr(tmp + len, '$');
+// 		if (symbol)
+// 		{
+// 			if (symbol != (tmp + len))
+// 				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
+// 			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
+// 		}
+// 		else
+// 		{
+// 			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
+// 			break ;
+// 		}
+// 			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
+// 	}
+// 	return (free(arg), nodes_join(lst));
+// }
 
 void	var_expand(t_arguments *arg)
 {
@@ -185,13 +233,17 @@ void	var_expand(t_arguments *arg)
 	while (tmp)
 	{
 		arg_str = tmp->str;
-		if (arg_str && tmp->type & IS_VARIABLE)
-		{
+		if (tmp->type & IS_VARIABLE)
 			tmp->str = is_env_var(tmp->str);
-			free(arg_str);
+		else if (tmp->type == IS_STR)
+		{
+			tmp->str = data_analyse(tmp->str);
+		}	
+		else if (tmp->type == DQUOTE)
+		{
+			down = tmp->down;
+			var_expand(down);
 		}
-		else if (tmp->type & DQUOTE)
-			var_expand(tmp->down);
 		tmp = tmp->next;
 	}
 }
@@ -199,13 +251,21 @@ void	var_expand(t_arguments *arg)
 void	*expand_line(t_arguments *arg)
 {
 	t_arguments	*expand;
-
+	t_arguments	*tmp;
 	expand = arg;
 	if (arg)
 	{	
-	printf(" %d --- %s --- \n", arg->type, arg->str);
-	var_expand(arg);
-	puts("<<-------------------------------->>");	
+	// printf(" %d --- %s --- \n", arg->type, arg->str);
+	// tilde_expansion(expand);
+		var_expand(arg);
+		tmp = arg;
+		while (tmp)
+		{
+			if (tmp->type == IS_STR)
+				tmp->str = tilde_expansion(tmp->str, tmp->type);	
+			tmp= tmp->next;
+		}
+		puts("<<-------------------------------->>");	
 	}
 	return (NULL);
 }

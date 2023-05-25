@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 23:16:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 13:32:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -154,4 +155,11 @@ void	controll_line(char **line)
 		execute_line(cmd);
 		free_line(cmd);
 	}
+	if (cmd->type == BUILTIN)
+		ft_exit(cmd);
+	// printf("\n\n\n\n");
+	// execute_line(cmd);
+	// printf("\n\n\n\n");
+	// if (cmd)
+	// 	free_line(cmd);
 }
