@@ -6,11 +6,11 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/16 20:09:50 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:40:12 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)())
 {
