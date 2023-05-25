@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/25 13:25:14 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:12:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 void	read_line()
 {
@@ -32,7 +31,8 @@ void	read_line()
 		{
 			free(line);
 			set__get_option_variables(0, FREE);
-			exit(0);
+			printf("%d\n", glo_exit);
+			exit(glo_exit);
 		}
 		if (!*line)
 		{

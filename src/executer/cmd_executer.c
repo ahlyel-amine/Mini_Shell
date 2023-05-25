@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/24 17:05:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 17:39:00 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,22 @@ char	**get_dstr(t_cmd *cmd)
 	return (exec);
 }
 
+void	child(char **exec, char *path, int infile, int outfile)
+{
+	if (infile != STDIN_FILENO)
+	{
+		dup2(infile, STDIN_FILENO);
+		close(infile);
+	}
+	if (outfile != STDOUT_FILENO)
+	{
+		dup2(outfile, STDOUT_FILENO);
+		close(outfile);
+	}
+	execve(path, exec, NULL);
+	exit(EXIT_FAILURE);
+}
+
 int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 {
 	int		pid;
@@ -104,32 +120,21 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		return (perror(""), 0);
 	path = get_path(exec[0]);
 	if (!path)
-		return (pr_custom_err(ERR_CMD, exec[0], exec[0]), free(exec), 0);
+		return (pr_custom_err(ERR_CMD, exec[0], exec[0]), glo_exit = 127, free(exec), 0);
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork failed"), 0);
 	if (!pid)
-	{
-		if (infile != STDIN_FILENO)
-		{
-			dup2(infile, STDIN_FILENO);
-			close(infile);
-		}
-		if (outfile != STDOUT_FILENO)
-		{
-			dup2(outfile, STDOUT_FILENO);
-			close(outfile);
-		}
-		execve(path, exec, NULL);
-		exit(EXIT_FAILURE);
-	}
+		child(exec, path, infile, outfile);
 	free(exec[0]);
 	free(exec);
+	sig_exec_init();
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path) , 0);
 	if (WIFEXITED(status))
 	{
 		status = WEXITSTATUS(status);
+		glo_exit = status;
 		if (!status)
 			return (free(path) , 1);
 	}
