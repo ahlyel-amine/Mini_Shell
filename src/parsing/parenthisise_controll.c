@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:38:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 17:22:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:58:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*remove_unused_parenthesis(char *line)
 	t_var	var;
 	char	*err;
 
-	set_zero_var(&var);
+	ft_memset(&var, 0, sizeof(t_var));
 	i = 0;
 	is_open = 0;
 	is_closed = 0;
