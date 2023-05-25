@@ -6,55 +6,38 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 23:09:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:30:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 # include <fcntl.h>
-char	*arguments_to_str(t_arguments *args)
-{
-	t_arguments *tmp;
-	char		*str;
-	int	i;
-	int j;
 
-	i = 0;
-	tmp = args;
-	while (tmp)
-	{
-		i += ft_strlen(tmp->str);
-		tmp = tmp->next;
-	}
-	str = malloc(i + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (args)
-	{
-		j = 0;
-		while (args->str[j])
-			str[i++] = args->str[j++];
-		args = args->next;
-	}
-	str[i] = 0;
-	return (str);
-}
-int	redirect_executer(t_cmd *cmd, int infile, int outfile)
+void	transform_args(t_arguments **args)
 {
-	int	ret;
-	char	*line;
+	t_arguments	*nl;
+
+	nl = NULL;
+	var_expand(*args);
+	wild_cards(args);
+	args_join(args);
+	args_move_down(args, &nl);
+}
+
+int	open_files(t_cmd *cmd, int *infile, int *outfile)
+{
 	char	*file_name;
-	t_arguments	*check;
-	
+	char	*line;
+
 	if (((t_redir *)cmd)->red.type != HEREDOC)
 	{
 		// ((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name, NULL);
+		transform_args(&(((t_redir *)cmd)->red.file_name));
 		if ((((t_redir *)cmd)->red.file_name)->next)
 			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
 	}
-	file_name = arguments_to_str(((t_redir *)cmd)->red.file_name);
+	file_name = args_to_str(((t_redir *)cmd)->red.file_name);
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
 		((t_redir *)cmd)->red.fd = open("/tmp/.heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
@@ -75,22 +58,42 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 			free(line);
 		}
 		close(((t_redir *)cmd)->red.fd);
-		infile = open("/tmp/.heredoc", O_RDONLY);
-		if (infile < 0)
+		*infile = open("/tmp/.heredoc", O_RDONLY);
+		if (*infile < 0)
 			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
 	}
 	else if (((t_redir *)cmd)->red.type == F_IN_RED)
 	{
-		infile = open(file_name, ((t_redir *)cmd)->red.mode);
-		if (infile < 0)
+		*infile = open(file_name, ((t_redir *)cmd)->red.mode);
+		if (*infile < 0)
 			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
 	}
 	else
 	{
-		outfile = open(file_name, ((t_redir *)cmd)->red.mode, 0644);
-		if (outfile < 0)
+		*outfile = open(file_name, ((t_redir *)cmd)->red.mode, 0644);
+		if (*outfile < 0)
 			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
 	}
+	return (free(file_name), 1);
+}
+
+void	close_files(t_cmd *cmd, int infile, int outfile)
+{
+	if (((t_redir *)cmd)->red.type == HEREDOC || (((t_redir *)cmd)->red.type == IN_REDIR))
+		close(infile);
+	else
+		close(outfile);
+}
+
+int	redirect_executer(t_cmd *cmd, int infile, int outfile)
+{
+	int	ret;
+	char	*file_name;
+	t_arguments	*check;
+	
+
+	if (!open_files(cmd, &infile, &outfile))
+		return (0);
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)
@@ -106,9 +109,35 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 		else if (((t_redir *)cmd)->cmd->type == BUILTIN)
 			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile);
 	}
-	if (((t_redir *)cmd)->red.type == HEREDOC || (((t_redir *)cmd)->red.type == IN_REDIR))
-		close(infile);
-	else
-		close(outfile);
-	return (free(file_name), ret);
+	close_files(cmd, infile, outfile);
+	return (ret);
 }
+
+// char	*arguments_to_str(t_arguments *args)
+// {
+// 	t_arguments *tmp;
+// 	char		*str;
+// 	int	i;
+// 	int j;
+
+// 	i = 0;
+// 	tmp = args;
+// 	while (tmp)
+// 	{
+// 		i += ft_strlen(tmp->str);
+// 		tmp = tmp->next;
+// 	}
+// 	str = malloc(i + 1);
+// 	if (!str)
+// 		return (NULL);
+// 	i = 0;
+// 	while (args)
+// 	{
+// 		j = 0;
+// 		while (args->str[j])
+// 			str[i++] = args->str[j++];
+// 		args = args->next;
+// 	}
+// 	str[i] = 0;
+// 	return (str);
+// }

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/23 23:16:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:31:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_redir_parsing(t_cmd * cmd)
 	char	*line;
 	if (((t_redir *)cmd)->cmd && ((t_redir *)cmd)->cmd->type == INVALID)
 	{
-		file_name = arguments_to_str(((t_redir *)cmd)->red.file_name);
+		file_name = args_to_str(((t_redir *)cmd)->red.file_name);
 		while (1337)
 		{
 			line = readline("heredoc> ");

@@ -3,6 +3,7 @@ make: Entering directory `/Users/aahlyel/Desktop/Mini_Shell'
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling minishell.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/minishell.c -o obj/src/minishell.o
+ 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling execute_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/execute_line.c -o obj/src/execute_line.o
@@ -24,6 +25,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/c
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling expand_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/expand_line.c -o obj/src/expand_line.o
+ 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling pwd.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/pwd.c -o obj/src/pwd.o
@@ -112,7 +114,6 @@ mkdir -p obj/src/executer/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling redir_executer.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/executer/redir_executer.c -o obj/src/executer/redir_executer.o
 mkdir -p obj/src/executer/
- 
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling builtin_executer.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/executer/builtin_executer.c -o obj/src/executer/builtin_executer.o
 mkdir -p obj/src/tokenizer/
@@ -131,6 +132,7 @@ mkdir -p obj/src/tokenizer/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling translate_arguments.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/tokenizer/translate_arguments.c -o obj/src/tokenizer/translate_arguments.o
 make -C lib/libft
+ 
 cc -g -fsanitize=address -L/Users/aahlyel/homebrew/opt/readline/lib -lreadline -I includes -I /Users/aahlyel/homebrew/opt/readline/include  obj/src/minishell.o   obj/src/execute_line.o   obj/src/wild_cards.o   obj/src/read_line.o   obj/src/free_line.o   obj/src/destructors.o   obj/src/cd.o   obj/src/expand_line.o   obj/src/pwd.o   obj/src/export.o   obj/src/tt_unset.o   obj/src/tools.o   obj/src/tools2.o   obj/src/getters_setters.o   obj/src/expender.o   obj/src/complete_line.o   obj/src/constructors.o   obj/src/echo.o   obj/src/controll_line.o   obj/src/parsing_tools/parsing_tools.o   obj/src/parsing_tools/ft_split_char.o   obj/src/parsing/and_parser.o   obj/src/parsing/builtins_parser.o   obj/src/parsing/cmds_parser.o   obj/src/parsing/executable_parser.o   obj/src/parsing/or_parser.o   obj/src/parsing/parenthisise_controll.o   obj/src/parsing/parsing_tools.o   obj/src/parsing/pipe_parser.o   obj/src/parsing/parse_line.o   obj/src/parsing/redirections_parser_tools.o   obj/src/parsing/redirections_parser.o   obj/src/executer/and_executer.o   obj/src/executer/cmd_executer.o   obj/src/executer/or_executer.o   obj/src/executer/pipe_executer.o   obj/src/executer/redir_executer.o   obj/src/executer/builtin_executer.o   obj/src/tokenizer/arguments_controll.o   obj/src/tokenizer/get_arguments.o   obj/src/tokenizer/variables_controll.o   obj/src/tokenizer/ft_split_str_to_args.o   obj/src/tokenizer/translate_arguments.o  lib/libft/bin/libft.a -o minishell
 make: Leaving directory `/Users/aahlyel/Desktop/Mini_Shell'
  

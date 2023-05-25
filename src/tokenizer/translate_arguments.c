@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/24 00:07:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:36:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,35 @@ void	args_move_prev_down(t_arguments **args, t_arguments **prev)
 		tmp->next = NULL;
 		arguments_add_back(&((*args)->down), tmp);
 		return ;
+	}
+}
+
+void	args_join_next(t_arguments **args)
+{
+	t_arguments	*tmp;
+	char		*tmp_str;
+	if ((!((*args)->type & IS_SEPARTOR) && \
+	!((*args)->type & QUOTE) && !((*args)->type & DQUOTE) && \
+	!((*args)->next->type & IS_SEPARTOR) && \
+	!((*args)->next->type & QUOTE) && !((*args)->next->type & DQUOTE)) && \
+	(!((*args)->type & IS_FILE) && !((*args)->next->type & IS_FILE)))
+	{
+		tmp = (*args)->next;
+		tmp_str = (*args)->str;
+		(*args)->str = ft_strjoin((*args)->str, (*args)->next->str);
+		(*args)->next = (*args)->next->next;
+		free (tmp_str);
+		free (tmp->str);
+		free (tmp);
+	}
+}
+
+void	args_join(t_arguments **args)
+{
+	if (*args && (*args)->next)
+	{
+		args_join_next(args);
+		args_join(&((*args)->next));
 	}
 }
 
