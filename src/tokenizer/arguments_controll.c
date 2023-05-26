@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/25 17:45:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:04:16 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,15 @@ void	arguments_add_back(t_arguments **head, t_arguments *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+}
+
+void	transform_args(t_arguments **args)
+{
+	t_arguments	*nl;
+
+	nl = NULL;
+	var_expand(*args);
+	wild_cards(args);
+	args_join(args);
+	args_move_down(args, &nl);
 }

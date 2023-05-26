@@ -6,24 +6,14 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/24 17:30:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:04:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <fcntl.h>
 
-# include <fcntl.h>
 
-void	transform_args(t_arguments **args)
-{
-	t_arguments	*nl;
-
-	nl = NULL;
-	var_expand(*args);
-	wild_cards(args);
-	args_join(args);
-	args_move_down(args, &nl);
-}
 
 int	open_files(t_cmd *cmd, int *infile, int *outfile)
 {
@@ -32,7 +22,8 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 
 	if (((t_redir *)cmd)->red.type != HEREDOC)
 	{
-		// ((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name, NULL);
+		// ((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name,
+				// NULL);
 		transform_args(&(((t_redir *)cmd)->red.file_name));
 		if ((((t_redir *)cmd)->red.file_name)->next)
 			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
@@ -40,7 +31,8 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 	file_name = args_to_str(((t_redir *)cmd)->red.file_name);
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
-		((t_redir *)cmd)->red.fd = open("/tmp/.heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		((t_redir *)cmd)->red.fd = open("/tmp/.heredoc",
+				O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (((t_redir *)cmd)->red.fd < 0)
 			return (pr_custom_err(ERR_FILE, line, file_name), 0);
 		while (1337)
@@ -51,7 +43,7 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 			if (!strncmp(line, file_name, ft_strlen(file_name)))
 			{
 				free(line);
-				break;
+				break ;
 			}
 			write(((t_redir *)cmd)->red.fd, line, ft_strlen(line));
 			write(((t_redir *)cmd)->red.fd, "\n", 1);
@@ -79,7 +71,8 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 
 void	close_files(t_cmd *cmd, int infile, int outfile)
 {
-	if (((t_redir *)cmd)->red.type == HEREDOC || (((t_redir *)cmd)->red.type == IN_REDIR))
+	if (((t_redir *)cmd)->red.type == HEREDOC
+		|| (((t_redir *)cmd)->red.type == IN_REDIR))
 		close(infile);
 	else
 		close(outfile);
@@ -87,10 +80,9 @@ void	close_files(t_cmd *cmd, int infile, int outfile)
 
 int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 {
-	int	ret;
-	char	*file_name;
+	int			ret;
+	char		*file_name;
 	t_arguments	*check;
-	
 
 	if (!open_files(cmd, &infile, &outfile))
 		return (0);
