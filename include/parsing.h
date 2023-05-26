@@ -74,6 +74,7 @@ void	args_move_next_down(t_arguments **args, t_arguments **prev);
 void	args_move_down(t_arguments **args, t_arguments **prev);
 void	wild_cards(t_arguments **args);
 void	args_join(t_arguments **args);
+void	transform_args(t_arguments **args);
 
 // void	args_move_down(t_arguments **args);
 // t_arguments	*args_move_one_down(t_arguments *args, t_arguments *prev);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/25 20:54:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:04:43 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,32 @@ char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
 	return (str);
 }
 
+char	**args_to_dblstr(t_arguments *args)
+{
+	t_arguments	*tmp;
+	char		**str;
+	size_t		len;
+
+	tmp = args;
+	len = args_len(args);
+	if (!len)
+		return (NULL);
+	str = malloc(sizeof(char *) * (len + 1));
+	if (!str)
+		return (perror(""), NULL);
+	len = 0;
+	while (tmp)
+	{
+		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE)
+			str[len++] = ft_strdup(tmp->str);
+		else if ((tmp->type & QUOTE || tmp->type & DQUOTE))
+			str[len++] = args_to_str(tmp->down);
+		tmp = tmp->next;
+	}
+	str[len] = NULL;
+	return (str);
+}
+
 // size_t	args_cmd_len(t_arguments *args)
 // {
 // 	t_arguments	*tmp;
@@ -262,32 +288,3 @@ char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
 // 	return (str);
 // }
 
-
-// char	**args_to_dblstr(t_arguments *args)
-// {
-// 	t_arguments	*tmp;
-// 	char		**str;
-// 	size_t		len;
-
-// 	tmp = args;
-// 	len = args_len(args);
-// 	if (!len)
-// 		return (NULL);
-// 	str = malloc(sizeof(char *) * (len + 1));
-// 	if (!str)
-// 	{
-// 		perror("");
-// 		return (NULL);
-// 	}
-// 	len = 0;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE)
-// 			str[len++] = ft_strdup(tmp->str);
-// 		else
-// 			str[len++] = args_to_str(tmp->down);
-// 		tmp = tmp->next;
-// 	}
-// 	str[len] = NULL;
-// 	return (str);
-// }
