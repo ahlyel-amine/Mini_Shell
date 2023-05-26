@@ -1,10 +1,10 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 int	glo_exit;
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -157,7 +157,7 @@ t_list	*lst_dup(t_list *lst);
 int		valid_id(char *var);
 
 void	ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
-int		tt_export(t_cmd *cmd);
+void		tt_export(t_cmd *cmd);
 
 // #endif
 

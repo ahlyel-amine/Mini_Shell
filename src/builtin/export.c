@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/22 12:39:57 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:00:03 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,30 +105,31 @@ void    val(char *arg)
     }
 }
 
-int get_operator(char *arg)
+int get_operator(char **arg)
 {
+    char    **_arg;
     int iter;
-    char    **arg_s;
     int ret;
     iter = -1;
-    arg_s = ft_split(arg, ' ');
     ret = 0;
-    while (arg_s[++iter])
+    _arg = arg;
+    while (_arg[++iter])
     {
-        if (valid_id(arg_s[iter]))
+        if (valid_id(_arg[iter]))
         {
-            printf("minishell: export: '%s': not a valid identifier\n", arg_s[iter]);
+            printf("minishell: export: '%s': not a valid identifier\n", _arg[iter]);
             ret = 1; 
             continue;
         }
-        val(arg_s[iter]);
+        val(_arg[iter]);
     }
-    sp_free(arg_s);
+    // sp_free(_arg);
     return (ret);
 }
 
-int tt_export(t_cmd *cmd)
+void    tt_export(t_cmd *cmd)
 {
+    char        **args;
     t_builtin   *export;
     t_hold      *hold;
     t_list      *lst_tmp;
@@ -136,7 +137,10 @@ int tt_export(t_cmd *cmd)
 
     ret = 0;
     export = (t_builtin *)cmd;
-    if (!*export->arguments->str)
+    transform_args(&export->arguments);
+    args = args_to_dblstr(export->arguments);
+    
+    if (!args || !*args)
     {
         hold = set__get_option_variables(0, GET | GET_ENV);
         lst_tmp = lst_dup(hold->lst);
@@ -145,6 +149,9 @@ int tt_export(t_cmd *cmd)
         ft_lstclear(&lst_tmp, free);
     }
     else
-        ret = get_operator(export->arguments->str);
-    return (ret);
+    {
+        ret = get_operator(args);
+        sp_free(args);         
+    }
+    glo_exit = ret;  
 }
