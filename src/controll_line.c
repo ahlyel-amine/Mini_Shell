@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/26 18:02:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:44:05 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,17 +130,17 @@ void	print_cmd(t_cmd *cmd)
 void	controll_line(char **line)
 {
 	t_cmd		*cmd;
-	t_execcmd	*a;
+	// t_execcmd	*a;
 
 	cmd = NULL;
 	complete_line(line);
 	if (line && *line)
 		cmd = parse_line(*line);
-	a = (t_execcmd *)cmd;
-	transform_args(&a->options);
-	char **b = args_to_dblstr(a->options);
-	for (int i = 0; b[i]; i++)
-		printf("[%s]\n", b[i]);
+	// a = (t_execcmd *)cmd;
+	// transform_args(&a->options);
+	// char **b = args_to_dblstr(a->options);
+	// for (int i = 0; b[i]; i++)
+	// 	printf("[%s]\n", b[i]);
 	// if (cmd->type == EXEC)
 	// {
 	// 	t_execcmd *p;
@@ -168,8 +168,8 @@ void	controll_line(char **line)
 	// 		execute_line(cmd);
 	// 	free_line(cmd);
 	// }
-	// if (cmd->type == BUILTIN)
-	// 	ft_exit(cmd);
+	if (cmd->type == BUILTIN)
+		tt_export(cmd);
 	// printf("\n\n\n\n");
 	// execute_line(cmd);
 	// printf("\n\n\n\n");
