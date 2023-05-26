@@ -6,14 +6,13 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/25 20:54:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:02:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
 
-int	check_parsing(t_cmd *cmd);
+int		check_parsing(t_cmd *cmd);
 
 int	check_and_parsing(t_cmd *cmd)
 {
@@ -42,10 +41,11 @@ int	check_pipe_parsing(t_cmd *cmd)
 	return (1);
 }
 
-int	check_redir_parsing(t_cmd * cmd)
+int	check_redir_parsing(t_cmd *cmd)
 {
 	char	*file_name;
 	char	*line;
+
 	if (((t_redir *)cmd)->cmd && ((t_redir *)cmd)->cmd->type == INVALID)
 	{
 		file_name = args_to_str(((t_redir *)cmd)->red.file_name);
@@ -57,12 +57,13 @@ int	check_redir_parsing(t_cmd * cmd)
 			if (!strncmp(line, file_name, ft_strlen(file_name)))
 			{
 				free(line);
-				break;
+				break ;
 			}
 			free(line);
 		}
-		pr_custom_err(ERR_SNTX, NULL, ((t_invalid *)((t_redir *)cmd)->cmd)->str);
-		free (file_name);
+		pr_custom_err(ERR_SNTX, NULL,
+				((t_invalid *)((t_redir *)cmd)->cmd)->str);
+		free(file_name);
 		return (0);
 	}
 	return (1);
@@ -77,7 +78,7 @@ int	check_parsing(t_cmd *cmd)
 	else if (cmd->type == OR)
 		return (check_or_parsing(cmd));
 	else if (cmd->type == PIPE)
-	return (check_pipe_parsing(cmd));
+		return (check_pipe_parsing(cmd));
 	else if (cmd->type == REDIR)
 		return (check_redir_parsing(cmd));
 	return (1);
@@ -86,19 +87,21 @@ int	check_parsing(t_cmd *cmd)
 void	print_arguments(t_arguments *args)
 {
 	t_arguments	*tmp;
+	t_arguments	*tmp2;
 
 	tmp = args;
 	printf("--------------------arguments_START-------------------------\n");
 	while (tmp)
 	{
-		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE || tmp->type & IS_SEPARTOR)
-			printf("%d[%s]\n",tmp->type , tmp->str);
+		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE
+			|| tmp->type & IS_SEPARTOR)
+			printf("%d[%s]\n", tmp->type, tmp->str);
 		else
 		{
-			t_arguments	*tmp2 = tmp->down;
+			tmp2 = tmp->down;
 			while (tmp2)
 			{
-				printf("%d]%s[\n",(tmp2)->type ,(tmp2)->str);
+				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
 				tmp2 = (tmp2)->next;
 			}
 		}
@@ -109,30 +112,35 @@ void	print_arguments(t_arguments *args)
 
 void	print_cmd(t_cmd *cmd)
 {
-	t_execcmd *cmds = (t_execcmd *)cmd;
-		printf("---------cmd----------\n");
-		if (!cmds)
-			return ;
-		if (cmds->cmd)
+	t_execcmd	*cmds;
+
+	cmds = (t_execcmd *)cmd;
+	printf("---------cmd----------\n");
+	if (!cmds)
+		return ;
+	if (cmds->cmd)
 		print_arguments(cmds->cmd);
-		printf("--------------------------\n");
-		printf("---------options----------\n");
-		if (cmds->options)
+	printf("--------------------------\n");
+	printf("---------options----------\n");
+	if (cmds->options)
 		print_arguments(cmds->options);
-		printf("--------------------------\n");
+	printf("--------------------------\n");
 }
 
 void	controll_line(char **line)
 {
-	t_cmd	*cmd;
+	t_cmd		*cmd;
+	t_execcmd	*a;
 
 	cmd = NULL;
 	complete_line(line);
-	
 	if (line && *line)
 		cmd = parse_line(*line);
-	t_execcmd *a;
 	a = (t_execcmd *)cmd;
+	transform_args(&a->options);
+	char **b = args_to_dblstr(a->options);
+	for (int i = 0; b[i]; i++)
+		printf("[%s]\n", b[i]);
 	// if (cmd->type == EXEC)
 	// {
 	// 	t_execcmd *p;
@@ -152,15 +160,14 @@ void	controll_line(char **line)
 	// 		printf("%s\n", options[i]);
 	// 	free (options);
 	// }
-	
-	if (cmd)
-	{
-	if (cmd->type == BUILTIN)
-		tt_pwd(cmd);
-		else
-		execute_line(cmd);
-		free_line(cmd);
-	}
+	// if (cmd)
+	// {
+	// 	if (cmd->type == BUILTIN)
+	// 		tt_pwd(cmd);
+	// 	else
+	// 		execute_line(cmd);
+	// 	free_line(cmd);
+	// }
 	// if (cmd->type == BUILTIN)
 	// 	ft_exit(cmd);
 	// printf("\n\n\n\n");
