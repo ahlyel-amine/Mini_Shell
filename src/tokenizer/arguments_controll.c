@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments_controll.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/26 18:04:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/05/27 19:27:03 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	transform_args(t_arguments **args)
 	t_arguments	*nl;
 
 	nl = NULL;
-	var_expand(*args);
+	expand_line(*args);
 	wild_cards(args);
 	args_join(args);
 	args_move_down(args, &nl);
