@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/25 16:24:22 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:52:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ char	*tilde_replace(char *arg)
 	char	*ret;
 	char	*_HOME;
 	size_t	len;
+
 	len = ft_strlen(arg);
 	_HOME = getenv("HOME"); 
-	if (len == 1)
+	if (len == 1 )
 	{
 		if (_HOME)
 			return (ft_strdup(_HOME));
@@ -54,6 +55,7 @@ char	*tilde_replace(char *arg)
 	}
 	return (ft_strdup(arg));
 }
+
 int	space_skip(char	*str)
 {
 	int	iter;
@@ -64,41 +66,28 @@ int	space_skip(char	*str)
 	return (iter);
 	
 }
-// void	tilde_expansion(t_arguments *arg)
-// {
-// 	char	*tilde;
-// 	char	*tmp;
 
-// 	tmp = arg->str;
-// 	if (arg->type == 1)
-// 		arg->str = ft_strdup(tmp + space_skip(arg->str)); 
-// 	tilde = arg->str;
-// 	if (!*tilde || *tilde != '~')//spaceskip
-// 		return ;
-// 	else if (*tilde == '~' && arg->type != 3)
-// 	{
-// 		arg = tilde_replace(tilde);
-// 		free(tilde);
-// 		return (arg);
-// 	}
-// 	return (arg);
-// 		puts("HERE");
-// 		arg = (t_arguments *)tilde_replace(tilde);
-// 		free(tilde);
-// 		printf("tilde => %p\n", arg);
-// 		// return (arg);
-// 	}	
-// }
-char	*tilde_expansion(char *arg, unsigned short type)
+char	*tilde_expansion(char *arg, unsigned short type, t_arguments *next)
 {
 	char	*tilde;
+	int		len;
+
 	tilde = (arg);
 	if (!*tilde || *tilde != '~')
 		return (arg);
-	else if (*tilde == '~' && !(type & QUOTE))
+	else if (*tilde == '~' && !(type & QUOTE) && !(type & DQUOTE))
 	{
-		arg = tilde_replace(tilde);
-		free(tilde);
+		len = ft_strlen(arg);
+		if ((len == 1 && (!next)) || (next && next->type == IS_SEPARTOR))
+		{
+			arg = tilde_replace(tilde);
+			free(tilde);
+		}
+		else if (len > 1)
+		{
+			arg = tilde_replace(tilde);
+			free(tilde);
+		}
 		return (arg);
 	}
 	return (arg);
@@ -124,13 +113,7 @@ char	*is_env_var(char *str)
 	return (free(str), ft_strdup(""));
 }
 
-// int		var_len(char *str)
-// {
-// 	int	iter = 0;
-// 	while (str[iter] && (ft_isalnum(str[iter]) || str[iter] == '_'))
-// 		iter++;
-// 	return (iter);
-// }
+
 char	*var_str(char *arg)
 {
 	int	iter;
@@ -159,31 +142,7 @@ char	*var_str(char *arg)
 		arg = ft_strdup("");
 	return (free(tmp), arg);
 }
-// char	*data_manipulate(char *str)
-// {
-// 	int	iter = 0;
-// 	char	*tmp = str + 1;
-// 	while (tmp[iter] && !ft_isalpha(tmp[iter]) && tmp[iter] != '_')
-// 		iter++;
-// 	if (!tmp[iter])
-// 	{
-// 		tmp = ft_strdup("");
-// 		free(str);
-// 		return ((tmp));
-// 	}
-// 	else if (iter)
-// 	{
-// 		tmp = ft_strndup(tmp + iter, ft_strlen(tmp + iter));
-// 		free(str);
-// 		return ((tmp));
-// 	}
-// 	else
-// 	{
-// 		tmp = is_env_var(str);
-// 		free(str);
-// 		return ((tmp));
-// 	}
-// }
+
 char	*data_analyse(char *arg)
 {
 	char	*tmp;
@@ -204,37 +163,6 @@ char	*data_analyse(char *arg)
 		}
 	}
 }
-// char	*data_analyse(char *arg)
-// {
-// 	char	*tmp;
-// 	char	*symbol;
-// 	t_list	*lst;
-// 	size_t	len;
-
-// 	lst = NULL;
-// 	tmp = arg;
-// 	symbol = ft_strchr(tmp, '$');
-// 	if (!symbol)
-// 		return (arg);
-// 	len = 0;
-// 	while (len < ft_strlen(arg))
-// 	{
-// 		symbol = ft_strchr(tmp + len, '$');
-// 		if (symbol)
-// 		{
-// 			if (symbol != (tmp + len))
-// 				ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, (symbol - (tmp + len)))));
-// 			ft_lstadd_back(&lst, ft_lstnew(data_manipulate(ft_strndup(symbol, var_len(symbol + 1) + 1))));
-// 		}
-// 		else
-// 		{
-// 			ft_lstadd_back(&lst, ft_lstnew(ft_strndup(tmp + len, ft_strlen(tmp + len))));
-// 			break ;
-// 		}
-// 			len += (symbol - (tmp + len)) + (var_len(symbol + 1) + 1);
-// 	}
-// 	return (free(arg), nodes_join(lst));
-// }
 
 void	var_expand(t_arguments *arg)
 {
@@ -250,9 +178,7 @@ void	var_expand(t_arguments *arg)
 		if (tmp->type & IS_VARIABLE)
 			tmp->str = is_env_var(tmp->str);
 		else if (tmp->type == IS_STR)
-		{
 			tmp->str = data_analyse(tmp->str);
-		}	
 		else if (tmp->type == DQUOTE)
 		{
 			down = tmp->down;
@@ -262,24 +188,20 @@ void	var_expand(t_arguments *arg)
 	}
 }
 
-void	*expand_line(t_arguments *arg)
+void	expand_line(t_arguments *arg)
 {
 	t_arguments	*expand;
 	t_arguments	*tmp;
 	expand = arg;
 	if (arg)
 	{	
-	// printf(" %d --- %s --- \n", arg->type, arg->str);
-	// tilde_expansion(expand);
 		var_expand(arg);
 		tmp = arg;
 		while (tmp)
 		{
 			if (tmp->type == IS_STR)
-				tmp->str = tilde_expansion(tmp->str, tmp->type);	
-			tmp= tmp->next;
-		}
-		puts("<<-------------------------------->>");	
+				tmp->str = tilde_expansion(tmp->str, tmp->type, tmp->next);	
+			tmp = tmp->next;
+		}	
 	}
-	return (NULL);
 }
