@@ -6,11 +6,12 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/22 19:07:41 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/26 20:24:52 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 short	valid_ExecVal(char *val)
 {
 	short	idex;
@@ -22,6 +23,7 @@ short	valid_ExecVal(char *val)
 	else
 		return (0);
 }
+
 unsigned char	exit_val(char *str)
 {
 	unsigned long	res;
@@ -53,19 +55,29 @@ void	ft_atexit(int val, t_cmd *cmd)
 	ft_putendl_fd("exit", 2);	
 	set__get_option_variables(0, FREE);
 	builtin_destructor(cmd);
+	glo_exit = val;
 	exit(val);
 }
 
 void	ft_exit(t_cmd *cmd)
 {
 	t_builtin	*_exit;
+	char		**args;
 	int			val;
 	val = 0;
 	_exit = (t_builtin *)cmd;
-	if (!_exit->arguments->str)
-		ft_atexit(val, cmd);
-	// printf("<<--- %s --->>\n", exit->arguments->str);
-	val = (int)exit_val(_exit->arguments->str);
-	ft_atexit(val, cmd);
-	printf("-- %s --\n", _exit->arguments->str);
+	transform_args(&_exit->arguments);
+	args = args_to_dblstr(_exit->arguments);
+	while (args && args[val])
+		val++;
+	if (val > 1)
+	{
+		ft_putendl_fd("Minishell: exit: too many arguments", STDERR_FILENO);
+		glo_exit = 1;
+	}	
+	else if (val == 1)
+		glo_exit = (int)exit_val(_exit->arguments->str);
+	if (args)
+		sp_free(args);
+	printf("%d\n", glo_exit);
 }
