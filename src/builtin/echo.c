@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 19:09:04 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/05/26 20:08:51 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,15 @@
 void	echo(t_cmd *cmd)
 {
 	t_builtin	*echo;
+	char		*arg;
 
 	echo = (t_builtin *)cmd;
-	t_arguments *arg = echo->arguments;
-	t_arguments *down;
-	expand_line(arg);
-	while (arg)
-	{
-		if (arg->type == IS_STR || arg->type == IS_VARIABLE)
-			printf(" type = %d --- %s ---\n", arg->type, arg->str);
-		else
-		{
-			down = arg->down;
-			while (down)
-			{
-				printf(" type = %d --- %s ---\n", down->type, down->str);
-				down = down->next;
-			}
-		}
-		arg = arg->next;
-	}
-	// if (echo->arguments)
-	// {
-		// printf(" === %s === \n", echo->arguments->str);
-		// expand_line(echo->arguments);
-		// printf(" --- %s --- \n", echo->arguments->str);
-	// }	
+	transform_args(&echo->arguments);
+	arg = args_to_str(echo->arguments);
+	if (!echo->has_option)
+		ft_putendl_fd(arg, STDOUT_FILENO);
+	else
+		ft_putstr_fd(arg, STDOUT_FILENO);
+	glo_exit = 0;	
 }
 //echo $PWD "$1PLO '$USER'"
