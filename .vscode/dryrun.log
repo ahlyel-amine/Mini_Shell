@@ -3,6 +3,7 @@ make: Entering directory `/Users/aahlyel/Desktop/Mini_Shell'
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling minishell.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/minishell.c -o obj/src/minishell.o
+ 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling execute_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/execute_line.c -o obj/src/execute_line.o
@@ -18,7 +19,6 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/f
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling destructors.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/destructors.c -o obj/src/destructors.o
- 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling expand_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/expand_line.c -o obj/src/expand_line.o
@@ -28,6 +28,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/t
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling tools2.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/tools2.c -o obj/src/tools2.o
+ 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling signal.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/signal.c -o obj/src/signal.o
@@ -43,6 +44,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/c
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling constructors.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/constructors.c -o obj/src/constructors.o
+ 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling controll_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/controll_line.c -o obj/src/controll_line.o
@@ -67,6 +69,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/p
 mkdir -p obj/src/parsing/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling or_parser.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/parsing/or_parser.c -o obj/src/parsing/or_parser.o
+ 
 mkdir -p obj/src/parsing/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling parenthisise_controll.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/parsing/parenthisise_controll.c -o obj/src/parsing/parenthisise_controll.o
@@ -98,7 +101,6 @@ mkdir -p obj/src/executer/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling pipe_executer.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/executer/pipe_executer.c -o obj/src/executer/pipe_executer.o
 mkdir -p obj/src/executer/
- 
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling redir_executer.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/executer/redir_executer.c -o obj/src/executer/redir_executer.o
 mkdir -p obj/src/executer/
@@ -122,6 +124,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/t
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling pwd.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/pwd.c -o obj/src/builtin/pwd.o
+ 
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling cd.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/cd.c -o obj/src/builtin/cd.o
@@ -134,6 +137,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/b
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling exit.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/exit.c -o obj/src/builtin/exit.o
+ 
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling tt_unset.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/tt_unset.c -o obj/src/builtin/tt_unset.o
