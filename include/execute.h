@@ -17,8 +17,19 @@ int			redirect_executer(t_cmd *cmd, int infile, int outfile);
 int			builtin_executer(t_cmd *cmd, int infile, int outfile);
 size_t		ft_double_strlen(char **str);
 char		**ft_joindstrs(char **ds1, char* *ds2);
-int			tt_pwd();
-void	ft_exit(t_cmd *cmd);
+char	**get_dstr(t_cmd *cmd);
+////-/__________________________________________________________//-|
+///-/                           EXEC                           //--|
+//-/__________________________________________________________//---|
+int		tt_pwd();
+void	tt_echo(t_cmd *cmd);
+void	tt_cd(t_cmd *cmd);
+void	tt_unset(t_cmd *cmd);
+void	tt_exit(t_cmd *cmd);
+void	tt_env(t_cmd *cmd);
+////-/__________________________________________________________//-|
+///-/                           SIGNALS                        //--|
+//-/__________________________________________________________//---|
 void	sig_handl();
 void	sig_exec_init(void);
 void	handel_sigint(int sig);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_arguments.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/26 18:04:43 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/02 02:20:23 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ char	*args_to_str(t_arguments *args)
 
 	tmp = args;
 	len = args_strslen(args);
-	printf ("%zu\n", len);
-
 	if (!len)
 		return (NULL);
 	str = ft_calloc(sizeof(char), (len + 1));
