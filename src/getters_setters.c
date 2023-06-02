@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 14:17:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/02 04:56:19 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	*set_pwd(char *o_pwd)
 		return (ft_strdup(get_owd("PWD=")));
 	else
 		pwd = ft_strdup(cwd);
+	printf("--> %s <--\n",pwd);
 	return (free(o_pwd), pwd);
 }
 

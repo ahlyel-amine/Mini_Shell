@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:53:40 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/27 02:11:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/02 04:24:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void    env_print(t_list *lst, int lst_size,int (*print)(const char*, ...))
+static void    env_print(t_list *lst, int lst_size,void (*print)(char*, int))
 {
     t_list  *tmp;
     int     size;
@@ -21,7 +21,7 @@ static void    env_print(t_list *lst, int lst_size,int (*print)(const char*, ...
     tmp = lst;
     while (tmp && size--)
     {
-        (*print)(" %s\n", tmp->content);
+        (*print)(tmp->content, out);
         tmp = tmp->next;
     }
 }
@@ -38,7 +38,7 @@ void	tt_env(t_cmd *cmd)
 	lst = env->lst;
 	args = args_to_dblstr(env_->arguments);
 	if (!args)
-		env_print(lst, env->size, printf);
+		env_print(lst, env->size, ft_putendl_fd);
 	else if (args && *args)
 	{
 		glo_exit = 127;

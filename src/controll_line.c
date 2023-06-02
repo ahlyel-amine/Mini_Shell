@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/26 18:44:05 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/02 02:13:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,19 +160,16 @@ void	controll_line(char **line)
 	// 		printf("%s\n", options[i]);
 	// 	free (options);
 	// }
-	// if (cmd)
-	// {
-	// 	if (cmd->type == BUILTIN)
-	// 		tt_pwd(cmd);
-	// 	else
-	// 		execute_line(cmd);
-	// 	free_line(cmd);
-	// }
-	if (cmd->type == BUILTIN)
-		tt_export(cmd);
+	if (cmd)
+	{
+		execute_line(cmd);
+		free_line(cmd);
+	}
+	// if (cmd->type == BUILTIN)
+	// 	tt_echo(cmd);
 	// printf("\n\n\n\n");
 	// execute_line(cmd);
 	// printf("\n\n\n\n");
 	// if (cmd)
-	// 	free_line(cmd);
+		// free_line(cmd);
 }

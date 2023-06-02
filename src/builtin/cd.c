@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/27 18:51:47 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/02 08:19:42 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void    reset_env(char *pwd, char *o_pwd)
 {
     t_hold  *env;
     t_list  *lst;
+    char    *tmp;
     short   flg = 0;
     short   p_flg = 0;
     env = set__get_option_variables(0, (GET | GET_ENV));
@@ -57,14 +58,17 @@ void    reset_env(char *pwd, char *o_pwd)
         if (!ft_strncmp("PWD=", lst->content, 4))
         {
             p_flg = 1;
-            free(lst->content);
-            lst->content = ft_strjoin("PWD=", pwd);
+            tmp = lst->content;
+            // char    *tmp2 = ft_strdup(pwd);
+            lst->content = ft_strjoin_free(ft_strdup("PWD="), ft_strdup(pwd));
+            free(tmp);
         }
         if (!ft_strncmp("OLDPWD=", lst->content, 7))
         {
             flg = 1;
-            free(lst->content);
+            tmp = lst->content;
             lst->content = ft_strjoin("OLDPWD=", o_pwd);
+            free(tmp);
         }
         lst = lst->next;
     }
@@ -91,12 +95,12 @@ char    *extend_option(char *arg, char *ex_with, int opt)
     if (!opt)
     {
         tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));
-        printf("{{%s}}\n", tmp);
+        // printf("{{%s}}\n", tmp);
     }    
     else if (opt == 1)
         tmp = ft_substr(arg, 1, (ft_strlen(arg) - 1));
     ret = ft_strjoin_free(ex_with, tmp);
-        printf("{{%s}}\n", ret);
+        // printf("{{%s}}\n", ret);
     return (free(arg), ret);
 }
 
@@ -124,7 +128,6 @@ int ft_go_to(int opt, char *path, char *cwd)
     int         ret;
 
     env_path = NULL;
-    env_path = path;
     if (!opt)
     {
         env_path = get_owd("HOME=");
@@ -136,6 +139,7 @@ int ft_go_to(int opt, char *path, char *cwd)
             reset_env(env_path, get_owd("PWD="));
         else    
             reset_env(env_path, cwd);
+        ret = chdir(env_path);
     }   
     else if (opt == 1)
     {
@@ -150,8 +154,9 @@ int ft_go_to(int opt, char *path, char *cwd)
             reset_env(env_path, get_owd("PWD="));
         else    
             reset_env(env_path, cwd);
+        ft_putendl_fd(get_owd("PWD="), out);
+        ret = chdir(get_owd("PWD="));
     }
-    ret = chdir(env_path);
     return (ret);
 }
 int     prev_drictory_count(char *wd)
@@ -216,7 +221,7 @@ int     d_point_validat(char *path, char *o_pwd, int count)
     ret = chdir(dir);
     if (!ret)
         reset_env(dir, o_pwd);
-    printf(" %s --- %d ---\n", dir, ret);
+    // printf(" %s --- %d ---\n", dir, ret);
     return (free(dir), ret);
 }
 
@@ -234,20 +239,15 @@ int    d_point_extend(char  *path, char *cwd)
         pwd = ft_strdup(pwd);
     if (!*cwd && d_point_check(path))
     {
-        puts("alo");
         if (pwd && pwd[ft_strlen(pwd) - 1] != '/')
             pwd = ft_strjoin_free(pwd, ft_strdup("/"));
         count = prev_drictory_count(path);
         if (count >= 3)
             return (free(pwd), printf("cd: %s: No such file or directory", path), 1);
         count += prev_drictory_count(pwd);
-        printf("--- count = %d\n", count);
         ret = d_point_validat(pwd, get_owd("OLDPWD="), count);
         if (ret == -1)
         {
-            // tmp = ft_strdup(pwd);
-            // pwd = ft_strjoin_free(pwd, ft_strdup(path));
-            // reset_env(pwd, tmp);
             pwd = ft_strjoin_free(pwd, ft_strdup(path));
             reset_env(pwd, get_owd("PWD="));
             return  (free(pwd), printf("cd: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno)), 1);
@@ -288,7 +288,34 @@ void    nr_cd(char *path, char *cwd)
     }
     glo_exit = ret;
 }
+char    *args(t_arguments *cmd)
+{
+    char        *ret;
+    t_arguments *tmp;
 
+    ret = ft_strdup("");
+    tmp = cmd;
+    if (!tmp)
+        return (NULL);
+    if (tmp->type == QUOTE || tmp->type == DQUOTE)
+    {
+        tmp = tmp->down;
+        while (tmp && tmp->str)
+        {
+            ret = ft_strjoin_free(ret, ft_strdup(tmp->str));
+            tmp = tmp->next;
+        }
+    }
+    else
+    {
+        while (tmp && tmp->type != IS_SEPARTOR)
+        {
+            ret = ft_strjoin_free(ret, ft_strdup(tmp->str));
+            tmp = tmp->next;
+        }
+    }
+    return (ret);
+}
 void    tt_cd(t_cmd *cmd)
 {
     t_builtin   *cd;
@@ -300,13 +327,13 @@ void    tt_cd(t_cmd *cmd)
     cd = (t_builtin *)cmd;
     if (!getcwd(cwd, sizeof(cwd)))
         cwd[0] = '\0';
+    puts("alo");
     (transform_args(&cd->arguments));
-    path = args_to_str(cd->arguments);
-    printf("--- %s ---\n",path);
+    path = args(cd->arguments);
     if (!path)
         glo_exit = ft_go_to(0, path, cwd);
     else if (!ft_memcmp(path, "-", 2))
-        glo_exit = ft_go_to(1, path, cwd), free(path);
+        glo_exit = ft_go_to(1, path, cwd), free(path);   
     else
     {
         if (!ft_memcmp(path, "..", 2) || !ft_memcmp(path, ".", 1))
