@@ -1,6 +1,8 @@
+
 #ifndef MINISHELL_H
 #define MINISHELL_H
 int	glo_exit;
+int	out;
 # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
 # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
 // # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
@@ -138,20 +140,15 @@ char    *replace_str(char *var, char *lst_cnt);
 int		replace(t_list **lst, char *var);
 int		dolr_check(t_list **lst, char *str, int iter);
 void    expend_line(t_cmd *cmd);
-////-/__________________________________________________________//-|
-///-/                           EXEC                           //--|
-//-/__________________________________________________________//---|
-
 
 ////-/__________________________________________________________//-|
 ///-/                          TOOLS                           //--|
 //-/__________________________________________________________//---|
+
 void	sp_free(char **splt);
 char	*app_dup(char *arg);
 void	env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
-void	echo(t_cmd *cmd);
-int		tt_cd(t_cmd *cmd);
-int		tt_unset(t_cmd *cmd);
+
 t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
 t_list	*lst_dup(t_list *lst);
 int		valid_id(char *var);
@@ -168,7 +165,7 @@ void		tt_export(t_cmd *cmd);
 # include "execute.h"
 // void	tilde_expansion(t_arguments *arg);
 // char	*tilde_expansion(char *arg, unsigned short type);
-void	*expand_line(t_arguments *arg);
+void	expand_line(t_arguments *arg);
 char    *get_owd(char *env_var);
 char    *ft_strndup(const char *s, size_t n);
 #endif

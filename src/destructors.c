@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destructors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/26 16:29:43 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/02 02:08:51 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	pipe_destructor(t_cmd *structor)
 {
 	t_pipe	*pipe;
 
-	printf("destructor pipe called \n");
+	// printf("destructor pipe called \n");
 	pipe = (t_pipe *)structor;
 	free(pipe);
 }
@@ -26,7 +26,7 @@ void	execcmd_destructor(t_cmd *structor)
 	t_arguments	*tmp;
 	t_execcmd	*cmd;
 
-	printf("destructor execcmd called \n");
+	// printf("destructor execcmd called \n");
 	cmd = (t_execcmd *)structor;
 	arguments_destructor(&cmd->cmd);
 	arguments_destructor(&cmd->options);
@@ -39,7 +39,7 @@ void	redir_destructor(t_cmd *structor)
 	t_arguments	*args;
 	t_arguments	*tmp;
 
-	printf("destructor redir called \n");
+	// printf("destructor redir called \n");
 	redir = (t_redir *)structor;
 	if (redir->cmd != NULL && redir->cmd->type == EXEC)
 		execcmd_destructor(redir->cmd);
@@ -71,7 +71,7 @@ void	and_destructor(t_cmd *structor)
 {
 	t_and	*and;
 
-	printf("destructor and called \n");
+	// printf("destructor and called \n");
 	and = (t_and *)structor;
 	free(and);
 }
@@ -79,7 +79,7 @@ void	and_destructor(t_cmd *structor)
 void	or_destructor(t_cmd *structor)
 {
 	t_or * or ;
-	printf("destructor or called \n");
+	// printf("destructor or called \n");
 	or = (t_or *)structor;
 	free(or);
 }
@@ -88,7 +88,7 @@ void	invalid_destructor(t_cmd *structor)
 {
 	t_invalid	*invalid;
 
-	printf("destructor invalid called \n ");
+	// printf("destructor invalid called \n ");
 	invalid = (t_invalid *)structor;
 	free(invalid->str);
 	free(invalid);
@@ -100,7 +100,7 @@ void	builtin_destructor(t_cmd *structor)
 	t_arguments	*args;
 	t_arguments	*tmp;
 
-	printf("destructor builtin called \n");
+	// printf("destructor builtin called \n");
 	builtin = (t_builtin *)structor;
 	args = builtin->arguments;
 	tmp = builtin->arguments;
@@ -118,7 +118,7 @@ void	builtin_destructor(t_cmd *structor)
 void	assignement_destructor(t_cmd *structor)
 {
 	t_assignement *assignement;
-	printf("destructor assignement called \n");
+	// printf("destructor assignement called \n");
 	assignement = (t_assignement *)structor;
 	free(assignement->key);
 	free(assignement->value);
