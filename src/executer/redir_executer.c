@@ -3,23 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   redir_executer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/26 18:04:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/03 09:34:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <fcntl.h>
 
-
-
 int	open_files(t_cmd *cmd, int *infile, int *outfile)
 {
 	char	*file_name;
 	char	*line;
-
 	if (((t_redir *)cmd)->red.type != HEREDOC)
 	{
 		// ((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name,
@@ -29,17 +26,18 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
 	}
 	file_name = args_to_str(((t_redir *)cmd)->red.file_name);
+	
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
+		in_cmd = 1;
+		sig_here();
 		((t_redir *)cmd)->red.fd = open("/tmp/.heredoc",
 				O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (((t_redir *)cmd)->red.fd < 0)
 			return (pr_custom_err(ERR_FILE, line, file_name), 0);
-		while (1337)
+		line = readline(HERDOC);
+		while (line && !Ctrl_c)
 		{
-			line = readline("heredoc> ");
-			if (!line)
-				break ;
 			if (!strncmp(line, file_name, ft_strlen(file_name)))
 			{
 				free(line);
@@ -48,8 +46,12 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 			write(((t_redir *)cmd)->red.fd, line, ft_strlen(line));
 			write(((t_redir *)cmd)->red.fd, "\n", 1);
 			free(line);
+			line = readline(HERDOC);
 		}
+		free(line);
 		close(((t_redir *)cmd)->red.fd);
+		Ctrl_c = 0;
+		in_cmd = 0;
 		*infile = open("/tmp/.heredoc", O_RDONLY);
 		if (*infile < 0)
 			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
@@ -86,6 +88,7 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 
 	if (!open_files(cmd, &infile, &outfile))
 		return (0);
+	printf("[ %p ]\n", ((t_redir *)cmd)->cmd);
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)

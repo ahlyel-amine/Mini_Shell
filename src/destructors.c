@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/02 02:08:51 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/03 09:14:59 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	redir_destructor(t_cmd *structor)
 	else if (redir->cmd != NULL && redir->cmd->type == PIPE)
 		free_line(redir->cmd);
 	args = redir->red.file_name;
-	tmp = redir->red.file_name;
+	// tmp = redir->red.file_name;
 	while (args)
 	{
 		tmp = args;

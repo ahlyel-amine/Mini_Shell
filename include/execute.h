@@ -32,5 +32,5 @@ void	tt_env(t_cmd *cmd);
 //-/__________________________________________________________//---|
 void	sig_handl();
 void	sig_exec_init(void);
-void	handel_sigint(int sig);
+void	sig_here();
 #endif
