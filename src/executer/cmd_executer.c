@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_executer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/25 17:39:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/03 08:00:41 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	char	*path;
 	int		status;
 
+	// sig_exec_init();
 	exec = get_dstr(cmd);
 	if (!exec)
 		return (perror(""), 0);
@@ -128,7 +129,6 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		child(exec, path, infile, outfile);
 	free(exec[0]);
 	free(exec);
-	sig_exec_init();
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path) , 0);
 	if (WIFEXITED(status))
