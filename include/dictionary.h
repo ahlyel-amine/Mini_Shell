@@ -57,7 +57,7 @@ typedef struct s_var
 }	t_var;
 
 
-enum s_arguments_type
+typedef enum s_arguments_type
 {
 	QUOTE 		= 0b1,
 	IS_STR 		= 0b10,
@@ -65,6 +65,6 @@ enum s_arguments_type
 	DQUOTE 		= 0b1000,
 	IS_SEPARTOR = 0b10000,
 	IS_FILE		= 0b100000
-};
+} t_arguments_type;
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments_controll.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/27 19:27:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/05 10:23:15 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned s
 {
 	t_arguments	*new;
 	t_arguments	*tmp;
-
 
 	new = malloc(sizeof(t_arguments));
 	if (!new)

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   free_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 08:35:28 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/21 22:25:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/05 11:31:43 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 static void	free_rest_of_line(t_cmd *cmd)
 {

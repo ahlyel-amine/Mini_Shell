@@ -4,6 +4,8 @@
 // # include "minishell.h"
 #include <signal.h>
 char		*arguments_to_str(t_arguments *args);
+char		**ft_dstrdup(char **env);
+char		**ft_dstrdup2(char **ds1);
 void		execute_line(t_cmd *cmd);
 int			pipe_executer(t_cmd *cmd, int infile, int outfile);
 int			pipe_part_executer(t_cmd *cmd, int infile, int outfile);
@@ -18,6 +20,7 @@ int			builtin_executer(t_cmd *cmd, int infile, int outfile);
 size_t		ft_double_strlen(char **str);
 char		**ft_joindstrs(char **ds1, char* *ds2);
 char	**get_dstr(t_cmd *cmd);
+void	adjust_shlvl(t_hold *env);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
