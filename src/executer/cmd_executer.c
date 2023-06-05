@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/03 08:00:41 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:41:17 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,22 @@ char	**get_dstr(t_cmd *cmd)
 
 void	child(char **exec, char *path, int infile, int outfile)
 {
+	char	**backup_env;
+	t_hold	*env;
+	t_list	*lst;
+	int		size;
+	int		iter;
+	env = set__get_option_variables(0, GET | GET_ENV);
+	lst = env->lst;
+	backup_env = malloc(sizeof(char *) * (env->size + 1));
+	size = env->size;
+	iter = 0;
+	while (size--)
+	{
+		backup_env[iter] = ft_strdup(lst->content);
+		lst = lst->next;
+		iter++;
+	}
 	if (infile != STDIN_FILENO)
 	{
 		dup2(infile, STDIN_FILENO);
@@ -105,6 +121,8 @@ void	child(char **exec, char *path, int infile, int outfile)
 		close(outfile);
 	}
 	execve(path, exec, NULL);
+	if (backup_env)
+		sp_free(backup_env);
 	exit(EXIT_FAILURE);
 }
 
@@ -114,9 +132,10 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	char	**exec;
 	char	*path;
 	int		status;
-
-	// sig_exec_init();
+	puts("IM HERE .");
+	sig_exec_init();
 	exec = get_dstr(cmd);
+	printf("== %s ==\n", *exec);
 	if (!exec)
 		return (perror(""), 0);
 	path = get_path(exec[0]);

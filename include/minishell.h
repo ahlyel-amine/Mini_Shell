@@ -30,6 +30,13 @@ typedef struct s_hold{
 	int		size:16;
 }	t_hold;
 
+typedef struct s_globe
+{
+	char	**backup;
+	t_hold	*s_env;
+}	t_globe;
+
+t_globe	e_globe;
 typedef struct s_arguments{
 	char				*str;
 	unsigned short		type:6;
