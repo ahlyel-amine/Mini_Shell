@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/02 04:14:27 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:57:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ short	valid_ExecVal(char *val)
 	else
 		return (0);
 }
+
 void	exit_var_err(char *str)
 {
 	ft_putstr_fd("Minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(str , STDERR_FILENO);
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 }
+
 unsigned char	exit_val(char *str)
 {
 	unsigned long	res;

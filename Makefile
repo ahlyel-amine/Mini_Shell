@@ -23,7 +23,7 @@ SRC =	\
 		src/tokenizer/translate_arguments.c \
 		\
 		\
-		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/tt_unset.c\
+		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c\
 
 HEADERS = include/minishell.h  include/dictionary.h  include/parsing.h  include/execute.h
 
@@ -38,8 +38,7 @@ NC   = '\e[0m'
 HBLU = '\e[1;94m'
 
 BIN_DIR = bin/
-CFLAGS		=  
-# -fsanitize=address
+CFLAGS		=  -fsanitize=address
 
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
