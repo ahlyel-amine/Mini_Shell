@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/05 10:14:04 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:12:14 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	handle_exec_sig(int sig)
 	else if (sig == SIGQUIT)
 	{
 		glo_exit = 131;
-		ft_putstr_fd("Quit: (core dumped)\n", 2);
+		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
 	}
 }
 

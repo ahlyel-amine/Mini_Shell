@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 12:32:56 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:57:08 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
 		in_cmd = 1;
-		// sig_here();
+		sig_here();
 		((t_redir *)cmd)->red.fd = open("/tmp/.heredoc",
 				O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (((t_redir *)cmd)->red.fd < 0)
@@ -88,7 +88,6 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 
 	if (!open_files(cmd, &infile, &outfile))
 		return (0);
-	printf("[ %p ]\n", ((t_redir *)cmd)->cmd);
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)
