@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 12:41:17 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:25:02 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,9 @@ void	child(char **exec, char *path, int infile, int outfile)
 		dup2(outfile, STDOUT_FILENO);
 		close(outfile);
 	}
-	execve(path, exec, NULL);
-	if (backup_env)
-		sp_free(backup_env);
+	execve(path, exec, backup_env);
+	// if (backup_env)
+	// 	sp_free(backup_env);
 	exit(EXIT_FAILURE);
 }
 
@@ -132,10 +132,8 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 	char	**exec;
 	char	*path;
 	int		status;
-	puts("IM HERE .");
-	sig_exec_init();
+	
 	exec = get_dstr(cmd);
-	printf("== %s ==\n", *exec);
 	if (!exec)
 		return (perror(""), 0);
 	path = get_path(exec[0]);
