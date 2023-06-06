@@ -5,8 +5,8 @@ int	glo_exit;
 int	in_cmd;
 int	out;
 int	Ctrl_c;
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 // # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
 // # include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
@@ -39,6 +39,7 @@ typedef struct s_globe
 t_globe	e_globe;
 typedef struct s_arguments{
 	char				*str;
+	unsigned short		q:1;
 	unsigned short		type:6;
 	struct s_arguments	*down;
 	struct s_arguments	*next;

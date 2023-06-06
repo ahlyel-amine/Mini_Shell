@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/24 17:34:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 10:09:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_arguments	*get_files(char	*str, t_arguments *args, DIR *directory)
 	if (ft_strncmp(dir->d_name, ".", 2) && ft_strncmp(dir->d_name, "..", 3))
 	{
 		if (compare_matches(str, dir->d_name))
-			args = arguments_constructor(args, ft_strdup(dir->d_name), IS_STR | IS_FILE);
+			args = arguments_constructor(args, ft_strdup(dir->d_name), IS_STR | IS_FILE, 0);
 	}
 	args = get_files(str, args, directory);
 	return (args);
