@@ -6,7 +6,11 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/06 09:30:40 by aahlyel          ###   ########.fr       */
+=======
+/*   Updated: 2023/06/06 08:05:30 by aelbrahm         ###   ########.fr       */
+>>>>>>> b4d86ad1b3f9a57cd783112f7bd51c91521aee05
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +37,7 @@ void	builtin_locat(t_cmd *cmd, int out)
 		tt_unset(cmd);
 }
 
+<<<<<<< HEAD
 // void	quantum_box(t_cmd *cmd, int out)
 // {
 // 	// if (in != STDIN_FILENO)
@@ -49,9 +54,13 @@ void	builtin_locat(t_cmd *cmd, int out)
 // }
 
 int	builtin_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
+=======
+int	builtin_executer(t_cmd *cmd, int infile, int outfile)
+>>>>>>> b4d86ad1b3f9a57cd783112f7bd51c91521aee05
 {
 	out = outfile;
 	builtin_locat(cmd, outfile);
-	// quantum_box(cmd, outfile);
-	return (0);
+	if (glo_exit)
+		return (0);
+	return (1);
 }
