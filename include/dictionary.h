@@ -23,13 +23,14 @@
 # define ERR_CMD				"minishell: command not found: "
 # define ERR_FILE				"minishell: no such file or directory: "
 # define ERR_SNTX				"minishell: syntax error near unexpected token : "
-# define ERR_AND				"minishell: syntax error near unexpected token `&&'\n"
-# define ERR_OR					"minishell: syntax error near unexpected token `||'\n"
-# define ERR_PIPE				"minishell: syntax error near unexpected token `|'\n"
-# define ERR_UNLCSD_PARNETHISE	"minishell: syntax error near unexpected token `('\n"
-# define ERR_ClSD_PARNETHISE	"minishell: syntax error near unexpected token `)'\n"
+# define ERR_AND				"minishell: syntax error near unexpected token `&&'"
+# define ERR_OR					"minishell: syntax error near unexpected token `||'"
+# define ERR_PIPE				"minishell: syntax error near unexpected token `|'"
+# define ERR_UNLCSD_PARNETHISE	"minishell: syntax error near unexpected token `('"
+# define ERR_ClSD_PARNETHISE	"minishell: syntax error near unexpected token `)'"
 # define READLINE				"\033[1;32mminishell\033[34m$ \033[0m"
 # define HERDOC					"\033[37mHeredoc\033[34m> \033[0m"
+
 enum s_type
 {
 	EXEC = 1,

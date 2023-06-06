@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 19:12:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 12:43:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*read_until_chr(char *line, char c)
 		if (!dquote)
 		{
 			free (line);
-			ft_putendl_fd("unexpected EOF while looking for matching \"\'", 2);
-			ft_putendl_fd("minishell: syntax error: unexpected end of file", 2);
+			ft_putstr_fd("unexpected EOF while looking for matching \"\'", 2);
+			ft_putstr_fd("minishell: syntax error: unexpected end of file", 2);
 			return (NULL);
 		}
 		line = ft_strjoin_free(line, ft_strdup("\n"));
