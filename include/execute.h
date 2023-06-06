@@ -21,6 +21,7 @@ size_t		ft_double_strlen(char **str);
 char		**ft_joindstrs(char **ds1, char* *ds2);
 char	**get_dstr(t_cmd *cmd);
 void	adjust_shlvl(t_hold *env);
+char	*data_analyse(char *str);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
