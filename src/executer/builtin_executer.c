@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/02 04:20:04 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 08:05:30 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,11 @@ void	builtin_locat(t_cmd *cmd, int out)
 		tt_unset(cmd);
 }
 
-// void	quantum_box(t_cmd *cmd, int out)
-// {
-// 	// if (in != STDIN_FILENO)
-// 	// {
-// 	// 	dup2(in, STDIN_FILENO);
-// 	// 	close(in);
-// 	// }
-// 	if (out != STDOUT_FILENO)
-// 	{
-// 		dup2(out, STDOUT_FILENO);
-// 		close(out);
-// 	}
-// 	builtin_locat(cmd);
-// }
-
 int	builtin_executer(t_cmd *cmd, int infile, int outfile)
 {
 	out = outfile;
 	builtin_locat(cmd, outfile);
-	// quantum_box(cmd, outfile);
-	return (0);
+	if (glo_exit)
+		return (0);
+	return (1);
 }
