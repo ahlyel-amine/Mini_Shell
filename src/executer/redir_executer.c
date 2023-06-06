@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_executer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 09:33:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 11:27:42 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
 	}
 	file_name = args_to_str(((t_redir *)cmd)->red.file_name);
-	
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
 		in_cmd = 1;
@@ -43,12 +42,13 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 				free(line);
 				break ;
 			}
+			if (!(((t_redir *)cmd)->red.file_name->q))
+				line = data_analyse(line);
 			write(((t_redir *)cmd)->red.fd, line, ft_strlen(line));
 			write(((t_redir *)cmd)->red.fd, "\n", 1);
 			free(line);
 			line = readline(HERDOC);
 		}
-		free(line);
 		close(((t_redir *)cmd)->red.fd);
 		Ctrl_c = 0;
 		in_cmd = 0;
