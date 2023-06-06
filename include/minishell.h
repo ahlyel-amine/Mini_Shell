@@ -5,8 +5,8 @@ int	glo_exit;
 int	in_cmd;
 int	out;
 int	Ctrl_c;
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
 // # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
 // # include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
