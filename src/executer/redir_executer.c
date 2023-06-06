@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 09:33:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 14:46:21 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 				// NULL);
 		transform_args(&(((t_redir *)cmd)->red.file_name));
 		if ((((t_redir *)cmd)->red.file_name)->next)
-			return (ft_putendl_fd("minishell: ambiguous redirect", 2), 0);
+			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), 0);
 	}
 	file_name = args_to_str(((t_redir *)cmd)->red.file_name);
 	
@@ -48,7 +48,7 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 			free(line);
 			line = readline(HERDOC);
 		}
-		free(line);
+		// free(line);
 		close(((t_redir *)cmd)->red.fd);
 		Ctrl_c = 0;
 		in_cmd = 0;
@@ -80,7 +80,7 @@ void	close_files(t_cmd *cmd, int infile, int outfile)
 		close(outfile);
 }
 
-int	redirect_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
+int	redirect_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	int			ret;
 	char		*file_name;
@@ -91,17 +91,17 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)
-			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile, fd);
 		else if (((t_redir *)cmd)->cmd->type == OR)
-			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile, fd);
 		else if (((t_redir *)cmd)->cmd->type == PIPE)
-			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile, fd);
 		else if (((t_redir *)cmd)->cmd->type == REDIR)
-			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile, fd);
 		else if (((t_redir *)cmd)->cmd->type == EXEC)
-			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile, fd);
 		else if (((t_redir *)cmd)->cmd->type == BUILTIN)
-			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
+			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile, fd);
 	}
 	close_files(cmd, infile, outfile);
 	return (ret);

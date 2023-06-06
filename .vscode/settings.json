@@ -30,7 +30,8 @@
 		"ratio": "c",
 		"tuple": "c",
 		"utility": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"locale": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

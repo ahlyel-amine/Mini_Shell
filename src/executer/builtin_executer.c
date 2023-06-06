@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 09:30:40 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 14:28:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	builtin_locat(t_cmd *cmd, int out)
 // 	builtin_locat(cmd);
 // }
 
-int	builtin_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
+int	builtin_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	out = outfile;
 	builtin_locat(cmd, outfile);

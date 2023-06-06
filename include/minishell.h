@@ -1,6 +1,7 @@
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
 int	glo_exit;
 int	in_cmd;
 int	out;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/03 08:47:11 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:43:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	close_parenthise(char *line)
 void	something_wrong(char *error, void *to_free)
 {
 	free(to_free);
-	ft_putendl_fd(error, 2);
+	ft_putstr_fd(error, 2);
 	set__get_option_variables(0, FREE);
 	exit(1);
 }
@@ -357,14 +357,14 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 	char	*msg;
 
 	msg = ft_strjoin(error, custom);
-	ft_putendl_fd(msg, 2);
+	ft_putstr_fd(msg, 2);
 	ft_putchar_fd('\n', 2);
 	free(msg);
 	free (ptr);
 }
 void	panic_recursive(char *error, char **ptr)
 {
-	ft_putendl_fd(error, STDERR_FILENO);
+	ft_putstr_fd(error, STDERR_FILENO);
 	free (ptr);
 	ptr = NULL;
 }
