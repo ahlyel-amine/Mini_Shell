@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_executer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 14:25:02 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 10:47:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ void	child(char **exec, char *path, int infile, int outfile)
 	t_list	*lst;
 	int		size;
 	int		iter;
+
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
 	backup_env = malloc(sizeof(char *) * (env->size + 1));
@@ -126,7 +129,7 @@ void	child(char **exec, char *path, int infile, int outfile)
 	exit(EXIT_FAILURE);
 }
 
-int	cmd_executer(t_cmd *cmd, int infile, int outfile)
+int	cmd_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
 {
 	int		pid;
 	char	**exec;
@@ -146,6 +149,8 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile)
 		child(exec, path, infile, outfile);
 	free(exec[0]);
 	free(exec);
+	if (is_pipe)
+		return (pid);
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path) , 0);
 	if (WIFEXITED(status))

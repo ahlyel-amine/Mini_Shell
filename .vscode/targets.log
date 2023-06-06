@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Tue Jun  6 07:16:38 2023
+# Make data base, printed on Tue Jun  6 07:31:36 2023
 
 # Variables
 
@@ -23,10 +23,11 @@ OBJ = $(patsubst %.c, obj/%.o , $(SRC))
 # environment
 VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
 # makefile (from `Makefile', line 4)
-SRC = src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/expand_line.c src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/controll_line.c src/parsing_tools/parsing_tools.c src/parsing_tools/ft_split_char.c src/parsing/and_parser.c src/parsing/builtins_parser.c src/parsing/cmds_parser.c src/parsing/executable_parser.c src/parsing/or_parser.c src/parsing/parenthisise_controll.c src/parsing/parsing_tools.c src/parsing/pipe_parser.c src/parsing/parse_line.c src/parsing/redirections_parser_tools.c src/parsing/redirections_parser.c src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c src/executer/builtin_executer.c src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c src/tokenizer/translate_arguments.c src/builtin/pwd.c src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/tt_unset.c 
+SRC = src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/expand_line.c src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/controll_line.c src/parsing_tools/parsing_tools.c src/parsing_tools/ft_split_char.c src/parsing/and_parser.c src/parsing/builtins_parser.c src/parsing/cmds_parser.c src/parsing/executable_parser.c src/parsing/or_parser.c src/parsing/parenthisise_controll.c src/parsing/parsing_tools.c src/parsing/pipe_parser.c src/parsing/parse_line.c src/parsing/redirections_parser_tools.c src/parsing/redirections_parser.c src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c src/executer/builtin_executer.c src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c src/tokenizer/translate_arguments.c src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c 
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
-# makefile (from `Makefile', line 44)
+ 
+# makefile (from `Makefile', line 45)
 INCLUDES = -I${READLINE_DIR}/include
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
@@ -41,10 +42,9 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","osLocale":"en","availableLanguages":{},"_
 # environment
 _ = /usr/bin/make
 # makefile (from `Makefile', line 41)
-CFLAGS = -fsanitize=address
+CFLAGS = 
 # makefile (from `Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
- 
 # makefile (from `Makefile', line 32)
 OBJ_DIR = obj
 # environment
@@ -58,15 +58,13 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 # makefile (from `Makefile', line 40)
 BIN_DIR = bin/
 # environment
-LaunchInstanceID = 43C11C62-C616-490D-81AB-0497A5BE8F8D
-# environment
 ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
 LS_COLORS = di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.fnELyJDCNF/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.B3RfXFXEml/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -111,7 +109,7 @@ MAKE_VERSION := 3.81
 USER = aahlyel
 # makefile
 .DEFAULT_GOAL := all
-# makefile (from `Makefile', line 46)
+# makefile (from `Makefile', line 47)
 NAME = minishell
 # environment
 LESS = -R
@@ -138,7 +136,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = com.apple.xpc.launchd.oneshot.0x10000002.Electron
+XPC_SERVICE_NAME = com.microsoft.VSCode.2144
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # makefile (from `Makefile', line 38)
@@ -147,8 +145,6 @@ HBLU = '\e[1;94m'
 +F = $(notdir $+)
 # environment
 __CF_USER_TEXT_ENCODING = 0x18F1A:0x0:0x0
-# environment
-COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
 # automatic
@@ -157,10 +153,8 @@ MAKEFILES :=
 PAGER = less
 # environment
 LC_ALL = C
-# makefile (from `Makefile', line 43)
+# makefile (from `Makefile', line 44)
 LIBRARIES = -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
-# environment
-SECURITYSESSIONID = 186a6
 # automatic
 ^F = $(notdir $^)
 # default
@@ -172,9 +166,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 47348
+VSCODE_PID = 86123
 # variable set hash-table stats:
-# Load=80/1024=8%, Rehash=0, Collisions=5/120=4%
+# Load=77/1024=8%, Rehash=0, Collisions=5/117=4%
 
 # Pattern-specific Variable Values
 
@@ -183,15 +177,18 @@ VSCODE_PID = 47348
 # Directories
 
 # include (device 16777228, inode 4516172): 6 files, no impossibilities so far.
-# . (device 16777228, inode 4516101): 14 files, no impossibilities.
-# src (device 16777228, inode 4516227): 15 files, no impossibilities so far.
+# . (device 16777228, inode 4516101): 15 files, no impossibilities.
+# src/parsing_tools (device 16777228, inode 4516249): 4 files, no impossibilities so far.
+# src/executer (device 16777228, inode 4630354): 3 files, no impossibilities so far.
+# src (device 16777228, inode 4516227): 23 files, no impossibilities so far.
+# src/parsing (device 16777228, inode 4771056): 13 files, no impossibilities so far.
 
-# 35 files, no impossibilities in 3 directories.
+# 64 files, no impossibilities in 6 directories.
 
 # Implicit Rules
 
 obj/%.o: %.c include/minishell.h  include/dictionary.h  include/parsing.h  include/execute.h
-#  commands to execute (from `Makefile', line 55):
+#  commands to execute (from `Makefile', line 56):
 	mkdir -p $(dir $@)
 	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
 	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
@@ -202,10 +199,87 @@ obj/%.o: %.c include/minishell.h  include/dictionary.h  include/parsing.h  inclu
 # Files
 
 # Not a target:
-obj/src/parsing/or_parser.o:
+src/parsing/cmds_parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/signal.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/expand_line.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/parsing_tools/ft_split_char.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-04 16:29:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/parsing_tools/parsing_tools.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-17 22:39:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/parsing/parse_line.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:34
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+obj/src/builtin/env.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+obj/src/parsing/or_parser.o: src/parsing/or_parser.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/or_parser'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+# Not a target:
+src/execute_line.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
 obj/src/builtin/exit.o:
@@ -213,17 +287,34 @@ obj/src/builtin/exit.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/constructors.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/constructors.o: src/constructors.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/constructors'
+#  Last modified 2023-06-06 07:23:33
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
-# Not a target:
-obj/src/parsing/redirections_parser.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/parsing/redirections_parser.o: src/parsing/redirections_parser.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/redirections_parser'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+ 
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 all: minishell
 #  Phony target (prerequisite of .PHONY).
@@ -238,7 +329,7 @@ all: minishell
 # Not a target:
 include/minishell.h:
 #  Implicit rule search has been done.
-#  Last modified 2023-05-26 18:06:02
+#  Last modified 2023-06-06 07:19:45
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -247,7 +338,7 @@ include/minishell.h:
 # Not a target:
 src/minishell.c:
 #  Implicit rule search has been done.
-#  Last modified 2023-05-25 17:01:55
+#  Last modified 2023-06-06 07:19:19
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -258,17 +349,51 @@ src/minishell.c:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/read_line.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/read_line.o: src/read_line.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/read_line'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
-obj/src/wild_cards.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/destructors.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/parsing/parenthisise_controll.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+obj/src/wild_cards.o: src/wild_cards.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/wild_cards'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
 obj/src/executer/cmd_executer.o:
@@ -282,12 +407,19 @@ obj/src/tokenizer/translate_arguments.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/controll_line.o:
-#  Implicit rule search has not been done.
- 
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/controll_line.o: src/controll_line.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/controll_line'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
 obj/src/builtin/tt_unset.o:
@@ -295,11 +427,28 @@ obj/src/builtin/tt_unset.o:
 #  Modification time never checked.
 #  File has not been updated.
 
+obj/src/parsing/pipe_parser.o: src/parsing/pipe_parser.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/pipe_parser'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
 # Not a target:
-obj/src/parsing/pipe_parser.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/tools2.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
 .SUFFIXES:
@@ -313,93 +462,31 @@ obj/src/tokenizer/get_arguments.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/tools2.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/tools2.o: src/tools2.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/tools2'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2023-05-26 18:06:02
+#  Last modified 2023-06-06 07:20:54
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
-obj/src/parsing/and_parser.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/tokenizer/arguments_controll.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/parsing/redirections_parser_tools.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-minishell: obj/src/minishell.o obj/src/execute_line.o obj/src/wild_cards.o obj/src/read_line.o obj/src/free_line.o obj/src/destructors.o obj/src/expand_line.o obj/src/tools.o obj/src/tools2.o obj/src/signal.o obj/src/getters_setters.o obj/src/expender.o obj/src/complete_line.o obj/src/constructors.o obj/src/controll_line.o obj/src/parsing_tools/parsing_tools.o obj/src/parsing_tools/ft_split_char.o obj/src/parsing/and_parser.o obj/src/parsing/builtins_parser.o obj/src/parsing/cmds_parser.o obj/src/parsing/executable_parser.o obj/src/parsing/or_parser.o obj/src/parsing/parenthisise_controll.o obj/src/parsing/parsing_tools.o obj/src/parsing/pipe_parser.o obj/src/parsing/parse_line.o obj/src/parsing/redirections_parser_tools.o obj/src/parsing/redirections_parser.o obj/src/executer/and_executer.o obj/src/executer/cmd_executer.o obj/src/executer/or_executer.o obj/src/executer/pipe_executer.o obj/src/executer/redir_executer.o obj/src/executer/builtin_executer.o obj/src/tokenizer/arguments_controll.o obj/src/tokenizer/get_arguments.o obj/src/tokenizer/variables_controll.o obj/src/tokenizer/ft_split_str_to_args.o obj/src/tokenizer/translate_arguments.o obj/src/builtin/pwd.o obj/src/builtin/cd.o obj/src/builtin/export.o obj/src/builtin/echo.o obj/src/builtin/exit.o obj/src/builtin/tt_unset.o
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/8=0%
-#  commands to execute (from `Makefile', line 51):
-	make -C lib/libft
-	cc -g ${CFLAGS} ${LIBRARIES} ${OBJ} lib/libft/bin/libft.a -o ${NAME}
-	
-
-# Not a target:
-obj/src/parsing/cmds_parser.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/signal.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/expand_line.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/parsing_tools/ft_split_char.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/parsing_tools/parsing_tools.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-fclean: clean
-#  Phony target (prerequisite of .PHONY).
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has not been updated.
-#  commands to execute (from `Makefile', line 64):
-	make fclean -C lib/libft
-	rm -rf ${NAME} ${BIN_DIR}
-	
-
-# Not a target:
-include/dictionary.h:
+src/complete_line.c:
 #  Implicit rule search has been done.
 #  Last modified 2023-05-25 17:00:34
 #  File has been updated.
@@ -408,18 +495,240 @@ include/dictionary.h:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
-obj/src/execute_line.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/free_line.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
-obj/src/destructors.o:
+src/parsing/executable_parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:34
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/expender.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:01:55
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/tools.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-26 18:06:02
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/parsing/parsing_tools.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+obj/src/parsing/and_parser.o: src/parsing/and_parser.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/and_parser'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+# Not a target:
+obj/src/tokenizer/arguments_controll.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-.SILENT: all re fclean clean obj/src/minishell.o obj/src/execute_line.o obj/src/wild_cards.o obj/src/read_line.o obj/src/free_line.o obj/src/destructors.o obj/src/expand_line.o obj/src/tools.o obj/src/tools2.o obj/src/signal.o obj/src/getters_setters.o obj/src/expender.o obj/src/complete_line.o obj/src/constructors.o obj/src/controll_line.o obj/src/parsing_tools/parsing_tools.o obj/src/parsing_tools/ft_split_char.o obj/src/parsing/and_parser.o obj/src/parsing/builtins_parser.o obj/src/parsing/cmds_parser.o obj/src/parsing/executable_parser.o obj/src/parsing/or_parser.o obj/src/parsing/parenthisise_controll.o obj/src/parsing/parsing_tools.o obj/src/parsing/pipe_parser.o obj/src/parsing/parse_line.o obj/src/parsing/redirections_parser_tools.o obj/src/parsing/redirections_parser.o obj/src/executer/and_executer.o obj/src/executer/cmd_executer.o obj/src/executer/or_executer.o obj/src/executer/pipe_executer.o obj/src/executer/redir_executer.o obj/src/executer/builtin_executer.o obj/src/tokenizer/arguments_controll.o obj/src/tokenizer/get_arguments.o obj/src/tokenizer/variables_controll.o obj/src/tokenizer/ft_split_str_to_args.o obj/src/tokenizer/translate_arguments.o obj/src/builtin/pwd.o obj/src/builtin/cd.o obj/src/builtin/export.o obj/src/builtin/echo.o obj/src/builtin/exit.o obj/src/builtin/tt_unset.o minishell
+obj/src/parsing/redirections_parser_tools.o: src/parsing/redirections_parser_tools.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/redirections_parser_tools'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+ 
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+minishell: obj/src/minishell.o obj/src/execute_line.o obj/src/wild_cards.o obj/src/read_line.o obj/src/free_line.o obj/src/destructors.o obj/src/expand_line.o obj/src/tools.o obj/src/tools2.o obj/src/signal.o obj/src/getters_setters.o obj/src/expender.o obj/src/complete_line.o obj/src/constructors.o obj/src/controll_line.o obj/src/parsing_tools/parsing_tools.o obj/src/parsing_tools/ft_split_char.o obj/src/parsing/and_parser.o obj/src/parsing/builtins_parser.o obj/src/parsing/cmds_parser.o obj/src/parsing/executable_parser.o obj/src/parsing/or_parser.o obj/src/parsing/parenthisise_controll.o obj/src/parsing/parsing_tools.o obj/src/parsing/pipe_parser.o obj/src/parsing/parse_line.o obj/src/parsing/redirections_parser_tools.o obj/src/parsing/redirections_parser.o obj/src/executer/and_executer.o obj/src/executer/cmd_executer.o obj/src/executer/or_executer.o obj/src/executer/pipe_executer.o obj/src/executer/redir_executer.o obj/src/executer/builtin_executer.o obj/src/tokenizer/arguments_controll.o obj/src/tokenizer/get_arguments.o obj/src/tokenizer/variables_controll.o obj/src/tokenizer/ft_split_str_to_args.o obj/src/tokenizer/translate_arguments.o obj/src/builtin/pwd.o obj/src/builtin/env.o obj/src/builtin/cd.o obj/src/builtin/export.o obj/src/builtin/echo.o obj/src/builtin/exit.o obj/src/builtin/builtin_tools.o obj/src/builtin/tt_unset.o
+#  Implicit rule search has not been done.
+#  Last modified 2023-06-06 07:23:33
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/8=0%
+#  commands to execute (from `Makefile', line 52):
+	make -C lib/libft
+	cc -g ${CFLAGS} ${LIBRARIES} ${OBJ} lib/libft/bin/libft.a -o ${NAME}
+	
+
+# Not a target:
+src/parsing/builtins_parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:34
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+obj/src/builtin/builtin_tools.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+obj/src/parsing/cmds_parser.o: src/parsing/cmds_parser.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/cmds_parser'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/signal.o: src/signal.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/signal'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/expand_line.o: src/expand_line.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/expand_line'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/parsing_tools/ft_split_char.o: src/parsing_tools/ft_split_char.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing_tools/ft_split_char'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/parsing_tools/parsing_tools.o: src/parsing_tools/parsing_tools.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing_tools/parsing_tools'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+fclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 65):
+	make fclean -C lib/libft
+	rm -rf ${NAME} ${BIN_DIR}
+	
+
+# Not a target:
+include/dictionary.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+obj/src/execute_line.o: src/execute_line.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/execute_line'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/destructors.o: src/destructors.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/destructors'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+# Not a target:
+src/executer/and_executer.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:24:51
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+.SILENT: all re fclean clean obj/src/minishell.o obj/src/execute_line.o obj/src/wild_cards.o obj/src/read_line.o obj/src/free_line.o obj/src/destructors.o obj/src/expand_line.o obj/src/tools.o obj/src/tools2.o obj/src/signal.o obj/src/getters_setters.o obj/src/expender.o obj/src/complete_line.o obj/src/constructors.o obj/src/controll_line.o obj/src/parsing_tools/parsing_tools.o obj/src/parsing_tools/ft_split_char.o obj/src/parsing/and_parser.o obj/src/parsing/builtins_parser.o obj/src/parsing/cmds_parser.o obj/src/parsing/executable_parser.o obj/src/parsing/or_parser.o obj/src/parsing/parenthisise_controll.o obj/src/parsing/parsing_tools.o obj/src/parsing/pipe_parser.o obj/src/parsing/parse_line.o obj/src/parsing/redirections_parser_tools.o obj/src/parsing/redirections_parser.o obj/src/executer/and_executer.o obj/src/executer/cmd_executer.o obj/src/executer/or_executer.o obj/src/executer/pipe_executer.o obj/src/executer/redir_executer.o obj/src/executer/builtin_executer.o obj/src/tokenizer/arguments_controll. 
+o obj/src/tokenizer/get_arguments.o obj/src/tokenizer/variables_controll.o obj/src/tokenizer/ft_split_str_to_args.o obj/src/tokenizer/translate_arguments.o obj/src/builtin/pwd.o obj/src/builtin/env.o obj/src/builtin/cd.o obj/src/builtin/export.o obj/src/builtin/echo.o obj/src/builtin/exit.o obj/src/builtin/builtin_tools.o obj/src/builtin/tt_unset.o minishell
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -427,28 +736,12 @@ obj/src/destructors.o:
 obj/src/minishell.o: src/minishell.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `src/minishell'
-#  File does not exist.
+#  Last modified 2023-06-06 07:20:56
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := obj/src/minishell.o
-# automatic
-# % := 
-# automatic
-# * := src/minishell
-# automatic
-# + := src/minishell.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
-# automatic
-# | := 
-# automatic
-# < := src/minishell.c
-# automatic
-# ^ := src/minishell.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
-# automatic
-# ? := src/minishell.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Successfully updated.
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=2/20=10%
-#  commands to execute (from `Makefile', line 55):
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
 	mkdir -p $(dir $@)
 	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
 	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
@@ -470,10 +763,28 @@ obj/src/executer/or_executer.o:
 #  File has not been updated.
 
 # Not a target:
+src/parsing/or_parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
 obj/src/builtin/pwd.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+# Not a target:
+src/getters_setters.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
 .DEFAULT:
@@ -487,23 +798,56 @@ obj/src/builtin/cd.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/parsing/parse_line.o:
-#  Implicit rule search has not been done.
- 
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/parsing/parse_line.o: src/parsing/parse_line.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/parse_line'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/parsing/parenthisise_controll.o: src/parsing/parenthisise_controll.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/parenthisise_controll'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
-obj/src/parsing/parenthisise_controll.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/constructors.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:23:26
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
 include/execute.h:
 #  Implicit rule search has been done.
-#  Last modified 2023-05-25 17:01:55
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/parsing/redirections_parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -521,18 +865,26 @@ re: fclean all
 #  File does not exist.
 #  File has not been updated.
 
-# Not a target:
-obj/src/parsing/parsing_tools.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/parsing/parsing_tools.o: src/parsing/parsing_tools.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/parsing_tools'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 clean:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 60):
+#  commands to execute (from `Makefile', line 61):
 	make clean -C lib/libft
 	rm -rf ${OBJ_DIR}
 	
@@ -544,22 +896,56 @@ obj/src/builtin/echo.o:
 #  File has not been updated.
 
 # Not a target:
+src/read_line.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
 obj/src/builtin/export.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-obj/src/complete_line.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/wild_cards.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-# Not a target:
-obj/src/free_line.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/complete_line.o: src/complete_line.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/complete_line'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/free_line.o: src/free_line.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/free_line'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
 obj/src/tokenizer/variables_controll.o:
@@ -567,11 +953,29 @@ obj/src/tokenizer/variables_controll.o:
 #  Modification time never checked.
 #  File has not been updated.
 
+obj/src/parsing/executable_parser.o: src/parsing/executable_parser.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/executable_parser'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
 # Not a target:
-obj/src/parsing/executable_parser.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/controll_line.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-06-06 07:19:19
+ 
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
 obj/src/executer/pipe_executer.o:
@@ -580,22 +984,55 @@ obj/src/executer/pipe_executer.o:
 #  File has not been updated.
 
 # Not a target:
-obj/src/expender.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/parsing/pipe_parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-# Not a target:
-obj/src/tools.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/expender.o: src/expender.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/expender'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
-# Not a target:
-obj/src/getters_setters.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/tools.o: src/tools.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/tools'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
+obj/src/getters_setters.o: src/getters_setters.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/getters_setters'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
 obj/src/executer/redir_executer.o:
@@ -603,11 +1040,19 @@ obj/src/executer/redir_executer.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/parsing/builtins_parser.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+obj/src/parsing/builtins_parser.o: src/parsing/builtins_parser.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/parsing/builtins_parser'
+#  Last modified 2023-06-06 07:20:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
 
 # Not a target:
 obj/src/executer/builtin_executer.o:
@@ -615,14 +1060,56 @@ obj/src/executer/builtin_executer.o:
 #  Modification time never checked.
 #  File has not been updated.
 
+obj/src/executer/and_executer.o: src/executer/and_executer.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `src/executer/and_executer'
+#  Last modified 2023-06-06 07:20:58
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := obj/src/executer/and_executer.o
+# automatic
+# % := 
+# automatic
+# * := src/executer/and_executer
+# automatic
+# + := src/executer/and_executer.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+# automatic
+# | := 
+# automatic
+# < := src/executer/and_executer.c
+# automatic
+# ^ := src/executer/and_executer.c include/minishell.h include/dictionary.h include/parsing.h include/execute.h
+# automatic
+# ? := src/executer/and_executer.c
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/20=10%
+#  commands to execute (from `Makefile', line 56):
+	mkdir -p $(dir $@)
+	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
+	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	
+
 # Not a target:
-obj/src/executer/and_executer.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+src/parsing/and_parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/parsing/redirections_parser_tools.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-05-25 17:00:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # files hash-table stats:
-# Load=60/1024=6%, Rehash=0, Collisions=12/187=6%
+# Load=90/1024=9%, Rehash=0, Collisions=83/529=16%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -634,6 +1121,6 @@ obj/src/executer/and_executer.o:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Tue Jun  6 07:16:38 2023
+# Finished Make data base on Tue Jun  6 07:31:36 2023
 
  

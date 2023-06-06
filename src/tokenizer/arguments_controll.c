@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   arguments_controll.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 10:23:15 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 10:13:41 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type)
+t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type, unsigned short q)
 {
 	t_arguments	*new;
 	t_arguments	*tmp;
@@ -21,13 +21,14 @@ t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned s
 	if (!new)
 		return (NULL);
 	new->str = NULL;
+	new->q = q;
 	if (type != DQUOTE && type != QUOTE)
 		new->str = str;
 	new->type = type;
 	new->next = NULL;
 	new->down = NULL;
 	if (type == DQUOTE || type == QUOTE)
-		new->down = arguments_constructor(new->down, str, IS_STR | type);
+		new->down = arguments_constructor(new->down, str, IS_STR | type, 0);
 	if (!arguments)
 		return (new);
 	tmp = arguments;

@@ -35,7 +35,7 @@ t_arguments	*get_argument(char *line, int *j, int i, int is_word);
 size_t ft_double_strlen(char **str);
 
 void	something_wrong(char *error, void *to_free);
-t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type);
+t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type, unsigned short q);
 t_arguments	*ft_split_str_to_args(char *str, int is_dquote);
 
 /*	tools	*/

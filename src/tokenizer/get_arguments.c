@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/25 16:58:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 10:13:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	close_dquote(t_arguments **arguments, char *line, int i)
 		check_out_of_quotes(line[i + j], &var);
 		if (!var.dquote)
 		{
-			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), DQUOTE);
+			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), DQUOTE, 0);
 			break;
 		}
 		j++;
@@ -46,7 +46,7 @@ int	close_quote(t_arguments **arguments, char *line, int i)
 		check_out_of_quotes(line[i + j], &var);
 		if (!var.quote)
 		{
-			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), QUOTE);
+			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), QUOTE, 0);
 			break;
 		}
 		j++;
@@ -69,7 +69,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		if (var.dquote && line[*i + j] == '\"')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
 			*i += j + 1;
 			*i += close_dquote(&arguments, line, *i) + 1;
 			var.dquote = 0;
@@ -79,7 +79,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		else if (var.quote && line[*i + j] == '\'')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
 			*i += j + 1;
 			*i += close_quote(&arguments, line, *i) + 1;
 			var.quote = 0;
@@ -92,7 +92,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 	}
 	if (j)
 	{
-		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR);
+		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
 		*i += j;
 	}
 	return (arguments);
