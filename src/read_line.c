@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 14:22:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:52:43 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	read_line()
 
 	while (1)
 	{
+		is_sig = 0;
 		sig_handl();
 		rl_catch_signals = 0;
 		// pwd = get_prompt_line();

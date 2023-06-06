@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_executer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 10:47:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 15:40:04 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,13 @@ char	**get_dstr(t_cmd *cmd)
 	return (exec);
 }
 
-void	child(char **exec, char *path, int infile, int outfile)
+void	child(char **exec, char *path, int infile, int outfile, int *fd)
 {
 	char	**backup_env;
 	t_hold	*env;
 	t_list	*lst;
 	int		size;
 	int		iter;
-
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	env = set__get_option_variables(0, GET | GET_ENV);
@@ -116,20 +115,25 @@ void	child(char **exec, char *path, int infile, int outfile)
 	if (infile != STDIN_FILENO)
 	{
 		dup2(infile, STDIN_FILENO);
-		close(infile);
+		if (fd == NULL)
+			close(infile);
 	}
 	if (outfile != STDOUT_FILENO)
 	{
 		dup2(outfile, STDOUT_FILENO);
-		close(outfile);
+		if (fd == NULL)
+			close(outfile);
+	}
+	if (fd != NULL)
+	{
+		close(fd[0]);
+		close(fd[1]);
 	}
 	execve(path, exec, backup_env);
-	// if (backup_env)
-	// 	sp_free(backup_env);
 	exit(EXIT_FAILURE);
 }
 
-int	cmd_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
+int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	int		pid;
 	char	**exec;
@@ -146,11 +150,11 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
 	if (pid == -1)
 		return (perror("fork failed"), 0);
 	if (!pid)
-		child(exec, path, infile, outfile);
+		child(exec, path, infile, outfile, fd);
 	free(exec[0]);
 	free(exec);
-	if (is_pipe)
-		return (pid);
+	if (fd != NULL)
+		return (free(path), pid);
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path) , 0);
 	if (WIFEXITED(status))

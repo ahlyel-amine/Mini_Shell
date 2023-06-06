@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:19:52 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 09:36:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 15:53:00 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	execute_line(t_cmd *cmd)
 {
+	is_sig = 1;
 	sig_exec_init();
+	
 	if (cmd->type == AND)
 		and_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	else if (cmd->type == OR)
