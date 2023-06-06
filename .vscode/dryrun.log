@@ -3,7 +3,6 @@ make: Entering directory `/Users/aahlyel/Desktop/Mini_Shell'
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling minishell.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/minishell.c -o obj/src/minishell.o
- 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling execute_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/execute_line.c -o obj/src/execute_line.o
@@ -28,10 +27,10 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/t
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling tools2.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/tools2.c -o obj/src/tools2.o
- 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling signal.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/signal.c -o obj/src/signal.o
+ 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling getters_setters.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/getters_setters.c -o obj/src/getters_setters.o
@@ -44,7 +43,6 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/c
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling constructors.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/constructors.c -o obj/src/constructors.o
- 
 mkdir -p obj/src/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling controll_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/controll_line.c -o obj/src/controll_line.o
@@ -69,10 +67,10 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/p
 mkdir -p obj/src/parsing/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling or_parser.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/parsing/or_parser.c -o obj/src/parsing/or_parser.o
- 
 mkdir -p obj/src/parsing/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling parenthisise_controll.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/parsing/parenthisise_controll.c -o obj/src/parsing/parenthisise_controll.o
+ 
 mkdir -p obj/src/parsing/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling parsing_tools.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/parsing/parsing_tools.c -o obj/src/parsing/parsing_tools.o
@@ -82,6 +80,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/p
 mkdir -p obj/src/parsing/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling parse_line.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/parsing/parse_line.c -o obj/src/parsing/parse_line.o
+ 
 mkdir -p obj/src/parsing/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling redirections_parser_tools.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/parsing/redirections_parser_tools.c -o obj/src/parsing/redirections_parser_tools.o
@@ -103,6 +102,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/e
 mkdir -p obj/src/executer/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling redir_executer.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/executer/redir_executer.c -o obj/src/executer/redir_executer.o
+ 
 mkdir -p obj/src/executer/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling builtin_executer.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/executer/builtin_executer.c -o obj/src/executer/builtin_executer.o
@@ -112,6 +112,7 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/t
 mkdir -p obj/src/tokenizer/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling get_arguments.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/tokenizer/get_arguments.c -o obj/src/tokenizer/get_arguments.o
+ 
 mkdir -p obj/src/tokenizer/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling variables_controll.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/tokenizer/variables_controll.c -o obj/src/tokenizer/variables_controll.o
@@ -131,13 +132,13 @@ cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/b
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling export.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/export.c -o obj/src/builtin/export.o
+ 
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling echo.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/echo.c -o obj/src/builtin/echo.o
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling exit.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/exit.c -o obj/src/builtin/exit.o
- 
 mkdir -p obj/src/builtin/
 printf '\e[1;94m'"[%-37s] 🕝 \r"'\e[0m' "Compiling tt_unset.o"
 cc -g -fsanitize=address -I/Users/aahlyel/homebrew/opt/readline/include -c src/builtin/tt_unset.c -o obj/src/builtin/tt_unset.o
