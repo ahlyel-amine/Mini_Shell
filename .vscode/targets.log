@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Sat May 27 22:27:44 2023
+# Make data base, printed on Tue Jun  6 07:16:38 2023
 
 # Variables
 
@@ -44,6 +44,7 @@ _ = /usr/bin/make
 CFLAGS = -fsanitize=address
 # makefile (from `Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
+ 
 # makefile (from `Makefile', line 32)
 OBJ_DIR = obj
 # environment
@@ -57,7 +58,7 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 # makefile (from `Makefile', line 40)
 BIN_DIR = bin/
 # environment
-LaunchInstanceID = 5028D368-FAA4-4EE1-99EB-CDC991E5850E
+LaunchInstanceID = 43C11C62-C616-490D-81AB-0497A5BE8F8D
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # default
@@ -65,7 +66,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 LS_COLORS = di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.ljubUy1zaO/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.fnELyJDCNF/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -137,7 +138,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = com.apple.xpc.launchd.oneshot.0x10000003.Electron
+XPC_SERVICE_NAME = com.apple.xpc.launchd.oneshot.0x10000002.Electron
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # makefile (from `Makefile', line 38)
@@ -159,7 +160,7 @@ LC_ALL = C
 # makefile (from `Makefile', line 43)
 LIBRARIES = -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 # environment
-SECURITYSESSIONID = 186a5
+SECURITYSESSIONID = 186a6
 # automatic
 ^F = $(notdir $^)
 # default
@@ -171,7 +172,7 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 85077
+VSCODE_PID = 47348
 # variable set hash-table stats:
 # Load=80/1024=8%, Rehash=0, Collisions=5/120=4%
 
@@ -182,10 +183,10 @@ VSCODE_PID = 85077
 # Directories
 
 # include (device 16777228, inode 4516172): 6 files, no impossibilities so far.
-# . (device 16777228, inode 4516101): 13 files, no impossibilities.
+# . (device 16777228, inode 4516101): 14 files, no impossibilities.
 # src (device 16777228, inode 4516227): 15 files, no impossibilities so far.
 
-# 34 files, no impossibilities in 3 directories.
+# 35 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
@@ -277,7 +278,6 @@ obj/src/executer/cmd_executer.o:
 
 # Not a target:
 obj/src/tokenizer/translate_arguments.o:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -285,6 +285,7 @@ obj/src/tokenizer/translate_arguments.o:
 # Not a target:
 obj/src/controll_line.o:
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -482,7 +483,6 @@ obj/src/builtin/pwd.o:
 
 # Not a target:
 obj/src/builtin/cd.o:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -490,6 +490,7 @@ obj/src/builtin/cd.o:
 # Not a target:
 obj/src/parsing/parse_line.o:
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -633,6 +634,6 @@ obj/src/executer/and_executer.o:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sat May 27 22:27:44 2023
+# Finished Make data base on Tue Jun  6 07:16:38 2023
 
  
