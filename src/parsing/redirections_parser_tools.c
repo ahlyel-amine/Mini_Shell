@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-static char	*skip_quote_redir_names(char *line, int *j, int i)
+static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 {
 	int		k;
 	char	*tmp;
@@ -21,9 +21,12 @@ static char	*skip_quote_redir_names(char *line, int *j, int i)
 	ft_memset(&var, 0, sizeof(t_var));
 	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
 	k = 0;
+	*q = 0;
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
+		if (var.quote || var.quote)
+			*q = 1;
 		if (ft_isspace(line[i]) && !var.quote && !var.dquote)
 			break ;
 		if ((var.quote || var.dquote) && ft_isspace(line[i]))
@@ -42,11 +45,12 @@ int	get_name(char *line, t_redir_content *red, int type)
 {
 	t_arguments	*args;
 	int			k;
+	int			q;
 
 	args = NULL;
 	k = red->fd;
 	if (type == F_HEREDOC)
-		red->file_name = arguments_constructor(args, skip_quote_redir_names(line, &k, red->fd), IS_STR);
+		red->file_name = arguments_constructor(args, skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
 	else
 		red->file_name = get_argument(line, &k, 0, 1);
 	return (k);

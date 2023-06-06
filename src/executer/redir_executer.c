@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_executer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 13:57:08 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 09:33:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	close_files(t_cmd *cmd, int infile, int outfile)
 		close(outfile);
 }
 
-int	redirect_executer(t_cmd *cmd, int infile, int outfile)
+int	redirect_executer(t_cmd *cmd, int infile, int outfile, int is_pipe)
 {
 	int			ret;
 	char		*file_name;
@@ -91,17 +91,17 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile)
 	if (((t_redir *)cmd)->cmd)
 	{
 		if (((t_redir *)cmd)->cmd->type == AND)
-			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = and_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
 		else if (((t_redir *)cmd)->cmd->type == OR)
-			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = or_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
 		else if (((t_redir *)cmd)->cmd->type == PIPE)
-			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = pipe_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
 		else if (((t_redir *)cmd)->cmd->type == REDIR)
-			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = redirect_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
 		else if (((t_redir *)cmd)->cmd->type == EXEC)
-			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = cmd_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
 		else if (((t_redir *)cmd)->cmd->type == BUILTIN)
-			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile);
+			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile, is_pipe);
 	}
 	close_files(cmd, infile, outfile);
 	return (ret);

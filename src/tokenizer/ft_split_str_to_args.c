@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 19:07:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 10:10:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args)
 		return (NULL);
 	}
 	if (ft_isspace(str[*i + *j - 1]) && !is_dquote)
-		args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR);
+		args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR, 0);
 	else
-		args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
+		args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR, 0);
 	*i += *j;
 	return (args);
 }
@@ -37,7 +37,7 @@ t_arguments	*space_break(char *str, int *j, int *i)
 	if(ft_isspace(str[*i + *j]) && str[*i + *j])
 	{
 		if (*j)
-			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
+			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR, 0);
 		*i += *j;
 		*j = 0;
 	}
@@ -68,9 +68,9 @@ t_arguments	*no_space_break(char *str, int *j, int *i, int is_dquote)
 	if(!ft_isspace(str[*i + *j]) && str[*i + *j])
 	{
 		if (*j && is_dquote)
-			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR);
+			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR, 0);
 		else if (*j && !is_dquote)
-			args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR);
+			args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR, 0);
 		*i += *j;
 		*j = 0;
 	}
@@ -113,9 +113,9 @@ t_arguments	*ft_split_str_to_args(char *str, int is_dquote)
 	{
 		i += skip_spaces_front(str);
 		if (is_dquote)
-			args = arguments_constructor(args, ft_substr(str, 0, i), IS_STR);
+			args = arguments_constructor(args, ft_substr(str, 0, i), IS_STR, 0);
 		else
-			args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR);
+			args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR, 0);
 	}
 	while (str[i])
 	{

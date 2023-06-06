@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:19:52 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 14:25:05 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 09:36:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	execute_line(t_cmd *cmd)
 {
 	sig_exec_init();
 	if (cmd->type == AND)
-		and_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+		and_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	else if (cmd->type == OR)
-		or_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+		or_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	else if (cmd->type == REDIR)
-		redirect_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+		redirect_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	else if (cmd->type == EXEC)
-		cmd_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+		cmd_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	else if (cmd->type == BUILTIN)
-		builtin_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+		builtin_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	else if (cmd->type == PIPE)
-		pipe_executer(cmd, STDIN_FILENO, STDOUT_FILENO);
+		pipe_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 }
