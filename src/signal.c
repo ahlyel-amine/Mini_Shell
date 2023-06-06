@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/06 10:49:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 16:01:30 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,22 @@ void	sig_here()
 void	sig_handl()
 {
 	signal(SIGINT, handel_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handel_sigint);
 }
 
 void	handle_exec_sig(int sig)
 {
-	if (sig == SIGINT)
+	if (sig == SIGINT && is_sig)
 	{
 		glo_exit = 130;
-		// write(2, "\n", 1);
+		
+		write(2, "\n", 1);
 	}
-	else if (sig == SIGQUIT)
+	else if (sig == SIGQUIT && is_sig)
 	{
 		glo_exit = 131;
-		// ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
+		
+		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
 	}
 }
 
