@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_executer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 15:00:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 15:50:47 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ int	builtin_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 	builtin_locat(cmd, outfile);
 	if (!glo_exit)
 		return (1);
-	// quantum_box(cmd, outfile);
 	return (0);
 }

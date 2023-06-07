@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_arguments.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 14:53:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 16:12:49 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,12 +191,14 @@ char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
 
 	tmp = args;
 	len = args_len(args);
+	printf("%d\n", len);
 	str = malloc(sizeof(char *) * (len + 2));
 	if (!str)
 		return (perror(""), NULL);
 	str[0] = cmd;
 	if (!len)
 		return (str[1] = NULL, str);
+	len = 1;
 	while (tmp)
 	{
 		if ((tmp->type & IS_STR || tmp->type & IS_VARIABLE))
