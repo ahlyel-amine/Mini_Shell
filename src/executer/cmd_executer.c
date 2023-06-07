@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 10:53:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 11:26:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 	t_list	*lst;
 	int		size;
 	int		iter;
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
+
+	is_sig = 0;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
 	backup_env = malloc(sizeof(char *) * (env->size + 1));
@@ -132,7 +132,7 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 		close(fd[1]);
 	}
 	execve(path, exec, backup_env);
-	exit(EXIT_FAILURE);
+	exit(errno);
 }
 
 int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
@@ -141,7 +141,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 	char	**exec;
 	char	*path;
 	int		status;
-	
+
 	exec = get_dstr(cmd);
 	if (!exec)
 		return (perror(""), 0);
@@ -166,5 +166,16 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		if (!status)
 			return (free(path) , 1);
 	}
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			is_sig = 1;
+		else if (WTERMSIG(status) == SIGQUIT)
+			is_sig = 2;
+	}
+	if (is_sig == 1)
+		write(2, "\n", 1);
+	else if (is_sig == 2)
+		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
 	return (free(path), 0);
 }
