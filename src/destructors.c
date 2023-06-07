@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/03 09:14:59 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:58:51 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,7 @@ void	builtin_destructor(t_cmd *structor)
 
 	// printf("destructor builtin called \n");
 	builtin = (t_builtin *)structor;
-	args = builtin->arguments;
-	tmp = builtin->arguments;
-	while (args)
-	{
-		tmp = args;
-		args = args->next;
-		free(tmp->str);
-		free(tmp);
-	}
+	arguments_destructor(&builtin->arguments);
 	free(builtin->builtin);
 	free(builtin);
 }
