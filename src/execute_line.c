@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:19:52 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 15:53:00 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 10:36:53 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	execute_line(t_cmd *cmd)
 {
-	is_sig = 1;
 	sig_exec_init();
-	
+	// is_sig = 1;
 	if (cmd->type == AND)
 		and_executer(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	else if (cmd->type == OR)
