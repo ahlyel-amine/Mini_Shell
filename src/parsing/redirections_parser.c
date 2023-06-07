@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_parser.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 20:14:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/03 08:46:20 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:58:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ t_cmd	*redirections_parser(char *line)
 			redirection = check_for_redirections(line, i);
 		if (redirection)
 		{
+			free (line);
 			i = -1;	
 			break ;
 		}

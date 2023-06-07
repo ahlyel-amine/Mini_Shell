@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 14:28:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 14:53:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ char	*args_to_str(t_arguments *args)
 	{
 		i = 0;
 		if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || (tmp->type & IS_SEPARTOR))
+		{
 			while (tmp->str[i])
 				str[len++] = tmp->str[i++];
+		}
 		else if (tmp->type & QUOTE || tmp->type & DQUOTE)
 			down_to_str(tmp->down, &str, &len);
 		tmp = tmp->next;
@@ -184,7 +186,7 @@ char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
 {
 	t_arguments	*tmp;
 	char		**str;
-	char		*tmp_str;
+	t_arguments	*tmp_str;
 	size_t		len;
 
 	tmp = args;
@@ -195,13 +197,18 @@ char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
 	str[0] = cmd;
 	if (!len)
 		return (str[1] = NULL, str);
-	printf("[[%s]]\n", cmd);
 	while (tmp)
 	{
 		if ((tmp->type & IS_STR || tmp->type & IS_VARIABLE))
 			str[len++] = tmp->str;
 		else if ((tmp->type & QUOTE || tmp->type & DQUOTE))
-			str[len++] = args_to_str(tmp->down);
+		{
+			tmp_str = tmp->down;
+			str[len] = args_to_str(tmp->down);
+			while (tmp_str->next)
+				tmp_str = tmp_str->next;
+			tmp_str->next = arguments_constructor(NULL, str[len++], IS_STR, 0);
+		}
 		tmp = tmp->next;
 	}
 	str[len] = NULL;
