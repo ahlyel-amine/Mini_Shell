@@ -1,5 +1,5 @@
-# READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
-READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
+# READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
 #	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/
 SRC =	\
 		\
