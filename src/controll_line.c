@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 11:57:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 14:47:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	print_arguments(t_arguments *args, char *ref)
 		else
 		{
 			tmp2 = tmp->down;
+			printf("{%d}\n",tmp->type);
 			while (tmp2)
 			{
 				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
