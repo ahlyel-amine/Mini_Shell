@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_arguments.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/02 02:20:23 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:28:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ char	*args_to_str(t_arguments *args)
 
 	tmp = args;
 	len = args_strslen(args);
-	if (!len)
-		return (NULL);
 	str = ft_calloc(sizeof(char), (len + 1));
 	if (!str)
 		return (perror(""), NULL);
@@ -96,8 +94,6 @@ char	*args_to_str(t_arguments *args)
 	}
 	return (str);
 }
-
-
 
 void	args_move_next_down(t_arguments **args, t_arguments **prev)
 {
@@ -199,7 +195,7 @@ char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
 	str[0] = cmd;
 	if (!len)
 		return (str[1] = NULL, str);
-	len = 1;
+	printf("[[%s]]\n", cmd);
 	while (tmp)
 	{
 		if ((tmp->type & IS_STR || tmp->type & IS_VARIABLE))

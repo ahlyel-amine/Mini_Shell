@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_controll.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:27:25 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 10:11:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 13:49:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,13 @@ void	tokenize_variables(t_arguments **arguments)
 		if (head->type & IS_STR)
 		{
 			new = get_vars(head->str, NULL);
-			tmp = head;
-			replace_arg(arguments, &head, new);
-			free (tmp->str);
-			free (tmp);
+			if (new)
+			{
+				tmp = head;
+				replace_arg(arguments, &head, new);
+				free (tmp->str);
+				free (tmp);
+			}
 		}
 		else if (head->type & DQUOTE)
 			tokenize_variables(&head->down);
