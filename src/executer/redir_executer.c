@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 10:53:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 11:26:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 	{
 		in_cmd = 1;
 		sig_here();
+		
 		((t_redir *)cmd)->red.fd = open("/tmp/.heredoc",
 				O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (((t_redir *)cmd)->red.fd < 0)

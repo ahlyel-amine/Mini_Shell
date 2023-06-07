@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/06 16:01:30 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 10:42:08 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	handel_sigint(int sig)
 {
 	(void)sig;
 	glo_exit = 1;
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+	is_sig = 0;
+	write(STDERR_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 int	event(void)
@@ -51,23 +52,27 @@ void	sig_here()
 void	sig_handl()
 {
 	signal(SIGINT, handel_sigint);
-	signal(SIGQUIT, handel_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	handle_exec_sig(int sig)
 {
-	if (sig == SIGINT && is_sig)
+	
+	if (sig == SIGINT)
 	{
 		glo_exit = 130;
 		
-		write(2, "\n", 1);
+		// write(2, "\n", 1);
 	}
-	else if (sig == SIGQUIT && is_sig)
+	else if (sig == SIGQUIT)
 	{
 		glo_exit = 131;
 		
-		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
 	}
+	// printf("\n");
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_redisplay();
 }
 
 void	sig_exec_init(void)
