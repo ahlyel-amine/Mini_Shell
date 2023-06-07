@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 14:42:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 16:03:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*get_path(char *cmd)
 	int		i;
 
 	i = 0;
+	if (cmd == NULL)
+		return (NULL);
 	if (!access(cmd, F_OK | X_OK))
 		return (ft_strdup(cmd));
 	path = (char **)set__get_option_variables(0, GET | GET_PATH);
