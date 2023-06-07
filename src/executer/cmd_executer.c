@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:08:53 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:01:06 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,8 @@ char	**get_dstr(t_cmd *cmd)
 	args_move_down(&((t_execcmd *)cmd)->cmd, &nl);
 	nl = NULL;
 	args_move_down(&((t_execcmd *)cmd)->options, &nl);
-	print_arguments(((t_execcmd *)cmd)->options, "opt");
-	print_arguments(((t_execcmd *)cmd)->cmd, "cmd");
 	exec = args_to_cmd_dstr(((t_execcmd *)cmd)->options, \
 	args_to_str(((t_execcmd *)cmd)->cmd));
-	for (int i = 0; exec[i]; i++){
-		printf("_[%s]_\n", exec[i]);
-	}
 	return (exec);
 }
 
@@ -106,12 +101,14 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 	t_list	*lst;
 	int		size;
 	int		iter;
-
+	char	*s_path;
 	is_sig = 0;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
-	backup_env = ft_calloc(sizeof(char *), (env->size + 1));
+	s_path = get_owd("PATH=");
 	size = env->size;
+	backup_env = ft_calloc(sizeof(char *), (size + 1));
+	
 	iter = 0;
 	while (size--)
 	{
@@ -119,6 +116,7 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 		lst = lst->next;
 		iter++;
 	}
+	backup_env[iter] = NULL;
 	if (infile != STDIN_FILENO)
 	{
 		dup2(infile, STDIN_FILENO);
