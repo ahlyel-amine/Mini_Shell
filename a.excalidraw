@@ -67979,6 +67979,48 @@
         12.234223377764465,
         -0.7568437539071056
       ]
+    },
+    {
+      "id": "hFnqXRnOIu7jQ_Woifzrt",
+      "type": "freedraw",
+      "x": 4236.249456899473,
+      "y": -2324.5727776745553,
+      "width": 0.0001,
+      "height": 0.0001,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "roundness": null,
+      "seed": 1620678262,
+      "version": 3,
+      "versionNonce": 155932598,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1686063493549,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0.0001,
+          0.0001
+        ]
+      ],
+      "pressures": [],
+      "simulatePressure": true,
+      "lastCommittedPoint": [
+        0.0001,
+        0.0001
+      ]
     }
   ],
   "appState": {

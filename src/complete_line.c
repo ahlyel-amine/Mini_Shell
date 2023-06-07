@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 12:43:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 15:21:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*read_until_chr(char *line, char c)
 		if (!dquote)
 		{
 			free (line);
-			ft_putstr_fd("unexpected EOF while looking for matching \"\'", 2);
-			ft_putstr_fd("minishell: syntax error: unexpected end of file", 2);
+			ft_putstr_fd("unexpected EOF while looking for matching \"\'\n", 2);
+			ft_putstr_fd("minishell: syntax error: unexpected end of file\n", 2);
 			return (NULL);
 		}
 		line = ft_strjoin_free(line, ft_strdup("\n"));
@@ -67,6 +67,17 @@ char	*get_is_complete(char *line, int *quote, int *dquote)
 	return (line);
 } 
 
+// void	check_this_line(char **line)
+// {
+// 	int i = 0;
+
+	
+// 	while ((*line)[i])
+// 	{
+// 		if ((*line)[i] )
+// 	}
+// }
+
 void	complete_line(char **line)
 {
 	int		quote;
@@ -85,6 +96,8 @@ void	complete_line(char **line)
 	else if (quote)
 		*line = read_until_chr(ft_strdup(*line), '\'');
 	else
-		return ;
+		return;
+	// else
+	// 	check_this_line(line);
 	complete_line(line);
 }
