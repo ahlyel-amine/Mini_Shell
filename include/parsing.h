@@ -50,7 +50,7 @@ void	pr_custom_err(char *error, void *ptr, char *custom);
 int	ft_isvariable(char c);
 void	var_expand(t_arguments *arg);
 /*			for debugging			*/
-void	print_arguments(t_arguments *args);
+void	print_arguments(t_arguments *args, char *ref);
 void	print_cmd(t_cmd *cmd);
 void	tokenize_variables(t_arguments **arguments);
 int	close_parenthise(char *line);

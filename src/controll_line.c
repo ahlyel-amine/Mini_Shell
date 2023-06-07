@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 11:26:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 11:57:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int	check_parsing(t_cmd *cmd)
 	return (1);
 }
 
-void	print_arguments(t_arguments *args)
+void	print_arguments(t_arguments *args, char *ref)
 {
 	t_arguments	*tmp;
 	t_arguments	*tmp2;
 
 	tmp = args;
-	printf("--------------------arguments_START-------------------------\n");
+	printf("--------------------arguments_START----%s--------\n", ref);
 	while (tmp)
 	{
 		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE
@@ -108,7 +108,7 @@ void	print_arguments(t_arguments *args)
 		}
 		tmp = tmp->next;
 	}
-	printf("--------------------arguments_END----------------------------\n");
+	printf("--------------------arguments_END------%s----------------\n",ref);
 }
 
 void	print_cmd(t_cmd *cmd)
@@ -120,11 +120,11 @@ void	print_cmd(t_cmd *cmd)
 	if (!cmds)
 		return ;
 	if (cmds->cmd)
-		print_arguments(cmds->cmd);
+		print_arguments(cmds->cmd, "cmd");
 	printf("--------------------------\n");
 	printf("---------options----------\n");
 	if (cmds->options)
-		print_arguments(cmds->options);
+		print_arguments(cmds->options, "option");
 	printf("--------------------------\n");
 }
 

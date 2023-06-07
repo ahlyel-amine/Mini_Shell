@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments_controll.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 10:13:41 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 12:00:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 
 	if (!new)
 		return ;
+	// 		print_arguments(new, "replace");
 	replace_old = new;
 	replace_arg_first_element(head, old, new, replace_old);
 	tmp = *head;

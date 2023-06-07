@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_arguments.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 10:13:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 14:22:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,31 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 	return (arguments);
 }
 
+void	remove_arg(t_arguments **arguments, t_arguments **to_remove)
+{
+	t_arguments *tmp;
+	t_arguments *rem;
+	tmp = *arguments;
+	// if (!(*arguments)->next)
+	// 	*arguments = NULL;
+	while (tmp)
+	{
+		if (!tmp->next && tmp == *to_remove)
+		{
+			tmp = NULL;
+			break;
+		}
+		else if (tmp->next == *to_remove)
+		{
+			tmp = tmp->next->next;
+			break;	
+		}
+	}
+	free ((*to_remove)->str);
+	free (*to_remove);
+	*to_remove = tmp;
+}
+
 void	merge_arguments(t_arguments **arguments, int is_dquote)
 {
 	t_arguments	*head;
@@ -113,10 +138,13 @@ void	merge_arguments(t_arguments **arguments, int is_dquote)
 		if (head->type & IS_STR)
 		{
 			new = ft_split_str_to_args(head->str, is_dquote);
-			tmp = head;
-			replace_arg(arguments, &head, new);
-			free (tmp->str);
-			free(tmp);
+			if (new)
+			{
+				tmp = head;
+				replace_arg(arguments, &head, new);
+				free (tmp->str);
+				free(tmp);
+			}
 		}
 		else if (head->type & DQUOTE)
 			merge_arguments(&head->down, 1);
@@ -127,7 +155,7 @@ void	merge_arguments(t_arguments **arguments, int is_dquote)
 t_arguments	*get_argument(char *line, int *j, int i, int is_word)
 {
 	t_arguments	*arguments;
-	
+
 	arguments = NULL;
 	if (is_word)
 		arguments = get_arguments(line, j, is_word);
