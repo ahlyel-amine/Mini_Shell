@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_executer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 15:02:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 10:53:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 				free(line);
 				break ;
 			}
+			if (!(((t_redir *)cmd)->red.file_name->q))
+				line = data_analyse(line);
 			write(((t_redir *)cmd)->red.fd, line, ft_strlen(line));
 			write(((t_redir *)cmd)->red.fd, "\n", 1);
 			free(line);
@@ -108,32 +110,3 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 	close_files(cmd, infile, outfile);
 	return (ret);
 }
-
-// char	*arguments_to_str(t_arguments *args)
-// {
-// 	t_arguments *tmp;
-// 	char		*str;
-// 	int	i;
-// 	int j;
-
-// 	i = 0;
-// 	tmp = args;
-// 	while (tmp)
-// 	{
-// 		i += ft_strlen(tmp->str);
-// 		tmp = tmp->next;
-// 	}
-// 	str = malloc(i + 1);
-// 	if (!str)
-// 		return (NULL);
-// 	i = 0;
-// 	while (args)
-// 	{
-// 		j = 0;
-// 		while (args->str[j])
-// 			str[i++] = args->str[j++];
-// 		args = args->next;
-// 	}
-// 	str[i] = 0;
-// 	return (str);
-// }

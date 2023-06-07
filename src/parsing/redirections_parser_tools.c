@@ -25,7 +25,7 @@ static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
-		if (var.quote || var.dquote)
+		if (var.dquote || var.quote)
 			*q = 1;
 		if (ft_isspace(line[i]) && !var.quote && !var.dquote)
 			break ;
