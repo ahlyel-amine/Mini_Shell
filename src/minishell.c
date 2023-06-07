@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 14:22:18 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:07:48 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	t_hold	*env_var = NULL;
-
 	env_var = env_dup(env_var, env);
 	adjust_shlvl(env_var);
 	glo_exit = 0;
