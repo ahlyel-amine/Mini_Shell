@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:12:49 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:15:32 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char	*args_to_str(t_arguments *args)
 		i = 0;
 		if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || (tmp->type & IS_SEPARTOR))
 		{
+			if (tmp->type & IS_SEPARTOR && !tmp->next)
+				break ;
 			while (tmp->str[i])
 				str[len++] = tmp->str[i++];
 		}
