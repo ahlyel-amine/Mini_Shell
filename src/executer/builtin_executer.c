@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 10:53:05 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 15:00:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	builtin_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	out = outfile;
 	builtin_locat(cmd, outfile);
+	if (!glo_exit)
+		return (1);
 	// quantum_box(cmd, outfile);
 	return (0);
 }
