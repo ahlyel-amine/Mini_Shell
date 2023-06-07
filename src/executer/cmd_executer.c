@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 11:26:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/07 14:23:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 	is_sig = 0;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
-	backup_env = malloc(sizeof(char *) * (env->size + 1));
+	backup_env = ft_calloc(sizeof(char *), (env->size + 1));
 	size = env->size;
 	iter = 0;
 	while (size--)
@@ -128,10 +128,12 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 	}
 	if (fd != NULL)
 	{
+
 		close(fd[0]);
 		close(fd[1]);
 	}
 	execve(path, exec, backup_env);
+	ft_putendl_fd("execve faillure", 2);
 	exit(errno);
 }
 
