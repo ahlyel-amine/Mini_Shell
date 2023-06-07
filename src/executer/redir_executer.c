@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 14:46:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/06 15:02:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	redirect_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		else if (((t_redir *)cmd)->cmd->type == BUILTIN)
 			ret = builtin_executer(((t_redir *)cmd)->cmd, infile, outfile, fd);
 	}
+	else
+		ret = 1;
 	close_files(cmd, infile, outfile);
 	return (ret);
 }

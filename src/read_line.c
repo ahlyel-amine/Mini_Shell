@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/05 14:22:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:12:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	read_line()
 			continue ;
 		}
 		controll_line(&line);
+		if (line)
 		add_history(line);
 		// parse_line(&line);
 		free(line);

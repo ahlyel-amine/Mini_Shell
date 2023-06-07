@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/02 02:13:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:12:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	controll_line(char **line)
 	complete_line(line);
 	if (line && *line)
 		cmd = parse_line(*line);
+		// check_parsing(cmd);
 	// a = (t_execcmd *)cmd;
 	// transform_args(&a->options);
 	// char **b = args_to_dblstr(a->options);
