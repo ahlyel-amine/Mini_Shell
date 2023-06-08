@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_executer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:08:53 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:48:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,8 @@ char	**get_dstr(t_cmd *cmd)
 	args_move_down(&((t_execcmd *)cmd)->cmd, &nl);
 	nl = NULL;
 	args_move_down(&((t_execcmd *)cmd)->options, &nl);
-	print_arguments(((t_execcmd *)cmd)->options, "opt");
-	print_arguments(((t_execcmd *)cmd)->cmd, "cmd");
 	exec = args_to_cmd_dstr(((t_execcmd *)cmd)->options, \
 	args_to_str(((t_execcmd *)cmd)->cmd));
-	for (int i = 0; exec[i]; i++){
-		printf("_[%s]_\n", exec[i]);
-	}
 	return (exec);
 }
 
