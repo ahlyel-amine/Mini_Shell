@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/26 19:00:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:12:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void    val(char *arg)
     {
         if(!(re_env_var(ft_substr(arg, 0, (replace - arg)), ft_strdup(arg), 0)))
         {
-            ft_lstadd_back(&env->lst, ft_lstnew(ft_strdup(arg)));
+            ft_lstadd_front(&env->lst, ft_lstnew(ft_strdup(arg)));
             env->size++;
         }    
     }
@@ -153,5 +153,6 @@ void    tt_export(t_cmd *cmd)
         ret = get_operator(args);
         sp_free(args);         
     }
+    set__get_option_variables(hold, SET);
     glo_exit = ret;  
 }
