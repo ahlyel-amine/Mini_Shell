@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:07:13 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:06:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,48 +133,16 @@ void	controll_line(char **line)
 {
 	t_cmd		*cmd;
 	// t_execcmd	*a;
-
+	int stop = 0;
 	cmd = NULL;
-	complete_line(line);
+	complete_line(line, &stop);
+	if (stop)
+		return ;
 	if (line && *line)
 		cmd = parse_line(*line);
-		// check_parsing(cmd);
-	// a = (t_execcmd *)cmd;
-	// transform_args(&a->options);
-	// char **b = args_to_dblstr(a->options);
-	// for (int i = 0; b[i]; i++)
-	// 	printf("[%s]\n", b[i]);
-	// if (cmd->type == EXEC)
-	// {
-	// 	t_execcmd *p;
-	// 	p = (t_execcmd *)cmd;
-	// 	char	*comd;
-	// 	char	**options;
-	// 	t_arguments	*nl = NULL;
-	// 	var_expand(p->cmd);
-	// 	var_expand(p->options);
-	// 	wild_cards(&p->options);
-	// 	args_move_down(&p->cmd, &nl);
-	// 	args_move_down(&p->options, &nl);
-	// 	print_arguments(p->cmd);
-	// 	comd = args_to_str(p->cmd);
-	// 	options = args_to_cmd_dstr(p->options, comd);
-	// 	for (int i =0; options[i]; i++)
-	// 		printf("%s\n", options[i]);
-	// 	free (options);
-	// }
-	
-	if (cmd)
-	{
-		// sig_exec_init();
+	if (cmd && !check_parsing(cmd))
+		;
+	else if (cmd)
 		execute_line(cmd);
-		free_line(cmd);
-	}
-	// if (cmd->type == BUILTIN)
-	// 	tt_echo(cmd);
-	// printf("\n\n\n\n");
-	// execute_line(cmd);
-	// printf("\n\n\n\n");
-	// if (cmd)
-		// free_line(cmd);
+	free_line(cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 14:35:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 14:28:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		else if (var.quote && line[*i + j] == '\'')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);		
 			*i += j + 1;
 			*i += close_quote(&arguments, line, *i) + 1;
 			var.quote = 0;
