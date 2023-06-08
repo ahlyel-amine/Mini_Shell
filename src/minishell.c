@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:05:22 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:12:00 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_hold	*env_dup(t_hold *env_var, char **env)
 
 int	main(int ac, char **av, char **env)
 {
-	// atexit(fun);
+	atexit(fun);
 	(void)ac;
 	(void)av;
 	t_hold	*env_var = NULL;

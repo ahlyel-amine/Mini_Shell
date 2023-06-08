@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 20:14:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 14:58:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 12:10:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 		check_out_of_quotes(line[i], &var);
 		if ((line[i] == '(') && !var.quote && !var.dquote)
 		{
-			i += close_parenthise(line + i + 1);
+			k = close_parenthise(line + i + 1);
+			if (k == -1)
+				return (panic_recursive(ERR_UNLCSD_PARNETHISE, &line), NULL);
+			i += k; 
 			continue ;
 		}
 		 if (line[i] == '>'  && line[i + 1] == '>' && !var.quote && !var.dquote)
