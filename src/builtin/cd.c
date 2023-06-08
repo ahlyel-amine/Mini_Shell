@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/04 01:09:16 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:21:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,19 @@ void    reset_env(char *pwd, char *o_pwd)
     while (lst)
     {
         if (!ft_strncmp("PWD=", lst->content, 4))
-        {
-            p_flg = 1;
-            tmp = lst->content;
-            // char    *tmp2 = ft_strdup(pwd);
-            lst->content = ft_strjoin_free(ft_strdup("PWD="), ft_strdup(pwd));
-            free(tmp);
-        }
+            env_key_cmp(pwd, "PWD=", &(lst->content), &p_flg);
         if (!ft_strncmp("OLDPWD=", lst->content, 7))
-        {
-            flg = 1;
-            tmp = lst->content;
-            lst->content = ft_strjoin("OLDPWD=", o_pwd);
-            free(tmp);
-        }
+            env_key_cmp(o_pwd, "OLDPWD=", &lst->content, &flg);
         lst = lst->next;
     }
     if (!flg)
     {
-        ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)));
+        ft_lstadd_node(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)), 9);
         env->size++;
     }
     if (!p_flg)
     {
-        ft_lstadd_back(&env->lst, ft_lstnew(ft_strjoin("PWD=", pwd)));
+        ft_lstadd_node(&env->lst, ft_lstnew(ft_strjoin("PWD=", pwd)), 7);
         env->size++;
     }
 }
@@ -93,14 +82,10 @@ char    *extend_option(char *arg, char *ex_with, int opt)
     ret = NULL;
     past = NULL;
     if (!opt)
-    {
-        tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));
-        // printf("{{%s}}\n", tmp);
-    }    
+        tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));   
     else if (opt == 1)
         tmp = ft_substr(arg, 1, (ft_strlen(arg) - 1));
     ret = ft_strjoin_free(ex_with, tmp);
-        // printf("{{%s}}\n", ret);
     return (free(arg), ret);
 }
 
@@ -221,7 +206,6 @@ int     d_point_validat(char *path, char *o_pwd, int count)
     ret = chdir(dir);
     if (!ret)
         reset_env(dir, o_pwd);
-    // printf(" %s --- %d ---\n", dir, ret);
     return (free(dir), ret);
 }
 
@@ -234,7 +218,10 @@ int    d_point_extend(char  *path, char *cwd)
     char    *tmp;
     pwd = get_owd("PWD=");
     if (!pwd)
+    {
+        set__get_option_variables(0, SET_PWD);
         pwd = ft_strdup(set__get_option_variables(0, GET | GET_PWD));
+    }    
     else
         pwd = ft_strdup(pwd);
     if (!*cwd && d_point_check(path))
@@ -327,7 +314,6 @@ void    tt_cd(t_cmd *cmd)
     cd = (t_builtin *)cmd;
     if (!getcwd(cwd, sizeof(cwd)))
         cwd[0] = '\0';
-    puts("alo");
     (transform_args(&cd->arguments));
     path = args(cd->arguments);
     if (!path)
@@ -342,16 +328,4 @@ void    tt_cd(t_cmd *cmd)
             nr_cd(path, cwd);
         free(path);
     }
-    // -------------------------------------------------
-    // t_hold  *env = set__get_option_variables(0, GET | GET_ENV);
-    // t_list *lst = env->lst;
-    // while (lst)
-    // {
-    //     printf("[%s]\n", lst->content);
-    //     lst = lst->next;
-    // }
-    // puts("----------------------------------------------------");
-    // tt_pwd();
-    // puts("----------------------------------------------------");
-    // return (free(path),ret);
 }

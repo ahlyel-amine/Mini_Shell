@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:42:38 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/05 08:36:30 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:21:54 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,37 @@ char	**ft_dstrdup2(char **ds1)
 	words[j] = NULL;
 	return (words);
 }
+void	ft_lstadd_node(t_list **lst, t_list *new, int pos)
+{
+	t_list	*tmp;
+	int		count;
+
+	count = 0;
+	tmp = NULL;
+	if (!new || !lst)
+		return ;
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		tmp = *lst;
+		while (tmp && count < pos)
+		{
+			tmp = tmp->next;
+			count++;
+		}	
+		new->next = tmp->next;
+		tmp->next = new;
+	}	
+}
+void	env_key_cmp(char *pwd, char *to_replace, void **lst_content, short *flg)
+{
+	char	*tmp;
+
+	tmp = *((char **)lst_content);
+		*flg = 1;
+		*lst_content = ft_strjoin_free(ft_strdup(to_replace), ft_strdup(pwd));
+		free(tmp);
+}
+void	
 // env | awk -F= '{print $1}' | while read -r line; do unset "$line"; done
