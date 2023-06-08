@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 14:17:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 16:11:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	main(int ac, char **av, char **env)
 	// atexit(fun);
 	(void)ac;
 	(void)av;
+	if (!isatty(STDIN_FILENO))
+		return (ft_putendl_fd("minishell: the input fd is not the default", 2), 1);
 	t_hold	*env_var = NULL;
 	env_var = env_dup(env_var, env);
 	adjust_shlvl(env_var);
@@ -50,6 +52,5 @@ int	main(int ac, char **av, char **env)
 	in_cmd = 0;
 	set__get_option_variables(env_var, SET);
 	read_line();
-	// ft_lstclear(&(env_var->lst), free);
 	return (0);
 }

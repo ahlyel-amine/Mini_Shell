@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 11:26:36 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 21:12:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 	{
 		// ((t_redir *)cmd)->red.file_name =  wild_cards(((t_redir *)cmd)->red.file_name,
 				// NULL);
+		print_arguments(((t_redir *)cmd)->red.file_name, "before");
 		transform_args(&(((t_redir *)cmd)->red.file_name));
-		if ((((t_redir *)cmd)->red.file_name)->next)
-			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), 0);
+		print_arguments(((t_redir *)cmd)->red.file_name, "after");
+		// if ((((t_redir *)cmd)->red.file_name)->next)
+		// 	return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), 0);
 	}
 	file_name = args_to_str(((t_redir *)cmd)->red.file_name);
 	

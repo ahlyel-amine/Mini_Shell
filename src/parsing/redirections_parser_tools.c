@@ -33,6 +33,8 @@ static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 			tmp[k++] = line[i];
 		else if ((line[i] == '\"' && var.quote) || (line[i] == '\'' && var.dquote))
 			tmp[k++] = line[i];
+		else if (!var.quote && !var.dquote && !ft_isvariable(line[i]))
+			break ;
 		else if (line[i] != '\'' && line[i] != '\"')
 			tmp[k++] = line[i];
 		i++;
@@ -40,7 +42,55 @@ static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 	*j = i;
 	return (tmp);
 }
+/*----------*/
 
+t_arguments	*get_names(char *line, int *i)
+{
+	t_arguments	*arguments;
+	t_var		var;
+	int			j;
+
+	ft_memset(&var, 0, sizeof(t_var));
+	arguments = NULL;
+	j = 0;
+	while (line[*i + j])
+	{
+		check_out_of_quotes(line[*i + j], &var);
+		if (var.dquote && line[*i + j] == '\"')
+		{
+			if (j)
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
+			*i += j + 1;
+			*i += close_dquote(&arguments, line, *i) + 1;
+			var.dquote = 0;
+			j = 0;
+			continue ;
+		}
+		else if (var.quote && line[*i + j] == '\'')
+		{
+			if (j)
+				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);		
+			*i += j + 1;
+			*i += close_quote(&arguments, line, *i) + 1;
+			var.quote = 0;
+			j = 0;
+			continue ;
+		}
+		else if (!var.dquote && !var.quote && !ft_isvariable(line[*i + j]))
+			break;
+		j++;
+	}
+	if (j)
+	{
+		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
+		*i += j;
+	}
+	merge_arguments(&arguments, 0);
+	tokenize_variables(&arguments);
+	return (arguments);
+}
+
+/*-----------*/
 int	get_name(char *line, t_redir_content *red, int type)
 {
 	t_arguments	*args;
@@ -52,7 +102,7 @@ int	get_name(char *line, t_redir_content *red, int type)
 	if (type == F_HEREDOC)
 		red->file_name = arguments_constructor(args, skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
 	else
-		red->file_name = get_argument(line, &k, 0, 1);
+		red->file_name = get_names(line, &k);
 	return (k);
 }
 
