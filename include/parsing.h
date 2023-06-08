@@ -2,6 +2,9 @@
 # define PARSING_H
 
 # include "minishell.h"
+int	close_quote(t_arguments **arguments, char *line, int i);
+int	close_dquote(t_arguments **arguments, char *line, int i);
+void	merge_arguments(t_arguments **arguments, int is_dquote);
 
 void		controll_line(char **line);
 void		tokenizer(char **words);
