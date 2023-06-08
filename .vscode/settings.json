@@ -31,7 +31,8 @@
 		"tuple": "c",
 		"utility": "c",
 		"sstream": "c",
-		"locale": "c"
+		"locale": "c",
+		"__locale": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

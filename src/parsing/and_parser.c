@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   and_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:40:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/25 16:58:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 12:13:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_cmd	*and_parser(char *line)
 {
 	t_cmd	*operator;
 	int		i;
-	int		j;
 	int		k;
 	t_var	var;
 	
@@ -52,10 +51,13 @@ t_cmd	*and_parser(char *line)
 		check_out_of_quotes(line[i], &var);
 		if (line[i] == '(' && !var.quote && !var.dquote)
 		{
-			i += close_parenthise(line + i + 1);
+			k = close_parenthise(line + i + 1);
+			if (k == -1)
+				return (panic_recursive(ERR_UNLCSD_PARNETHISE, &line), NULL);
+			i += k; 
 			continue ;
 		}
-		if (line[i] == '&' && line[i + 1] == '&'  && !var.quote && !var.dquote)
+		if (line[i] == '&' && line[i + 1] == '&' && !var.quote && !var.dquote)
 		{
 			operator = call_and(&line, i);
 			break ;	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/04 01:09:16 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:57:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,6 @@ void    tt_cd(t_cmd *cmd)
     cd = (t_builtin *)cmd;
     if (!getcwd(cwd, sizeof(cwd)))
         cwd[0] = '\0';
-    puts("alo");
     (transform_args(&cd->arguments));
     path = args(cd->arguments);
     if (!path)

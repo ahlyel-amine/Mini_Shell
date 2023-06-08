@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destructors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 15:58:51 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:55:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ void	pipe_destructor(t_cmd *structor)
 	pipe = (t_pipe *)structor;
 	free(pipe);
 }
+
+void	subsh_destructor(t_cmd *structor)
+{
+	t_subsh	*subsh;
+
+	subsh = (t_subsh *)structor;
+	free(subsh);
+}
+
 void	execcmd_destructor(t_cmd *structor)
 {
 	t_arguments	*args;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 12:43:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 12:13:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,11 @@ int	close_parenthise(char *line)
 			break ;
 		}
 	}
+	if (close != open)
+		return (-1);
 	return (i);
 }
+
 void	something_wrong(char *error, void *to_free)
 {
 	free(to_free);
@@ -365,8 +368,8 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 void	panic_recursive(char *error, char **ptr)
 {
 	ft_putstr_fd(error, STDERR_FILENO);
-	free (ptr);
-	ptr = NULL;
+	free (*ptr);
+	*ptr = NULL;
 }
 
 unsigned short	check_wild_cards(char *str, unsigned short type)
