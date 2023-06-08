@@ -154,7 +154,7 @@ int	check_for_syntax(char **line, int i)
 		while (ft_isspace((*line)[i + j + space]))
 			space++;
 		if (!(*line)[i + j + space] || (*line)[i + j + space] == '<' || (*line)[i + j + space] == '>')
-			return (panic_recursive("minishell : syntax error near unexpected token\n", NULL), 0);
+			return (panic_recursive("minishell : syntax error near unexpected token\n", line), 0);
 	}
 	return (1);
 }

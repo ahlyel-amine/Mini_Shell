@@ -6,100 +6,25 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 20:59:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 13:28:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-/*----------------------------*/
-// void	read_until_chr(char **line, char c)
-// {
-// 	char	*dquote;
-// 	int		quote_pos;
 
-// 	while (1337)
-// 	{
-// 		if (c == '\'')
-// 			dquote = readline("quote> ");
-// 		else
-// 			dquote = readline("dquote> ");
-// 		if (!dquote)
-// 		{
-// 			new_arg(0, 0, -1);
-// 			ft_putendl_fd("unexpected EOF while looking for matching \"\'", 2);
-// 			ft_putendl_fd("minishell: syntax error: unexpected end of file", 2);
-// 			return ;
-// 		}
-// 		*line = ft_strjoin(*line, ft_strdup("\n"));
-// 		*line = ft_strjoin(*line, dquote);
-// 		quote_pos = ft_chrpos(*line, c);
-// 		if (quote_pos != -1)
-// 			break ;
-// 	}
-// }
-// void	get_is_complete(char *line, int *quote, int *dquote, int *operator)
-// {
-// 	int	i;
+typedef struct s_oper
+{
+	int		and;
+	int or ;
+	int		pipe;
+}			t_oper;
 
-// 	i = 0;
-// 	while (line[i])
-// 	{
-// 		if (line[i] == '\"' && !(*quote))
-// 			(*dquote) = !(*dquote);
-// 		if (line[i] == '\'' && !(*dquote))
-// 			(*quote) = !(*quote);
-// 		if (!line[i + 1])
-// 		{
-// 			if (i - 2 >= 0)
-// 			{
-// 				if ((!ft_isspace(line[i - 2]) && line[i - 1] == '&' && line[i] == '&')
-// 				|| (!ft_isspace(line[i - 2]) && line[i - 1] == '|' && line[i] == '|'))
-// 					*operator = 1;
-// 			}
-// 			if (i - 1 >= 0)
-// 			{
-// 				if (line[i] == '|' || (line[i - 1] == '&' && line[i] == '&') || (line[i - 1] == '|' && line[i] == '|'))
-// 					*operator = 1;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// } 
-
-// void	complete_line(char **line)
-// {
-// 	int		quote;
-// 	int		dquote;
-// 	int		operator;
-// 	char	*tmp;
-// 	char	*tmp2;
-
-// 	quote = 0;
-// 	operator = 0;
-// 	dquote = 0;
-// 	get_is_complete(*line, &quote, &dquote, &operator);
-// 	if (dquote)
-// 		read_until_chr(line, '\"');
-// 	else if (quote)
-// 		read_until_chr(line, '\'');
-// 	else if (operator)
-// 	{
-// 		tmp = readline("> ");
-// 		tmp2 = *line;
-// 		*line = ft_strjoin(*line, tmp);
-// 		free(tmp2);
-// 		free(tmp);
-// 	}
-// 	else
-// 		return ;
-// 	complete_line(line);
-// }
-/*----------------------------*/
-char	*read_until_chr(char *line, char c)
+char	*read_until_chr(char *line, char c, int *brea)
 {
 	char	*dquote;
 	int		quote_pos;
 
+	*brea = 0;
 	while (1337)
 	{
 		if (c == '\'')
@@ -108,10 +33,11 @@ char	*read_until_chr(char *line, char c)
 			dquote = readline("dquote> ");
 		if (!dquote)
 		{
-			free (line);
 			ft_putstr_fd("unexpected EOF while looking for matching \"\'\n", 2);
-			ft_putstr_fd("minishell: syntax error: unexpected end of file\n", 2);
-			return (NULL);
+			ft_putstr_fd("minishell: syntax error: unexpected end of file\n",
+				2);
+			*brea = 1;
+			return (line);
 		}
 		line = ft_strjoin_free(line, ft_strdup("\n"));
 		line = ft_strjoin_free(line, dquote);
@@ -119,6 +45,28 @@ char	*read_until_chr(char *line, char c)
 		if (quote_pos != -1)
 			break ;
 	}
+	return (line);
+}
+
+char	*read_until_oper(char *line, t_oper oper, int *brea)
+{
+	char	*operator;
+	int		quote_pos;
+
+	*brea = 0;
+	if (oper.and)
+		operator= readline("andcmd> ");
+	else if (oper.or)
+		operator= readline("orcmd> ");
+	else if (oper.pipe)
+		operator= readline("pipe> ");
+	if (!operator)
+	{
+		ft_putstr_fd("minishell: syntax error: unexpected end of file\n", 2);
+		*brea = 1;
+		return (line);
+	}
+	line = ft_strjoin_free(line, operator);
 	return (line);
 }
 
@@ -134,53 +82,57 @@ static int	only_spaces_left(char *line)
 	return (0);
 }
 
-char	*get_is_complete(char *line, int *quote, int *dquote)
+void	get_is_complete(char *line, t_var *q, t_oper *oper)
 {
-	int	i;
+	int		i;
+	t_var	var;
 
 	i = 0;
+	ft_memset(&var, 0, sizeof(t_var));
 	while (line[i])
 	{
-		if (line[i] == '\"' && !(*quote))
-			(*dquote) = !(*dquote);
-		if (line[i] == '\'' && !(*dquote))
-			(*quote) = !(*quote);
+		check_out_of_quotes(line[i], &var);
+		if (line[i] == '\"' && !(q->quote))
+			(q->dquote) = !(q->dquote);
+		if (line[i] == '\'' && !(q->dquote))
+			(q->quote) = !(q->quote);
+		if (!var.quote && !var.dquote && line[i] == '&' && line[i + 1] == '&'
+			&& only_spaces_left(line + i + 2))
+			oper->and = 1;
+		else if (!var.quote && !var.dquote && line[i] == '|' && line[i
+			+ 1] == '|' && only_spaces_left(line + i + 2))
+			oper->or = 1;
+		else if (!var.quote && !var.dquote && line[i] == '|'
+			&& only_spaces_left(line + i + 1))
+			oper->pipe = 1;
 		i++;
 	}
-	return (line);
-} 
+}
 
-// void	check_this_line(char **line)
-// {
-// 	int i = 0;
-
-	
-// 	while ((*line)[i])
-// 	{
-// 		if ((*line)[i] )
-// 	}
-// }
-
-void	complete_line(char **line)
+void	complete_line(char **line, int *brea)
 {
-	int		quote;
-	int		dquote;
+	t_var	q;
+	t_oper	oper;
+	int		bre;
 	char	*tmp;
 
-	quote = 0;
-	dquote = 0;
+	ft_memset(&q, 0, sizeof(t_var));
+	ft_memset(&oper, 0, sizeof(t_oper));
 	if (!line || !*line)
 		return ;
-	*line = get_is_complete(*line, &quote, &dquote);
-	if (!*line)
-		return ;
-	if (dquote)
-		*line = read_until_chr(ft_strdup(*line), '\"');
-	else if (quote)
-		*line = read_until_chr(ft_strdup(*line), '\'');
+	get_is_complete(*line, &q, &oper);
+	if (q.dquote)
+		*line = read_until_chr(*line, '\"', &bre);
+	else if (q.quote)
+		*line = read_until_chr(*line, '\'', &bre);
+	else if (oper.and || oper.or || oper.pipe)
+		*line = read_until_oper(*line, oper, &bre);
 	else
-		return;
-	// else
-	// 	check_this_line(line);
-	complete_line(line);
+		return ;
+	if (bre)
+	{
+		*brea = 1;
+		return ;
+	}
+	complete_line(line, brea);
 }

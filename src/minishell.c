@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 12:12:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 14:17:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_hold	*env_dup(t_hold *env_var, char **env)
 
 int	main(int ac, char **av, char **env)
 {
-	atexit(fun);
+	// atexit(fun);
 	(void)ac;
 	(void)av;
 	t_hold	*env_var = NULL;
@@ -49,7 +49,7 @@ int	main(int ac, char **av, char **env)
 	glo_exit = 0;
 	in_cmd = 0;
 	set__get_option_variables(env_var, SET);
-	read_line(&(env_var->lst));
+	read_line();
 	// ft_lstclear(&(env_var->lst), free);
 	return (0);
 }
