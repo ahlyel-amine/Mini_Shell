@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:20:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/17 20:52:04 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 13:19:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_chrpos(char *line,  char c)
 		return (i);
 	return (-1);
 }
+
 int	ft_isvariable(char c)
 {
 	return (ft_isalnum(c) || c == '_');
