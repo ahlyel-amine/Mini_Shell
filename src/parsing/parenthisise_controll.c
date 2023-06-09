@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:38:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 12:05:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:13:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*select_unused_parenthesis(char *line, int i, t_var var, int is_open)
 	}
 	return (line);
 }
+
 int	has_syntax_error(char *line, int i)
 {
 	int	pipe;
@@ -72,16 +73,15 @@ int	has_syntax_error(char *line, int i)
 	}
 	return (pipe | redir);
 }
+
 char	*remove_parenthisis_syntax_checker(char *line)
 {
 	char	*err;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (line[i])
 	{
-		// if (line[i] == '|' || line[i] == '&')
-		// 	break;
 		if (line[i] == '(' && i && !has_syntax_error(line, i))
 		{
 			err = ft_substr(line, 0, i);
@@ -91,6 +91,7 @@ char	*remove_parenthisis_syntax_checker(char *line)
 	}
 	return (line);
 }
+
 char	*remove_unused_parenthesis(char *line)
 {
 	int		i;
@@ -114,14 +115,5 @@ char	*remove_unused_parenthesis(char *line)
 		line = select_unused_parenthesis(line, i, var, is_open);
 	else
 		return (remove_parenthisis_syntax_checker(line));
-	// 	while (line[i])
-	// 	{
-	// 		if (line[i] == '(')
-	// 		{
-	// 			err = ft_substr(line, 0, i);
-	// 			return (pr_custom_err(ERR_CMD, err, err), NULL);
-	// 		}
-	// 		i++;
-	// 	}
 	return (line);
 }

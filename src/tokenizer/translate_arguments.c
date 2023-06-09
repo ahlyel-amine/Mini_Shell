@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 20:46:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 13:58:21 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ size_t	args_strslen(t_arguments *args)
 				i++;
 				len++;
 			}
+			if (tmp->type & IS_FILE)
+				len++;
 		}
 		else if (tmp->type & QUOTE || tmp->type & DQUOTE)
 			len += args_strslen(tmp->down);
@@ -68,6 +70,7 @@ void	down_to_str(t_arguments *args, char **str, size_t *len)
 	}
 }
 
+
 char	*args_to_str(t_arguments *args)
 {
 	t_arguments	*tmp;
@@ -85,7 +88,14 @@ char	*args_to_str(t_arguments *args)
 	while (tmp)
 	{
 		i = 0;
-		if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || (tmp->type & IS_SEPARTOR))
+		if ((tmp->type & IS_FILE) && (tmp->next) && (tmp->next->type & IS_FILE))
+		{
+			puts("afsdgfhgjh,");
+			while (tmp->str[i])
+				str[len++] = tmp->str[i++];
+			str[len++] = ' ';
+		}
+		else if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || (tmp->type & IS_SEPARTOR) || (tmp->type & IS_FILE))
 		{
 			if (tmp->type & IS_SEPARTOR && !tmp->next)
 				break ;

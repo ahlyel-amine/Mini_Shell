@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 15:54:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:09:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	read_line()
+void	read_line(void)
 {
 	char	*pwd;
 	char	*line;
@@ -21,12 +21,7 @@ void	read_line()
 	{
 		sig_handl();
 		rl_catch_signals = 0;
-		// pwd = get_prompt_line();
-		// if (pwd)
-		// 	line = readline(pwd);
-		// else
-			line = readline(READLINE);
-		// free(pwd);
+		line = readline(READLINE);
 		if (!line || !ft_strncmp(line, "exit", 5))
 		{
 			free(line);
@@ -41,11 +36,7 @@ void	read_line()
 		}
 		controll_line(&line);
 		if (line)
-		add_history(line);
-		// parse_line(&line);
+			add_history(line);
 		free(line);
 	}
-	// rl_clear_history();
-	//io_redirection leaks
-	//double free cmd ""
 }

@@ -134,6 +134,7 @@ typedef struct s_redir_content
 {
 	int			type;
 	t_arguments	*file_name;
+	char		*delimiter;
 	int			mode;
 	int			fd;
 }	t_redir_content;
