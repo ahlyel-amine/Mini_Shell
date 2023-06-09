@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 16:39:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 22:26:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		return (pr_custom_err(ERR_CMD, exec[0], exec[0]), glo_exit = 127, free(exec), 0);
 	pid = fork();
 	if (pid == -1)
-		return (perror("fork failed"), 0);
+		return (perror("minishell: "), 0);
 	if (!pid)
 		child(exec, path, infile, outfile, fd);
 	free(exec[0]);

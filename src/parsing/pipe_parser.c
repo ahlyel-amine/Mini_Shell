@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:41:57 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 12:10:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:23:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_cmd	*pipe_parser(char *line)
 		{
 			k = close_parenthise(line + i + 1);
 			if (k == -1)
-				return (panic_recursive(ERR_UNLCSD_PARNETHISE, &line), NULL);
+				return (panic_recursive(ERR_UNCLSDP, &line), NULL);
 			i += k; 
 			continue ; ;
 		}

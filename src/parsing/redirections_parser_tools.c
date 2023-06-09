@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_parser_has_parenthesis_tools.c                        :+:      :+:    :+:   */
+/*   redirections_parser_tools.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 20:04:03 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/06/09 15:40:04 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 			break ;
 		if ((var.quote || var.dquote) && ft_isspace(line[i]))
 			tmp[k++] = line[i];
-		else if ((line[i] == '\"' && var.quote) || (line[i] == '\'' && var.dquote))
+		else if ((line[i] == '\"' && var.quote) || (line[i] == '\''\
+				&& var.dquote))
 			tmp[k++] = line[i];
-		else if (!var.quote && !var.dquote && !ft_isvariable(line[i]))
+		else if (!var.quote && !var.dquote && !ft_isvariable(line[i])
+			&& line[i] != '\"' && line[i] != '\'')
 			break ;
 		else if (line[i] != '\'' && line[i] != '\"')
 			tmp[k++] = line[i];
@@ -43,6 +45,11 @@ static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 	return (tmp);
 }
 /*----------*/
+
+int	ft_isname(char c)
+{
+	return (c != '&' && c != '|' && c != '<' && c != '>');
+}
 
 t_arguments	*get_names(char *line, int *i)
 {
@@ -59,7 +66,8 @@ t_arguments	*get_names(char *line, int *i)
 		if (var.dquote && line[*i + j] == '\"')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
+				arguments = arguments_constructor(arguments, ft_substr(line, *i,\
+						j), IS_STR, 0);
 			*i += j + 1;
 			*i += close_dquote(&arguments, line, *i) + 1;
 			var.dquote = 0;
@@ -69,20 +77,22 @@ t_arguments	*get_names(char *line, int *i)
 		else if (var.quote && line[*i + j] == '\'')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);		
+				arguments = arguments_constructor(arguments, ft_substr(line, *i,\
+						j), IS_STR, 0);
 			*i += j + 1;
 			*i += close_quote(&arguments, line, *i) + 1;
 			var.quote = 0;
 			j = 0;
 			continue ;
 		}
-		else if (!var.dquote && !var.quote && !ft_isvariable(line[*i + j]))
-			break;
+		else if (!var.dquote && !var.quote && !ft_isname(line[*i + j]))
+			break ;
 		j++;
 	}
 	if (j)
 	{
-		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
+		arguments = arguments_constructor(arguments, ft_substr(line, *i, j),
+			IS_STR, 0);
 		*i += j;
 	}
 	merge_arguments(&arguments, 0);
@@ -90,7 +100,47 @@ t_arguments	*get_names(char *line, int *i)
 	return (arguments);
 }
 
+char	*get_herdoc_name(void)
+{
+	static int	call;
+
+	return (ft_strjoin_free(ft_strdup("/tmp/.heredoc_"), ft_itoa(call++)));
+}
 /*-----------*/
+void	read_heredoc(t_redir_content *red, t_arguments *args)
+{
+	char	*name;
+	char	*line;
+	int		fd;
+
+	in_cmd = 1;
+	sig_here();
+	name = get_herdoc_name();
+	fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (fd < 0)
+		return (pr_custom_err(ERR_FILE, red->delimiter, name));
+	line = readline(HERDOC);
+	while (line && !Ctrl_c)
+	{
+		if (!strncmp(line, red->delimiter, ft_strlen(red->delimiter) + 1))
+		{
+			free(line);
+			break ;
+		}
+		if (!red->file_name->q)
+			line = data_analyse(line);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		line = readline(HERDOC);
+	}
+	Ctrl_c = 0;
+	in_cmd = 0;
+	free(red->delimiter);
+	red->delimiter = name;
+	close(fd);
+}
+
 int	get_name(char *line, t_redir_content *red, int type)
 {
 	t_arguments	*args;
@@ -100,7 +150,12 @@ int	get_name(char *line, t_redir_content *red, int type)
 	args = NULL;
 	k = red->fd;
 	if (type == F_HEREDOC)
-		red->file_name = arguments_constructor(args, skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
+	{
+		red->file_name = arguments_constructor(args,
+			skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
+		red->delimiter = args_to_str(red->file_name);
+		read_heredoc(red, args);
+	}
 	else
 		red->file_name = get_names(line, &k);
 	return (k);
@@ -130,7 +185,7 @@ static void	fill_red_content(t_redir_content *red, int ref)
 
 int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 {
-	int	j;
+	int		j;
 	t_var	var;
 
 	ft_memset(&var, 0, sizeof(t_var));
@@ -147,15 +202,15 @@ int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 
 static t_cmd	*get_redirection(char *line, int i, int type)
 {
-	char	*before;
-	char	*after;
+	char			*before;
+	char			*after;
 	t_cmd			*redirection;
-	int	tmp;
+	int				tmp;
 	t_redir_content	red;
+
 	redirection = NULL;
 	before = NULL;
 	after = NULL;
-	
 	tmp = i;
 	if (i - 1 > 0)
 		before = ft_substr(line, 0, i - 1);
@@ -195,16 +250,19 @@ int	check_for_syntax(char **line, int i)
 
 	j = 0;
 	space = 0;
-	if (((*line)[i] == '<' && (*line)[i + 1] == '<')  || ((*line)[i] == '>' && \
-	(*line)[i + 1] == '>') || ((*line)[i] == '<') || ((*line)[i] == '>'))
+	if (((*line)[i] == '<' && (*line)[i + 1] == '<') || ((*line)[i] == '>'
+			&& (*line)[i + 1] == '>') || ((*line)[i] == '<')
+		|| ((*line)[i] == '>'))
 	{
 		j++;
 		if ((*line)[i + 1] == '<' || (*line)[i + 1] == '>')
 			j++;
 		while (ft_isspace((*line)[i + j + space]))
 			space++;
-		if (!(*line)[i + j + space] || (*line)[i + j + space] == '<' || (*line)[i + j + space] == '>')
-			return (panic_recursive("minishell : syntax error near unexpected token\n", line), 0);
+		if (!(*line)[i + j + space] || (*line)[i + j + space] == '<'
+			|| (*line)[i + j + space] == '>')
+			return (panic_recursive("minishell : syntax error near unexpected token\n",
+					line), 0);
 	}
 	return (1);
 }
