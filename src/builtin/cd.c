@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/08 13:21:09 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:43:17 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void    reset_env(char *pwd, char *o_pwd)
     }
     if (!flg)
     {
-        ft_lstadd_node(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)), 9);
+        ft_lstadd_node(&env->lst, ft_lstnew(ft_strjoin("OLDPWD=", o_pwd)), (env->size >> 1));
         env->size++;
     }
     if (!p_flg)
     {
-        ft_lstadd_node(&env->lst, ft_lstnew(ft_strjoin("PWD=", pwd)), 7);
+        ft_lstadd_node(&env->lst, ft_lstnew(ft_strjoin("PWD=", pwd)), (env->size >> 1));
         env->size++;
     }
 }
@@ -127,21 +127,7 @@ int ft_go_to(int opt, char *path, char *cwd)
         ret = chdir(env_path);
     }   
     else if (opt == 1)
-    {
-        env_path = get_owd("OLDPWD=");
-        if (!stat_check(env_path))
-            return (1);
-        if (!env_path)
-            return (ft_putendl_fd("minishell : cd: OLDPWD not set", STDERR_FILENO), (1));
-        if (access(env_path, R_OK) != 0)
-            return (printf("cd: %s: %s\n", path, "No such file or directory"), (1));
-        if (get_owd("PWD=") && !*cwd)
-            reset_env(env_path, get_owd("PWD="));
-        else    
-            reset_env(env_path, cwd);
-        ft_putendl_fd(get_owd("PWD="), out);
-        ret = chdir(get_owd("PWD="));
-    }
+        ret = go_to_oldpwd(cwd, path);
     return (ret);
 }
 int     prev_drictory_count(char *wd)
@@ -212,25 +198,17 @@ int     d_point_validat(char *path, char *o_pwd, int count)
 int    d_point_extend(char  *path, char *cwd)
 {
     char    *pwd;
-    char    cwd2[PATH_MAX];
     int     ret;
     int     count;
-    char    *tmp;
-    pwd = get_owd("PWD=");
-    if (!pwd)
-    {
-        set__get_option_variables(0, SET_PWD);
-        pwd = ft_strdup(set__get_option_variables(0, GET | GET_PWD));
-    }    
-    else
-        pwd = ft_strdup(pwd);
+    
+    pwd = prepare_pwd();
     if (!*cwd && d_point_check(path))
     {
         if (pwd && pwd[ft_strlen(pwd) - 1] != '/')
             pwd = ft_strjoin_free(pwd, ft_strdup("/"));
         count = prev_drictory_count(path);
         if (count >= 3)
-            return (free(pwd), printf("cd: %s: No such file or directory", path), 1);
+            return (free(pwd), printf("cd: %s: No such file or directory\n", path), 1);
         count += prev_drictory_count(pwd);
         ret = d_point_validat(pwd, get_owd("OLDPWD="), count);
         if (ret == -1)
@@ -241,17 +219,8 @@ int    d_point_extend(char  *path, char *cwd)
         }
     }
     else if (cwd)
-    {
-        if (!stat_check(path))
-            return (1);
-        ret = chdir(path);
-        if (ret == -1)
-            return (free(pwd), printf("cd: %s: %s\n", path, strerror(errno)), (1));
-        getcwd(cwd2, sizeof(cwd2));
-        reset_env(cwd2, pwd);    
-        return (free(pwd), ret);
-    }
-    return (0); // update it  
+        ret = d_point_pwd(path, pwd);
+    return (free(pwd), ret); // update it  
 }
 
 void    nr_cd(char *path, char *cwd)

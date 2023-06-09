@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/27 01:51:21 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/09 23:54:24 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)())
 {
+    t_hold	*env;
+	t_list	*cur;
+
 	if (lst_tmp == NULL || *lst_tmp == NULL)
 		return;
-
-	t_list *cur = *lst_tmp;
-    t_hold  *env = set__get_option_variables(0, GET | GET_ENV);
+	env = set__get_option_variables(0, GET | GET_ENV);
+	cur = *lst_tmp;
 	if (cmp(cur->content, data, ft_strlen(data)) == 0 && (*((char *)cur->content + ft_strlen(data)) == '='))
 	{
 		*lst_tmp = cur->next;
@@ -35,7 +37,8 @@ void ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)())
 		ft_list_remove(lst_tmp, data, cmp);
 	}
 	cur = *lst_tmp;
-	ft_list_remove(&cur->next, data, cmp);
+	if (cur)
+		ft_list_remove(&cur->next, data, cmp);
 }
 short	valid_var(char *var)
 {
@@ -82,6 +85,9 @@ void	tt_unset(t_cmd *cmd)
 		t_hold  *env = set__get_option_variables(0, GET | GET_ENV);
 		tmp = env->lst;
 		nr_unset(args, &tmp);
+		printf("[%d]\n", env->size);
+		if (!env->size)
+			env->lst = NULL;
 		sp_free(args);
 	}	
 }
