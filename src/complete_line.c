@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 13:28:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:12:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 typedef struct s_oper
 {
 	int		and;
-	int or ;
+	int		or;
 	int		pipe;
-}			t_oper;
+}	t_oper;
 
 char	*read_until_chr(char *line, char c, int *brea)
 {
@@ -55,17 +55,18 @@ char	*read_until_oper(char *line, t_oper oper, int *brea)
 
 	*brea = 0;
 	if (oper.and)
-		operator= readline("andcmd> ");
+		operator = readline("andcmd> ");
 	else if (oper.or)
-		operator= readline("orcmd> ");
+		operator = readline("orcmd> ");
 	else if (oper.pipe)
-		operator= readline("pipe> ");
+		operator = readline("pipe> ");
 	if (!operator)
 	{
 		ft_putstr_fd("minishell: syntax error: unexpected end of file\n", 2);
 		*brea = 1;
 		return (line);
 	}
+	line = ft_strjoin_free(line, ft_strdup(" "));
 	line = ft_strjoin_free(line, operator);
 	return (line);
 }
@@ -99,8 +100,8 @@ void	get_is_complete(char *line, t_var *q, t_oper *oper)
 		if (!var.quote && !var.dquote && line[i] == '&' && line[i + 1] == '&'
 			&& only_spaces_left(line + i + 2))
 			oper->and = 1;
-		else if (!var.quote && !var.dquote && line[i] == '|' && line[i
-			+ 1] == '|' && only_spaces_left(line + i + 2))
+		else if (!var.quote && !var.dquote && line[i] == '|' && \
+		line[i + 1] == '|' && only_spaces_left(line + i + 2))
 			oper->or = 1;
 		else if (!var.quote && !var.dquote && line[i] == '|'
 			&& only_spaces_left(line + i + 1))

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 20:14:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 14:11:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:23:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 		{
 			k = close_parenthise(line + i + 1);
 			if (k == -1)
-				return (panic_recursive(ERR_UNLCSD_PARNETHISE, &line), NULL);
+				return (panic_recursive(ERR_UNCLSDP, &line), NULL);
 			i += k; 
 			continue ;
 		}
@@ -44,7 +44,7 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 			k = fill_redir_content(line, i, &red, F_APPEND);
 			operator = and_parser(
 				ft_strjoin_free(remove_unused_parenthesis(ft_substr(line, 0, i)),
-				ft_substr(line, + k, ft_strlen(line + k)))
+				ft_substr(line, k, ft_strlen(line + k)))
 				);
 
 			operator = redir_constructor(operator, red);
@@ -59,7 +59,7 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 			k = fill_redir_content(line, i, &red, F_OUT_RED);
 			operator = and_parser(
 				ft_strjoin_free(remove_unused_parenthesis(ft_substr(line, 0, i)),
-				ft_substr(line, + k, ft_strlen(line + k)))
+				ft_substr(line, k, ft_strlen(line + k)))
 				);
 			operator = redir_constructor(operator, red);
 			free (line);

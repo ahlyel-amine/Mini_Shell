@@ -6,10 +6,9 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 14:06:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:10:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -20,7 +19,8 @@ int	check_and_parsing(t_cmd *cmd)
 	if (!((t_and *)cmd)->left || !((t_and *)cmd)->right)
 		return (0);
 	else
-		return (check_parsing(((t_and *)cmd)->left) & check_parsing(((t_and *)cmd)->right));
+		return (check_parsing(((t_and *)cmd)->left) & \
+		check_parsing(((t_and *)cmd)->right));
 	return (1);
 }
 
@@ -29,7 +29,8 @@ int	check_or_parsing(t_cmd *cmd)
 	if (!((t_or *)cmd)->left || !(((t_or *)cmd)->right))
 		return (0);
 	else
-		return (check_parsing(((t_or *)cmd)->left) & check_parsing(((t_or *)cmd)->right));
+		return (check_parsing(((t_or *)cmd)->left) & \
+		check_parsing(((t_or *)cmd)->right));
 	return (1);
 }
 
@@ -38,7 +39,8 @@ int	check_pipe_parsing(t_cmd *cmd)
 	if (!((t_pipe *)cmd)->left || !(((t_pipe *)cmd)->right))
 		return (0);
 	else
-		return (check_parsing(((t_pipe *)cmd)->left) & check_parsing(((t_pipe *)cmd)->right));
+		return (check_parsing(((t_pipe *)cmd)->left) & \
+		check_parsing(((t_pipe *)cmd)->right));
 	return (1);
 }
 
@@ -63,7 +65,7 @@ int	check_redir_parsing(t_cmd *cmd)
 			free(line);
 		}
 		pr_custom_err(ERR_SNTX, NULL,
-				((t_invalid *)((t_redir *)cmd)->cmd)->str);
+			((t_invalid *)((t_redir *)cmd)->cmd)->str);
 		free(file_name);
 		return (0);
 	}
@@ -100,7 +102,7 @@ void	print_arguments(t_arguments *args, char *ref)
 		else
 		{
 			tmp2 = tmp->down;
-			printf("{%d}\n",tmp->type);
+			printf("{%d}\n", tmp->type);
 			while (tmp2)
 			{
 				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
@@ -109,7 +111,7 @@ void	print_arguments(t_arguments *args, char *ref)
 		}
 		tmp = tmp->next;
 	}
-	printf("--------------------arguments_END------%s----------------\n",ref);
+	printf("--------------------arguments_END------%s----------------\n", ref);
 }
 
 void	print_cmd(t_cmd *cmd)
@@ -131,9 +133,10 @@ void	print_cmd(t_cmd *cmd)
 
 void	controll_line(char **line)
 {
-	t_cmd		*cmd;
-	// t_execcmd	*a;
-	int stop = 0;
+	t_cmd	*cmd;
+	int		stop;
+
+	stop = 0;
 	cmd = NULL;
 	complete_line(line, &stop);
 	if (stop)
