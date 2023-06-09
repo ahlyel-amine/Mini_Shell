@@ -22,6 +22,8 @@ char		**ft_joindstrs(char **ds1, char* *ds2);
 char	**get_dstr(t_cmd *cmd);
 void	adjust_shlvl(t_hold *env);
 char	*data_analyse(char *str);
+void	ft_lstadd_node(t_list **lst, t_list *new, int pos);
+void	env_key_cmp(char *pwd, char *to_replace, void **lst_content, short *flg);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
