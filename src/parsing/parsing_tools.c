@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 12:13:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 21:12:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,17 @@ static int	parhenthises_closed(char *line, int *k, int *i)
 	return (0);
 }
 
+int	check_after_parenthesis(char *line, int i, int open, int close)
+{
+	int j = 0;
+	if (open != close)
+		return (0);
+	i += skip_spaces_front(line + i);
+	if (line[i] == '(' || line[i] == ')')
+		return (0);
+	return (1);
+}
+
 int	close_parenthise(char *line)
 {
 	int	i;
@@ -53,6 +64,8 @@ int	close_parenthise(char *line)
 	ft_memset(&var, 0, sizeof(t_var));
 	open = 1;
 	close = 0;
+	if (line[skip_spaces_front(line)] == ')')
+		return (-1);
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
@@ -63,11 +76,10 @@ int	close_parenthise(char *line)
 		i++;
 		if (close == open)
 		{
-			i++;
 			break ;
 		}
 	}
-	if (close != open)
+	if (open != close)
 		return (-1);
 	return (i);
 }
@@ -322,8 +334,6 @@ int	count_dollars(char *line, int *i, int j)
 // 	}
 // 	return (split_merged(arguments));
 // }
-
-
 
 char	*skip_quotes(char *line, int *i, int j, int is_word)
 {

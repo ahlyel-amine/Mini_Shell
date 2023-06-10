@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 15:40:04 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/09 23:08:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
 	k = 0;
 	*q = 0;
+	if (line[i] == '$' && line[i + 1] == '\'' && line[i + 1] == '\'')
+		i++;
 	while (line[i])
 	{
 		check_out_of_quotes(line[i], &var);
@@ -48,7 +50,7 @@ static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
 
 int	ft_isname(char c)
 {
-	return (c != '&' && c != '|' && c != '<' && c != '>');
+	return (c != '&' && c != '|' && c != '<' && c != '>' && c != ' ');
 }
 
 t_arguments	*get_names(char *line, int *i)
@@ -95,6 +97,7 @@ t_arguments	*get_names(char *line, int *i)
 			IS_STR, 0);
 		*i += j;
 	}
+	print_arguments(arguments, "name");
 	merge_arguments(&arguments, 0);
 	tokenize_variables(&arguments);
 	return (arguments);
@@ -152,7 +155,8 @@ int	get_name(char *line, t_redir_content *red, int type)
 	if (type == F_HEREDOC)
 	{
 		red->file_name = arguments_constructor(args,
-			skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
+		skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
+		print_arguments(red->file_name, "yo");
 		red->delimiter = args_to_str(red->file_name);
 		read_heredoc(red, args);
 	}

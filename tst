@@ -2,4 +2,14 @@
 ==> SEGV on unknown address
 cmd "";
 ==> heap-use-after-free;
-working on wildcards redirection names ...
+
+
+
+--------- diff in bash : -----------
+
+< Makefile (ls && cd ) | ls | << EOF
+<<EOF | < Makefile (ls && cd ) | ls
+
+
+------------ ERR --------------
+        ls<out
