@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 17:01:06 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/10 19:10:04 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,22 +93,19 @@ char	**get_dstr(t_cmd *cmd)
 	args_to_str(((t_execcmd *)cmd)->cmd));
 	return (exec);
 }
-
-void	child(char **exec, char *path, int infile, int outfile, int *fd)
+char	**child_vars()
 {
 	char	**backup_env;
 	t_hold	*env;
 	t_list	*lst;
 	int		size;
 	int		iter;
-	char	*s_path;
+
 	is_sig = 0;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
-	s_path = get_owd("PATH=");
 	size = env->size;
 	backup_env = ft_calloc(sizeof(char *), (size + 1));
-	
 	iter = 0;
 	while (size--)
 	{
@@ -116,7 +113,13 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 		lst = lst->next;
 		iter++;
 	}
-	backup_env[iter] = NULL;
+	return (backup_env);
+}
+void	child(char **exec, char *path, int infile, int outfile, int *fd)
+{
+	char	**backup_env;
+
+	backup_env = child_vars();
 	if (infile != STDIN_FILENO)
 	{
 		dup2(infile, STDIN_FILENO);
@@ -131,15 +134,35 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 	}
 	if (fd != NULL)
 	{
-
 		close(fd[0]);
 		close(fd[1]);
 	}
 	execve(path, exec, backup_env);
-	ft_putendl_fd("execve faillure", 2);
+	ft_putendl_fd("execve: faillure", 2);
 	exit(errno);
 }
-
+int	cmd_sig_check(char *path, int status)
+{
+	if (WIFEXITED(status))
+	{
+		status = WEXITSTATUS(status);
+		glo_exit = status;
+		if (!status)
+			return (free(path) , 1);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			is_sig = 1;
+		else if (WTERMSIG(status) == SIGQUIT)
+			is_sig = 2;
+	}
+	if (is_sig == 1)
+		write(2, "\n", 1);
+	else if (is_sig == 2)
+		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
+	return (0);
+}
 int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	int		pid;
@@ -164,23 +187,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		return (free(path), pid);
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path) , 0);
-	if (WIFEXITED(status))
-	{
-		status = WEXITSTATUS(status);
-		glo_exit = status;
-		if (!status)
-			return (free(path) , 1);
-	}
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			is_sig = 1;
-		else if (WTERMSIG(status) == SIGQUIT)
-			is_sig = 2;
-	}
-	if (is_sig == 1)
-		write(2, "\n", 1);
-	else if (is_sig == 2)
-		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
+	if (cmd_sig_check(path, status))
+		return (0x1);
 	return (free(path), 0);
 }
