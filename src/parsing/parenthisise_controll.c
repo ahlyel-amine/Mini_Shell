@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:38:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 18:13:56 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/10 14:26:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,10 @@ char	*remove_unused_parenthesis(char *line)
 	}
 	if (is_open)
 		line = select_unused_parenthesis(line, i, var, is_open);
-	else
-		return (remove_parenthisis_syntax_checker(line));
+
+	// else
+	// 	return (remove_parenthisis_syntax_checker(line)); ??? i cant remember the purpose of this function
+	if (line && !line[skip_spaces_front(line)])
+		return (ft_putendl_fd("minishell: syntax error near unexpected token `)'", 2), NULL);
 	return (line);
 }

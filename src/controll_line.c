@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 18:10:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/10 13:37:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,13 @@ void	print_cmd(t_cmd *cmd)
 		print_arguments(cmds->options, "option");
 	printf("--------------------------\n");
 }
+# include<time.h>
 
 void	controll_line(char **line)
 {
 	t_cmd	*cmd;
 	int		stop;
-
+clock_t start, end;
 	stop = 0;
 	cmd = NULL;
 	complete_line(line, &stop);
@@ -147,5 +148,9 @@ void	controll_line(char **line)
 		;
 	else if (cmd)
 		execute_line(cmd);
+	start = clock();
 	free_line(cmd);
+	end = clock();
+	// double duration = ((double)end - start)/CLOCKS_PER_SEC;
+	// printf("Time taken to execute in seconds : %f", duration);
 }
