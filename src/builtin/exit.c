@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/05 11:57:09 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:37:57 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,6 @@ void	tt_exit(t_cmd *cmd)
 		glo_exit = (int)exit_val(_exit->arguments->str);
 	if (args)
 		sp_free(args);
+	if (!is_pipe && !Ctrl_c)
+		exit(glo_exit);
 }
