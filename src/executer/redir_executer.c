@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_executer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 11:26:36 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/11 21:34:01 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 		}
 		// free(line);
 		close(((t_redir *)cmd)->red.fd);
-		Ctrl_c = 0;
+		// Ctrl_c = 0;
 		in_cmd = 0;
 		*infile = open("/tmp/.heredoc", O_RDONLY);
 		if (*infile < 0)
