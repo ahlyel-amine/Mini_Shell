@@ -443,3 +443,41 @@ t_arguments	*skip_spaces_back(t_arguments *args)
 // 	}
 // 	return (i);
 // }
+
+// char	**arguments_list_to_dstr(t_arguments *args)
+// {
+// 	t_arguments	*tmp;
+// 	char		**dstr;
+// 	int			len;
+
+// 	len = 0;
+// 	tmp = args;
+// 	while (tmp)
+// 	{
+// 		len++;
+// 		tmp = tmp->next;
+// 	}
+// 	dstr = malloc(sizeof(char *) * (len + 1));
+// 	if (!dstr)
+// 		return (NULL);
+// 	len = 0;
+// 	while (args)
+// 	{
+// 		dstr[len++] = args->str;
+// 		args = args->next;
+// 	}
+// 	dstr[len] = NULL;
+// 	return (dstr);
+// }
+
+// char	**str_to_double(char *str)
+// {
+// 	char	**dstr;
+
+// 	dstr = malloc(sizeof(char *) * 2);
+// 	if (!dstr)
+// 		return (NULL);
+// 	dstr[0] = str;
+// 	dstr[1] = NULL;
+// 	return (dstr);
+// }

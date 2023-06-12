@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:32:35 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/26 14:36:24 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:21:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ int	valid_id(char *var)
 
 char	*ft_strndup(const char *s, size_t n)
 {
-	char *dst;
-	char *ret;
+	char	*dst;
+	char	*ret;
+
 	if (!n)
 		return (ft_strdup(""));
 	dst = (char *)malloc(sizeof(char) * (n + 1));
