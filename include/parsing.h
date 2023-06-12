@@ -34,7 +34,7 @@ int	check_for_syntax(char **line, int i);
 		// in redirect token file and used in parenthises operators token file
 int	fill_redir_content(char *line, int i, t_redir_content *red, int ref);
 		// in redirect token file and used in parenthises operators token file
-t_arguments	*get_argument(char *line, int *j, int i, int is_word);
+t_arguments	*get_argument(char *line, int i);
 size_t		ft_double_strlen(char **str);
 
 void		something_wrong(char *error, void *to_free);
@@ -87,6 +87,13 @@ t_cmd	*check_redirect_inred_after(char **line, int i, t_var var, int *quit);
 int	get_name(char *line, t_redir_content *red, int type);
 t_arguments	*get_names(char *line, int *i);
 char	*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q);
+size_t	args_len(t_arguments *args);
+size_t	args_strslen(t_arguments *args);
+void	down_to_str(t_arguments *args, char **str, size_t *len);
+t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args);
+void	replace_arg_first_element(t_arguments **head, \
+t_arguments **old, t_arguments *new, \
+t_arguments *replace_old);
 
 // void	args_move_down(t_arguments **args);
 // t_arguments	*args_move_one_down(t_arguments *args, t_arguments *prev);
