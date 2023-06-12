@@ -26,6 +26,7 @@ SRC =	\
 		\
 		\
 		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c\
+		src/builtin/tt_cd_tools.c src/builtin/builtin_t2.c\
 
 HEADERS = include/minishell.h  include/dictionary.h  include/parsing.h  include/execute.h
 
@@ -41,7 +42,7 @@ HBLU = '\e[1;94m'
 
 BIN_DIR = bin/
 CFLAGS		=  
--fsanitize=address
+# -fsanitize=address
 
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
