@@ -6,11 +6,17 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 23:40:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:09:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+typedef struct s_2_int
+{
+	int	infile;
+	int	outfile;
+}	t_2_int;
 
 char	*get_path(char *cmd)
 {
@@ -34,74 +40,12 @@ char	*get_path(char *cmd)
 		free(tmp_to_free);
 		i++;
 	}
-	return (NULL);
-}
-
-char	**arguments_list_to_dstr(t_arguments *args)
-{
-	t_arguments	*tmp;
-	char		**dstr;
-	int			len;
-
-	len = 0;
-	tmp = args;
-	while (tmp)
-	{
-		len++;
-		tmp = tmp->next;
-	}
-	dstr = malloc(sizeof(char *) * (len + 1));
-	if (!dstr)
-		return (NULL);
-	len = 0;
-	while (args)
-	{
-		dstr[len++] = args->str;
-		args = args->next;
-	}
-	dstr[len] = NULL;
-	return (dstr);
-}
-
-char	**str_to_double(char *str)
-{
-	char	**dstr;
-
-	dstr = malloc(sizeof(char *) * 2);
-	if (!dstr)
-		return (NULL);
-	dstr[0] = str;
-	dstr[1] = NULL;
-	return (dstr);
-}
-
-void	args_join_down(t_arguments **args)
-{
-	t_arguments	*tmp;
-	t_arguments	*d_tmp;
-
-	tmp = *args;
-	while (tmp && tmp->next)
-	{
-		if (tmp->down && tmp->next->down)
-		{
-			d_tmp = tmp->down;
-			while (d_tmp->next)
-				d_tmp = d_tmp->next;
-			d_tmp->next = tmp->next->down;
-			d_tmp = tmp->next;
-			tmp->next = tmp->next->next;
-			free(d_tmp);
-			tmp = *args;
-			continue;
-		}
-		tmp = tmp->next;
-	}
+	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
 }
 
 char	**get_dstr(t_cmd *cmd)
 {
-	char	**exec;
+	char		**exec;
 	t_arguments	*nl;
 
 	nl = NULL;
@@ -119,7 +63,8 @@ char	**get_dstr(t_cmd *cmd)
 	args_to_str(((t_execcmd *)cmd)->cmd));
 	return (exec);
 }
-char	**child_vars()
+
+char	**child_vars(void)
 {
 	char	**backup_env;
 	t_hold	*env;
@@ -141,22 +86,23 @@ char	**child_vars()
 	}
 	return (backup_env);
 }
-void	child(char **exec, char *path, int infile, int outfile, int *fd)
+
+void	child(char **exec, char *path, t_2_int a, int *fd)
 {
 	char	**backup_env;
 
 	backup_env = child_vars();
-	if (infile != STDIN_FILENO)
+	if (a.infile != STDIN_FILENO)
 	{
-		dup2(infile, STDIN_FILENO);
+		dup2(a.infile, STDIN_FILENO);
 		if (fd == NULL)
-			close(infile);
+			close(a.infile);
 	}
-	if (outfile != STDOUT_FILENO)
+	if (a.outfile != STDOUT_FILENO)
 	{
-		dup2(outfile, STDOUT_FILENO);
+		dup2(a.outfile, STDOUT_FILENO);
 		if (fd == NULL)
-			close(outfile);
+			close(a.outfile);
 	}
 	if (fd != NULL)
 	{
@@ -167,28 +113,7 @@ void	child(char **exec, char *path, int infile, int outfile, int *fd)
 	ft_putendl_fd("execve: faillure", 2);
 	exit(errno);
 }
-int	cmd_sig_check(char *path, int status)
-{
-	if (WIFEXITED(status))
-	{
-		status = WEXITSTATUS(status);
-		glo_exit = status;
-		if (!status)
-			return (free(path) , 1);
-	}
-	else if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			is_sig = 1;
-		else if (WTERMSIG(status) == SIGQUIT)
-			is_sig = 2;
-	}
-	if (is_sig == 1)
-		write(2, "\n", 1);
-	else if (is_sig == 2)
-		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
-	return (0);
-}
+
 int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	int		pid;
@@ -201,18 +126,18 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		return (perror(""), 0);
 	path = get_path(exec[0]);
 	if (!path)
-		return (pr_custom_err(ERR_CMD, exec[0], exec[0]), glo_exit = 127, free(exec), 0);
+		return (glo_exit = 127, free(exec), 0);
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell: "), 0);
 	if (!pid)
-		child(exec, path, infile, outfile, fd);
+		child(exec, path, (t_2_int){infile, outfile}, fd);
 	free(exec[0]);
 	free(exec);
 	if (fd != NULL)
 		return (free(path), pid);
 	if (waitpid(pid, &status, 0) == -1)
-		return (free(path) , 0);
+		return (free(path), 0);
 	if (cmd_sig_check(path, status))
 		return (0x1);
 	return (free(path), 0);
