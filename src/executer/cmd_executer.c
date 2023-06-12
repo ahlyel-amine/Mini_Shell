@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 23:07:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 23:40:09 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,28 +213,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		return (free(path), pid);
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path) , 0);
-<<<<<<< HEAD
 	if (cmd_sig_check(path, status))
 		return (0x1);
-=======
-	if (WIFEXITED(status))
-	{
-		status = WEXITSTATUS(status);
-		glo_exit = status;
-		if (!status)
-			return (free(path) , 1);
-	}
-	// if (WIFSIGNALED(status))
-	// {
-	// 	if (WTERMSIG(status) == SIGINT)
-	// 		is_sig = 1;
-	// 	else if (WTERMSIG(status) == SIGQUIT)
-	// 		is_sig = 2;
-	// }
-	// if (is_sig == 1)
-	// 	write(2, "\n", 1);
-	// else if (is_sig == 2)
-	// 	ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
->>>>>>> parsing
 	return (free(path), 0);
 }
