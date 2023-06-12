@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:38:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 18:20:24 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 20:17:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,42 +56,6 @@ char	*select_unused_parenthesis(char *line, int i, t_var var, int is_open)
 	return (line);
 }
 
-int	has_syntax_error(char *line, int i)
-{
-	int	pipe;
-	int	redir;
-
-	pipe = 0;
-	redir = 0;
-	while (i)
-	{
-		if (line[i - 1] == '|')
-			pipe = 1;
-		else if (line[i - 1] == '<')
-			redir = 1;
-		i--;
-	}
-	return (pipe | redir);
-}
-
-char	*remove_parenthisis_syntax_checker(char *line)
-{
-	char	*err;
-	int		i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '(' && i && !has_syntax_error(line, i))
-		{
-			err = ft_substr(line, 0, i);
-			return (free(line), pr_custom_err(ERR_SNTX, err, err), NULL);
-		}
-		i++;
-	}
-	return (line);
-}
-
 char	*remove_unused_parenthesis(char *line)
 {
 	int		i;
@@ -113,9 +77,6 @@ char	*remove_unused_parenthesis(char *line)
 	}
 	if (is_open)
 		line = select_unused_parenthesis(line, i, var, is_open);
-
-	// else
-	// 	return (remove_parenthisis_syntax_checker(line)); ??? i cant remember the purpose of this function
 	if (is_open && line && !line[skip_spaces_front(line)])
 		return (ft_putendl_fd(ERR_ClSD_PARNETHISE, 2), NULL);
 	return (line);

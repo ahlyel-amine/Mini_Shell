@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:58 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 18:17:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 20:24:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	check_for_syntax(char **line, int i)
 	j = 0;
 	space = 0;
 	if (((*line)[i] == '<' && (*line)[i + 1] == '>'))
-			return (panic_recursive(ERR_O_SNTX, line), 0);
+		return (panic_recursive(ERR_O_SNTX, line), 0);
 	if (((*line)[i] == '<' && (*line)[i + 1] == '<') || ((*line)[i] == '>'
 			&& (*line)[i + 1] == '>') || ((*line)[i] == '<')
 		|| ((*line)[i] == '>'))

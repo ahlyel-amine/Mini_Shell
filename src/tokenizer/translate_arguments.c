@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 13:58:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 21:12:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ size_t	args_strslen(t_arguments *args)
 	while (tmp)
 	{
 		i = 0;
-		if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || (tmp->type & IS_SEPARTOR))
+		if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || \
+		(tmp->type & IS_SEPARTOR))
 		{
 			while (tmp->str[i])
 			{
@@ -70,11 +71,33 @@ void	down_to_str(t_arguments *args, char **str, size_t *len)
 	}
 }
 
+static int	fill_str(t_arguments *tmp, char **str, size_t *len)
+{
+	int	i;
+
+	i = 0;
+	if ((tmp->type & IS_FILE) && (tmp->next) && (tmp->next->type & IS_FILE))
+	{
+		while (tmp->str[i])
+			(*str)[(*len)++] = tmp->str[i++];
+		(*str)[(*len)++] = ' ';
+	}
+	else if ((tmp->type & IS_STR) || (tmp->type & IS_VARIABLE) || \
+	(tmp->type & IS_SEPARTOR) || (tmp->type & IS_FILE))
+	{
+		if (tmp->type & IS_SEPARTOR && !tmp->next)
+			return (1);
+		while (tmp->str[i])
+			(*str)[(*len)++] = tmp->str[i++];
+	}
+	else if (tmp->type & QUOTE || tmp->type & DQUOTE)
+		down_to_str(tmp->down, str, len);
+	return (0);
+}
 
 char	*args_to_str(t_arguments *args)
 {
 	t_arguments	*tmp;
-	t_arguments	*f_tmp;
 	char		*str;
 	size_t		len;
 	size_t		i;
@@ -90,7 +113,6 @@ char	*args_to_str(t_arguments *args)
 		i = 0;
 		if ((tmp->type & IS_FILE) && (tmp->next) && (tmp->next->type & IS_FILE))
 		{
-			puts("afsdgfhgjh,");
 			while (tmp->str[i])
 				str[len++] = tmp->str[i++];
 			str[len++] = ' ';
@@ -157,6 +179,7 @@ void	args_join_next(t_arguments **args)
 {
 	t_arguments	*tmp;
 	char		*tmp_str;
+
 	if ((!((*args)->type & IS_SEPARTOR) && \
 	!((*args)->type & QUOTE) && !((*args)->type & DQUOTE) && \
 	!((*args)->next->type & IS_SEPARTOR) && \
@@ -253,52 +276,3 @@ char	**args_to_dblstr(t_arguments *args)
 	str[len] = NULL;
 	return (str);
 }
-
-// size_t	args_cmd_len(t_arguments *args)
-// {
-// 	t_arguments	*tmp;
-// 	size_t		len;
-
-// 	len = 0;
-// 	tmp = args;
-// 	while (tmp)
-// 	{
-// 		if (!(tmp->type & IS_SEPARTOR))
-// 		len++;
-// 		tmp = tmp->next;
-// 	}
-// 	return (len);
-// }
-
-// char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
-// {
-// 	t_arguments	*tmp;
-// 	char		**str;
-// 	size_t		len;
-
-// 	tmp = args;
-// 	len = args_len(args);
-// 	if (!len)
-// 		return (NULL);
-// 	str = malloc(sizeof(char *) * (len + 2));
-// 	if (!str)
-// 	{
-// 		perror("");
-// 		return (NULL);
-// 	}
-// 	len = 0;
-// 	str[len++] = cmd;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type & IS_SEPARTOR)
-// 			;
-// 		else if ((tmp->type & IS_STR || tmp->type & IS_VARIABLE))
-// 			str[len++] = ft_strdup(tmp->str);
-// 		else
-// 			str[len++] = args_to_str(tmp->down);
-// 		tmp = tmp->next;
-// 	}
-// 	str[len] = NULL;
-// 	return (str);
-// }
-

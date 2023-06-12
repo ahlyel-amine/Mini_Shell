@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 22:26:46 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 21:02:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,31 @@ char	**str_to_double(char *str)
 	dstr[1] = NULL;
 	return (dstr);
 }
+
+void	args_join_down(t_arguments **args)
+{
+	t_arguments	*tmp;
+	t_arguments	*d_tmp;
+
+	tmp = *args;
+	while (tmp && tmp->next)
+	{
+		if (tmp->down && tmp->next->down)
+		{
+			d_tmp = tmp->down;
+			while (d_tmp->next)
+				d_tmp = d_tmp->next;
+			d_tmp->next = tmp->next->down;
+			d_tmp = tmp->next;
+			tmp->next = tmp->next->next;
+			free(d_tmp);
+			tmp = *args;
+			continue;
+		}
+		tmp = tmp->next;
+	}
+}
+
 char	**get_dstr(t_cmd *cmd)
 {
 	char	**exec;
@@ -89,6 +114,7 @@ char	**get_dstr(t_cmd *cmd)
 	args_move_down(&((t_execcmd *)cmd)->cmd, &nl);
 	nl = NULL;
 	args_move_down(&((t_execcmd *)cmd)->options, &nl);
+	args_join_down(&((t_execcmd *)cmd)->options);
 	exec = args_to_cmd_dstr(((t_execcmd *)cmd)->options, \
 	args_to_str(((t_execcmd *)cmd)->cmd));
 	return (exec);
