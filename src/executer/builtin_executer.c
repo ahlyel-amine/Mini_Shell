@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_executer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 15:50:47 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:33:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	builtin_locat(t_cmd *cmd, int out)
 	else if (!ft_memcmp(builtin->builtin, "export", 6))
 		tt_export(cmd);
 	else if (!ft_memcmp(builtin->builtin, "pwd", 3))
-		tt_pwd(cmd);
+		tt_pwd();
 	else if (!ft_memcmp(builtin->builtin, "unset", 5))
 		tt_unset(cmd);
 }
