@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 23:08:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/11 13:37:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ t_arguments	*get_names(char *line, int *i)
 			IS_STR, 0);
 		*i += j;
 	}
-	print_arguments(arguments, "name");
 	merge_arguments(&arguments, 0);
 	tokenize_variables(&arguments);
 	return (arguments);
@@ -217,7 +216,7 @@ static t_cmd	*get_redirection(char *line, int i, int type)
 	after = NULL;
 	tmp = i;
 	if (i - 1 > 0)
-		before = ft_substr(line, 0, i - 1);
+		before = ft_substr(line, 0, i);
 	tmp = fill_redir_content(line, i, &red, type);
 	if (tmp > i)
 		after = ft_substr(line, tmp, ft_strlen(line + tmp));
