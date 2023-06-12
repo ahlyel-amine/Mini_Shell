@@ -13,6 +13,7 @@ SRC =	\
 		src/parsing/and_parser.c src/parsing/builtins_parser.c src/parsing/cmds_parser.c src/parsing/executable_parser.c src/parsing/or_parser.c \
 		src/parsing/parenthisise_controll.c src/parsing/parsing_tools.c src/parsing/pipe_parser.c src/parsing/parse_line.c \
 		src/parsing/redirections_parser_tools.c src/parsing/redirections_parser.c\
+		src/parsing/redirections_parenthesis_parser.c src/parsing/redirect_before_parenthesis.c src/parsing/redirect_after_parenthesis.c\
 		\
 		\
 		src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c \
