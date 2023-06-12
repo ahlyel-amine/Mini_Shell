@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:27:25 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 15:39:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:56:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_arguments	*check_str(char *str, t_arguments *vars, int *i)
 {
 	*i = 0;
 	while (str[*i] && (str[*i] != '$' || (str[*i] == '$' && \
-	(ft_isdigit(str[*i+ 1]) || !ft_isvariable(str[*i + 1]) || \
+	(ft_isdigit(str[*i + 1]) || !ft_isvariable(str[*i + 1]) || \
 	!str[*i + 1]))))
 		(*i)++;
 	if (*i)
@@ -32,15 +32,15 @@ t_arguments	*get_vars(char *str, t_arguments *vars)
 	vars = check_str(str, vars, &i);
 	while (str[i])
 	{
-		if (str[i] == '$' && !(str[i] != '$' || (str[i] == '$'
-					&& (ft_isdigit(str[i + 1]) || !ft_isvariable(str[i + 1])
-						|| !str[i + 1]))))
+		if (str[i] == '$' && !(str[i] != '$' || (str[i] == '$' && \
+		(ft_isdigit(str[i + 1]) || !ft_isvariable(str[i + 1]) || \
+		!str[i + 1]))))
 		{
 			j = 1;
-			while (ft_isvariable(str[i + j]))
+			while (str[i + j] && ft_isvariable(str[i + j]))
 				j++;
 			if (j > 1)
-				vars = arguments_constructor(vars, ft_substr(str, i, j),
+				vars = arguments_constructor(vars, ft_substr(str, i, j), \
 					IS_VARIABLE, 0);
 			i += j;
 		}

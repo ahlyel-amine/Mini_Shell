@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 21:07:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:23:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,31 +84,6 @@ t_arguments *replace_old)
 	}
 }
 
-void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
-{
-	t_arguments	*tmp;
-	t_arguments	*replace_old;
-	t_arguments	*prev;
-
-	if (!new)
-		return ;
-	replace_old = new;
-	replace_arg_first_element(head, old, new, replace_old);
-	tmp = *head;
-	while (tmp)
-	{
-		if (tmp->next == (*old))
-		{
-			tmp->next = new;
-			while (new->next)
-				new = new->next;
-			new->next = (*old)->next;
-			*old = replace_old;
-		}
-		tmp = tmp->next;
-	}
-}
-
 void	arguments_add_back(t_arguments **head, t_arguments *new)
 {
 	t_arguments	*tmp;
@@ -124,13 +99,19 @@ void	arguments_add_back(t_arguments **head, t_arguments *new)
 	tmp->next = new;
 }
 
-void	transform_args(t_arguments **args)
+t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args)
 {
-	t_arguments	*nl;
+	static int	is_dquote;
 
-	nl = NULL;
-	expand_line(*args);
-	wild_cards(args);
-	args_join(args);
-	args_move_down(args, &nl);
+	if (!str && !i && !args)
+	{
+		is_dquote = *j;
+		return (NULL);
+	}
+	if (ft_isspace(str[*i + *j - 1]) && !is_dquote)
+		args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR, 0);
+	else
+		args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR, 0);
+	*i += *j;
+	return (args);
 }

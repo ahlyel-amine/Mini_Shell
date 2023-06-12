@@ -6,28 +6,11 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 21:08:59 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:23:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args)
-{
-	static int	is_dquote;
-
-	if (!str && !i && !args)
-	{
-		is_dquote = *j;
-		return (NULL);
-	}
-	if (ft_isspace(str[*i + *j - 1]) && !is_dquote)
-		args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR, 0);
-	else
-		args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR, 0);
-	*i += *j;
-	return (args);
-}
 
 t_arguments	*space_break(char *str, int *j, int *i)
 {

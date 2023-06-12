@@ -6,17 +6,11 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 18:09:05 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:25:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-typedef struct s_two_ptr
-{
-	int	*i;
-	int	*k;
-}	t_2ptr_int;
 
 static int	skip_quote_heredoc_delimiter_conditions(char *line, \
 char **tmp, t_2ptr_int a, t_var var)
