@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 23:07:34 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:05:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,8 @@ t_arguments	*transform_args_fd_name(t_arguments **args)
 		return (free (str), *args);
 }
 
-int	open_files(t_cmd *cmd, int *infile, int *outfile)
+int	open_files_calls(t_cmd *cmd, int *infile, int *outfile, char *file_name)
 {
-	char	*file_name;
-	t_arguments	*fd_nm;
-	char	*line;
-	if (((t_redir *)cmd)->red.type != HEREDOC)
-	{
-		fd_nm = transform_args_fd_name(&(((t_redir *)cmd)->red.file_name));
-		if (!fd_nm)
-			return (0);
-		file_name = args_to_str(fd_nm);
-	}
-	else
-		file_name = ((t_redir *)cmd)->red.delimiter;
-	
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
 		*infile = open(((t_redir *)cmd)->red.delimiter, O_RDONLY);
@@ -71,6 +58,25 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 		if (*outfile < 0)
 			return (pr_custom_err(ERR_FILE, file_name, file_name), 0);
 	}
+	return (1);
+}
+
+int	open_files(t_cmd *cmd, int *infile, int *outfile)
+{
+	char		*file_name;
+	t_arguments	*fd_nm;
+
+	if (((t_redir *)cmd)->red.type != HEREDOC)
+	{
+		fd_nm = transform_args_fd_name(&(((t_redir *)cmd)->red.file_name));
+		if (!fd_nm)
+			return (0);
+		file_name = args_to_str(fd_nm);
+	}
+	else
+		file_name = ((t_redir *)cmd)->red.delimiter;
+	if (!open_files_calls(cmd, infile, outfile, file_name))
+		return (0);
 	return (free(file_name), 1);
 }
 

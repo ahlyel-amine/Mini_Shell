@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:20:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:21:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:09:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,29 @@ void	merge_arguments(t_arguments **arguments, int is_dquote)
 		else if (head->type & DQUOTE)
 			merge_arguments(&head->down, 1);
 		head = head->next;
+	}
+}
+
+void	args_join_down(t_arguments **args)
+{
+	t_arguments	*tmp;
+	t_arguments	*d_tmp;
+
+	tmp = *args;
+	while (tmp && tmp->next)
+	{
+		if (tmp->down && tmp->next->down)
+		{
+			d_tmp = tmp->down;
+			while (d_tmp->next)
+				d_tmp = d_tmp->next;
+			d_tmp->next = tmp->next->down;
+			d_tmp = tmp->next;
+			tmp->next = tmp->next->next;
+			free(d_tmp);
+			tmp = *args;
+			continue ;
+		}
+		tmp = tmp->next;
 	}
 }

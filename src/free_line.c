@@ -6,12 +6,11 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 08:35:28 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 13:39:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:20:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 static void	free_rest_of_line(t_cmd *cmd)
 {
@@ -23,6 +22,15 @@ static void	free_rest_of_line(t_cmd *cmd)
 		builtin_destructor(cmd);
 	else if (cmd && cmd->type == INVALID)
 		invalid_destructor(cmd);
+}
+
+static void	pipe_free(t_cmd *cmd)
+{
+	if (((t_pipe *)cmd)->left)
+		free_line(((t_pipe *)cmd)->left);
+	if (((t_pipe *)cmd)->right)
+		free_line(((t_pipe *)cmd)->right);
+	pipe_destructor(cmd);
 }
 
 void	free_line(t_cmd *cmd)
@@ -44,13 +52,7 @@ void	free_line(t_cmd *cmd)
 		or_destructor(cmd);
 	}
 	else if (cmd && cmd->type == PIPE)
-	{
-		if (((t_pipe *)cmd)->left)
-			free_line(((t_pipe *)cmd)->left);
-		if (((t_pipe *)cmd)->right)
-			free_line(((t_pipe *)cmd)->right);
-		pipe_destructor(cmd);
-	}
+		pipe_free(cmd);
 	else
 		free_rest_of_line(cmd);
 }

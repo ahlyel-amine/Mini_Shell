@@ -3,8 +3,8 @@ READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
 #	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/
 SRC =	\
 		\
-		src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/expand_line.c \
-		src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/expender.c src/complete_line.c src/constructors.c src/controll_line.c\
+		src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/destructors2.c src/expand_line.c \
+		src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/complete_line.c src/constructors.c src/constructors2.c src/controll_line.c\
 		\
 		\
 		src/parsing_tools/parsing_tools.c src/parsing_tools/parsing_tools2.c \
@@ -18,7 +18,7 @@ SRC =	\
 		\
 		\
 		src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c \
-		src/executer/builtin_executer.c \
+		src/executer/builtin_executer.c src/executer/cmd_signals.c\
 		\
 		\
 		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c\
