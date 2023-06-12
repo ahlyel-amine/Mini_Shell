@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 10:53:01 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:00:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	and_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	int	ret;
 
-	ret = 0;	
+	ret = 0;
 	if (((t_and *)cmd)->left && ((t_and *)cmd)->right)
 	{
 		ret = and_part_executer(((t_and *)cmd)->left, infile, outfile, fd);

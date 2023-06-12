@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:58 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 15:38:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 23:59:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	pipe_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	int	ret;
 	int	fds[2];
-	int fds_info[3];
+	int	fds_info[3];
 
 	pipe(fds);
 	if (fd && fd[2] == 1)

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 19:06:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/08 11:55:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:15:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,8 @@ void	pipe_destructor(t_cmd *structor)
 {
 	t_pipe	*pipe;
 
-	// printf("destructor pipe called \n");
 	pipe = (t_pipe *)structor;
 	free(pipe);
-}
-
-void	subsh_destructor(t_cmd *structor)
-{
-	t_subsh	*subsh;
-
-	subsh = (t_subsh *)structor;
-	free(subsh);
 }
 
 void	execcmd_destructor(t_cmd *structor)
@@ -35,11 +26,28 @@ void	execcmd_destructor(t_cmd *structor)
 	t_arguments	*tmp;
 	t_execcmd	*cmd;
 
-	// printf("destructor execcmd called \n");
 	cmd = (t_execcmd *)structor;
 	arguments_destructor(&cmd->cmd);
 	arguments_destructor(&cmd->options);
 	free(cmd);
+}
+
+static void	call_subcmd_destructor(t_cmd *cmd)
+{
+	if (cmd->type == EXEC)
+		execcmd_destructor(cmd);
+	else if (cmd->type == BUILTIN)
+		builtin_destructor(cmd);
+	else if (cmd->type == INVALID)
+		invalid_destructor(cmd);
+	else if (cmd->type == REDIR)
+		redir_destructor(cmd);
+	else if (cmd->type == AND)
+		free_line(cmd);
+	else if (cmd->type == OR)
+		free_line(cmd);
+	else if (cmd->type == PIPE)
+		free_line(cmd);
 }
 
 void	redir_destructor(t_cmd *structor)
@@ -48,24 +56,10 @@ void	redir_destructor(t_cmd *structor)
 	t_arguments	*args;
 	t_arguments	*tmp;
 
-	// printf("destructor redir called \n");
 	redir = (t_redir *)structor;
-	if (redir->cmd != NULL && redir->cmd->type == EXEC)
-		execcmd_destructor(redir->cmd);
-	else if (redir->cmd != NULL && redir->cmd->type == BUILTIN)
-		builtin_destructor(redir->cmd);
-	else if (redir->cmd != NULL && redir->cmd->type == INVALID)
-		invalid_destructor(redir->cmd);
-	else if (redir->cmd != NULL && redir->cmd->type == REDIR)
-		redir_destructor(redir->cmd);
-	else if (redir->cmd != NULL && redir->cmd->type == AND)
-		free_line(redir->cmd);
-	else if (redir->cmd != NULL && redir->cmd->type == OR)
-		free_line(redir->cmd);
-	else if (redir->cmd != NULL && redir->cmd->type == PIPE)
-		free_line(redir->cmd);
+	if (redir->cmd)
+		call_subcmd_destructor(redir->cmd);
 	args = redir->red.file_name;
-	// tmp = redir->red.file_name;
 	while (args)
 	{
 		tmp = args;
@@ -74,54 +68,4 @@ void	redir_destructor(t_cmd *structor)
 		free(tmp);
 	}
 	free(redir);
-}
-
-void	and_destructor(t_cmd *structor)
-{
-	t_and	*and;
-
-	// printf("destructor and called \n");
-	and = (t_and *)structor;
-	free(and);
-}
-
-void	or_destructor(t_cmd *structor)
-{
-	t_or * or ;
-	// printf("destructor or called \n");
-	or = (t_or *)structor;
-	free(or);
-}
-
-void	invalid_destructor(t_cmd *structor)
-{
-	t_invalid	*invalid;
-
-	// printf("destructor invalid called \n ");
-	invalid = (t_invalid *)structor;
-	free(invalid->str);
-	free(invalid);
-}
-
-void	builtin_destructor(t_cmd *structor)
-{
-	t_builtin	*builtin;
-	t_arguments	*args;
-	t_arguments	*tmp;
-
-	// printf("destructor builtin called \n");
-	builtin = (t_builtin *)structor;
-	arguments_destructor(&builtin->arguments);
-	free(builtin->builtin);
-	free(builtin);
-}
-
-void	assignement_destructor(t_cmd *structor)
-{
-	t_assignement *assignement;
-	// printf("destructor assignement called \n");
-	assignement = (t_assignement *)structor;
-	free(assignement->key);
-	free(assignement->value);
-	free(assignement);
 }

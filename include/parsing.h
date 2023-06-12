@@ -94,7 +94,8 @@ t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args);
 void	replace_arg_first_element(t_arguments **head, \
 t_arguments **old, t_arguments *new, \
 t_arguments *replace_old);
-
+void	args_join_down(t_arguments **args);
+int	cmd_sig_check(char *path, int status);
 // void	args_move_down(t_arguments **args);
 // t_arguments	*args_move_one_down(t_arguments *args, t_arguments *prev);
 
