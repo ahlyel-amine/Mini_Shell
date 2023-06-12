@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 18:24:51 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 19:50:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int check_nl_option(char *line, int i, int j)
+static int	check_nl_option(char *line, int i, int j)
 {
 	if (line[i + j] == '-' && line[i + j + 1] == 'n')
 	{
@@ -20,7 +20,8 @@ static int check_nl_option(char *line, int i, int j)
 		while (line[i + j] == 'n')
 			j++;
 	}
-	else if (line[i + j] == '\"' && line[i + j + 1] == '-' && line[i + j + 2] == 'n')
+	else if (line[i + j] == '\"' && \
+	line[i + j + 1] == '-' && line[i + j + 2] == 'n')
 	{
 		j += 2;
 		while (line[i + j] == 'n')
@@ -28,7 +29,8 @@ static int check_nl_option(char *line, int i, int j)
 		if (line[i + j] == '\"')
 			j++;
 	}
-	else if (line[i + j] == '\'' && line[i + j + 1] == '-' && line[i + j + 2] == 'n')
+	else if (line[i + j] == '\'' && \
+	line[i + j + 1] == '-' && line[i + j + 2] == 'n')
 	{
 		j += 2;
 		while (line[i + j] == 'n')
@@ -68,9 +70,9 @@ t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
 	t_cmd		*cmd;
 	t_arguments	*args;
 	int			space;
-	
+
 	args = NULL;
-	space  = skip_spaces_front(line + j);
+	space = skip_spaces_front(line + j);
 	args = get_argument(line, 0, j + space, 0);
 	cmd = builtin_constructor(ft_strdup(builtin), 0, args);
 	return (cmd);
@@ -101,11 +103,11 @@ t_cmd	*get_token_builtins(char *line, int j)
 	char		*tmp;
 	int			space;
 	int			i;
-	
+
 	if (!line)
 		return (NULL);
 	cmd = NULL;
-	space  = skip_spaces_front(line + j);
+	space = skip_spaces_front(line + j);
 	tmp = ft_substr(line, 0, j);
 	if (!ft_strncmp(tmp, "echo", 5))
 	{

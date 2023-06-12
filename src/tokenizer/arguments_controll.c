@@ -6,13 +6,14 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 14:59:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 21:07:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_arguments	*arguments_constructor(t_arguments *arguments, char *str, unsigned short type, unsigned short q)
+t_arguments	*arguments_constructor(t_arguments *arguments, char *str, \
+unsigned short type, unsigned short q)
 {
 	t_arguments	*new;
 	t_arguments	*tmp;
@@ -47,7 +48,8 @@ void	arguments_destructor(t_arguments **arguments)
 	head = *arguments;
 	while (head)
 	{
-		if (head->type & IS_STR || head->type & IS_VARIABLE ||  head->type & IS_SEPARTOR)
+		if (head->type & IS_STR || head->type & IS_VARIABLE || \
+		head->type & IS_SEPARTOR)
 		{
 			tmp = head;
 			head = head->next;
@@ -65,15 +67,6 @@ void	arguments_destructor(t_arguments **arguments)
 	*arguments = NULL;
 }
 
-// t_arguments	*str_to_arguments(char *str)
-// {
-// 	char		**splited;
-// 	t_arguments	*arguments;
-
-// 	arguments = NULL;
-// 	return (arguments);
-// }
-
 void	replace_arg_first_element(t_arguments **head, \
 t_arguments **old, t_arguments *new, \
 t_arguments *replace_old)
@@ -88,7 +81,7 @@ t_arguments *replace_old)
 			new = new->next;
 		new->next = tmp;
 		*old = replace_old;
- 	}
+	}
 }
 
 void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
@@ -99,7 +92,6 @@ void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 
 	if (!new)
 		return ;
-	// 		print_arguments(new, "replace");
 	replace_old = new;
 	replace_arg_first_element(head, old, new, replace_old);
 	tmp = *head;
