@@ -23,6 +23,7 @@
 # define ERR_CMD				"minishell: command not found: "
 # define ERR_FILE				"minishell: no such file or directory: "
 # define ERR_SNTX				"minishell: syntax error near unexpected token : "
+# define ERR_O_SNTX				"minishell: syntax error near unexpected token\n"
 # define ERR_AND				"minishell: syntax error near unexpected token `&&'"
 # define ERR_OR					"minishell: syntax error near unexpected token `||'"
 # define ERR_PIPE				"minishell: syntax error near unexpected token `|'"

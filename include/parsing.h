@@ -84,6 +84,9 @@ t_cmd	*check_redirect_herdoc_after(char **line, int i, t_var var, int *quit);
 t_cmd	*check_redirect_outred(char **line, int i, t_var var, int *quit);
 t_cmd	*check_redirect_inred_after(char **line, int i, t_var var, int *quit);
 
+int	get_name(char *line, t_redir_content *red, int type);
+t_arguments	*get_names(char *line, int *i);
+char	*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q);
 
 // void	args_move_down(t_arguments **args);
 // t_arguments	*args_move_one_down(t_arguments *args, t_arguments *prev);

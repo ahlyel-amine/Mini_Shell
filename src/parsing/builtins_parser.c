@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_parser.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/22 19:31:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 18:24:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,13 @@ static int	echo_has_option(char *line, int *i)
 
 t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
 {
-	t_cmd	*cmd;
+	t_cmd		*cmd;
 	t_arguments	*args;
-int space;
-	args = NULL;
+	int			space;
 	
+	args = NULL;
 	space  = skip_spaces_front(line + j);
 	args = get_argument(line, 0, j + space, 0);
-	// args = arguments_constructor(NULL, ft_strdup(line + j), IS_STR);
 	cmd = builtin_constructor(ft_strdup(builtin), 0, args);
 	return (cmd);
 }
