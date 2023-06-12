@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:05:22 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:05:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	fun()
+void	fun(void)
 {
 	system("leaks minishell");
 }
@@ -26,30 +26,31 @@ t_hold	*env_dup(t_hold *env_var, char **env)
 		write(1, "\n", 1);
 		exit(errno);
 	}
-    env_var->size = 0;
-    env_var->lst = NULL;
-
+	env_var->size = 0;
+	env_var->lst = NULL;
 	while (env && *env)
-    {
-        ft_lstadd_back(&(env_var->lst), ft_lstnew(ft_strdup(*(env))));
-        env_var->size += 1;
+	{
+		ft_lstadd_back(&(env_var->lst), ft_lstnew(ft_strdup(*(env))));
+		env_var->size += 1;
 		env++;
-    }
+	}
 	return (env_var);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	// atexit(fun);
+	t_hold	*env_var;
+	atexit(fun);
 	(void)ac;
 	(void)av;
-	t_hold	*env_var = NULL;
+	env_var = NULL;
+	if (!isatty(STDIN_FILENO))
+		return (ft_putendl_fd("minishell: the input fd is not the default", 2), 1);
 	env_var = env_dup(env_var, env);
 	adjust_shlvl(env_var);
 	glo_exit = 0;
 	in_cmd = 0;
 	set__get_option_variables(env_var, SET);
-	read_line(&(env_var->lst));
-	// ft_lstclear(&(env_var->lst), free);
+	read_line();
 	return (0);
 }

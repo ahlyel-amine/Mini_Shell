@@ -1,60 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_parser_has_parenthesis_tools.c                        :+:      :+:    :+:   */
+/*   redirections_parser_tools3.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 12:31:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/20 20:04:03 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/06/12 18:04:58 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/06/12 20:24:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static char	*skip_quote_redir_names(char *line, int *j, int i, int *q)
-{
-	int		k;
-	char	*tmp;
-	t_var	var;
-
-	ft_memset(&var, 0, sizeof(t_var));
-	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
-	k = 0;
-	*q = 0;
-	while (line[i])
-	{
-		check_out_of_quotes(line[i], &var);
-		if (var.dquote || var.quote)
-			*q = 1;
-		if (ft_isspace(line[i]) && !var.quote && !var.dquote)
-			break ;
-		if ((var.quote || var.dquote) && ft_isspace(line[i]))
-			tmp[k++] = line[i];
-		else if ((line[i] == '\"' && var.quote) || (line[i] == '\'' && var.dquote))
-			tmp[k++] = line[i];
-		else if (line[i] != '\'' && line[i] != '\"')
-			tmp[k++] = line[i];
-		i++;
-	}
-	*j = i;
-	return (tmp);
-}
-
-int	get_name(char *line, t_redir_content *red, int type)
-{
-	t_arguments	*args;
-	int			k;
-	int			q;
-
-	args = NULL;
-	k = red->fd;
-	if (type == F_HEREDOC)
-		red->file_name = arguments_constructor(args, skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
-	else
-		red->file_name = get_argument(line, &k, 0, 1);
-	return (k);
-}
 
 static void	fill_red_content(t_redir_content *red, int ref)
 {
@@ -80,7 +36,7 @@ static void	fill_red_content(t_redir_content *red, int ref)
 
 int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 {
-	int	j;
+	int		j;
 	t_var	var;
 
 	ft_memset(&var, 0, sizeof(t_var));
@@ -97,18 +53,18 @@ int	fill_redir_content(char *line, int i, t_redir_content *red, int ref)
 
 static t_cmd	*get_redirection(char *line, int i, int type)
 {
-	char	*before;
-	char	*after;
+	char			*before;
+	char			*after;
 	t_cmd			*redirection;
-	int	tmp;
+	int				tmp;
 	t_redir_content	red;
+
 	redirection = NULL;
 	before = NULL;
 	after = NULL;
-	
 	tmp = i;
 	if (i - 1 > 0)
-		before = ft_substr(line, 0, i - 1);
+		before = ft_substr(line, 0, i);
 	tmp = fill_redir_content(line, i, &red, type);
 	if (tmp > i)
 		after = ft_substr(line, tmp, ft_strlen(line + tmp));
@@ -145,16 +101,20 @@ int	check_for_syntax(char **line, int i)
 
 	j = 0;
 	space = 0;
-	if (((*line)[i] == '<' && (*line)[i + 1] == '<')  || ((*line)[i] == '>' && \
-	(*line)[i + 1] == '>') || ((*line)[i] == '<') || ((*line)[i] == '>'))
+	if (((*line)[i] == '<' && (*line)[i + 1] == '>'))
+		return (panic_recursive(ERR_O_SNTX, line), 0);
+	if (((*line)[i] == '<' && (*line)[i + 1] == '<') || ((*line)[i] == '>'
+			&& (*line)[i + 1] == '>') || ((*line)[i] == '<')
+		|| ((*line)[i] == '>'))
 	{
 		j++;
 		if ((*line)[i + 1] == '<' || (*line)[i + 1] == '>')
 			j++;
 		while (ft_isspace((*line)[i + j + space]))
 			space++;
-		if (!(*line)[i + j + space] || (*line)[i + j + space] == '<' || (*line)[i + j + space] == '>')
-			return (panic_recursive("minishell : syntax error near unexpected token\n", NULL), 0);
+		if (!(*line)[i + j + space] || (*line)[i + j + space] == '<'
+			|| (*line)[i + j + space] == '>')
+			return (panic_recursive(ERR_O_SNTX, line), 0);
 	}
 	return (1);
 }

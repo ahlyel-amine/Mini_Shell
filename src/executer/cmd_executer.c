@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_executer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/10 19:10:04 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/12 23:07:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,31 @@ char	**str_to_double(char *str)
 	dstr[1] = NULL;
 	return (dstr);
 }
+
+void	args_join_down(t_arguments **args)
+{
+	t_arguments	*tmp;
+	t_arguments	*d_tmp;
+
+	tmp = *args;
+	while (tmp && tmp->next)
+	{
+		if (tmp->down && tmp->next->down)
+		{
+			d_tmp = tmp->down;
+			while (d_tmp->next)
+				d_tmp = d_tmp->next;
+			d_tmp->next = tmp->next->down;
+			d_tmp = tmp->next;
+			tmp->next = tmp->next->next;
+			free(d_tmp);
+			tmp = *args;
+			continue;
+		}
+		tmp = tmp->next;
+	}
+}
+
 char	**get_dstr(t_cmd *cmd)
 {
 	char	**exec;
@@ -89,6 +114,7 @@ char	**get_dstr(t_cmd *cmd)
 	args_move_down(&((t_execcmd *)cmd)->cmd, &nl);
 	nl = NULL;
 	args_move_down(&((t_execcmd *)cmd)->options, &nl);
+	args_join_down(&((t_execcmd *)cmd)->options);
 	exec = args_to_cmd_dstr(((t_execcmd *)cmd)->options, \
 	args_to_str(((t_execcmd *)cmd)->cmd));
 	return (exec);
@@ -178,7 +204,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		return (pr_custom_err(ERR_CMD, exec[0], exec[0]), glo_exit = 127, free(exec), 0);
 	pid = fork();
 	if (pid == -1)
-		return (perror("fork failed"), 0);
+		return (perror("minishell: "), 0);
 	if (!pid)
 		child(exec, path, infile, outfile, fd);
 	free(exec[0]);
@@ -187,7 +213,28 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		return (free(path), pid);
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path) , 0);
+<<<<<<< HEAD
 	if (cmd_sig_check(path, status))
 		return (0x1);
+=======
+	if (WIFEXITED(status))
+	{
+		status = WEXITSTATUS(status);
+		glo_exit = status;
+		if (!status)
+			return (free(path) , 1);
+	}
+	// if (WIFSIGNALED(status))
+	// {
+	// 	if (WTERMSIG(status) == SIGINT)
+	// 		is_sig = 1;
+	// 	else if (WTERMSIG(status) == SIGQUIT)
+	// 		is_sig = 2;
+	// }
+	// if (is_sig == 1)
+	// 	write(2, "\n", 1);
+	// else if (is_sig == 2)
+	// 	ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
+>>>>>>> parsing
 	return (free(path), 0);
 }
