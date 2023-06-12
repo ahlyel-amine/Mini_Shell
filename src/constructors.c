@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 14:58:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/08 11:55:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right)
 	pipe->left = left;
 	pipe->right = right;
 	return ((t_cmd *)pipe);
+}
+
+t_cmd	*subsh_constructor(t_cmd *cmd)
+{
+	t_subsh	*subsh;
+
+	// printf("^^^^^^^^^^^^^^^subsh_constructor_caled^^^^^^^^^^^^^^^\n");
+	subsh = malloc(sizeof(t_subsh));
+	ft_memset(subsh, 0, sizeof(t_subsh));
+	subsh->type = SUBSH;
+	subsh->cmd = cmd;
+	return ((t_cmd *)cmd);
 }
 
 t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options)

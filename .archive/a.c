@@ -1,155 +1,171 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing_tools.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 12:43:20 by aahlyel          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../../lib/libft/include/libft.h"
+#include <unistd.h>
 
 
-#include "../../include/minishell.h"
+// static int	word_count(char *s, char c);
 
-static int	parhenthises_closed(char *line, int *k, int *i)
-{
-	int		is_closed;
-	int		is_open;
-	t_var	var;
+// char	**ft_split_char(char const *s, char c)
+// {
+// 	char	**splited;
+// 	int		wc;
+// 	int		i;
+// 	int		tmp_count;
 
-	ft_memset(&var, 0, sizeof(t_var));
-	*i = -1;
-	is_open = 1;
-	is_closed = 0;
-	while (line[++(*i)])
-	{
-		check_out_of_quotes(line[*i], &var);
-		if (line[*i] == '(' && !var.quote && \
-		!var.dquote && is_open != is_closed)
-			is_open++;
-		else if (line[*i] == ')' && !var.quote && \
-		!var.dquote && is_open != is_closed)
-		{
-			is_closed++;
-			*k = *i;
-			continue ;
-		}
-		if (is_open == is_closed)
-			return (1);
-	}
-	return (0);
-}
+// 	if (!s)
+// 		return (NULL);
+// 	i = 0;
+// 	wc = word_count((char *)s, c);
+// 	splited = malloc((wc + 1) * sizeof(char *));
+// 	while (i < wc)
+// 	{
+// 		tmp_count = 0;
+// 		while (*s == c)
+// 			s++;
+// 		while (*(s + tmp_count) != c && *(s + tmp_count))
+// 			tmp_count++;
+// 		if (!tmp_count)
+// 			break ;
+// 		splited[i] = ft_substr(s, 0, tmp_count);
+// 		s += tmp_count;
+// 		i++;
+// 	}
+// 	splited[i] = NULL;
+// 	return (splited);
+// }
 
-int	close_parenthise(char *line)
+// static int	word_count(char *s, char c)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (*(s++))
+// 		if (*(s - 1) != c && (*s == c || !*s))
+// 			i++;
+// 	return (i);
+// }
+// char	*env_path(char **envp)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		if (ft_strnstr(envp[i], "PATH=", 5))
+// 			return (ft_substr(envp[i], 5,
+// 						ft_strlen(envp[i] + 5)));
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
+
+// int main(void)
+// {
+//     pid_t p = fork();
+// 	char **a;
+// 	a = malloc(sizeof (char *) * 2);
+// 	a[0] = malloc(3);
+// 	a[0][0] = 'l';
+// 	a[0][1] = 's';
+// 	a[0][2] = 0;
+// 	a[1] = NULL;
+//     if ( p == -1 ) {
+//         perror("fork failed");
+//         return EXIT_FAILURE;
+//     }
+//     else if ( p == 0 ) {
+//         execve("/bin/ls", a, NULL);
+//         return EXIT_FAILURE;
+//     }
+
+//     int status;
+//     if ( waitpid(p, &status, 0) == -1 ) {
+//         perror("waitpid failed");
+//         return EXIT_FAILURE;
+//     }
+
+//     if ( WIFEXITED(status) ) {
+//         const int es = WEXITSTATUS(status);
+//         printf("exit status was %d\n", status);
+//     }
+//     return EXIT_SUCCESS;
+// }
+int compare_matches(char *realfile, char *myfile);
+
+int skip_unkown(char *realfile, char *myfile)
 {
 	int	i;
-	int	open;
-	int	close;
-	t_var	var;
+	int	j;
 
 	i = 0;
-	ft_memset(&var, 0, sizeof(t_var));
-	open = 1;
-	close = 0;
-	while (line[i])
+	j = 0;
+    while (realfile[i] == '*')
+        i++;
+    while (realfile[i] && myfile[j] && myfile[j] != realfile[i])
+        j++;
+    if (myfile[j] == realfile[i])
+       return compare_matches(realfile + i, myfile + j);
+    else if (!realfile[i] && !myfile[j])
+        return (1);
+    else
+        return (0);
+}
+
+int compare_matches(char *realfile, char *myfile)
+{
+	int	i;
+	int	j;
+	i = 0;
+	j = 0;
+    while (realfile[i] && myfile[j] && realfile[i] == myfile[j])
+    {
+        i++;
+        j++;
+    }
+    if (realfile[i] == '*')
+        return skip_unkown(realfile + i, myfile + j);
+    else if (!realfile[i] && !myfile[j])
+        return (1);
+    else
+        return (0);
+}
+
+int main (int ac, char **av)
+{
+    if (ac == 3)
+        printf("%d\n", compare_matches(av[1], av[2]));
+}
+
+t_arguments	*skip_spaces_back(t_arguments *args)
+{
+	t_arguments	*head;
+	int	i;
+	int	j;
+	char	*tmp;
+
+	tmp = NULL;
+	head = args;
+	i = 0;
+	while (head->next)
+		head = head->next;
+	while (head->str[i])
 	{
-		check_out_of_quotes(line[i], &var);
-		if (line[i] == '(' && !var.dquote && !var.quote)
-			open++;
-		else if (line[i] == ')' && !var.dquote && !var.quote)
-			close++;
-		i++;
-		if (close == open)
+		j = 0;
+		while (!head->str[i + j] || ft_isspace(head->str[i + j]))
 		{
-			i++;
-			break ;
+			if (!head->str[i + j])
+				tmp = ft_substr(head->str, 0, i);
+			j++;
 		}
+		i += ++j;
 	}
-	return (i);
-}
-void	something_wrong(char *error, void *to_free)
-{
-	free(to_free);
-	ft_putstr_fd(error, 2);
-	set__get_option_variables(0, FREE);
-	exit(1);
-}
-
-void	check_out_of_quotes(char c, t_var *var)
-{
-	if (c == '\"' && !(var->quote))
-			(var->dquote) = !(var->dquote);
-	if (c == '\'' && !(var->dquote))
-		(var->quote) = !(var->quote);
-}
-void	transform_dollar(char *line, int *i, int *k, char **tmp)
-{
-	if (ft_isdigit(line[*i + 1]))
-		*i += 2;
-	else if (line[*i] == '$' && (!line[*i + 1] || ft_isspace(line[*i + 1])))
-		(*tmp)[(*k)++] = line[(*i)++];
-	else if (line[*i] == '$' && line[*i + 1] == '$')
-		(*tmp)[(*k)++] = line[(*i)++];
-	else if (line[*i] == '$')
+	if (tmp)
 	{
-		(*i)++;
-		(*tmp)[(*k)++] = '\"';
-		while (ft_isalnum(line[*i]) || line[*i] == '_')
-			(*tmp)[(*k)++] = line[(*i)++];
-		(*tmp)[(*k)++] = '\"';
+		free(head->str);
+		head->str = tmp;
 	}
+	return (args);
 }
 
-int	delete_quotes(char *line, char **tmp, int i, int is_word)
-{
-	t_var	var;
-	int		k;
-
-	k = 0;
-	ft_memset(&var, 0, sizeof(t_var));
-	while (line[i])
-	{
-		check_out_of_quotes(line[i], &var);
-		if (!var.quote && !var.dquote && ft_isspace(line[i]))
-		{
-			if (is_word)
-				break ;
-			(*tmp)[k++] = line[i];
-		}
-		else if ((line[i] == '\"' && var.quote) || (line[i] == '\'' && var.dquote))
-			(*tmp)[k++] = line[i];
-		else if (line[i] == '$' && (var.dquote || (!var.dquote && !var.quote)))
-		{
-			transform_dollar(line, &i, &k, tmp);
-			continue ;
-		}
-		else if (line[i] != '\'' && line[i] != '\"')
-			(*tmp)[k++] = line[i];
-		i++;
-	}
-	return (i);
-}
-
-int	count_dollars(char *line, int *i, int j)
-{
-	int begin;
-	int dollars;
-	
-	if (i)
-		begin = *i;
-	else
-		begin = j;
-	dollars = 0;
-	while (line[begin])
-	{
-		if (line[begin] == '$')
-			dollars++;
-		begin++;
-	}
-	return (begin);
-}
 
 // void	get_dollars(t_arguments	**arguments, char *line, int *i, int *j)
 // {
@@ -321,72 +337,6 @@ int	count_dollars(char *line, int *i, int j)
 // }
 
 
-
-char	*skip_quotes(char *line, int *i, int j, int is_word)
-{
-	char		*tmp;
-	int			a;
-	t_arguments	*arguments;
-
-	a = count_dollars(line, i, j);
-	if (is_word)
-		tmp = ft_calloc(1, ft_strlen(line + *i) + a + 1);
-	else
-		tmp = ft_calloc(1, ft_strlen(line + j) + a + 1);
-	if (!tmp)
-		return (NULL);
-	if (is_word)
-		*i = delete_quotes(line, &tmp, *i, is_word);
-	else
-		delete_quotes(line, &tmp, j, is_word);
-	return (tmp);
-}
-
-int	skip_spaces_front(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (ft_isspace(line[i]))
-		i++;
-	return (i);
-}
-
-void	pr_custom_err(char *error, void *ptr, char *custom)
-{
-	char	*msg;
-
-	msg = ft_strjoin(error, custom);
-	ft_putstr_fd(msg, 2);
-	ft_putchar_fd('\n', 2);
-	free(msg);
-	free (ptr);
-}
-void	panic_recursive(char *error, char **ptr)
-{
-	ft_putstr_fd(error, STDERR_FILENO);
-	free (ptr);
-	ptr = NULL;
-}
-
-unsigned short	check_wild_cards(char *str, unsigned short type)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '*')
-		{
-			i = -1;
-			break ;
-		}
-		i++;
-	}
-	if (type == 3 && i != -1)
-		type = 1;
-	return (type);
-}
 // t_arguments *tokenize_variables(t_arguments *arguments, int type)
 // {
 // 	int		i;
@@ -443,5 +393,53 @@ unsigned short	check_wild_cards(char *str, unsigned short type)
 // 	return (arguments);
 // }
 
+// char	*skip_quotes(char *line, int *i, int j, int is_word)
+// {
+// 	char		*tmp;
+// 	int			a;
+// 	t_arguments	*arguments;
+
+// 	a = count_dollars(line, i, j);
+// 	if (is_word)
+// 		tmp = ft_calloc(1, ft_strlen(line + *i) + a + 1);
+// 	else
+// 		tmp = ft_calloc(1, ft_strlen(line + j) + a + 1);
+// 	if (!tmp)
+// 		return (NULL);
+// 	if (is_word)
+// 		*i = delete_quotes(line, &tmp, *i, is_word);
+// 	else
+// 		delete_quotes(line, &tmp, j, is_word);
+// 	return (tmp);
+// }
 
 
+// int	delete_quotes(char *line, char **tmp, int i, int is_word)
+// {
+// 	t_var	var;
+// 	int		k;
+
+// 	k = 0;
+// 	ft_memset(&var, 0, sizeof(t_var));
+// 	while (line[i])
+// 	{
+// 		check_out_of_quotes(line[i], &var);
+// 		if (!var.quote && !var.dquote && ft_isspace(line[i]))
+// 		{
+// 			if (is_word)
+// 				break ;
+// 			(*tmp)[k++] = line[i];
+// 		}
+// 		else if ((line[i] == '\"' && var.quote) || (line[i] == '\'' && var.dquote))
+// 			(*tmp)[k++] = line[i];
+// 		else if (line[i] == '$' && (var.dquote || (!var.dquote && !var.quote)))
+// 		{
+// 			transform_dollar(line, &i, &k, tmp);
+// 			continue ;
+// 		}
+// 		else if (line[i] != '\'' && line[i] != '\"')
+// 			(*tmp)[k++] = line[i];
+// 		i++;
+// 	}
+// 	return (i);
+// }

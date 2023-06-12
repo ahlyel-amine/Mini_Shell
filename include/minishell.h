@@ -7,10 +7,10 @@ int	in_cmd;
 int	out;
 int	Ctrl_c;
 int	is_sig;
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
-// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include  <stdlib.h>
@@ -61,6 +61,14 @@ typedef struct s_pipe
 
 t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
 void	pipe_destructor(t_cmd *structor);
+
+typedef struct s_subsh
+{
+	int		type;
+	t_cmd	*cmd;
+}	t_subsh;
+t_cmd	*subsh_constructor(t_cmd *cmd);
+void	subsh_destructor(t_cmd *structor);
 
 typedef struct s_and
 {
@@ -126,6 +134,7 @@ typedef struct s_redir_content
 {
 	int			type;
 	t_arguments	*file_name;
+	char		*delimiter;
 	int			mode;
 	int			fd;
 }	t_redir_content;
@@ -136,6 +145,12 @@ typedef struct s_redir
 	t_redir_content	red;
 	t_cmd			*cmd;
 }	t_redir;
+
+typedef struct s_two_ptr
+{
+	int	*i;
+	int	*k;
+}	t_2ptr_int;
 
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 void	redir_destructor(t_cmd *structor);

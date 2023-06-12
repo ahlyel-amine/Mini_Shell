@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   controll_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:07:13 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/10 13:37:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -20,7 +19,8 @@ int	check_and_parsing(t_cmd *cmd)
 	if (!((t_and *)cmd)->left || !((t_and *)cmd)->right)
 		return (0);
 	else
-		return (check_parsing(((t_and *)cmd)->left) & check_parsing(((t_and *)cmd)->right));
+		return (check_parsing(((t_and *)cmd)->left) & \
+		check_parsing(((t_and *)cmd)->right));
 	return (1);
 }
 
@@ -29,7 +29,8 @@ int	check_or_parsing(t_cmd *cmd)
 	if (!((t_or *)cmd)->left || !(((t_or *)cmd)->right))
 		return (0);
 	else
-		return (check_parsing(((t_or *)cmd)->left) & check_parsing(((t_or *)cmd)->right));
+		return (check_parsing(((t_or *)cmd)->left) & \
+		check_parsing(((t_or *)cmd)->right));
 	return (1);
 }
 
@@ -38,7 +39,8 @@ int	check_pipe_parsing(t_cmd *cmd)
 	if (!((t_pipe *)cmd)->left || !(((t_pipe *)cmd)->right))
 		return (0);
 	else
-		return (check_parsing(((t_pipe *)cmd)->left) & check_parsing(((t_pipe *)cmd)->right));
+		return (check_parsing(((t_pipe *)cmd)->left) & \
+		check_parsing(((t_pipe *)cmd)->right));
 	return (1);
 }
 
@@ -63,7 +65,7 @@ int	check_redir_parsing(t_cmd *cmd)
 			free(line);
 		}
 		pr_custom_err(ERR_SNTX, NULL,
-				((t_invalid *)((t_redir *)cmd)->cmd)->str);
+			((t_invalid *)((t_redir *)cmd)->cmd)->str);
 		free(file_name);
 		return (0);
 	}
@@ -100,7 +102,7 @@ void	print_arguments(t_arguments *args, char *ref)
 		else
 		{
 			tmp2 = tmp->down;
-			printf("{%d}\n",tmp->type);
+			printf("{%d}\n", tmp->type);
 			while (tmp2)
 			{
 				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
@@ -109,7 +111,7 @@ void	print_arguments(t_arguments *args, char *ref)
 		}
 		tmp = tmp->next;
 	}
-	printf("--------------------arguments_END------%s----------------\n",ref);
+	printf("--------------------arguments_END------%s----------------\n", ref);
 }
 
 void	print_cmd(t_cmd *cmd)
@@ -128,53 +130,27 @@ void	print_cmd(t_cmd *cmd)
 		print_arguments(cmds->options, "option");
 	printf("--------------------------\n");
 }
+# include<time.h>
 
 void	controll_line(char **line)
 {
-	t_cmd		*cmd;
-	// t_execcmd	*a;
-
+	t_cmd	*cmd;
+	int		stop;
+clock_t start, end;
+	stop = 0;
 	cmd = NULL;
-	complete_line(line);
+	complete_line(line, &stop);
+	if (stop)
+		return ;
 	if (line && *line)
 		cmd = parse_line(*line);
-		// check_parsing(cmd);
-	// a = (t_execcmd *)cmd;
-	// transform_args(&a->options);
-	// char **b = args_to_dblstr(a->options);
-	// for (int i = 0; b[i]; i++)
-	// 	printf("[%s]\n", b[i]);
-	// if (cmd->type == EXEC)
-	// {
-	// 	t_execcmd *p;
-	// 	p = (t_execcmd *)cmd;
-	// 	char	*comd;
-	// 	char	**options;
-	// 	t_arguments	*nl = NULL;
-	// 	var_expand(p->cmd);
-	// 	var_expand(p->options);
-	// 	wild_cards(&p->options);
-	// 	args_move_down(&p->cmd, &nl);
-	// 	args_move_down(&p->options, &nl);
-	// 	print_arguments(p->cmd);
-	// 	comd = args_to_str(p->cmd);
-	// 	options = args_to_cmd_dstr(p->options, comd);
-	// 	for (int i =0; options[i]; i++)
-	// 		printf("%s\n", options[i]);
-	// 	free (options);
-	// }
-	
-	if (cmd)
-	{
-		// sig_exec_init();
+	if (cmd && !check_parsing(cmd))
+		;
+	else if (cmd)
 		execute_line(cmd);
-		free_line(cmd);
-	}
-	// if (cmd->type == BUILTIN)
-	// 	tt_echo(cmd);
-	// printf("\n\n\n\n");
-	// execute_line(cmd);
-	// printf("\n\n\n\n");
-	// if (cmd)
-		// free_line(cmd);
+	start = clock();
+	free_line(cmd);
+	end = clock();
+	// double duration = ((double)end - start)/CLOCKS_PER_SEC;
+	// printf("Time taken to execute in seconds : %f", duration);
 }
