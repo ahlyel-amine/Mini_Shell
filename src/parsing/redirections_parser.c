@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 20:14:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/10 22:39:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/11 13:47:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,30 @@ void	check_redirect_inred(char **line, int i, int *quit)
 		*quit = 1;
 	}
 }
+void	redirections_parenthesis_loop(char line, t_car)
+{
+	while (line[i])
+	{
+		check_out_of_quotes(line[i], &var);
+		skip_parenthesis(&line, &i, var, &quit);
+		if (quit == -1)
+			return (NULL);
+		else if (quit == 1)
+			continue ;
+		operator = check_redirect_append(&line, i, var, &quit);
+		if (quit != -1 && quit != 1)
+			operator =  check_redirect_outred(&line, i, var, &quit);
+		if (quit != -1 && quit != 1)
+			operator = check_redirect_herdoc(&line, i, &quit);
+		if (quit != -1 && quit != 1)
+			check_redirect_inred(&line, i, &quit);
+		if (quit == -1)
+			return (NULL);
+		else if (quit == 1)
+			break ;
+		i++;
+	}
+}
 
 t_cmd	*redirections_parser_has_parenthesis(char *line)
 {
@@ -159,14 +183,6 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 			return (NULL);
 		else if (quit == 1)
 			continue ;
-		// if ((line[i] == '(') && !var.quote && !var.dquote)
-		// {
-		// 	k = close_parenthise(line + i + 1);
-		// 	if (k == -1)
-		// 		return (panic_recursive(ERR_UNCLSDP, &line), NULL);
-		// 	i += k;
-		// 	continue ;
-		// }
 		operator = check_redirect_append(&line, i, var, &quit);
 		if (quit == -1)
 			return (NULL);
@@ -187,64 +203,6 @@ t_cmd	*redirections_parser_has_parenthesis(char *line)
 			return (NULL);
 		else if (quit == 1)
 			break ;
-		// if (line[i] == '>'  && line[i + 1] == '>' && !var.quote && !var.dquote)
-		// {
-		// 	if (!check_for_syntax(&line, i))
-		// 		return (NULL);
-		// 	k = fill_redir_content(line, i, &red, F_APPEND);
-		// 	operator = and_parser(\
-		// 		ft_strjoin_free(remove_unused_parenthesis(ft_substr(line, 0, i)),
-		// 		ft_substr(line, k, ft_strlen(line + k))));
-		// 	operator = redir_constructor(operator, red);
-		// 	free (line);
-		// 	line = NULL;
-		// 	break ;
-		// }
-		// else if (line[i] == '>' && !var.quote && !var.dquote)
-		// {
-		// 	if (!check_for_syntax(&line, i))
-		// 		return (NULL);
-		// 	k = fill_redir_content(line, i, &red, F_OUT_RED);
-		// 	operator = and_parser(\
-		// 		ft_strjoin_free(remove_unused_parenthesis(ft_substr(line, 0, i)),
-		// 		ft_substr(line, k, ft_strlen(line + k))));
-		// 	operator = redir_constructor(operator, red);
-		// 	free (line);
-		// 	line = NULL;
-		// 	break ;
-		// }
-		// else if (line[i] == '<' && line[i + 1] == '<')
-		// {
-		// 	k = i;
-		// 	i += 2;
-		// 	i += skip_spaces_front(line + i);
-		// 	while (isalnum(line[i]) || line[i] == '_')
-		// 		i++;
-		// 	i += skip_spaces_front(line + i);
-		// 	if (line[i] == '(')
-		// 	{
-		// 		i = k;
-		// 		k = fill_redir_content(line, k, &red, F_HEREDOC);
-		// 		operator = redir_constructor(invalid_constructor(ft_substr(line, k, ft_strlen(line + k))), red);
-		// 		free (line);
-		// 		line = NULL;
-		// 		return (operator);
-		// 	}
-		// 	break ;
-		// }
-		// else if (line[i] == '<')
-		// {
-		// 	i++;
-		// 	i += skip_spaces_front(line + i);
-		// 	while (isalnum(line[i]) || line[i] == '_')
-		// 		i++;
-		// 	i += skip_spaces_front(line + i);
-		// 	if (line[i] == '(')
-		// 	{
-		// 		return (pr_custom_err(ERR_SNTX, line, line + i), line = NULL, NULL);
-		// 	}
-		// 	break ;
-		// }
 		i++;
 	}
 	if (!operator && line)
