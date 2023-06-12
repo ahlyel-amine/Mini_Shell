@@ -146,6 +146,12 @@ typedef struct s_redir
 	t_cmd			*cmd;
 }	t_redir;
 
+typedef struct s_two_ptr
+{
+	int	*i;
+	int	*k;
+}	t_2ptr_int;
+
 t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
 void	redir_destructor(t_cmd *structor);
 

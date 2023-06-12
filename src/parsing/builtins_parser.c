@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 19:50:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:10:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
 
 	args = NULL;
 	space = skip_spaces_front(line + j);
-	args = get_argument(line, 0, j + space, 0);
+	args = get_argument(line, j + space);
 	cmd = builtin_constructor(ft_strdup(builtin), 0, args);
 	return (cmd);
 }
@@ -113,11 +113,11 @@ t_cmd	*get_token_builtins(char *line, int j)
 	{
 		space = echo_has_option(line + j, &i);
 		cmd = builtin_constructor(ft_strdup("echo"), \
-		space, get_argument(line, 0, j + i, 0));
+		space, get_argument(line, j + i));
 	}
 	else if (!ft_strncmp(tmp, "cd", 7))
 	{
-		args = get_argument(line, 0, j + space, 0);
+		args = get_argument(line, j + space);
 		cmd = builtin_constructor(ft_strdup("cd"), 0, args);
 	}
 	else

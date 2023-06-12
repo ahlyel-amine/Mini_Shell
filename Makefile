@@ -22,7 +22,7 @@ SRC =	\
 		\
 		\
 		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c\
-		src/tokenizer/translate_arguments.c \
+		src/tokenizer/translate_arguments.c src/tokenizer/translate_arguments2.c src/tokenizer/transform_arguments.c src/tokenizer/transform_arguments_tools.c\
 		\
 		\
 		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c\
@@ -41,7 +41,7 @@ HBLU = '\e[1;94m'
 
 BIN_DIR = bin/
 CFLAGS		=  
-#  -fsanitize=address
+-fsanitize=address
 
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
