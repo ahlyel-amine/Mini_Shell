@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_str_to_args.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/06 10:10:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 21:08:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ t_arguments	*space_break(char *str, int *j, int *i)
 	t_arguments	*args;
 
 	args = NULL;
-	if(ft_isspace(str[*i + *j]) && str[*i + *j])
+	if (ft_isspace(str[*i + *j]) && str[*i + *j])
 	{
 		if (*j)
-			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR, 0);
+			args = arguments_constructor(args, \
+			ft_substr(str, *i, *j), IS_STR, 0);
 		*i += *j;
 		*j = 0;
 	}
@@ -65,10 +66,11 @@ t_arguments	*no_space_break(char *str, int *j, int *i, int is_dquote)
 	t_arguments	*args;
 
 	args = NULL;
-	if(!ft_isspace(str[*i + *j]) && str[*i + *j])
+	if (!ft_isspace(str[*i + *j]) && str[*i + *j])
 	{
 		if (*j && is_dquote)
-			args = arguments_constructor(args, ft_substr(str, *i, *j), IS_STR, 0);
+			args = arguments_constructor(args, \
+			ft_substr(str, *i, *j), IS_STR, 0);
 		else if (*j && !is_dquote)
 			args = arguments_constructor(args, ft_strdup(" "), IS_SEPARTOR, 0);
 		*i += *j;
@@ -127,4 +129,3 @@ t_arguments	*ft_split_str_to_args(char *str, int is_dquote)
 	}
 	return (args);
 }
-

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:40:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/10 14:26:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 20:17:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ t_cmd	*and_parser(char *line)
 
 	if (!line)
 		return (NULL);
+	if (!*line)
+		return (panic_recursive(ERR_O_SNTX, &line), NULL);
 	i = 0;
 	quit = 0;
 	ft_memset(&var, 0, sizeof(t_var));

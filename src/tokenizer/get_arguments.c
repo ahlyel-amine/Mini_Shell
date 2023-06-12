@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 15:31:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 21:10:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	close_dquote(t_arguments **arguments, char *line, int i)
 		check_out_of_quotes(line[i + j], &var);
 		if (!var.dquote)
 		{
-			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), DQUOTE, 0);
-			break;
+			*arguments = arguments_constructor(*arguments, \
+			ft_substr(line, i, j), DQUOTE, 0);
+			break ;
 		}
 		j++;
 	}
@@ -46,8 +47,9 @@ int	close_quote(t_arguments **arguments, char *line, int i)
 		check_out_of_quotes(line[i + j], &var);
 		if (!var.quote)
 		{
-			*arguments = arguments_constructor(*arguments, ft_substr(line, i, j), QUOTE, 0);
-			break;
+			*arguments = arguments_constructor(*arguments, \
+			ft_substr(line, i, j), QUOTE, 0);
+			break ;
 		}
 		j++;
 	}
@@ -69,7 +71,8 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		if (var.dquote && line[*i + j] == '\"')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
+				arguments = arguments_constructor(arguments, \
+				ft_substr(line, *i, j), IS_STR, 0);
 			*i += j + 1;
 			*i += close_dquote(&arguments, line, *i) + 1;
 			var.dquote = 0;
@@ -79,7 +82,8 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 		else if (var.quote && line[*i + j] == '\'')
 		{
 			if (j)
-				arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);		
+				arguments = arguments_constructor(arguments, \
+				ft_substr(line, *i, j), IS_STR, 0);
 			*i += j + 1;
 			*i += close_quote(&arguments, line, *i) + 1;
 			var.quote = 0;
@@ -87,12 +91,13 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 			continue ;
 		}
 		else if (ft_isspace(line[*i + j]) && is_word)
-			break;
+			break ;
 		j++;
 	}
 	if (j)
 	{
-		arguments = arguments_constructor(arguments, ft_substr(line, *i, j), IS_STR, 0);
+		arguments = arguments_constructor(arguments, \
+		ft_substr(line, *i, j), IS_STR, 0);
 		*i += j;
 	}
 	return (arguments);
@@ -100,22 +105,21 @@ t_arguments	*get_arguments(char *line, int *i, int is_word)
 
 void	remove_arg(t_arguments **arguments, t_arguments **to_remove)
 {
-	t_arguments *tmp;
-	t_arguments *rem;
+	t_arguments	*tmp;
+	t_arguments	*rem;
+
 	tmp = *arguments;
-	// if (!(*arguments)->next)
-	// 	*arguments = NULL;
 	while (tmp)
 	{
 		if (!tmp->next && tmp == *to_remove)
 		{
 			tmp = NULL;
-			break;
+			break ;
 		}
 		else if (tmp->next == *to_remove)
 		{
 			tmp = tmp->next->next;
-			break;	
+			break ;
 		}
 	}
 	free ((*to_remove)->str);
