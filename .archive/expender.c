@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:39:32 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/22 12:33:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/13 00:17:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,38 +87,38 @@
 //     return (expend);
 // }
 
-char    *nodes_join_b(t_arguments *lst)
-{
-    char    *tmp;
-    t_arguments  *lst_tmp;
+// char    *nodes_join_b(t_arguments *lst)
+// {
+//     char    *tmp;
+//     t_arguments  *lst_tmp;
 
-    tmp = ft_strdup("");
-    lst_tmp = lst;
-    while (lst)
-    {
-        lst_tmp = lst;
-        tmp = ft_strjoin_free(tmp, lst_tmp->str);
-        lst = lst->next;
-        free(lst_tmp);
-    }
-    return (tmp);
-}
-char    *nodes_join(t_list *lst)
-{
-    char    *tmp;
-    t_list  *lst_tmp;
+//     tmp = ft_strdup("");
+//     lst_tmp = lst;
+//     while (lst)
+//     {
+//         lst_tmp = lst;
+//         tmp = ft_strjoin_free(tmp, lst_tmp->str);
+//         lst = lst->next;
+//         free(lst_tmp);
+//     }
+//     return (tmp);
+// }
+// char    *nodes_join(t_list *lst)
+// {
+//     char    *tmp;
+//     t_list  *lst_tmp;
 
-    tmp = ft_strdup("");
-    lst_tmp = lst;
-    while (lst)
-    {
-        lst_tmp = lst;
-        tmp = ft_strjoin_free(tmp, lst_tmp->content);
-        lst = lst->next;
-        free(lst_tmp);
-    }
-    return (tmp);
-}
+//     tmp = ft_strdup("");
+//     lst_tmp = lst;
+//     while (lst)
+//     {
+//         lst_tmp = lst;
+//         tmp = ft_strjoin_free(tmp, lst_tmp->content);
+//         lst = lst->next;
+//         free(lst_tmp);
+//     }
+//     return (tmp);
+// }
 // void    expend_line(t_cmd *cmd)
 // {
 //     t_builtin *cmnd;
