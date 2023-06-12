@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/07 16:16:47 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/12 23:01:07 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ void	tt_echo(t_cmd *cmd)
 	else
 		ft_putstr_fd(arg, out);
 	glo_exit = 0;
-	free(arg);	
+	free(arg);
 }
 //echo $PWD "$1PLO '$USER'"
