@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/12 23:34:14 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/12 23:45:39 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void    val(char *arg)
 		if(!(re_env_var(ft_substr(arg, 0, (replace - arg)), ft_strdup(arg), 0)))
 			add_val(arg, 0);   
 	else if (append)
-		if(!(re_env_var(ft_substr(arg, 0, ((append) - arg)), ft_substr(arg, (append - arg) + 2, (len - 1) - (append - arg)), 1)))
+		if(!(re_env_var(ft_substr(arg, 0, \
+		((append) - arg)), ft_substr(arg, (append - arg) + 2, (len - 1) - (append - arg)), 1)))
 			add_val(arg, 1);       
 	else
 		if (is_export_var(arg))
