@@ -77,6 +77,13 @@ void		args_move_down(t_arguments **args, t_arguments **prev);
 void		wild_cards(t_arguments **args);
 void		args_join(t_arguments **args);
 void		transform_args(t_arguments **args);
+t_cmd	*check_redirect_herdoc(char **line, int i, int *quit);
+void	check_redirect_inred(char **line, int i, int *quit);
+t_cmd	*check_redirect_append(char **line, int i, t_var var, int *quit);
+t_cmd	*check_redirect_herdoc_after(char **line, int i, t_var var, int *quit);
+t_cmd	*check_redirect_outred(char **line, int i, t_var var, int *quit);
+t_cmd	*check_redirect_inred_after(char **line, int i, t_var var, int *quit);
+
 
 // void	args_move_down(t_arguments **args);
 // t_arguments	*args_move_one_down(t_arguments *args, t_arguments *prev);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/11 13:37:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/12 15:24:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ int	get_name(char *line, t_redir_content *red, int type)
 	{
 		red->file_name = arguments_constructor(args,
 		skip_quote_redir_names(line, &k, red->fd, &q), IS_STR, q);
-		print_arguments(red->file_name, "yo");
 		red->delimiter = args_to_str(red->file_name);
 		read_heredoc(red, args);
 	}
