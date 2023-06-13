@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 01:39:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:15:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int			compare_matches(char *realfile, char *myfile);
 static int			skip_unkown(char *realfile, char *myfile);
 static t_arguments	*get_files(char	*str, t_arguments *args, DIR *directory);
 
-t_arguments	*open_cwd(char *str)
+static t_arguments	*open_cwd(char *str)
 {
 	DIR				*directory;
 	struct dirent	*dir;

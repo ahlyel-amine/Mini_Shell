@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 01:21:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:48:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_arguments	*transform_args_fd_name(t_arguments **args)
 		nl->next = arguments_constructor(NULL, str, IS_STR, 0);
 		wild_cards(&nl->next);
 		if (nl->next->next)
-			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), NULL);
+			return (ft_putstr_fd(ERR_AMBGIS, 2), NULL);
 		return (nl->next);
 	}
 	else
