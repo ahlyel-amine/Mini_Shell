@@ -6,14 +6,14 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:05:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:48:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <fcntl.h>
 
-t_arguments	*transform_args_fd_name(t_arguments **args)
+static t_arguments	*transform_args_fd_name(t_arguments **args)
 {
 	char		*str;
 	t_arguments	*nl;
@@ -31,14 +31,14 @@ t_arguments	*transform_args_fd_name(t_arguments **args)
 		nl->next = arguments_constructor(NULL, str, IS_STR, 0);
 		wild_cards(&nl->next);
 		if (nl->next->next)
-			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), NULL);
+			return (ft_putstr_fd(ERR_AMBGIS, 2), NULL);
 		return (nl->next);
 	}
 	else
 		return (free (str), *args);
 }
 
-int	open_files_calls(t_cmd *cmd, int *infile, int *outfile, char *file_name)
+static int	open_files_calls(t_cmd *cmd, int *infile, int *outfile, char *file_name)
 {
 	if (((t_redir *)cmd)->red.type == HEREDOC)
 	{
@@ -61,7 +61,7 @@ int	open_files_calls(t_cmd *cmd, int *infile, int *outfile, char *file_name)
 	return (1);
 }
 
-int	open_files(t_cmd *cmd, int *infile, int *outfile)
+static int	open_files(t_cmd *cmd, int *infile, int *outfile)
 {
 	char		*file_name;
 	t_arguments	*fd_nm;
@@ -80,7 +80,7 @@ int	open_files(t_cmd *cmd, int *infile, int *outfile)
 	return (free(file_name), 1);
 }
 
-void	close_files(t_cmd *cmd, int infile, int outfile)
+static void	close_files(t_cmd *cmd, int infile, int outfile)
 {
 	if (((t_redir *)cmd)->red.type == HEREDOC
 		|| (((t_redir *)cmd)->red.type == IN_REDIR))

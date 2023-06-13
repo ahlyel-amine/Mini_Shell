@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:23:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:56:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,6 @@ void	arguments_destructor(t_arguments **arguments)
 		}
 	}
 	*arguments = NULL;
-}
-
-void	replace_arg_first_element(t_arguments **head, \
-t_arguments **old, t_arguments *new, \
-t_arguments *replace_old)
-{
-	t_arguments	*tmp;
-
-	if (*head == (*old))
-	{
-		tmp = (*head)->next;
-		*head = new;
-		while (new->next)
-			new = new->next;
-		new->next = tmp;
-		*old = replace_old;
-	}
 }
 
 void	arguments_add_back(t_arguments **head, t_arguments *new)

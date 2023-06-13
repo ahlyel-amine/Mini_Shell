@@ -6,26 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:00 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 23:59:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 01:20:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	or_executer(t_cmd *cmd, int infile, int outfile, int *fd)
-{
-	int	ret;
-
-	if (((t_and *)cmd)->left && ((t_and *)cmd)->right)
-	{
-		ret = or_part_executer(((t_or *)cmd)->left, infile, outfile, fd);
-		if (!ret)
-			ret = or_part_executer(((t_or *)cmd)->right, infile, outfile, fd);
-	}
-	return (ret);
-}
-
-int	or_part_executer(t_cmd *cmd, int infile, int outfile, int *fd)
+static int	or_part_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 {
 	int	ret;
 
@@ -43,3 +30,17 @@ int	or_part_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		ret = pipe_executer(cmd, infile, outfile, fd);
 	return (ret);
 }
+
+int	or_executer(t_cmd *cmd, int infile, int outfile, int *fd)
+{
+	int	ret;
+
+	if (((t_and *)cmd)->left && ((t_and *)cmd)->right)
+	{
+		ret = or_part_executer(((t_or *)cmd)->left, infile, outfile, fd);
+		if (!ret)
+			ret = or_part_executer(((t_or *)cmd)->right, infile, outfile, fd);
+	}
+	return (ret);
+}
+

@@ -6,11 +6,11 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 00:14:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:16:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:12:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	and_destructor(t_cmd *structor)
 {

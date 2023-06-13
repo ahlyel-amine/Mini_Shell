@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:09:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:47:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct s_2_int
 	int	outfile;
 }	t_2_int;
 
-char	*get_path(char *cmd)
+static char	*get_path(char *cmd)
 {
 	char	**path;
 	char	*cmd_path;
@@ -28,6 +28,8 @@ char	*get_path(char *cmd)
 	i = 0;
 	if (cmd == NULL)
 		return (NULL);
+	if (!*cmd)
+		return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
 	if (!access(cmd, F_OK | X_OK))
 		return (ft_strdup(cmd));
 	path = (char **)set__get_option_variables(0, GET | GET_PATH);
@@ -43,7 +45,7 @@ char	*get_path(char *cmd)
 	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
 }
 
-char	**get_dstr(t_cmd *cmd)
+static char	**get_dstr(t_cmd *cmd)
 {
 	char		**exec;
 	t_arguments	*nl;
@@ -64,7 +66,7 @@ char	**get_dstr(t_cmd *cmd)
 	return (exec);
 }
 
-char	**child_vars(void)
+static char	**child_vars(void)
 {
 	char	**backup_env;
 	t_hold	*env;
@@ -87,7 +89,7 @@ char	**child_vars(void)
 	return (backup_env);
 }
 
-void	child(char **exec, char *path, t_2_int a, int *fd)
+static void	child(char **exec, char *path, t_2_int a, int *fd)
 {
 	char	**backup_env;
 
@@ -110,7 +112,7 @@ void	child(char **exec, char *path, t_2_int a, int *fd)
 		close(fd[1]);
 	}
 	execve(path, exec, backup_env);
-	ft_putendl_fd("execve: faillure", 2);
+	ft_putendl_fd(ERR_EXVE, 2);
 	exit(errno);
 }
 
@@ -129,7 +131,7 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 		return (glo_exit = 127, free(exec), 0);
 	pid = fork();
 	if (pid == -1)
-		return (perror("minishell: "), 0);
+		return (perror(SHELL_NAME), 0);
 	if (!pid)
 		child(exec, path, (t_2_int){infile, outfile}, fd);
 	free(exec[0]);

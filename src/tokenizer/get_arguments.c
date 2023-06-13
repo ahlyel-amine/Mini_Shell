@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:21:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 01:00:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	close_quote(t_arguments **arguments, char *line, int i)
 	return (j);
 }
 
-t_arguments	*fill_arguments(t_arguments *arguments, \
+static t_arguments	*fill_arguments(t_arguments *arguments, \
 t_var *var, t_2ptr_int a, char *line)
 {
 	if (var->dquote && line[*(a.i) + *(a.k)] == '\"')
@@ -82,7 +82,7 @@ t_var *var, t_2ptr_int a, char *line)
 	return (arguments);
 }
 
-t_arguments	*get_arguments(char *line, int i)
+static t_arguments	*get_arguments(char *line, int i)
 {
 	t_arguments	*arguments;
 	t_var		var;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/05/27 19:52:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/13 02:52:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char	*is_env_var(char *str)
     t_list  *lst_env;
     size_t  len;
     int size;
+
     hold = set__get_option_variables(0, GET | GET_ENV);
     lst_env = hold->lst;
     len = ft_strlen(str);

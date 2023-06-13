@@ -2,31 +2,28 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "../lib/libft/include/libft.h"
+# include "dictionary.h"
+# include "tree_tools.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <string.h>
+# include <errno.h>
+# include <sys/stat.h>
+# include <limits.h>
+# include <dirent.h>
+
 int	glo_exit;
 int	in_cmd;
 int	out;
 int	Ctrl_c;
 int	is_sig;
 int	is_pipe;
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
-# include "../lib/libft/include/libft.h"
-# include <stdio.h>
-# include  <stdlib.h>
-# include  <fcntl.h>
-# include  <string.h>
-# include <errno.h>
-#include <sys/stat.h>
-# include <limits.h>
-#include <dirent.h>
-# include "dictionary.h"
-// # include "parsing.h"
-// # include "execute.h"
-
-#define ENV 0
-#define EXP 1
 
 typedef struct s_hold{
 	t_list	*lst;
@@ -40,124 +37,8 @@ typedef struct s_globe
 }	t_globe;
 
 t_globe	e_globe;
-typedef struct s_arguments{
-	char				*str;
-	unsigned short		q:1;
-	unsigned short		type:6;
-	struct s_arguments	*down;
-	struct s_arguments	*next;
-}	t_arguments;
 
-typedef struct s_cmd
-{
-	int	type;
-}	t_cmd;
-
-typedef struct s_pipe
-{
-	int		type;
-	t_cmd	*left;
-	t_cmd	*right;
-}	t_pipe;
-
-t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
-void	pipe_destructor(t_cmd *structor);
-
-typedef struct s_subsh
-{
-	int		type;
-	t_cmd	*cmd;
-}	t_subsh;
-t_cmd	*subsh_constructor(t_cmd *cmd);
-void	subsh_destructor(t_cmd *structor);
-
-typedef struct s_and
-{
-	int		type;
-	t_cmd	*left;
-	t_cmd	*right;
-}	t_and;
-
-t_cmd	*and_constructor(t_cmd *left, t_cmd *right);
-void	and_destructor(t_cmd *structor);
-
-typedef struct s_or
-{
-	int		type;
-	t_cmd	*left;
-	t_cmd	*right;
-}	t_or;
-
-t_cmd	*or_constructor(t_cmd *left, t_cmd *right);
-void	or_destructor(t_cmd *structor);
-
-typedef struct s_execcmd
-{
-	int			type;
-	t_arguments	*cmd;
-	t_arguments	*options;
-}	t_execcmd;
-
-t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options);
-void	execcmd_destructor(t_cmd *structor);
-
-typedef struct s_assignement
-{
-	int		type;
-	char	*key;
-	char	*value;
-}	t_assignement;
-
-t_cmd	*assignement_constructor(char *key, char *value);
-void	assignement_destructor(t_cmd *structor);
-
-typedef struct s_builtin
-{
-	int				type;
-	char			*builtin;
-	t_arguments		*arguments;
-	unsigned short	has_option:1;
-}	t_builtin;
-
-t_cmd	*builtin_constructor(char *str, unsigned short has_option, t_arguments *arguments);
-void	builtin_destructor(t_cmd *structor);
-
-typedef struct s_invalid
-{
-	int		type;
-	char	*str;
-}	t_invalid;
-
-t_cmd	*invalid_constructor(char *str);
-void	invalid_destructor(t_cmd *structor);
-
-typedef struct s_redir_content
-{
-	int			type;
-	t_arguments	*file_name;
-	char		*delimiter;
-	int			mode;
-	int			fd;
-}	t_redir_content;
-
-typedef struct s_redir
-{
-	int				type;
-	t_redir_content	red;
-	t_cmd			*cmd;
-}	t_redir;
-
-typedef struct s_two_ptr
-{
-	int	*i;
-	int	*k;
-}	t_2ptr_int;
-
-t_cmd	*redir_constructor(t_cmd *cmd, t_redir_content content);
-void	redir_destructor(t_cmd *structor);
-
-
-void	*set__get_option_variables(t_hold *env, int set__get_option);
+void	*set__get_option_variables(void *env, int set__get_option);
 ////-/__________________________________________________________//
 ///-/                      VAR_EXPENDER                        //
 //-/__________________________________________________________//
@@ -184,13 +65,24 @@ int		valid_id(char *var);
 void	ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
 void		tt_export(t_cmd *cmd);
 
-// #endif
+void		var_expand(t_arguments *arg);
+int			tt_pwd(void);
 
 
-// int	tt_cd(t_cmd *cmd);
-// // void	cd(t_cmd *cmd);
+/*			dont touch this			*/
+void		controll_line(char **line);
+void		read_line(void);
+void		complete_line(char **line, int *brea);
+void		free_line(t_cmd *cmd);
+void		wild_cards(t_arguments **args);
 # include "parsing.h"
+# include "parsing_tools.h"
+# include "executer.h"
+# include "builtin.h"
 # include "execute.h"
+# include "tokenizer.h"
+/*									*/
+
 // void	tilde_expansion(t_arguments *arg);
 // char	*tilde_expansion(char *arg, unsigned short type);
 void	expand_line(t_arguments *arg);

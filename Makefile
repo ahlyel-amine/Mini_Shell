@@ -3,9 +3,10 @@ READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
 #	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/
 SRC =	\
 		\
-		src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/destructors.c src/destructors2.c src/expand_line.c \
-		src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/complete_line.c src/constructors.c src/constructors2.c src/controll_line.c\
+		src/minishell.c src/execute_line.c src/wild_cards.c src/read_line.c src/free_line.c src/expand_line.c \
+		src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/complete_line.c src/controll_line.c\
 		\
+		src/tree_tools/destructors2.c src/tree_tools/destructors.c src/tree_tools/constructors.c src/tree_tools/constructors2.c\
 		\
 		src/parsing_tools/parsing_tools.c src/parsing_tools/parsing_tools2.c \
 		src/parsing_tools/redirections_parser_tools.c src/parsing_tools/redirections_parser_tools2.c src/parsing_tools/redirections_parser_tools3.c src/parsing_tools/redirections_parser_tools4.c\
@@ -13,7 +14,7 @@ SRC =	\
 		\
 		src/parsing/and_parser.c src/parsing/builtins_parser.c src/parsing/cmds_parser.c src/parsing/executable_parser.c src/parsing/or_parser.c \
 		src/parsing/parenthisise_controll.c src/parsing/pipe_parser.c src/parsing/parse_line.c \
-		src/parsing/redirections_parser.c\
+		src/parsing/redirections_parser.c src/parsing/check_parsing.c\
 		src/parsing/redirections_parenthesis_parser.c src/parsing/redirect_before_parenthesis.c src/parsing/redirect_after_parenthesis.c\
 		\
 		\
@@ -41,8 +42,8 @@ NC   = '\e[0m'
 HBLU = '\e[1;94m'
 
 BIN_DIR = bin/
-CFLAGS		=  
-# -fsanitize=address
+CFLAGS		= 
+#   -fsanitize=address
 
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include

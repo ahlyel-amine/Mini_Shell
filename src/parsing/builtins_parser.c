@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:31:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:10:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:38:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	echo_has_option(char *line, int *i)
 	return (has_option);
 }
 
-t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
+static t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
 {
 	t_cmd		*cmd;
 	t_arguments	*args;
@@ -78,7 +78,7 @@ t_cmd	*call_builtin_constructor(char *line, int j, char *builtin)
 	return (cmd);
 }
 
-t_cmd	*search_for_builtin(char *tmp, char *line, int j)
+static t_cmd	*search_for_builtin(char *tmp, char *line, int j)
 {
 	t_cmd	*cmd;
 
