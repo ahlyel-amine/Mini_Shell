@@ -1,0 +1,29 @@
+#ifndef TOKENIZER_H
+# define TOKENIZER_H
+
+# include "minishell.h"
+
+int			close_dquote(t_arguments **arguments, char *line, int i);
+int			close_quote(t_arguments **arguments, char *line, int i);
+void		arguments_destructor(t_arguments **arguments);
+void		arguments_add_back(t_arguments **head, t_arguments *new);
+void		down_to_str(t_arguments *args, char **str, size_t *len);
+void		transform_args(t_arguments **args);
+char		*args_to_str(t_arguments *args);
+char		**args_to_cmd_dstr(t_arguments *args, char *cmd);
+char		**args_to_dblstr(t_arguments *args);
+void		args_join(t_arguments **args);
+void		args_move_down(t_arguments **args, t_arguments **prev);
+void		replace_arg(t_arguments **head, t_arguments **old, t_arguments *new);
+void		merge_arguments(t_arguments **arguments, int is_dquote);
+void		args_join_down(t_arguments **args);
+void		tokenize_variables(t_arguments **arguments);
+size_t		args_len(t_arguments *args);
+size_t		args_strslen(t_arguments *args);
+t_arguments	*ft_split_str_to_args(char *str, int is_dquote);
+t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args);
+t_arguments	*get_argument(char *line, int i);
+t_arguments	*arguments_constructor(t_arguments *arguments, char *str,
+				unsigned short type, unsigned short q);
+
+#endif

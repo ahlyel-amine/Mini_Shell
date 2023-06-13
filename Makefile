@@ -13,7 +13,7 @@ SRC =	\
 		\
 		src/parsing/and_parser.c src/parsing/builtins_parser.c src/parsing/cmds_parser.c src/parsing/executable_parser.c src/parsing/or_parser.c \
 		src/parsing/parenthisise_controll.c src/parsing/pipe_parser.c src/parsing/parse_line.c \
-		src/parsing/redirections_parser.c\
+		src/parsing/redirections_parser.c src/parsing/check_parsing.c\
 		src/parsing/redirections_parenthesis_parser.c src/parsing/redirect_before_parenthesis.c src/parsing/redirect_after_parenthesis.c\
 		\
 		\
@@ -41,8 +41,8 @@ NC   = '\e[0m'
 HBLU = '\e[1;94m'
 
 BIN_DIR = bin/
-CFLAGS		=  
-# -fsanitize=address
+CFLAGS		= 
+#   -fsanitize=address
 
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include

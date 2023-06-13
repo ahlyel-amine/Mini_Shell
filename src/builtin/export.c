@@ -6,11 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/12 23:51:07 by aahlyel          ###   ########.fr       */
-=======
-/*   Updated: 2023/06/12 23:45:39 by aelbrahm         ###   ########.fr       */
->>>>>>> 98bf148fdf8bdc5050e245058aacc86427f06f60
+/*   Updated: 2023/06/13 02:43:58 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +114,10 @@ void    val(char *arg)
 			add_val(arg, 1);       
 	}
 	else
+	{
 		if (is_export_var(arg))
 			add_val(arg, -1);
+	}
 }
 
 int get_operator(char **arg)
