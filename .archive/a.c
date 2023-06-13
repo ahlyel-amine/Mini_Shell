@@ -481,3 +481,72 @@ t_arguments	*skip_spaces_back(t_arguments *args)
 // 	dstr[1] = NULL;
 // 	return (dstr);
 // }
+
+// void	remove_arg(t_arguments **arguments, t_arguments **to_remove)
+// {
+// 	t_arguments	*tmp;
+// 	t_arguments	*rem;
+
+// 	tmp = *arguments;
+// 	while (tmp)
+// 	{
+// 		if (!tmp->next && tmp == *to_remove)
+// 		{
+// 			tmp = NULL;
+// 			break ;
+// 		}
+// 		else if (tmp->next == *to_remove)
+// 		{
+// 			tmp = tmp->next->next;
+// 			break ;
+// 		}
+// 	}
+// 	free ((*to_remove)->str);
+// 	free (*to_remove);
+// 	*to_remove = tmp;
+// }
+
+
+void	print_arguments(t_arguments *args, char *ref)
+{
+	t_arguments	*tmp;
+	t_arguments	*tmp2;
+
+	tmp = args;
+	printf("--------------------arguments_START----%s--------\n", ref);
+	while (tmp)
+	{
+		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE
+			|| tmp->type & IS_SEPARTOR)
+			printf("%d[%s]\n", tmp->type, tmp->str);
+		else
+		{
+			tmp2 = tmp->down;
+			printf("{%d}\n", tmp->type);
+			while (tmp2)
+			{
+				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
+				tmp2 = (tmp2)->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+	printf("--------------------arguments_END------%s----------------\n", ref);
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	t_execcmd	*cmds;
+
+	cmds = (t_execcmd *)cmd;
+	printf("---------cmd----------\n");
+	if (!cmds)
+		return ;
+	if (cmds->cmd)
+		print_arguments(cmds->cmd, "cmd");
+	printf("--------------------------\n");
+	printf("---------options----------\n");
+	if (cmds->options)
+		print_arguments(cmds->options, "option");
+	printf("--------------------------\n");
+}

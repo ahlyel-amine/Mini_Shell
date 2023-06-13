@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:41:27 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 20:16:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:35:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_cmd	*call_or(char **line, int i)
 	return (operator);
 }
 
-void	*or_decide(char **line, int *i, int *doo, t_var var)
+static void	*or_decide(char **line, int *i, int *doo, t_var var)
 {
 	t_cmd	*operator;
 	int		k;
@@ -60,7 +60,7 @@ void	*or_decide(char **line, int *i, int *doo, t_var var)
 	return (operator);
 }
 
-void	*or_loop(char **line, int i, int *quit)
+static void	*or_loop(char **line, int i, int *quit)
 {
 	int		doo;
 	t_var	var;

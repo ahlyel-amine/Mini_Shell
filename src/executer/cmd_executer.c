@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:09:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 03:06:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct s_2_int
 	int	outfile;
 }	t_2_int;
 
-char	*get_path(char *cmd)
+static char	*get_path(char *cmd)
 {
 	char	**path;
 	char	*cmd_path;
@@ -43,7 +43,7 @@ char	*get_path(char *cmd)
 	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
 }
 
-char	**get_dstr(t_cmd *cmd)
+static char	**get_dstr(t_cmd *cmd)
 {
 	char		**exec;
 	t_arguments	*nl;
@@ -64,7 +64,7 @@ char	**get_dstr(t_cmd *cmd)
 	return (exec);
 }
 
-char	**child_vars(void)
+static char	**child_vars(void)
 {
 	char	**backup_env;
 	t_hold	*env;
@@ -87,7 +87,7 @@ char	**child_vars(void)
 	return (backup_env);
 }
 
-void	child(char **exec, char *path, t_2_int a, int *fd)
+static void	child(char **exec, char *path, t_2_int a, int *fd)
 {
 	char	**backup_env;
 
@@ -124,6 +124,9 @@ int	cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 	exec = get_dstr(cmd);
 	if (!exec)
 		return (perror(""), 0);
+	if (!exec[0][0])
+		return (1);
+	printf("[%s]\n", exec[0]);
 	path = get_path(exec[0]);
 	if (!path)
 		return (glo_exit = 127, free(exec), 0);
