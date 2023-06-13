@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:40:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 20:17:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:41:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_cmd	*call_and(char **line, int i)
 	return (operator);
 }
 
-void	*and_loop(char **line, int i, int *quit, t_var var)
+static void	*and_loop(char **line, int i, int *quit, t_var var)
 {
 	int		k;
 	t_cmd	*operator;

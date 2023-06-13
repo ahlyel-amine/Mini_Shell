@@ -6,11 +6,11 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 00:10:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:15:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:12:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_cmd	*invalid_constructor(char *str)
 {

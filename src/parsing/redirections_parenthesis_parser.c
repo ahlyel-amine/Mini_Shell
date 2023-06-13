@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:28:49 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 17:35:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:37:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_redirect_vars
 	int		pr;
 }	t_rv;
 
-void	skip_parenthesis(char **line, int *i, t_var var, int *quit)
+static void	skip_parenthesis(char **line, int *i, t_var var, int *quit)
 {
 	int	k;
 
@@ -37,7 +37,7 @@ void	skip_parenthesis(char **line, int *i, t_var var, int *quit)
 	}
 }
 
-t_cmd	*red_pr_cndts(t_cmd *operator, char **line, \
+static t_cmd	*red_pr_cndts(t_cmd *operator, char **line, \
 t_rv a, int *quit)
 {
 	operator = check_redirect_append(line, a.i, a.var, quit);
@@ -54,7 +54,7 @@ t_rv a, int *quit)
 	return (operator);
 }
 
-int	redirections_parenthesis_loop(char **line, t_var var, t_cmd **operator)
+static int	redirections_parenthesis_loop(char **line, t_var var, t_cmd **operator)
 {
 	int	i;
 	int	quit;
