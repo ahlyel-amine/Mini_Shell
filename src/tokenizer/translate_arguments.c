@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:03:58 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 01:01:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	args_move_next_down(t_arguments **args, t_arguments **prev)
+static void	args_move_next_down(t_arguments **args, t_arguments **prev)
 {
 	t_arguments	*tmp;
 	t_arguments	*down;
@@ -38,7 +38,7 @@ void	args_move_next_down(t_arguments **args, t_arguments **prev)
 	}
 }
 
-void	args_move_prev_down(t_arguments **args, t_arguments **prev)
+static void	args_move_prev_down(t_arguments **args, t_arguments **prev)
 {
 	t_arguments	*tmp;
 	t_arguments	*down;
@@ -56,7 +56,7 @@ void	args_move_prev_down(t_arguments **args, t_arguments **prev)
 	}
 }
 
-void	args_join_next(t_arguments **args)
+static void	args_join_next(t_arguments **args)
 {
 	t_arguments	*tmp;
 	char		*tmp_str;

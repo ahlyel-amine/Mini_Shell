@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:41:57 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 20:13:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:36:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_cmd	*call_pipe(char **line, int i)
 	return (operator);
 }
 
-void	*pipe_loop(char **line, int i, int *quit)
+static void	*pipe_loop(char **line, int i, int *quit)
 {
 	t_cmd	*operator;
 	t_var	var;

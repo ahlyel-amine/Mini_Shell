@@ -6,17 +6,38 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:05:58 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 23:59:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 02:59:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	wait_pipe(int pid)
+static void	wait_pipe(int pid)
 {
 	waitpid(pid, NULL, 0);
 	while (wait(NULL) != -1)
 		;
+}
+
+static int	pipe_part_executer(t_cmd *cmd, int infile, int outfile, int *fd)
+{
+	int	ret;
+
+	ret = 0;
+
+	if (cmd && cmd->type == REDIR)
+		ret = redirect_executer(cmd, infile, outfile, fd);
+	else if (cmd && cmd->type == EXEC)
+		ret = cmd_executer(cmd, infile, outfile, fd);
+	else if (cmd && cmd->type == BUILTIN)
+		ret = builtin_executer(cmd, infile, outfile, fd);
+	else if (cmd && cmd->type == AND)
+		ret = and_executer(cmd, infile, outfile, fd);
+	else if (cmd && cmd->type == OR)
+		ret = or_executer(cmd, infile, outfile, fd);
+	else if (cmd && cmd->type == PIPE)
+		ret = pipe_executer(cmd, infile, outfile, fd);
+	return (ret);
 }
 
 int	pipe_executer(t_cmd *cmd, int infile, int outfile, int *fd)
@@ -25,6 +46,8 @@ int	pipe_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 	int	fds[2];
 	int	fds_info[3];
 
+	if (cmd->type == PIPE)
+		is_pipe = 1;
 	pipe(fds);
 	if (fd && fd[2] == 1)
 		close(fd[0]);
@@ -38,25 +61,5 @@ int	pipe_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 	close(fds[0]);
 	if (!((t_pipe *)cmd)->right || ((t_pipe *)cmd)->right->type != PIPE)
 		wait_pipe(ret);
-	return (ret);
-}
-
-int	pipe_part_executer(t_cmd *cmd, int infile, int outfile, int *fd)
-{
-	int	ret;
-
-	ret = 0;
-	if (cmd && cmd->type == REDIR)
-		ret = redirect_executer(cmd, infile, outfile, fd);
-	else if (cmd && cmd->type == EXEC)
-		ret = cmd_executer(cmd, infile, outfile, fd);
-	else if (cmd && cmd->type == BUILTIN)
-		ret = builtin_executer(cmd, infile, outfile, fd);
-	else if (cmd && cmd->type == AND)
-		ret = and_executer(cmd, infile, outfile, fd);
-	else if (cmd && cmd->type == OR)
-		ret = or_executer(cmd, infile, outfile, fd);
-	else if (cmd && cmd->type == PIPE)
-		ret = pipe_executer(cmd, infile, outfile, fd);
 	return (ret);
 }

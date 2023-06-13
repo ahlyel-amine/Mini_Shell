@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:48:07 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:23:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:58:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_arguments	*space_break(char *str, int *j, int *i)
+static t_arguments	*space_break(char *str, int *j, int *i)
 {
 	t_arguments	*args;
 
@@ -28,7 +28,7 @@ t_arguments	*space_break(char *str, int *j, int *i)
 	return (args);
 }
 
-void	space_break_loop(char *str, int *i, int *j, t_arguments **args)
+static void	space_break_loop(char *str, int *i, int *j, t_arguments **args)
 {
 	t_arguments	*tmp;
 
@@ -44,7 +44,7 @@ void	space_break_loop(char *str, int *i, int *j, t_arguments **args)
 	}
 }
 
-t_arguments	*no_space_break(char *str, int *j, int *i, int is_dquote)
+static t_arguments	*no_space_break(char *str, int *j, int *i, int is_dquote)
 {
 	t_arguments	*args;
 
@@ -62,7 +62,7 @@ t_arguments	*no_space_break(char *str, int *j, int *i, int is_dquote)
 	return (args);
 }
 
-void	no_space_break_loop(char *str, int *i, int *j, t_arguments **args)
+static void	no_space_break_loop(char *str, int *i, int *j, t_arguments **args)
 {
 	t_arguments	*tmp;
 	static int	is_dquote;

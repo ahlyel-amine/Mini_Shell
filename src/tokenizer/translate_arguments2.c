@@ -6,11 +6,28 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:20:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:09:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 01:12:01 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void	replace_arg_first_element(t_arguments **head, \
+t_arguments **old, t_arguments *new, \
+t_arguments *replace_old)
+{
+	t_arguments	*tmp;
+
+	if (*head == (*old))
+	{
+		tmp = (*head)->next;
+		*head = new;
+		while (new->next)
+			new = new->next;
+		new->next = tmp;
+		*old = replace_old;
+	}
+}
 
 void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 {
@@ -35,30 +52,6 @@ void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 		}
 		tmp = tmp->next;
 	}
-}
-
-void	remove_arg(t_arguments **arguments, t_arguments **to_remove)
-{
-	t_arguments	*tmp;
-	t_arguments	*rem;
-
-	tmp = *arguments;
-	while (tmp)
-	{
-		if (!tmp->next && tmp == *to_remove)
-		{
-			tmp = NULL;
-			break ;
-		}
-		else if (tmp->next == *to_remove)
-		{
-			tmp = tmp->next->next;
-			break ;
-		}
-	}
-	free ((*to_remove)->str);
-	free (*to_remove);
-	*to_remove = tmp;
 }
 
 void	merge_arguments(t_arguments **arguments, int is_dquote)

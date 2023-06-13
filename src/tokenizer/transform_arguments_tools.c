@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:03:38 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:06:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 02:55:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void	transform_args(t_arguments **args)
 	wild_cards(args);
 	args_join(args);
 	args_move_down(args, &nl);
+	args_join_down(args);
 }

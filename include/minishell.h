@@ -2,28 +2,27 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "../lib/libft/include/libft.h"
+# include "dictionary.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <string.h>
+# include <errno.h>
+# include <sys/stat.h>
+# include <limits.h>
+# include <dirent.h>
+
 int	glo_exit;
 int	in_cmd;
 int	out;
 int	Ctrl_c;
 int	is_sig;
 int	is_pipe;
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
-# include "../lib/libft/include/libft.h"
-# include <stdio.h>
-# include  <stdlib.h>
-# include  <fcntl.h>
-# include  <string.h>
-# include <errno.h>
-#include <sys/stat.h>
-# include <limits.h>
-#include <dirent.h>
-# include "dictionary.h"
-// # include "parsing.h"
-// # include "execute.h"
 
 #define ENV 0
 #define EXP 1
@@ -40,6 +39,7 @@ typedef struct s_globe
 }	t_globe;
 
 t_globe	e_globe;
+
 typedef struct s_arguments{
 	char				*str;
 	unsigned short		q:1;
@@ -63,13 +63,6 @@ typedef struct s_pipe
 t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right);
 void	pipe_destructor(t_cmd *structor);
 
-typedef struct s_subsh
-{
-	int		type;
-	t_cmd	*cmd;
-}	t_subsh;
-t_cmd	*subsh_constructor(t_cmd *cmd);
-void	subsh_destructor(t_cmd *structor);
 
 typedef struct s_and
 {
@@ -100,16 +93,6 @@ typedef struct s_execcmd
 
 t_cmd	*execcmd_constructor(t_arguments *cmds, t_arguments *options);
 void	execcmd_destructor(t_cmd *structor);
-
-typedef struct s_assignement
-{
-	int		type;
-	char	*key;
-	char	*value;
-}	t_assignement;
-
-t_cmd	*assignement_constructor(char *key, char *value);
-void	assignement_destructor(t_cmd *structor);
 
 typedef struct s_builtin
 {
@@ -183,14 +166,20 @@ int		valid_id(char *var);
 
 void	ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
 void		tt_export(t_cmd *cmd);
-
-// #endif
-
-
-// int	tt_cd(t_cmd *cmd);
-// // void	cd(t_cmd *cmd);
+/*			dont touch this			*/
+void		controll_line(char **line);
+void		read_line(void);
+void		complete_line(char **line, int *brea);
+void		free_line(t_cmd *cmd);
+void		wild_cards(t_arguments **args);
 # include "parsing.h"
+# include "parsing_tools.h"
+# include "executer.h"
+# include "parsingh.h"
 # include "execute.h"
+# include "tokenizer.h"
+/*									*/
+
 // void	tilde_expansion(t_arguments *arg);
 // char	*tilde_expansion(char *arg, unsigned short type);
 void	expand_line(t_arguments *arg);
