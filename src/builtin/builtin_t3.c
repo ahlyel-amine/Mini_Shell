@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 01:08:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 01:08:48 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:27:00 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@ short	is_export_var(char *str)
 	return (1);
 }
 
-void	do_cmp(char	*val, char *lst_cnt, short opt, size_t len)
+void	do_cmp(char	*val, char **lst_cnt, short opt, size_t len)
 {
 	t_hold	*hold;
 
 	hold = set__get_option_variables(0, GET | GET_ENV);
-	if (!*(lst_cnt + len))
+	if (!*(*lst_cnt + len))
 		hold->size++;
 	if (!opt)
 	{
-		free(lst_cnt);
-		lst_cnt = val;
+		free(*lst_cnt);
+		*lst_cnt = val;
 	}
 	else
-		lst_cnt = ft_strjoin_free(lst_cnt, val);
+		*lst_cnt = ft_strjoin_free(*lst_cnt, ft_strdup(val));
 }
