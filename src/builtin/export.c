@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 01:07:50 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:46:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ void    val(char *arg)
 			add_val(arg, 1);       
 	}
 	else
+	{
 		if (is_export_var(arg))
 			add_val(arg, -1);
+	}
 }
 
 int get_operator(char **arg)

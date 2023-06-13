@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 18:12:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:37:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_oper
 	int		pipe;
 }	t_oper;
 
-char	*read_until_chr(char *line, char c, int *brea)
+static char	*read_until_chr(char *line, char c, int *brea)
 {
 	char	*dquote;
 	int		quote_pos;
@@ -28,14 +28,13 @@ char	*read_until_chr(char *line, char c, int *brea)
 	while (1337)
 	{
 		if (c == '\'')
-			dquote = readline("quote> ");
+			dquote = readline(CMPLTQUOTE);
 		else
-			dquote = readline("dquote> ");
+			dquote = readline(CMPLTDQUOTE);
 		if (!dquote)
 		{
-			ft_putstr_fd("unexpected EOF while looking for matching \"\'\n", 2);
-			ft_putstr_fd("minishell: syntax error: unexpected end of file\n",
-				2);
+			ft_putstr_fd(ERR_UNXPTD_EOF, 2);
+			ft_putstr_fd(ERR_FOUND_EOF, 2);
 			*brea = 1;
 			return (line);
 		}
@@ -48,21 +47,21 @@ char	*read_until_chr(char *line, char c, int *brea)
 	return (line);
 }
 
-char	*read_until_oper(char *line, t_oper oper, int *brea)
+static char	*read_until_oper(char *line, t_oper oper, int *brea)
 {
 	char	*operator;
 	int		quote_pos;
 
 	*brea = 0;
 	if (oper.and)
-		operator = readline("andcmd> ");
+		operator = readline(CMDAND);
 	else if (oper.or)
-		operator = readline("orcmd> ");
+		operator = readline(CMDOR);
 	else if (oper.pipe)
-		operator = readline("pipe> ");
+		operator = readline(CMDPIPE);
 	if (!operator)
 	{
-		ft_putstr_fd("minishell: syntax error: unexpected end of file\n", 2);
+		ft_putstr_fd(ERR_FOUND_EOF, 2);
 		*brea = 1;
 		return (line);
 	}
@@ -83,7 +82,7 @@ static int	only_spaces_left(char *line)
 	return (0);
 }
 
-void	get_is_complete(char *line, t_var *q, t_oper *oper)
+static void	get_is_complete(char *line, t_var *q, t_oper *oper)
 {
 	int		i;
 	t_var	var;

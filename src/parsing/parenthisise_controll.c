@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:38:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 20:17:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:42:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*remove_selected_parenthesis(char *line, int i, int j, int k)
+static char	*remove_selected_parenthesis(char *line, int i, int j, int k)
 {
 	char	*tmp;
 
@@ -28,7 +28,7 @@ char	*remove_selected_parenthesis(char *line, int i, int j, int k)
 	return (line);
 }
 
-char	*select_unused_parenthesis(char *line, int i, t_var var, int is_open)
+static char	*select_unused_parenthesis(char *line, int i, t_var var, int is_open)
 {
 	int		j;
 	int		is_closed;

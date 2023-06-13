@@ -6,13 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:27:25 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:56:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 01:12:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_arguments	*check_str(char *str, t_arguments *vars, int *i)
+static t_arguments	*check_str(char *str, t_arguments *vars, int *i)
 {
 	*i = 0;
 	while (str[*i] && (str[*i] != '$' || (str[*i] == '$' && \
@@ -24,7 +24,7 @@ t_arguments	*check_str(char *str, t_arguments *vars, int *i)
 	return (vars);
 }
 
-t_arguments	*get_vars(char *str, t_arguments *vars)
+static t_arguments	*get_vars(char *str, t_arguments *vars)
 {
 	int	i;
 	int	j;
