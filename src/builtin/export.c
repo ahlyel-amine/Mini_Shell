@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 20:28:21 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/14 00:05:04 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,94 @@ int get_operator(char **arg)
 	// sp_free(_arg);
 	return (ret);
 }
+void	print_arguments(t_arguments *args, char *ref)
+{
+	t_arguments	*tmp;
+	t_arguments	*tmp2;
 
+	tmp = args;
+	printf("--------------------arguments_START----%s--------\n", ref);
+	while (tmp)
+	{
+		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE
+			|| tmp->type & IS_SEPARTOR)
+			printf("%d[%s]\n", tmp->type, tmp->str);
+		else
+		{
+			tmp2 = tmp->down;
+			printf("{%d}\n", tmp->type);
+			while (tmp2)
+			{
+				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
+				tmp2 = (tmp2)->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+	printf("--------------------arguments_END------%s----------------\n", ref);
+}
+size_t	args_len_(t_arguments *args)
+{
+	t_arguments	*tmp;
+	t_arguments	*d_tmp;
+	size_t		len;
+
+	len = 0;
+	tmp = args;
+	while (tmp)
+	{
+		if (tmp->type & QUOTE || tmp->type & DQUOTE)
+			len++;
+		else if (!tmp->next || tmp->type & IS_SEPARTOR)
+			len++;
+		tmp = tmp->next;
+	}
+	return (len);
+}
+
+char	**args_to_dblstr_(t_arguments *args)
+{
+	t_arguments	*tmp;
+	char		**str;
+	char		*tst;
+	size_t		len;
+
+	tmp = args;
+	len = args_len_(args);
+	if (!len)
+		return (NULL);
+	str = ft_calloc(sizeof(char *), len + 1);
+	len = 0;
+	while (tmp)
+	{
+		tst = ft_strdup("");
+		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE)
+		{
+			puts("2");
+			if ((tmp->type & IS_VARIABLE) && !*tmp->str)
+			{
+				free(tst);
+				tmp = tmp->next;
+				continue;
+			}
+			while (tmp && tmp->type != IS_SEPARTOR)
+			{
+				tst = ft_strjoin_free(tst, ft_strdup(tmp->str));
+				tmp = tmp->next;
+			}
+			str[len++] = tst;
+		}
+		else if ((tmp->type & QUOTE || tmp->type & DQUOTE))
+		{
+			puts("1");
+			str[len++] = args_to_str(tmp->down);
+			tmp = tmp->next;
+		}
+		else
+			tmp = tmp->next;
+	}
+	return (str);
+}
 void    tt_export(t_cmd *cmd)
 {
 	char        **args;
@@ -116,7 +203,7 @@ void    tt_export(t_cmd *cmd)
 	ret = 0;
 	export = (t_builtin *)cmd;
 	transform_args(&export->arguments);
-	args = args_to_dblstr(export->arguments);
+	args = args_to_dblstr_(export->arguments);
 	hold = set__get_option_variables(0, GET | GET_ENV);
 	if (!args || !*args)
 	{
