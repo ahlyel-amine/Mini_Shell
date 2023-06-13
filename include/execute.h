@@ -17,29 +17,30 @@ int     	stat_check(char *path);
 int			d_point_pwd(char *path, char *pwd);
 void		reset_env(char *pwd, char *o_pwd);
 int			go_to_oldpwd(char *cwd, char *path);
-short	valid_var(char *var);
+short       valid_var(char *var);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
-int		tt_pwd();
-void	tt_echo(t_cmd *cmd);
-void	tt_cd(t_cmd *cmd);
-void	tt_unset(t_cmd *cmd);
-void	tt_exit(t_cmd *cmd);
-void	tt_env(t_cmd *cmd);
+int		    tt_pwd();
+void	    tt_echo(t_cmd *cmd);
+void	    tt_cd(t_cmd *cmd);
+void	    tt_unset(t_cmd *cmd);
+void	    tt_exit(t_cmd *cmd);
+void	    tt_env(t_cmd *cmd);
 ////-/__________________________________________________________//-|
 ///-/                        tt_cd_tools                       //--|
 //-/__________________________________________________________//---|
-int     stat_check(char *path);
-void    reset_env(char *pwd, char *o_pwd);
-char    *extend_option(char *arg, char *ex_with, int opt);
-char    *get_prev_path(char *path);
-int ft_go_to(int opt, char *path, char *cwd);
-int     prev_drictory_count(char *wd);
+int         stat_check(char *path);
+void        reset_env(char *pwd, char *o_pwd);
+char        *extend_option(char *arg, char *ex_with, int opt);
+char        *get_prev_path(char *path);
+int         ft_go_to(int opt, char *path, char *cwd);
+int         prev_drictory_count(char *wd);
 ////-/__________________________________________________________//-|
 ///-/                           SIGNALS                        //--|
 //-/__________________________________________________________//---|
-void	sig_handl();
-void	sig_exec_init(void);
-void	sig_here();
+void	    sig_handl();
+void	    sig_exec_init(void);
+void	    sig_here();
+
 #endif

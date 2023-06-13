@@ -6,11 +6,11 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:33:29 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:11:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:12:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_cmd	*pipe_constructor(t_cmd *left, t_cmd *right)
 {
