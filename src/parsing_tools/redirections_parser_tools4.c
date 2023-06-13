@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:05:51 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 03:08:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 14:49:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*get_herdoc_name(void)
 {
 	static int	call;
 
-	return (ft_strjoin_free(ft_strdup("/tmp/.heredoc_"), ft_itoa(call++)));
+	return (ft_strjoin_free(ft_strdup(HERDOC_FILE), ft_itoa(call++)));
 }
 
 static int	read_heredoc_inside_loop(char **line, t_redir_content *red, int fd)

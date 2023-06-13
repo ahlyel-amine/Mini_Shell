@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/02 04:56:19 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:27:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ static char	**set_path(t_hold *env, char **old_path)
 // 	free (old_pwd);
 // 	return (pwd);
 // }
+
 char	*set_pwd(char *o_pwd)
 {
 	char	*pwd;
@@ -172,16 +173,16 @@ void	free_env(char **env)
 	free(env);
 }
 
-void	*set__get_option_variables(t_hold *env, int set__get_option)
+void	*set__get_option_variables(void *env, int set__get_option)
 {
 	static char	**path;
-	static char	**envs;
+	static void	*envs;
 	static char	*home_dir;
 	static char	*pwd;
 
 	if (set__get_option == SET)
 	{
-		envs = (char **)env;
+		envs = env;
 		path = set_path((t_hold *)envs, path);
 		home_dir = set_homedir((t_hold *)envs, home_dir);
 	}
