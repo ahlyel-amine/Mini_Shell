@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/08 16:47:41 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:40:41 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,10 @@ void	sig_handl()
 
 void	handle_exec_sig(int sig)
 {
-	
 	if (sig == SIGINT)
-	{
 		glo_exit = 130;
-		
-		// write(2, "\n", 1);
-	}
 	else if (sig == SIGQUIT)
-	{
 		glo_exit = 131;
-		
-	}
-	// printf("\n");
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
-	// rl_redisplay();
 }
 
 void	sig_exec_init(void)

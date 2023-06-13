@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:41:20 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 00:22:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:38:55 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t))
 	{
 		cur = lst;
 		lst = lst->next;
-		if (!sort_lst || ((*cmp)(cur->content, sort_lst->content, ft_strlen(cur->content))) < 0)
+		if (!sort_lst || ((*cmp)(cur->content, \
+		sort_lst->content, ft_strlen(cur->content))) < 0)
 		{
 			cur->next = sort_lst;
 			sort_lst = cur;
@@ -46,13 +47,14 @@ t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t))
 		else
 		{
 			tmp = sort_lst;
-			while (tmp->next && ((*cmp)(cur->content, tmp->next->content, ft_strlen(cur->content))) > 0)
+			while (tmp->next && ((*cmp)(cur->content, \
+			tmp->next->content, ft_strlen(cur->content))) > 0)
 				tmp = tmp->next;
 			cur->next = tmp->next;
-			tmp->next = cur;    
+			tmp->next = cur;
 		}
 	}
-	return sort_lst;
+	return (sort_lst);
 }
 
 void	env_exp_print(t_list *sort_lst, int (*print)(const char*, ...))
@@ -73,11 +75,9 @@ char	**env_vars(t_hold *env)
 	char	**_env;
 	int		size;
 
-
 	size = env->size;
 	tmp = env->lst;
-
-	_env = (char **)malloc((size * sizeof(char*)) + 1);
+	_env = (char **)malloc((size * sizeof(char *)) + 1);
 	if (env)
 	{
 		while (size--)

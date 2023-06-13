@@ -6,15 +6,16 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/11 21:37:57 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/13 01:21:18 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-short	valid_ExecVal(char *val)
+short	valid_execval(char *val)
 {
 	short	idex;
+
 	idex = 0;
 	while (val[idex] && ft_isdigit(val[idex]))
 		idex++;
@@ -27,7 +28,7 @@ short	valid_ExecVal(char *val)
 void	exit_var_err(char *str)
 {
 	ft_putstr_fd("Minishell: exit: ", STDERR_FILENO);
-	ft_putstr_fd(str , STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 }
 
@@ -45,7 +46,7 @@ unsigned char	exit_val(char *str)
 	if (*str == 0x2d || *str == 0x2b)
 		if (*(str++) == 0x2d)
 			sign = -1;
-	if (!valid_ExecVal(str))
+	if (!valid_execval(str))
 		return (exit_val(hold), 255);
 	while (*str)
 		res = res * 0xA + (*(str++) - 0x30);
@@ -54,23 +55,24 @@ unsigned char	exit_val(char *str)
 	else if (res > (9223372036854775808UL) && sign < 0)
 		return (exit_val(hold), 255);
 	else
-		return ((unsigned char)(res) * sign);
+		return (((unsigned char)(res) * sign));
 }
 
-void	ft_atexit(int val, t_cmd *cmd)
-{
-	ft_putendl_fd("exit", 2);	
-	set__get_option_variables(0, FREE);
-	builtin_destructor(cmd);
-	glo_exit = val;
-	exit(val);
-}
+// void	ft_atexit(int val, t_cmd *cmd)
+// {
+// 	ft_putendl_fd("exit", 2);	
+// 	set__get_option_variables(0, FREE);
+// 	builtin_destructor(cmd);
+// 	glo_exit = val;
+// 	exit(val);
+// }
 
 void	tt_exit(t_cmd *cmd)
 {
 	t_builtin	*_exit;
 	char		**args;
 	int			val;
+
 	val = 0;
 	_exit = (t_builtin *)cmd;
 	transform_args(&_exit->arguments);
