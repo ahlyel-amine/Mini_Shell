@@ -3,45 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/12 23:51:07 by aahlyel          ###   ########.fr       */
-=======
-/*   Updated: 2023/06/12 23:45:39 by aelbrahm         ###   ########.fr       */
->>>>>>> 98bf148fdf8bdc5050e245058aacc86427f06f60
+/*   Updated: 2023/06/13 01:07:50 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-short	is_export_var(char *str)
-{
-	t_hold	*hold;
-	t_list	*lst_env;
-	size_t	len;
-	int		size;
-
-	hold = set__get_option_variables(0, GET | GET_ENV);
-	lst_env = hold->lst;
-	len = ft_strlen(str);
-	size = hold->size;
-	while (size--)
-	{
-		if (!ft_strncmp(str, lst_env->content, len) \
-		&& *((char *)lst_env->content + len) == '=')
-			return (0);
-		lst_env = lst_env->next;
-	}
-	while (lst_env)
-	{
-		if (!ft_strncmp(str, lst_env->content, ft_strlen(lst_env->content)))
-			return (0);
-		lst_env = lst_env->next;
-	}
-	return (1);
-}
 
 short	re_env_var(char *str, char *val, int opt)
 {
@@ -57,26 +26,16 @@ short	re_env_var(char *str, char *val, int opt)
 		if (!ft_strncmp(str, lst_tmp->content, len) \
 		&& (*((char *)lst_tmp->content + len) == '=' || \
 		!*((char *)lst_tmp->content + len)) && !opt)
-		{
-			if (!*((char *)lst_tmp->content + len))
-				hold->size++;
-			free(lst_tmp->content);
-			lst_tmp->content = val;
-			return (free(str), 1);
-		}
+			return (do_cmp(val, (char *)lst_tmp->content, opt, len), free(str), 1);
 		else if (!ft_strncmp(str, lst_tmp->content, len) \
 		&& (*((char *)lst_tmp->content + len) == '=' \
-		|| !*((char *)lst_tmp->content + len)) && opt)
-		{
-			if (!*((char *)lst_tmp->content + len))
-				hold->size++;
-			lst_tmp->content = ft_strjoin_free(lst_tmp->content, val);
-			return (free(str), 1);
-		}
+		|| !*((char *)lst_tmp->content + len)) && opt)	
+			return (do_cmp(val, (char *)lst_tmp->content, opt, len), free(str), 1);
 		lst_tmp = lst_tmp->next;
 	}
 	return (free(str), free(val), 0);
 }
+
 void	add_val(char *arg, short opt)
 {
 	t_hold	*env;
@@ -96,6 +55,7 @@ void	add_val(char *arg, short opt)
 		ft_lstadd_back(&env->lst, ft_lstnew(ft_strdup(arg)));
 }
 
+
 void    val(char *arg)
 {
 	t_hold  *env;
@@ -114,7 +74,8 @@ void    val(char *arg)
 	}
 	else if (append)
 	{
-		if(!(re_env_var(ft_substr(arg, 0, ((append) - arg)), ft_substr(arg, (append - arg) + 2, (len - 1) - (append - arg)), 1)))
+		if(!(re_env_var(ft_substr(arg, 0, ((append) - arg)), \
+		ft_substr(arg, (append - arg) + 2, (len - 1) - (append - arg)), 1)))
 			add_val(arg, 1);       
 	}
 	else

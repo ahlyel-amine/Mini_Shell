@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:53:40 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/06 12:42:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 01:14:48 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void    env_print(t_list *lst, int lst_size,void (*print)(char*, int))
+static void	env_print(t_list *lst, int lst_size, void (*print)(char*, int))
 {
-    t_list  *tmp;
-    int     size;
+	t_list	*tmp;
+	int		size;
 
-    size = lst_size;
-    tmp = lst;
-    while (tmp && size--)
-    {
-        (*print)(tmp->content, out);
-        tmp = tmp->next;
-    }
+	size = lst_size;
+	tmp = lst;
+	while (tmp && size--)
+	{
+		(*print)(tmp->content, out);
+		tmp = tmp->next;
+	}
 }
 
 void	tt_env(t_cmd *cmd)
 {
-	char	**args;
-	t_hold	*env;
-	t_list	*lst;
+	char		**args;
+	t_hold		*env;
+	t_list		*lst;
 	t_builtin	*env_;
-	
+
 	env_ = (t_builtin *)cmd;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
