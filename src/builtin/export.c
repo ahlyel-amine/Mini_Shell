@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 15:46:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/13 20:28:21 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ short	re_env_var(char *str, char *val, int opt)
 		if (!ft_strncmp(str, lst_tmp->content, len) \
 		&& (*((char *)lst_tmp->content + len) == '=' || \
 		!*((char *)lst_tmp->content + len)) && !opt)
-			return (do_cmp(val, (char *)lst_tmp->content, opt, len), free(str), 1);
+			return (do_cmp(val, (char **)(&lst_tmp->content), opt, len), free(str), 1);
 		else if (!ft_strncmp(str, lst_tmp->content, len) \
 		&& (*((char *)lst_tmp->content + len) == '=' \
 		|| !*((char *)lst_tmp->content + len)) && opt)	
-			return (do_cmp(val, (char *)lst_tmp->content, opt, len), free(str), 1);
+			return (do_cmp(val, (char **)(&lst_tmp->content), opt, len), free(str), 1);
 		lst_tmp = lst_tmp->next;
 	}
 	return (free(str), free(val), 0);
@@ -79,10 +79,8 @@ void    val(char *arg)
 			add_val(arg, 1);       
 	}
 	else
-	{
 		if (is_export_var(arg))
 			add_val(arg, -1);
-	}
 }
 
 int get_operator(char **arg)
