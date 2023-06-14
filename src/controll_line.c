@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/14 21:01:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 23:00:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,16 +226,26 @@ void	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 
 void	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
-	t_lsttoken *head = front;
-	int			current_len = 0;
-	t_lsttoken *prev = front;
-	int			in = 0;
+	t_lsttoken *head;
+	t_lsttoken *prev;
+	int			in;
+	int			pid;
+
+	in = 0;
+	head = front;
+	prev = front;
 	while (head != back)
 	{
 		if (head->t_.type == E_P_OPEN)
 		{
 			in = 1;
-			a_and(head->t_.down, ft_lstokenlast(head->t_.down), comp);
+			pid = fork();
+			if (!pid)
+			{
+				a_and(head->t_.down, ft_lstokenlast(head->t_.down), comp);
+			}
+			else
+				waitpid(pid, NULL, 0);
 		}
 		prev = head;
 		head = head->next;
@@ -244,38 +254,27 @@ void	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		a_exec(front, back, comp);
 }
 
-char	*skip_quote_heredoc_delimiters(char *line, int j, int i)
-{
-	int		k;
-	char	*tmp;
-	t_var	var;
-
-	ft_memset(&var, 0, sizeof(t_var));
-	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
-	k = 0;
-	*q = 0;
-	if (line[i] == '$' && (line[i + 1] == '\'' || line[i + 1] == '\"'))
-		i++;
-	while (line[i])
-	{
-		check_out_of_quotes(line[i], &var);
-		if (var.dquote || var.quote)
-			*q = 1;
-		if (skip_quote_heredoc_delimiter_conditions(line, &tmp, \
-		(t_2ptr_int){&i, &k}, var))
-			break ;
-		i++;
-	}
-	*j = i;
-	return (tmp);
-}
-
 t_components get_red(t_lsttoken *redir, t_components comp)
 {
+	int		q;
+	char	*delimiter;
+
 	if (redir->t_.type == E_HEREDOC)
 	{
-		
+		delimiter = skip_quote_heredoc_delimiters(redir->t_.down->t_.line + redir->t_.down->t_.start, redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len, &q);
+		comp.infile = read_heredocs(delimiter, q);
 	}
+	else
+	{
+		delimiter = get_filename(redir->t_.down->t_.line + redir->t_.down->t_.start, redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len);
+		if (redir->t_.type == E_INRED)
+			comp.infile = open(delimiter, O_RDONLY);
+		else if (redir->t_.type == E_APPEND)
+			comp.infile = open(delimiter, O_CREAT | O_APPEND | O_WRONLY, 0644);
+		else if (redir->t_.type == E_OUTRED)
+			comp.infile = open(delimiter, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	}
+	return (free(delimiter), comp);
 }
 
 void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
@@ -290,7 +289,7 @@ void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		{
 			in = 1;
 			t_components tmp = get_red(head, comp);
-			a_subsh(front, prev, comp);
+			a_subsh(front, prev, tmp);
 			a_red(head->next, back, comp);
 		}
 		prev = head;

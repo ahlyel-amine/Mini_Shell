@@ -3,6 +3,19 @@
 
 # include "minishell.h"
 
+
+
+
+
+char	*skip_quote_heredoc_delimiters(char *line, char *end_line, int *q);
+int	read_heredocs(char *delimiter, int q);
+char	*get_filename(char *line, char *endline);
+
+
+
+
+
+
 int     check_parsing(t_cmd *cmd);
 t_cmd	*parse_line(char *line);
 t_cmd	*and_parser(char *line);

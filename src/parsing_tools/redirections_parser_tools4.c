@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:05:51 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 14:49:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 22:44:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,49 @@ static void	read_heredoc(t_redir_content *red, t_arguments *args)
 	free(red->delimiter);
 	red->delimiter = name;
 	close(fd);
+}
+
+static int	read_heredoc_inside_loops(char **line, char *delimiter, int fd, int q)
+{
+	if (!strncmp(*line, delimiter, ft_strlen(delimiter) + 1))
+	{
+		free(*line);
+		return (1);
+	}
+	if (!q)
+		*line = data_analyse(*line);
+	write(fd, *line, ft_strlen(*line));
+	write(fd, "\n", 1);
+	free(*line);
+	*line = readline(HERDOC);
+	return (0);
+}
+
+int	read_heredocs(char *delimiter, int q)
+{
+	char	*name;
+	char	*line;
+	int		fd;
+
+	in_cmd = 1;
+	sig_here();
+	name = get_herdoc_name();
+	fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (fd < 0)
+		return (pr_custom_err(ERR_FILE, name, name), -1);
+	line = readline(HERDOC);
+	while (line && !Ctrl_c)
+	{
+		if (read_heredoc_inside_loops(&line, delimiter, fd, q))
+			break ;
+	}
+	// Ctrl_c = 0;
+	in_cmd = 0;
+	close(fd);
+	fd = open(name, O_RDONLY, 0644);
+	if (fd < 0)
+		return (pr_custom_err(ERR_FILE, name, name), -1);
+	return (free(name), fd);
 }
 
 int	get_name(char *line, t_redir_content *red, int type)
