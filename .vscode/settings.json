@@ -36,7 +36,12 @@
 		"parsing_tools.h": "c",
 		"tree_tools.h": "c",
 		"signal.h": "c",
-		"builtin.h": "c"
+		"builtin.h": "c",
+		"stdbool.h": "c",
+		"__split_buffer": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
