@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:54:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 22:53:40 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,38 @@ t_arguments	*get_names(char *line, int *i)
 	merge_arguments(&arguments, 0);
 	tokenize_variables(&arguments);
 	return (arguments);
+}
+
+char	*get_filename(char *line, char *endline)
+{
+	t_arguments	*arguments;
+	t_var		var;
+	int			j;
+	int			i;
+
+	ft_memset(&var, 0, sizeof(t_var));
+	arguments = NULL;
+	j = 0;
+	i = 0;
+	while (line[i + j] && line + i + j != endline)
+	{
+		check_out_of_quotes(line[i + j], &var);
+		arguments = fill_arguments(arguments, &var, (t_2ptr_int){&i, &j}, line);
+		if (j == -1)
+		{
+			j = 0;
+			continue ;
+		}
+		else if (j == -2)
+			break ;
+		j++;
+	}
+	if (j)
+		arguments = fill_last_argument(arguments, line, &i, j);
+	merge_arguments(&arguments, 0);
+	tokenize_variables(&arguments);
+	transform_args(&arguments);
+	char *ret = args_to_str(arguments);
+	arguments_destructor(&arguments);
+	return (ret);
 }
