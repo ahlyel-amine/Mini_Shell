@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_tools.c                                    :+:      :+:    :+:   */
+/*   parsing_tools2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 19:58:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 18:46:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 void	panic_recursive(char *error, char **ptr)
 {
 	ft_putstr_fd(error, STDERR_FILENO);
-	free (*ptr);
-	*ptr = NULL;
+	// free (*ptr);
+	// *ptr = NULL;
 }
