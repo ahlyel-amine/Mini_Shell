@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/14 18:49:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 21:01:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ typedef struct s_token
 	int			len;
 	t_lsttoken	*down;
 }	t_token;
+
+typedef struct s_components
+{
+	int	infile;
+	int	outfile;
+	int is_pipe:1;
+	int	fd[2];
+}	t_components;
 
 struct s_lsttoken
 {
@@ -43,6 +51,9 @@ typedef enum e_token
 	E_INRED,
 	E_APPEND,
 	E_STR,
+	E_SPACE,
+	E_FD_NAME,
+	E_EMPTY
 }	enum_token;
 
 t_lsttoken	*new_token(t_token t_)
@@ -87,7 +98,7 @@ void	ft_lstokenadd_back(t_lsttoken **lst, t_lsttoken *new, int *len)
 	}
 }
 
-t_lsttoken	*a_parse(char *line, int *len)
+t_lsttoken	*tokenize(char *line, int *len)
 {
 	t_lsttoken	*new = NULL;
 	int i = 0, j;
@@ -99,7 +110,7 @@ t_lsttoken	*a_parse(char *line, int *len)
 			j = close_parenthise(line + i + 1);
 			if (j == -1)
 				return (panic_recursive(ERR_UNCLSDP, NULL), NULL);
-			ft_lstokenadd_back(&new, new_token((t_token){E_P_OPEN, line, i + 1, j, NULL}), len);
+			ft_lstokenadd_back(&new, new_token((t_token){E_P_OPEN, line, i + 1, j - 1, NULL}), len);
 			i += j + 1;
 			continue;
 		}
@@ -167,9 +178,16 @@ t_lsttoken	*a_parse(char *line, int *len)
 		}
 		else
 		{
-			while (line[i + j] && line[i + j] != '<' && line[i + j] != '>' && line[i + j] != '|' && line[i + j] != '&' && line[i + j] != '\'' && line[i + j] != '\"' && line[i + j] != ')' && line[i + j] != '(')
+			while (line[i + j] && line[i + j] != '<' && line[i + j] != '>' && line[i + j] != '|' && line[i + j] != '&' && line[i + j] != '\'' && line[i + j] != '\"' && line[i + j] != ')' && line[i + j] != '(' && line[i + j] != ' ')
 				j++;
-			ft_lstokenadd_back(&new, new_token((t_token){E_STR, line, i, j, NULL}), len);
+			if (j)
+				ft_lstokenadd_back(&new, new_token((t_token){E_STR, line, i, j, NULL}), len);
+			i += j;
+			j = 0;
+			while (line[i + j] == ' ')
+				j++;
+			if (j)
+				ft_lstokenadd_back(&new, new_token((t_token){E_SPACE, 0, 0, 0, NULL}), len);
 			i += j;
 			while (line[i] == ')')
 				i++;
@@ -177,9 +195,9 @@ t_lsttoken	*a_parse(char *line, int *len)
 	}
 	return (new);
 }
-void	a_and(t_lsttoken *front, t_lsttoken *back);
+void	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp);
 
-void	a_exec(t_lsttoken *front, t_lsttoken *back)
+void	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			current_len = 0;
@@ -187,6 +205,7 @@ void	a_exec(t_lsttoken *front, t_lsttoken *back)
 	printf("---------^START^----------\n");
 	while (head != back)
 	{
+		if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
 		printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
 		// if (head->t_.type == E_AND)
 		// {
@@ -197,14 +216,15 @@ void	a_exec(t_lsttoken *front, t_lsttoken *back)
 	}
 	if (head == back)
 	{
+		if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
 		printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
 	}
 	printf("---------^END^----------\n");
 	// if (!in)
-	// 	a_exec(front, back);
+	// 	a_exec(front, back, comp);
 }
 
-void	a_subsh(t_lsttoken *front, t_lsttoken *back)
+void	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			current_len = 0;
@@ -215,16 +235,50 @@ void	a_subsh(t_lsttoken *front, t_lsttoken *back)
 		if (head->t_.type == E_P_OPEN)
 		{
 			in = 1;
-			a_and(head->t_.down, ft_lstokenlast(head->t_.down));
+			a_and(head->t_.down, ft_lstokenlast(head->t_.down), comp);
 		}
 		prev = head;
 		head = head->next;
 	}
 	if (!in)
-		a_exec(front, back);
+		a_exec(front, back, comp);
 }
 
-void	a_red(t_lsttoken *front, t_lsttoken *back)
+char	*skip_quote_heredoc_delimiters(char *line, int j, int i)
+{
+	int		k;
+	char	*tmp;
+	t_var	var;
+
+	ft_memset(&var, 0, sizeof(t_var));
+	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
+	k = 0;
+	*q = 0;
+	if (line[i] == '$' && (line[i + 1] == '\'' || line[i + 1] == '\"'))
+		i++;
+	while (line[i])
+	{
+		check_out_of_quotes(line[i], &var);
+		if (var.dquote || var.quote)
+			*q = 1;
+		if (skip_quote_heredoc_delimiter_conditions(line, &tmp, \
+		(t_2ptr_int){&i, &k}, var))
+			break ;
+		i++;
+	}
+	*j = i;
+	return (tmp);
+}
+
+t_components get_red(t_lsttoken *redir, t_components comp)
+{
+	if (redir->t_.type == E_HEREDOC)
+	{
+		
+	}
+}
+
+void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			in = 0;
@@ -235,17 +289,18 @@ void	a_red(t_lsttoken *front, t_lsttoken *back)
 		if (head->t_.type == E_OUTRED || head->t_.type == E_INRED || head->t_.type == E_APPEND || head->t_.type == E_HEREDOC)
 		{
 			in = 1;
-			a_subsh(front, prev);
-			a_red(head->next, back);
+			t_components tmp = get_red(head, comp);
+			a_subsh(front, prev, comp);
+			a_red(head->next, back, comp);
 		}
 		prev = head;
 		head = head->next;
 	}
 	if (!in)
-		a_subsh(front, back);
+		a_subsh(front, back, comp);
 }
 
-void	a_pipe(t_lsttoken *front, t_lsttoken *back)
+void	a_pipe(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			in = 0;
@@ -255,17 +310,21 @@ void	a_pipe(t_lsttoken *front, t_lsttoken *back)
 		if (head->t_.type == E_PIPE)
 		{
 			in = 1;
-			a_red(front, prev);
-			a_pipe(head->next, back);
+			int fd[2];
+			pipe(fd);
+			a_red(front, prev, (t_components){comp.infile, fd[1], 1,  fd});
+			close(fd[1]);
+			a_pipe(head->next, back, (t_components){fd[0], comp.outfile, 1, fd});
+			close(fd[0]);
 		}
 		prev = head;
 		head = head->next;
 	}
 	if (!in)
-		a_red(front, back);
+		a_red(front, back, comp);
 }
 
-void	a_or(t_lsttoken *front, t_lsttoken *back)
+void	a_or(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			in = 0;
@@ -276,17 +335,20 @@ void	a_or(t_lsttoken *front, t_lsttoken *back)
 		if (head->t_.type == E_OR)
 		{
 			in = 1;
-			a_pipe(front, prev);
-			a_or(head->next, back);
+			a_pipe(front, prev, comp);
+			if (glo_exit != 0)
+				a_or(head->next, back, comp);
+			else
+				break ;
 		}
 		prev = head;
 		head = head->next;
 	}
 	if (!in)
-		a_pipe(front, back);
+		a_pipe(front, back, comp);
 }
 
-void	a_and(t_lsttoken *front, t_lsttoken *back)
+void	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	t_lsttoken *prev = front;
@@ -297,15 +359,19 @@ void	a_and(t_lsttoken *front, t_lsttoken *back)
 		if (head->t_.type == E_AND)
 		{
 			in = 1;
-			a_or(front, prev);
-			a_and(head->next, back);
+			a_or(front, prev, comp);
+			if (glo_exit == 0)
+				a_and(head->next, back, comp);
+			else
+				break ;
 		}
 		prev = head;
 		head = head->next;
 	}
 	if (!in)
-		a_or(front, back);
+		a_or(front, back, comp);
 }
+
 int	a_check(t_lsttoken	*new)
 {
 	if (!new)
@@ -319,8 +385,13 @@ int	a_check(t_lsttoken	*new)
 	{
 		if (check->t_.type == E_OUTRED || check->t_.type == E_INRED || check->t_.type == E_APPEND || check->t_.type == E_HEREDOC)
 		{
-			if (!check->next || check->next->t_.type != E_STR)
+			if (!check->next)
 				return (panic_recursive(ERR_O_SNTX, NULL), 0);
+			else if (check->next && check->next->next && check->next->t_.type == E_SPACE && check->next->next->t_.type != E_STR && check->next->next->t_.type != E_QUOTE && check->next->next->t_.type != E_DQUOTE)
+				return (panic_recursive(ERR_O_SNTX, NULL), 0);
+			else if (check->next && check->next->t_.type != E_SPACE && check->next->t_.type != E_STR  && check->next->t_.type != E_QUOTE && check->next->t_.type != E_DQUOTE)
+				return (panic_recursive(ERR_O_SNTX, NULL), 0);
+			
 		}
 		else if (check->t_.type == E_AND && (check->next->t_.type == E_OR || check->next->t_.type == E_PIPE))
 				return (panic_recursive(ERR_O_SNTX, NULL), 0);
@@ -330,8 +401,64 @@ int	a_check(t_lsttoken	*new)
 				return (panic_recursive(ERR_O_SNTX, NULL), 0);
 		check = check->next;
 	}
+	check = new;
+	t_lsttoken	*check_2;
+	while (check)
+	{
+		if (check->t_.type == E_OUTRED || check->t_.type == E_INRED || check->t_.type == E_APPEND || check->t_.type == E_HEREDOC)
+		{
+			check_2 = check->next;
+			while (check_2)
+			{
+				if (check_2->t_.type == E_PIPE || check_2->t_.type == E_AND || check_2->t_.type == E_OR || check_2->t_.type == E_OUTRED || check_2->t_.type == E_INRED || check_2->t_.type == E_APPEND || check_2->t_.type == E_HEREDOC)
+					break ;
+				else if (check_2->t_.type == E_P_OPEN)
+					return (panic_recursive(ERR_O_SNTX, NULL), 0);
+				check_2 = check_2->next;
+			}
+		}
+		check = check->next;
+	}
 	return (1);
 }
+
+void	get_fds(t_lsttoken	*fds)
+{
+	t_lsttoken	*head;
+	t_lsttoken	*tmp;
+	int			start;
+	int			end;
+
+	head = fds;
+	while (head)
+	{
+		if (head->t_.type == E_OUTRED || head->t_.type == E_INRED || head->t_.type == E_APPEND || head->t_.type == E_HEREDOC)
+		{
+			tmp = head->next;
+			if (tmp->t_.type == E_SPACE)
+			{
+				tmp->t_.type = E_EMPTY;
+				tmp = tmp->next;
+			}
+			start = tmp->t_.start;
+			end = 0;
+			while (tmp)
+			{
+				if (tmp->t_.type == E_STR || tmp->t_.type == E_DQUOTE || tmp->t_.type == E_QUOTE)
+				{
+					tmp->t_.type = E_EMPTY;
+					end += tmp->t_.len;
+				}
+				else
+					break ;
+				tmp = tmp->next;
+			}
+			head->t_.down = new_token((t_token){E_FD_NAME, head->t_.line, start, end, NULL});
+		}
+		head = head->next;
+	}
+}
+
 void	controll_line(char **line)
 {
 	t_cmd	*cmd;
@@ -343,7 +470,7 @@ void	controll_line(char **line)
 	if (stop)
 		return ;
 	int len;
-	t_lsttoken	*new = a_parse(*line, &len);
+	t_lsttoken	*new = tokenize(*line, &len);
 	if (!a_check(new))
 		return ;
 	t_lsttoken	*subs = new;
@@ -351,25 +478,49 @@ void	controll_line(char **line)
 	{
 		if (subs->t_.type == E_P_OPEN)
 		{
-			t_lsttoken	*pop = a_parse(ft_substr(subs->t_.line, subs->t_.start, subs->t_.len), &len);
+			t_lsttoken	*pop = tokenize(ft_substr(subs->t_.line, subs->t_.start, subs->t_.len), &len);
 			if (!a_check(pop))
 				return ;
 			subs->t_.down = pop;
 		}
 		subs = subs->next;
 	}
-	a_and(new, ft_lstokenlast(new));
+	get_fds(new);
+	// get_fds(new);
+	a_and(new, ft_lstokenlast(new), (t_components){STDIN_FILENO, STDOUT_FILENO, 0, NULL});
 	// while (new)
 	// {
-		// printf("[%d][%s]\n", new->t_.type, ft_substr(new->t_.line, new->t_.start, new->t_.len));
-		// new = new->next;
+	// 	if (new->t_.type != E_SPACE && new->t_.type != E_EMPTY)
+	// 	{
+	// 		if (new->t_.down)
+	// 		{
+	// 			if (new->t_.type != E_P_OPEN)
+	// 			printf("[%d][%s]\n", new->t_.type, ft_substr(new->t_.line, new->t_.start, new->t_.len));
+	// 			printf("-----down_start------\n");
+	// 			t_lsttoken	*tmp = new->t_.down;
+	// 			while (tmp)
+	// 			{
+	// 				if (tmp->t_.type != E_SPACE && tmp->t_.type != E_EMPTY)
+	// 					printf("[%d][%s]\n", tmp->t_.type, ft_substr(tmp->t_.line, tmp->t_.start, tmp->t_.len));
+	// 				else if (tmp->t_.type == E_SPACE)
+	// 					printf("[%d][ ]\n", tmp->t_.type);
+	// 				tmp = tmp->next;
+	// 			}
+	// 			printf("-----down_end------\n");
+	// 		}
+	// 		else
+	// 			printf("[%d][%s]\n", new->t_.type, ft_substr(new->t_.line, new->t_.start, new->t_.len));
+	// 	}
+	// 	else if (new->t_.type == E_SPACE)
+	// 		printf("[%d][ ]\n", new->t_.type);
+	// 	new = new->next;
 	// }
-	exit(1);
-	if (line && *line)
-		cmd = parse_line(*line);
-	if (cmd && !check_parsing(cmd))
-		;
-	else if (cmd)
-		execute_line(cmd);
-	free_line(cmd);
+	exit(1);	
+	// if (line && *line)
+	// 	cmd = parse_line(*line);
+	// if (cmd && !check_parsing(cmd))
+	// 	;
+	// else if (cmd)
+	// 	execute_line(cmd);
+	// free_line(cmd);
 }
