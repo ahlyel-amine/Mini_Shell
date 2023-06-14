@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 03:06:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 16:28:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_hold	*env_dup(t_hold *env_var, char **env)
 int	main(int ac, char **av, char **env)
 {
 	t_hold	*env_var;
-	atexit(fun);
+	// atexit(fun);
 	(void)ac;
 	(void)av;
 	env_var = NULL;
