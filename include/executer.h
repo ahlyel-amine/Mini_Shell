@@ -12,4 +12,8 @@ int		or_executer(t_cmd *cmd, int infile, int outfile, int *fd);
 int		pipe_executer(t_cmd *cmd, int infile, int outfile, int *fd);
 int		redirect_executer(t_cmd *cmd, int infile, int outfile, int *fd);
 
+
+
+char	**child_vars(void);
+
 #endif
