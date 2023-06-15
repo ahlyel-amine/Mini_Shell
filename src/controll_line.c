@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/15 01:13:56 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/15 02:58:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_components
 {
 	int	infile;
 	int	outfile;
-	int is_pipe:2;
+	unsigned int is_pipe:1;
 	int	*fd;
 }	t_components;
 
@@ -346,17 +346,23 @@ void	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	int			current_len = 0;
 	int			i = 0, in = 0;
 
+
 	size_t len = get_lenght(front, back);
 	char *line = get_line(front, back, len);
 	i = skip_spaces_front(line);
 	while (line[i + in] && line[i + in] != ' ')
 		in++;
+	printf("[%s]is[%d]in[%d]out[%d]\n", line, comp.is_pipe, comp.infile, comp.outfile);
 	char *cmd = ft_substr(line, i, in);
 	
 	if (!is_builtin(cmd))
 	{
 		cmd_executers(get_path(cmd), ft_split(line, ' '), comp);
 	}
+	// else
+	// {
+		
+	// }
 	// while (head != back)
 	// {
 	// 	if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
@@ -461,27 +467,32 @@ void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 void	a_pipe(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
-	int fd[2];
 	int			in = 0;
 	t_lsttoken *prev = front;
+
+
 	while (head != back)
 	{
 		if (head->t_.type == E_PIPE)
 		{
+			// is_pipe = 1;
+
 			in = 1;
+			int fd[2];
 			pipe(fd);
-			a_red(front, prev, (t_components){comp.infile, fd[1], 1, fd});
+			a_exec(front, prev, (t_components){comp.infile, fd[1], 1, fd});
+			if (comp.fd != NULL)
+				close(comp.fd[0]);
 			close(fd[1]);
 			a_pipe(head->next, back, (t_components){fd[0], comp.outfile, 1, fd});
 			close(fd[0]);
-			if (!pipes_left)
 			break;
 		}
 		prev = head;
 		head = head->next;
 	}
 	if (!in)
-		a_red(front, back, comp);
+		a_exec(front, back, comp);
 }
 
 void	a_or(t_lsttoken *front, t_lsttoken *back, t_components comp)
