@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:53:40 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 01:14:48 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:04:32 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	tt_env(t_cmd *cmd)
 	env_ = (t_builtin *)cmd;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
-	args = args_to_dblstr(env_->arguments);
+	args = args_to_dblstr_(env_->arguments);
 	if (!args)
 		env_print(lst, env->size, ft_putendl_fd);
 	else if (args && *args)

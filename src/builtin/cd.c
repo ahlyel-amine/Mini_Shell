@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/12 23:50:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 00:20:31 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int		d_point_extend(char  *path, char *cwd)
 		{
 			pwd = ft_strjoin_free(pwd, ft_strdup(path));
 			reset_env(pwd, get_owd("PWD="));
-			return (free(pwd), printf("cd: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno)), 1);
+			return (free(pwd), printf("cd: error retrieving current directory: \
+			getcwd: cannot access parent directories: %s\n", strerror(errno)), 1);
 		}
 	}
 	else if (cwd)
