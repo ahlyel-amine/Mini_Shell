@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 14:47:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/14 23:24:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	**get_dstr(t_cmd *cmd)
 	return (exec);
 }
 
-static char	**child_vars(void)
+char	**child_vars(void)
 {
 	char	**backup_env;
 	t_hold	*env;

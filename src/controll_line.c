@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/14 23:00:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/15 01:13:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef struct s_components
 {
 	int	infile;
 	int	outfile;
-	int is_pipe:1;
-	int	fd[2];
+	int is_pipe:2;
+	int	*fd;
 }	t_components;
 
 struct s_lsttoken
@@ -197,33 +197,189 @@ t_lsttoken	*tokenize(char *line, int *len)
 }
 void	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp);
 
+size_t	get_lenght(t_lsttoken *front, t_lsttoken *back)
+{
+	t_lsttoken *head;
+	size_t		len;
+	
+	head = front;
+	len = 0;
+	while (head)
+	{
+		if (head->t_.type == E_AND || head->t_.type == E_OR || head->t_.type == E_PIPE)
+			break ;
+		else if (head->t_.type == E_SPACE)
+			len++;
+		else if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
+			len += head->t_.len;
+		head = head->next;
+	}
+	return (len);
+}
+
+char	*get_line(t_lsttoken *front, t_lsttoken *back, size_t len)
+{
+	t_lsttoken *head;
+	char		*line;
+	size_t		i;
+	size_t		j;
+	
+	i = 0;
+	head = front;
+	line = ft_calloc(1, len + 1);
+	if (!line)
+		return (NULL);
+	while (head)
+	{
+		if (head->t_.type == E_AND || head->t_.type == E_OR || head->t_.type == E_PIPE)
+			break ;
+		else if (head->t_.type == E_SPACE)
+			line[i++] = ' ';
+		else if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
+		{
+			j = 0;			
+			while (head->t_.start + j < head->t_.start + head->t_.len)
+				line[i++] = head->t_.line[head->t_.start + j++];
+		}
+		head = head->next;
+	}
+	return (line);
+}
+
+int	is_builtin(char *word)
+{
+	if (!ft_strncmp(word, "cd", 3))
+		return (1);
+	else if (!ft_strncmp(word, "echo", 5))
+		return (1);
+	else if (!ft_strncmp(word, "env", 4))
+		return (1);
+	else if (!ft_strncmp(word, "exit", 5))
+		return (1);
+	else if (!ft_strncmp(word, "export", 7))
+		return (1);
+	else if (!ft_strncmp(word, "pwd", 4))
+		return (1);
+	else if (!ft_strncmp(word, "unset", 6))
+		return (1);
+	return (0);
+}
+
+char	*get_path(char *cmd)
+{
+	char	**path;
+	char	*cmd_path;
+	char	*tmp_to_free;
+	int		i;
+
+	i = 0;
+	if (cmd == NULL)
+		return (NULL);
+	if (!*cmd)
+		return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
+	if (!access(cmd, F_OK | X_OK))
+		return (ft_strdup(cmd));
+	path = (char **)set__get_option_variables(0, GET | GET_PATH);
+	while (path && path[i])
+	{
+		tmp_to_free = ft_strjoin(path[i], "/");
+		tmp_to_free = ft_strjoin_free(tmp_to_free, ft_strdup(cmd));
+		if (!access(tmp_to_free, F_OK | X_OK))
+			return (free(cmd), tmp_to_free);
+		free(tmp_to_free);
+		i++;
+	}
+	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
+}
+
+void	child(char **exec, char *path, t_components comp)
+{
+	char	**backup_env;
+
+	backup_env = child_vars();
+	if (comp.infile != STDIN_FILENO)
+	{
+		dup2(comp.infile, STDIN_FILENO);
+		if (comp.is_pipe == 0)
+			close(comp.infile);
+	}
+	if (comp.outfile != STDOUT_FILENO)
+	{
+		dup2(comp.outfile, STDOUT_FILENO);
+		if (comp.is_pipe == 0)
+			close(comp.outfile);
+	}
+	if (comp.is_pipe != 0)
+	{
+		close(comp.fd[0]);
+		close(comp.fd[1]);
+	}
+	execve(path, exec, backup_env);
+	ft_putendl_fd(ERR_EXVE, 2);
+	exit(errno);
+}
+
+void	cmd_executers(char *path, char **cmd, t_components comp)
+{
+	int status;
+
+	if (!path)
+		return (sp_free(cmd));
+	else if (!cmd)
+		return (free(path));
+	int pid = fork();
+	if (pid == -1)
+		return (perror(SHELL_NAME));
+	if (!pid)
+		child(cmd, path, comp);
+	if (comp.is_pipe != 0)
+		return ;
+	if (waitpid(pid, &status, 0) == -1)
+		return (free(path));
+	if (cmd_sig_check(path, status))
+		return ;
+}
+
 void	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			current_len = 0;
-	int			in = 0;
-	printf("---------^START^----------\n");
-	while (head != back)
+	int			i = 0, in = 0;
+
+	size_t len = get_lenght(front, back);
+	char *line = get_line(front, back, len);
+	i = skip_spaces_front(line);
+	while (line[i + in] && line[i + in] != ' ')
+		in++;
+	char *cmd = ft_substr(line, i, in);
+	
+	if (!is_builtin(cmd))
 	{
-		if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
-		printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
-		// if (head->t_.type == E_AND)
-		// {
-		// 	in = 1;
-		// 	a_subsh(front, prev);
-		// }
-		head = head->next;
+		cmd_executers(get_path(cmd), ft_split(line, ' '), comp);
 	}
-	if (head == back)
-	{
-		if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
-		printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
-	}
-	printf("---------^END^----------\n");
+	// while (head != back)
+	// {
+	// 	if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
+	// 	printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
+	// 	// if (head->t_.type == E_AND)
+	// 	// {
+	// 	// 	in = 1;
+	// 	// 	a_subsh(front, prev);
+	// 	// }
+	// 	head = head->next;
+	// }
+	// if (head == back)
+	// {
+	// 	if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
+	// 	printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
+	// }
+	// printf("---------^END^----------\n");
 	// if (!in)
 	// 	a_exec(front, back, comp);
 }
 
+
+	
 void	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head;
@@ -246,6 +402,7 @@ void	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 			}
 			else
 				waitpid(pid, NULL, 0);
+			break ;
 		}
 		prev = head;
 		head = head->next;
@@ -270,9 +427,9 @@ t_components get_red(t_lsttoken *redir, t_components comp)
 		if (redir->t_.type == E_INRED)
 			comp.infile = open(delimiter, O_RDONLY);
 		else if (redir->t_.type == E_APPEND)
-			comp.infile = open(delimiter, O_CREAT | O_APPEND | O_WRONLY, 0644);
+			comp.outfile = open(delimiter, O_CREAT | O_APPEND | O_WRONLY, 0644);
 		else if (redir->t_.type == E_OUTRED)
-			comp.infile = open(delimiter, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+			comp.outfile = open(delimiter, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	}
 	return (free(delimiter), comp);
 }
@@ -289,8 +446,10 @@ void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		{
 			in = 1;
 			t_components tmp = get_red(head, comp);
-			a_subsh(front, prev, tmp);
-			a_red(head->next, back, comp);
+			
+			head->t_.type = E_EMPTY;			
+			a_red(front, back, tmp);
+			break ;
 		}
 		prev = head;
 		head = head->next;
@@ -302,6 +461,7 @@ void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 void	a_pipe(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
+	int fd[2];
 	int			in = 0;
 	t_lsttoken *prev = front;
 	while (head != back)
@@ -309,12 +469,13 @@ void	a_pipe(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		if (head->t_.type == E_PIPE)
 		{
 			in = 1;
-			int fd[2];
 			pipe(fd);
-			a_red(front, prev, (t_components){comp.infile, fd[1], 1,  fd});
+			a_red(front, prev, (t_components){comp.infile, fd[1], 1, fd});
 			close(fd[1]);
 			a_pipe(head->next, back, (t_components){fd[0], comp.outfile, 1, fd});
 			close(fd[0]);
+			if (!pipes_left)
+			break;
 		}
 		prev = head;
 		head = head->next;
@@ -337,8 +498,7 @@ void	a_or(t_lsttoken *front, t_lsttoken *back, t_components comp)
 			a_pipe(front, prev, comp);
 			if (glo_exit != 0)
 				a_or(head->next, back, comp);
-			else
-				break ;
+			break;
 		}
 		prev = head;
 		head = head->next;
@@ -361,8 +521,7 @@ void	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp)
 			a_or(front, prev, comp);
 			if (glo_exit == 0)
 				a_and(head->next, back, comp);
-			else
-				break ;
+			break ;
 		}
 		prev = head;
 		head = head->next;
