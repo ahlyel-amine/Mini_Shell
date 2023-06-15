@@ -27,7 +27,7 @@ SRC =	\
 		\
 		\
 		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c\
-		src/builtin/tt_cd_tools.c src/builtin/builtin_t2.c\
+		src/builtin/tt_cd_tools.c src/builtin/builtin_t2.c src/builtin/builtin_t3.c\
 
 HEADERS = include/minishell.h  include/dictionary.h  include/parsing.h  include/execute.h
 
