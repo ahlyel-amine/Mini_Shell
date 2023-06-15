@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 01:21:18 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:03:34 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	tt_exit(t_cmd *cmd)
 	val = 0;
 	_exit = (t_builtin *)cmd;
 	transform_args(&_exit->arguments);
-	args = args_to_dblstr(_exit->arguments);
+	args = args_to_dblstr_(_exit->arguments);
 	while (args && args[val])
 		val++;
 	if (val > 1)
