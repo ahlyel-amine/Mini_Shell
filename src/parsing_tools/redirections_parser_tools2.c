@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/14 22:53:40 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/15 03:54:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,30 @@ t_arguments	*get_names(char *line, int *i)
 	tokenize_variables(&arguments);
 	return (arguments);
 }
+ t_arguments	*transform_args_fd_name(t_arguments **args)
+{
+	char		*str;
+	t_arguments	*nl;
 
+	nl = NULL;
+	expand_line(*args);
+	args_join(args);
+	args_move_down(args, &nl);
+	str = args_to_str(*args);
+	if (ft_strchr(str, '*'))
+	{
+		nl = *args;
+		while (nl->next)
+			nl = nl->next;
+		nl->next = arguments_constructor(NULL, str, IS_STR, 0);
+		wild_cards(&nl->next);
+		if (nl->next->next)
+			return (ft_putstr_fd(ERR_AMBGIS, 2), NULL);
+		return (nl->next);
+	}
+	else
+		return (free (str), *args);
+}
 char	*get_filename(char *line, char *endline)
 {
 	t_arguments	*arguments;
@@ -111,8 +134,11 @@ char	*get_filename(char *line, char *endline)
 		arguments = fill_last_argument(arguments, line, &i, j);
 	merge_arguments(&arguments, 0);
 	tokenize_variables(&arguments);
-	transform_args(&arguments);
+	arguments = transform_args_fd_name(&arguments);
+	if (!arguments)
+		return NULL;
 	char *ret = args_to_str(arguments);
 	arguments_destructor(&arguments);
+	printf("%s\n", ret);
 	return (ret);
 }

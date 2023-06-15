@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/15 02:58:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/15 03:54:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,8 @@ t_lsttoken	*tokenize(char *line, int *len)
 	}
 	return (new);
 }
-void	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp);
+int	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp);
+
 
 size_t	get_lenght(t_lsttoken *front, t_lsttoken *back)
 {
@@ -319,28 +320,29 @@ void	child(char **exec, char *path, t_components comp)
 	exit(errno);
 }
 
-void	cmd_executers(char *path, char **cmd, t_components comp)
+int	cmd_executers(char *path, char **cmd, t_components comp)
 {
 	int status;
 
 	if (!path)
-		return (sp_free(cmd));
+		return (sp_free(cmd), 0);
 	else if (!cmd)
-		return (free(path));
+		return (free(path), 0);
 	int pid = fork();
 	if (pid == -1)
-		return (perror(SHELL_NAME));
+		return (perror(SHELL_NAME), 0);
 	if (!pid)
 		child(cmd, path, comp);
 	if (comp.is_pipe != 0)
-		return ;
+		return (pid);
 	if (waitpid(pid, &status, 0) == -1)
-		return (free(path));
+		return (free(path), 0);
 	if (cmd_sig_check(path, status))
-		return ;
+		return 0;
+	return -1;
 }
 
-void	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			current_len = 0;
@@ -352,13 +354,15 @@ void	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	i = skip_spaces_front(line);
 	while (line[i + in] && line[i + in] != ' ')
 		in++;
-	printf("[%s]is[%d]in[%d]out[%d]\n", line, comp.is_pipe, comp.infile, comp.outfile);
+	// printf("[%s]is[%d]in[%d]out[%d]\n", line, comp.is_pipe, comp.infile, comp.outfile);
 	char *cmd = ft_substr(line, i, in);
 	
 	if (!is_builtin(cmd))
 	{
-		cmd_executers(get_path(cmd), ft_split(line, ' '), comp);
+		return cmd_executers(get_path(cmd), ft_split(line, ' '), comp);
 	}
+	else
+	return (-1);
 	// else
 	// {
 		
@@ -386,7 +390,7 @@ void	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 
 
 	
-void	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head;
 	t_lsttoken *prev;
@@ -414,7 +418,8 @@ void	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		a_exec(front, back, comp);
+		return a_exec(front, back, comp);
+	return (-1);
 }
 
 t_components get_red(t_lsttoken *redir, t_components comp)
@@ -430,6 +435,8 @@ t_components get_red(t_lsttoken *redir, t_components comp)
 	else
 	{
 		delimiter = get_filename(redir->t_.down->t_.line + redir->t_.down->t_.start, redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len);
+		if (!delimiter)
+			return ((t_components){-1, -1, 0, NULL});
 		if (redir->t_.type == E_INRED)
 			comp.infile = open(delimiter, O_RDONLY);
 		else if (redir->t_.type == E_APPEND)
@@ -440,7 +447,7 @@ t_components get_red(t_lsttoken *redir, t_components comp)
 	return (free(delimiter), comp);
 }
 
-void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			in = 0;
@@ -452,7 +459,8 @@ void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		{
 			in = 1;
 			t_components tmp = get_red(head, comp);
-			
+			if (tmp.infile == -1 && tmp.outfile == -1 && tmp.is_pipe == 0 && !tmp.fd)
+				return (0);
 			head->t_.type = E_EMPTY;			
 			a_red(front, back, tmp);
 			break ;
@@ -461,16 +469,29 @@ void	a_red(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		a_subsh(front, back, comp);
+		return a_subsh(front, back, comp);
+	return (-1);
 }
 
-void	a_pipe(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int pipe_left(t_lsttoken *head, t_lsttoken *back)
+{
+	t_lsttoken *tmp = head;
+	while (tmp && tmp != back)
+	{
+		if (tmp->t_.type == E_PIPE)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	a_pipe(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			in = 0;
 	t_lsttoken *prev = front;
 
-
+	
 	while (head != back)
 	{
 		if (head->t_.type == E_PIPE)
@@ -479,23 +500,31 @@ void	a_pipe(t_lsttoken *front, t_lsttoken *back, t_components comp)
 
 			in = 1;
 			int fd[2];
+			int pid;
 			pipe(fd);
-			a_exec(front, prev, (t_components){comp.infile, fd[1], 1, fd});
 			if (comp.fd != NULL)
 				close(comp.fd[0]);
+			pid = a_red(front, prev, (t_components){comp.infile, fd[1], 1, fd});
 			close(fd[1]);
-			a_pipe(head->next, back, (t_components){fd[0], comp.outfile, 1, fd});
+			pid = a_pipe(head->next, back, (t_components){fd[0], comp.outfile, 1, fd});
 			close(fd[0]);
+			if (comp.is_pipe && !pipe_left(head->next, back))
+			{
+				waitpid(pid, NULL, 0);
+				while (wait(NULL) != -1)
+					;
+			}
 			break;
 		}
 		prev = head;
 		head = head->next;
 	}
 	if (!in)
-		a_exec(front, back, comp);
+		return a_red(front, back, comp);
+	return (-1);
 }
 
-void	a_or(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int	a_or(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	int			in = 0;
@@ -515,10 +544,11 @@ void	a_or(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		a_pipe(front, back, comp);
+	return	a_pipe(front, back, comp);
+	return (-1);
 }
 
-void	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head = front;
 	t_lsttoken *prev = front;
@@ -538,7 +568,8 @@ void	a_and(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		a_or(front, back, comp);
+		return a_or(front, back, comp);
+	return (-1);
 }
 
 int	a_check(t_lsttoken	*new)
@@ -684,7 +715,7 @@ void	controll_line(char **line)
 	// 		printf("[%d][ ]\n", new->t_.type);
 	// 	new = new->next;
 	// }
-	exit(1);	
+	// exit(1);	
 	// if (line && *line)
 	// 	cmd = parse_line(*line);
 	// if (cmd && !check_parsing(cmd))
