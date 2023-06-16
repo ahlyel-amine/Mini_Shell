@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:32:35 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 00:21:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 04:35:55 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*app_dup(char *arg)
 		iter++;
 		arg++;
 	}
+	buf[iter] = '\0';
 	return (buf);
 }
 
@@ -72,4 +73,29 @@ char	*ft_strndup(const char *s, size_t n)
 		*(dst++) = *(s++);
 	*dst = '\0';
 	return (ret);
+}
+void	adjust_shlvl(t_hold *env)
+{
+	t_list	*lst;
+	int		num;
+	short	flg;
+
+	flg = 0;
+	lst = env->lst;
+	while (lst)
+	{
+		if (!ft_memcmp(lst->content, "SHLVL=", 6))
+		{
+			num = ft_atoi((lst->content + 6));
+			free(lst->content);
+			lst->content = ft_strjoin_free(ft_strdup("SHLVL="), ft_itoa(++num));
+			flg = 1;
+		}
+		lst = lst->next;
+	}
+	if (!flg)
+	{
+		ft_lstadd_back(&(env->lst), ft_lstnew(ft_strdup("SHLVL=1")));
+		env->size++;
+	}	
 }
