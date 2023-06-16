@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:55:40 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 19:35:34 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 21:05:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_redirections_followed_by_subsh(t_lsttoken *new)
 	while (check)
 	{
 		if (check->t_.type == E_OUTRED || check->t_.type == E_INRED || \
-		check->t_.type == E_APPEND || check->t_.type == E_HEREDOC)
+		check->t_.type == E_APPEND || check->t_.type == E_HEREDOC || check->t_.type == E_STR)
 		{
 			check_2 = check->next;
 			while (check_2)

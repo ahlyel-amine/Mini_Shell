@@ -8,6 +8,7 @@ SRC =	\
 		\
 		\
 		src/executer/builtin_executer.c  src/executer/cmd_signals.c  src/executer/priorities_call.c src/executer/priorities_call_tools.c\
+		src/executer/priorities_call_helper.c\
 		\
 		\
 		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c\
