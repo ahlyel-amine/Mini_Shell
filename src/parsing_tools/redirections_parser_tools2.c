@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/15 03:54:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 19:36:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,5 @@ char	*get_filename(char *line, char *endline)
 		return NULL;
 	char *ret = args_to_str(arguments);
 	arguments_destructor(&arguments);
-	printf("%s\n", ret);
 	return (ret);
 }
