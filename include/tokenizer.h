@@ -3,6 +3,64 @@
 
 # include "minishell.h"
 
+typedef struct s_lsttoken t_lsttoken;
+
+typedef struct s_token
+{
+	int			type;
+	char		*line;
+	int			start;
+	int			len;
+	t_lsttoken	*down;
+}	t_token;
+
+typedef struct s_components
+{
+	int	infile;
+	int	outfile;
+	unsigned int is_pipe:1;
+	int	*fd;
+}	t_components;
+
+struct s_lsttoken
+{
+	t_token				t_;
+	struct s_lsttoken	*next;
+};
+
+typedef enum e_token
+{
+	E_SUBSH,
+	E_DQUOTE,
+	E_QUOTE,
+	E_AND,
+	E_OR,
+	E_PIPE,
+	E_HEREDOC,
+	E_OUTRED,
+	E_INRED,
+	E_APPEND,
+	E_STR,
+	E_SPACE,
+	E_FD_NAME,
+	E_EMPTY
+}	enum_token;
+
+
+
+
+t_lsttoken	*tokenize(char *line);
+int	a_check(t_lsttoken	*new);
+t_lsttoken	*new_token(t_token t_);
+t_lsttoken	*ft_lstokenlast(t_lsttoken *lst);
+void	ft_lstokenadd_back(t_lsttoken **lst, t_lsttoken *new);
+t_lsttoken	*check_tokenize(t_lsttoken *new);
+
+
+
+
+
+
 int			close_dquote(t_arguments **arguments, char *line, int i);
 int			close_quote(t_arguments **arguments, char *line, int i);
 void		arguments_destructor(t_arguments **arguments);

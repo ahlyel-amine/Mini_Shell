@@ -14,6 +14,7 @@ int		redirect_executer(t_cmd *cmd, int infile, int outfile, int *fd);
 
 
 
+int	builtin_execiter(t_arguments *args, char *cmd, int outfile);
 char	**child_vars(void);
 
 #endif

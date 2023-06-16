@@ -26,6 +26,9 @@ SRC =	\
 		src/tokenizer/translate_arguments.c src/tokenizer/translate_arguments2.c src/tokenizer/transform_arguments.c src/tokenizer/transform_arguments_tools.c\
 		\
 		\
+		src/tokenize/tokenizer.c src/tokenize/tokenize_checker.c\
+		\
+		\
 		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c\
 		src/builtin/tt_cd_tools.c src/builtin/builtin_t2.c src/builtin/builtin_t3.c\
 

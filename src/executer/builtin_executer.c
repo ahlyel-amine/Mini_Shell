@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/15 03:29:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 17:51:04 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,25 @@ int	builtin_executer(t_cmd *cmd, int infile, int outfile, int *fd)
 	if (!glo_exit)
 		return (1);
 	return (0);
+}
+
+int	builtin_execiter(t_arguments *args, char *cmd, int outfile)
+{
+	exit(1);
+	if (!ft_memcmp(cmd, "cd", 2))
+		tt_cd((t_cmd *)args);
+	else if (!ft_memcmp(cmd, "echo", 4))
+		tt_echo((t_cmd *)args);
+	else if (!ft_memcmp(cmd, "env", 3))
+		tt_env((t_cmd *)args);
+	else if (!ft_memcmp(cmd, "exit", 4))
+		tt_exit((t_cmd *)args);
+	else if (!ft_memcmp(cmd, "export", 6))
+		tt_export((t_cmd *)args);
+	else if (!ft_memcmp(cmd, "pwd", 3))
+		tt_pwd();
+	else if (!ft_memcmp(cmd, "unset", 5))
+		tt_unset((t_cmd *)args);
+	else 
+		return (-1);
 }
