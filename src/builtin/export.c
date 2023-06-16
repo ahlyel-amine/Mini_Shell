@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/15 20:50:59 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/16 04:31:02 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ short	re_env_var(char *str, char *val, int opt)
 	while (lst_tmp)
 	{
 		if (!ft_strncmp(str, lst_tmp->content, len) \
-		&& (*((char *)lst_tmp->content + len) == '=' || \
-		!*((char *)lst_tmp->content + len)) && !opt)
-			return (do_cmp(val, (char **)(&lst_tmp->content), opt, len), free(str), free(val), 1);	
+				&& (*((char *)lst_tmp->content + len) == '=' || \
+					!*((char *)lst_tmp->content + len)) && !opt)
+			return (do_cmp(val, (char **)(&lst_tmp->content), \
+			opt, len), free(str), free(val), 1);
 		else if (!ft_strncmp(str, lst_tmp->content, len) \
-		&& (*((char *)lst_tmp->content + len) == '=' \
-		|| !*((char *)lst_tmp->content + len)) && opt)		
-			return (do_cmp(val, (char **)(&lst_tmp->content), opt, len), free(str), free(val), 1);	
+				&& (*((char *)lst_tmp->content + len) == '=' \
+				|| !*((char *)lst_tmp->content + len)) && opt)
+			return (do_cmp(val, (char **)(&lst_tmp->content), \
+			opt, len), free(str), free(val), 1);
 		lst_tmp = lst_tmp->next;
 	}
 	return (free(str), free(val), 0);
@@ -55,40 +57,40 @@ void	add_val(char *arg, short opt)
 		ft_lstadd_back(&env->lst, ft_lstnew(ft_strdup(arg)));
 }
 
-
-void    val(char *arg)
+void	val(char *arg)
 {
-	t_hold  *env;
-	char    *append;
-	char    *replace;
-	size_t  len;
+	t_hold	*env;
+	char	*append;
+	char	*replace;
+	size_t	len;
 
 	len = ft_strlen(arg);
 	append = ft_memchr(arg, '+', len);
 	replace = ft_memchr(arg, '=', len);
-	printf("[-- %p --]\n", replace);
 	env = set__get_option_variables(0, GET | GET_ENV);
 	if (!append && replace)
 	{
-		if(!(re_env_var(ft_substr(arg, 0, (replace - arg)), ft_strdup(arg), 0)))
-			add_val(arg, 0);   
+		if (!(re_env_var(ft_substr(arg, 0, \
+		(replace - arg)), ft_strdup(arg), 0)))
+			add_val(arg, 0);
 	}
 	else if (append)
 	{
-		if(!(re_env_var(ft_substr(arg, 0, ((append) - arg)), \
+		if (!(re_env_var(ft_substr(arg, 0, ((append) - arg)), \
 		ft_substr(arg, (append - arg) + 2, (len - 1) - (append - arg)), 1)))
-			add_val(arg, 1);       
+			add_val(arg, 1);
 	}
 	else
 		if (is_export_var(arg))
 			add_val(arg, -1);
 }
 
-int get_operator(char **arg)
+int	get_operator(char **arg)
 {
-	char    **_arg;
-	int iter;
-	int ret;
+	char	**_arg;
+	int		iter;
+	int		ret;
+
 	iter = -1;
 	ret = 0;
 	_arg = arg;
@@ -96,49 +98,24 @@ int get_operator(char **arg)
 	{
 		if (valid_id(_arg[iter]))
 		{
-			printf("minishell: export: '%s': not a valid identifier\n", _arg[iter]);
-			ret = 1; 
-			continue;
+			printf("minishell: export: '%s': not a valid identifier\n", \
+			_arg[iter]);
+			ret = 1;
+			continue ;
 		}
 		val(_arg[iter]);
 	}
 	sp_free(arg);
 	return (ret);
 }
-void	print_arguments(t_arguments *args, char *ref)
-{
-	t_arguments	*tmp;
-	t_arguments	*tmp2;
 
-	tmp = args;
-	printf("--------------------arguments_START----%s--------\n", ref);
-	while (tmp)
-	{
-		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE
-			|| tmp->type & IS_SEPARTOR)
-			printf("%d[%s]\n", tmp->type, tmp->str);
-		else
-		{
-			tmp2 = tmp->down;
-			printf("{%d}\n", tmp->type);
-			while (tmp2)
-			{
-				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
-				tmp2 = (tmp2)->next;
-			}
-		}
-		tmp = tmp->next;
-	}
-	printf("--------------------arguments_END------%s----------------\n", ref);
-}
-
-void    tt_export(t_cmd *cmd)
+void	tt_export(t_cmd *cmd)
 {
-	char        **args;
-	t_builtin   *export;
-	t_hold      *hold;
-	t_list      *lst_tmp;
-	int         ret;
+	char		**args;
+	t_builtin	*export;
+	t_hold		*hold;
+	t_list		*lst_tmp;
+	int			ret;
 
 	ret = 0;
 	export = (t_builtin *)cmd;
@@ -153,12 +130,6 @@ void    tt_export(t_cmd *cmd)
 		ft_lstclear(&lst_tmp, free);
 	}
 	else
-	{
 		ret = get_operator(args);
-		// int i = 0;
-		// while (args && args[i])
-		// 	printf("[-- %s ---]\n",args[i++]);
-		// sp_free(args);
-	}
 	glo_exit = ret;
 }
