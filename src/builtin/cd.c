@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/14 00:20:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/16 03:54:28 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,7 @@ int	d_point_validat(char *path, char *o_pwd, int count)
 	int		indx;
 	int		ret;
 
-	indx = ft_strlen(path);
-	while (indx > 0)
-	{
-		if (indx > 0 && path[indx - 1] == '/')
-			indx--;
-		while (indx > 0 && path[indx - 1] == '.')
-			indx--;
-		if (path[indx - 1] != '/' && path[indx - 1] != '.')
-			break ;
-	}
+	indx = dp_point_skip(path);
 	while (count)
 	{
 		if (indx > 0 && path[indx - 1] == '/')
@@ -63,7 +54,7 @@ int	d_point_validat(char *path, char *o_pwd, int count)
 	return (free(dir), ret);
 }
 
-int		d_point_extend(char  *path, char *cwd)
+int	d_point_extend(char *path, char *cwd)
 {
 	char	*pwd;
 	int		ret;
@@ -76,15 +67,14 @@ int		d_point_extend(char  *path, char *cwd)
 			pwd = ft_strjoin_free(pwd, ft_strdup("/"));
 		count = prev_drictory_count(path);
 		if (count >= 3)
-			return (free(pwd), printf("cd: %s: No such file or directory\n", path), 1);
+			return (free(pwd), err_print("cd: ", path, DR_ERR));
 		count += prev_drictory_count(pwd);
 		ret = d_point_validat(pwd, get_owd("OLDPWD="), count);
 		if (ret == -1)
 		{
 			pwd = ft_strjoin_free(pwd, ft_strdup(path));
 			reset_env(pwd, get_owd("PWD="));
-			return (free(pwd), printf("cd: error retrieving current directory: \
-			getcwd: cannot access parent directories: %s\n", strerror(errno)), 1);
+			return (free(pwd), err_print(CWD_ERR, strerror(errno), NULL));
 		}
 	}
 	else if (cwd)
@@ -114,39 +104,10 @@ void	nr_cd(char *path, char *cwd)
 	glo_exit = ret;
 }
 
-char	*args(t_arguments *cmd)
-{
-	char		*ret;
-	t_arguments	*tmp;
-
-	ret = ft_strdup("");
-	tmp = cmd;
-	if (!tmp)
-		return (NULL);
-	if (tmp->type == QUOTE || tmp->type == DQUOTE)
-	{
-		tmp = tmp->down;
-		while (tmp && tmp->str)
-		{
-			ret = ft_strjoin_free(ret, ft_strdup(tmp->str));
-			tmp = tmp->next;
-		}
-	}
-	else
-	{
-		while (tmp && tmp->type != IS_SEPARTOR)
-		{
-			ret = ft_strjoin_free(ret, ft_strdup(tmp->str));
-			tmp = tmp->next;
-		}
-	}
-	return (ret);
-}
-
 void	tt_cd(t_cmd *cmd)
 {
 	t_builtin	*cd;
-	char		*path;
+	char		**path;
 	int			ret;
 	char		cwd[PATH_MAX];
 
@@ -155,17 +116,19 @@ void	tt_cd(t_cmd *cmd)
 	if (!getcwd(cwd, sizeof(cwd)))
 		cwd[0] = '\0';
 	(transform_args(&cd->arguments));
-	path = args(cd->arguments);
+	path = args_to_dblstr_(cd->arguments);
 	if (!path)
 		glo_exit = ft_go_to(0, path, cwd);
-	else if (!ft_memcmp(path, "-", 2))
-		glo_exit = ft_go_to(1, path, cwd), free(path);   
+	else if (!**path)
+		glo_exit = ft_go_to(2, path, cwd);
+	else if (!ft_memcmp(*path, "-", 2))
+		glo_exit = ft_go_to(1, path, cwd);
 	else
 	{
-		if (!ft_memcmp(path, "..", 2) || !ft_memcmp(path, ".", 1))
-			glo_exit = d_point_extend(path, cwd);
+		if (!ft_memcmp(*path, "..", 2) || !ft_memcmp(*path, ".", 1))
+			glo_exit = d_point_extend(*path, cwd);
 		else
-			nr_cd(path, cwd);
-		free(path);
+			nr_cd(*path, cwd);
+		sp_free(path);
 	}
 }
