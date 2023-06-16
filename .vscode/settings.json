@@ -41,7 +41,8 @@
 		"__split_buffer": "c",
 		"string": "c",
 		"string_view": "c",
-		"vector": "c"
+		"vector": "c",
+		"complex": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/15 03:54:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 14:22:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ char	*get_path(char *cmd)
 	if (cmd == NULL)
 		return (NULL);
 	if (!*cmd)
-		return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
+		return (pr_custom_err(ERR_CMD, NULL, cmd), NULL);
 	if (!access(cmd, F_OK | X_OK))
 		return (ft_strdup(cmd));
 	path = (char **)set__get_option_variables(0, GET | GET_PATH);
@@ -290,7 +290,7 @@ char	*get_path(char *cmd)
 		free(tmp_to_free);
 		i++;
 	}
-	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
+	return (pr_custom_err(ERR_CMD, NULL, cmd), NULL);
 }
 
 void	child(char **exec, char *path, t_components comp)
@@ -319,7 +319,15 @@ void	child(char **exec, char *path, t_components comp)
 	ft_putendl_fd(ERR_EXVE, 2);
 	exit(errno);
 }
-
+void	print_dstr(char **str)
+{
+	int i = 0;
+	if (!str)
+		return;
+	while (str[i])
+		printf("%s\n", str[i++]);
+	return;
+}
 int	cmd_executers(char *path, char **cmd, t_components comp)
 {
 	int status;
@@ -342,50 +350,65 @@ int	cmd_executers(char *path, char **cmd, t_components comp)
 	return -1;
 }
 
+char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
+{
+	t_arguments	*arg;
+	t_lsttoken	*head;
+	int			start = 0;
+	int			end = 0;
+	int			a;
+	char		*word;
+
+	a = (back - *front);
+	head = *front;
+	while ((head->t_.type == E_SPACE || head->t_.type == E_EMPTY) && a--)
+		head = head->next;
+	word = head->t_.line;
+	
+	start = head->t_.start;
+	end = head->t_.len;
+	head = head->next;
+
+	while (head && back - head + 1)
+	{
+	printf("%s==%d\n", word + start, end);
+		if (head->t_.type != E_STR && head->t_.type != E_QUOTE && head->t_.type != E_DQUOTE)
+			break ;
+		else
+			end += head->t_.len;
+		head = head->next;
+	}
+	printf("%s==%d\n", word + start, end);
+	*front = head;
+	word = ft_substr(word + start, 0, end);
+	if (!word)
+		return (NULL);
+	arg = get_argument(word, 0);
+	free(word);
+	transform_args(&arg);
+	word = args_to_str(arg);
+	return (arguments_destructor(&arg), word);
+}
+
 int	a_exec(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
-	t_lsttoken *head = front;
-	int			current_len = 0;
-	int			i = 0, in = 0;
+	char		*line;
+	char		*cmd;
+	size_t		len;
+	t_arguments	*arg;
 
-
-	size_t len = get_lenght(front, back);
-	char *line = get_line(front, back, len);
-	i = skip_spaces_front(line);
-	while (line[i + in] && line[i + in] != ' ')
-		in++;
-	// printf("[%s]is[%d]in[%d]out[%d]\n", line, comp.is_pipe, comp.infile, comp.outfile);
-	char *cmd = ft_substr(line, i, in);
-	
-	if (!is_builtin(cmd))
+	cmd = get_command_name(&front, back);
+	if (cmd && !is_builtin(cmd))
 	{
-		return cmd_executers(get_path(cmd), ft_split(line, ' '), comp);
+		len = get_lenght(front, back);
+		line = get_line(front, back, len);
+		arg = get_argument(line, 0);
+		transform_args(&arg);
+		// exit(1);
+		return (cmd_executers(get_path(cmd), args_to_cmd_dstr(arg, cmd), comp));
 	}
 	else
-	return (-1);
-	// else
-	// {
-		
-	// }
-	// while (head != back)
-	// {
-	// 	if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
-	// 	printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
-	// 	// if (head->t_.type == E_AND)
-	// 	// {
-	// 	// 	in = 1;
-	// 	// 	a_subsh(front, prev);
-	// 	// }
-	// 	head = head->next;
-	// }
-	// if (head == back)
-	// {
-	// 	if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
-	// 	printf("[%d][%s]\n",head->t_.type, ft_substr(head->t_.line, head->t_.start, head->t_.len));
-	// }
-	// printf("---------^END^----------\n");
-	// if (!in)
-	// 	a_exec(front, back, comp);
+		return (free(cmd), -1);
 }
 
 
@@ -394,8 +417,8 @@ int	a_subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken *head;
 	t_lsttoken *prev;
-	int			in;
 	int			pid;
+	int			in;
 
 	in = 0;
 	head = front;
