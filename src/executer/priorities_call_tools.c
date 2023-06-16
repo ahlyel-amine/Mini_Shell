@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 20:00:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 20:57:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,15 +157,6 @@ void	child(char **exec, char *path, t_components comp)
 	ft_putendl_fd(ERR_EXVE, 2);
 	exit(errno);
 }
-void	print_dstr(char **str)
-{
-	int i = 0;
-	if (!str)
-		return;
-	while (str[i])
-		printf("%s\n", str[i++]);
-	return;
-}
 
 int	cmd_executers(char *path, char **cmd, t_components comp)
 {
@@ -251,8 +242,6 @@ t_components get_red(t_lsttoken *redir, t_components comp)
 	}
 	return (free(delimiter), comp);
 }
-
-
 
 int pipe_left(t_lsttoken *head, t_lsttoken *back)
 {
