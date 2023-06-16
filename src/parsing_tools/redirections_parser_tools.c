@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/14 22:34:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 20:07:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,6 @@ char **tmp, t_2ptr_int a, t_var var)
 	else if (line[*(a.i)] != '\'' && line[*(a.i)] != '\"')
 		(*tmp)[(*(a.k))++] = line[*(a.i)];
 	return (0);
-}
-
-char	*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q)
-{
-	int		k;
-	char	*tmp;
-	t_var	var;
-
-	ft_memset(&var, 0, sizeof(t_var));
-	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
-	k = 0;
-	*q = 0;
-	if (line[i] == '$' && (line[i + 1] == '\'' || line[i + 1] == '\"'))
-		i++;
-	while (line[i])
-	{
-		check_out_of_quotes(line[i], &var);
-		if (var.dquote || var.quote)
-			*q = 1;
-		if (skip_quote_heredoc_delimiter_conditions(line, &tmp, \
-		(t_2ptr_int){&i, &k}, var))
-			break ;
-		i++;
-	}
-	*j = i;
-	return (tmp);
 }
 
 char	*skip_quote_heredoc_delimiters(char *line, char *end_line, int *q)
@@ -80,4 +54,54 @@ char	*skip_quote_heredoc_delimiters(char *line, char *end_line, int *q)
 		i++;
 	}
 	return (tmp);
+}
+
+static char	*get_herdoc_name(void)
+{
+	static int	call;
+
+	return (ft_strjoin_free(ft_strdup(HERDOC_FILE), ft_itoa(call++)));
+}
+
+static int	read_heredoc_inside_loops(char **line, char *delimiter, int fd, int q)
+{
+	if (!strncmp(*line, delimiter, ft_strlen(delimiter) + 1))
+	{
+		free(*line);
+		return (1);
+	}
+	if (!q)
+		*line = data_analyse(*line);
+	write(fd, *line, ft_strlen(*line));
+	write(fd, "\n", 1);
+	free(*line);
+	*line = readline(HERDOC);
+	return (0);
+}
+
+int	read_heredocs(char *delimiter, int q)
+{
+	char	*name;
+	char	*line;
+	int		fd;
+
+	in_cmd = 1;
+	sig_here();
+	name = get_herdoc_name();
+	fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (fd < 0)
+		return (pr_custom_err(ERR_FILE, name, name), -1);
+	line = readline(HERDOC);
+	while (line && !Ctrl_c)
+	{
+		if (read_heredoc_inside_loops(&line, delimiter, fd, q))
+			break ;
+	}
+	// Ctrl_c = 0;
+	in_cmd = 0;
+	close(fd);
+	fd = open(name, O_RDONLY, 0644);
+	if (fd < 0)
+		return (pr_custom_err(ERR_FILE, name, name), -1);
+	return (free(name), fd);
 }
