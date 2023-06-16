@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 19:36:24 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/16 20:05:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,6 @@ char *line, int *i, int j)
 	return (arguments);
 }
 
-t_arguments	*get_names(char *line, int *i)
-{
-	t_arguments	*arguments;
-	t_var		var;
-	int			j;
-
-	ft_memset(&var, 0, sizeof(t_var));
-	arguments = NULL;
-	j = 0;
-	while (line[*i + j])
-	{
-		check_out_of_quotes(line[*i + j], &var);
-		arguments = fill_arguments(arguments, &var, (t_2ptr_int){i, &j}, line);
-		if (j == -1)
-		{
-			j = 0;
-			continue ;
-		}
-		else if (j == -2)
-			break ;
-		j++;
-	}
-	if (j)
-		arguments = fill_last_argument(arguments, line, i, j);
-	merge_arguments(&arguments, 0);
-	tokenize_variables(&arguments);
-	return (arguments);
-}
  t_arguments	*transform_args_fd_name(t_arguments **args)
 {
 	char		*str;

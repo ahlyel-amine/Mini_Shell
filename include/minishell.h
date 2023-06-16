@@ -18,6 +18,51 @@
 # include <limits.h>
 # include <dirent.h>
 
+typedef struct s_lsttoken t_lsttoken;
+
+typedef struct s_token
+{
+	int			type;
+	char		*line;
+	int			start;
+	int			len;
+	t_lsttoken	*down;
+}	t_token;
+
+typedef struct s_components
+{
+	int	infile;
+	int	outfile;
+	unsigned int is_pipe:1;
+	int	*fd;
+}	t_components;
+
+struct s_lsttoken
+{
+	t_token				t_;
+	struct s_lsttoken	*next;
+};
+
+typedef enum e_token
+{
+	E_SUBSH,
+	E_DQUOTE,
+	E_QUOTE,
+	E_AND,
+	E_OR,
+	E_PIPE,
+	E_HEREDOC,
+	E_OUTRED,
+	E_INRED,
+	E_APPEND,
+	E_STR,
+	E_SPACE,
+	E_FD_NAME,
+	E_EMPTY
+}	enum_token;
+
+
+
 int	glo_exit;
 int	in_cmd;
 int	out;
