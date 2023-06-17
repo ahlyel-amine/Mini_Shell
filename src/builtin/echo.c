@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/17 18:58:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/17 22:56:31 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+char	*ft_dstr_to_str(char **clone)
+{
+	char	*r_str;
+	int		indx;
+
+	indx = 0;
+	r_str = ft_strdup("");
+	while (clone && *clone)
+	{
+		r_str = ft_strjoin_free(r_str, clone[indx++]);
+	}
+	if (indx)
+		free(clone);
+	return (r_str);
+}
 
 void	tt_echo(t_arguments *cmd_args)
 {
