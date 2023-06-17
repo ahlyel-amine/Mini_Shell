@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 21:22:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/17 19:25:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	subsh_call(t_lsttoken *head, t_components comp)
 	pid = fork();
 	if (!pid)
 	{
-		and(head->t_.down, ft_lstokenlast(head->t_.down), comp);
+		operator(head->t_.down, ft_lstokenlast(head->t_.down), comp);
 		exit (glo_exit);
 	}
 	else

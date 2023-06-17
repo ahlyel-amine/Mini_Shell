@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/17 01:17:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:26:01 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	}
 	else if (ret == 1)
 	{
+		while (front->t_.type == E_SPACE)
+			front = front->next;
 		arg = get_cmd(front, back);
 		ret = builtin_executer(arg, cmd, comp.outfile);
 		return (arguments_destructor(&arg), free(cmd), ret);
@@ -118,36 +120,23 @@ int	pipe_(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	return (-1);
 }
 
-static int	or(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int	last_operaotr(t_lsttoken *front, t_lsttoken *back)
 {
 	t_lsttoken	*head;
-	t_lsttoken	*prev;
-	int			in;
 
-	in = 0;
 	head = front;
-	prev = front;
 	while (head)
 	{
-		if (head->t_.type == E_OR)
-		{
-			in = 1;
-			pipe_(front, prev, comp);
-			if (glo_exit != 0)
-				or(head->next, back, comp);
-			break;
-		}
-		prev = head;
+		if ((head->t_.type == E_AND || head->t_.type == E_OR))
+			return (0);
 		if (head == back)
 			break ;
 		head = head->next;
 	}
-	if (!in)
-	return	pipe_(front, back, comp);
-	return (-1);
+	return (1);
 }
 
-int	and(t_lsttoken *front, t_lsttoken *back, t_components comp)
+int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken	*head;
 	t_lsttoken	*prev;
@@ -158,12 +147,12 @@ int	and(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	prev = front;
 	while (head)
 	{
-		if (head->t_.type == E_AND)
+		if ((head->t_.type == E_AND || head->t_.type == E_OR) && last_operaotr(head->next, back))
 		{
 			in = 1;
-			or(front, prev, comp);
-			if (glo_exit == 0)
-				and(head->next, back, comp);
+			operator(front, prev, comp);
+			if ((glo_exit == 0 && head->t_.type == E_AND) || (glo_exit != 0 && head->t_.type == E_OR))
+				operator(head->next, back, comp);
 			break ;
 		}
 		prev = head;
@@ -172,6 +161,6 @@ int	and(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		return or(front, back, comp);
+		return pipe_(front, back, comp);
 	return (-1);
 }
