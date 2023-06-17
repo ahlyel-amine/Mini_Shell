@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/12 23:14:44 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/17 01:03:10 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,14 @@ void	nr_unset(char	**args, t_list **tmp)
 	}
 }
 
-void	tt_unset(t_cmd *cmd)
+void	tt_unset(t_arguments *cmd_args)
 {
-	t_builtin	*unset;
 	t_hold		*env;
 	t_list		*tmp;
 	char		**args;
 
-	unset = (t_builtin *)cmd;
-	transform_args(&unset->arguments);
-	args = args_to_dblstr(unset->arguments);
+	transform_args(&cmd_args);
+	args = args_to_dblstr_(cmd_args);
 	if (!args || !*args)
 		glo_exit = 0;
 	else

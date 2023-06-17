@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:53:40 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 01:14:48 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/17 00:50:55 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,15 @@ static void	env_print(t_list *lst, int lst_size, void (*print)(char*, int))
 	}
 }
 
-void	tt_env(t_cmd *cmd)
+void	tt_env(t_arguments *cmd_args)
 {
 	char		**args;
 	t_hold		*env;
 	t_list		*lst;
-	t_builtin	*env_;
 
-	env_ = (t_builtin *)cmd;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
-	args = args_to_dblstr(env_->arguments);
+	args = args_to_dblstr_(cmd_args);
 	if (!args)
 		env_print(lst, env->size, ft_putendl_fd);
 	else if (args && *args)

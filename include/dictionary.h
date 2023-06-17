@@ -45,6 +45,8 @@
 # define CMDPIPE				"\033[37mpipe\033[34m> \033[0m"
 # define CMPLTQUOTE				"\033[37mquote\033[34m> \033[0m"
 # define CMPLTDQUOTE			"\033[37mdquote\033[34m> \033[0m"
+# define CWD_ERR				"cd: error retrieving current directory: getcwd: cannot access parent directories: "
+# define DR_ERR					": No such file or directory"
 
 typedef struct s_two_ptr
 {

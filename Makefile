@@ -1,5 +1,5 @@
-READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
-# READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+# READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
+READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
 #	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/
 SRC =	\
 		\
@@ -19,7 +19,7 @@ SRC =	\
 		\
 		\
 		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c\
-		src/builtin/tt_cd_tools.c src/builtin/builtin_t2.c src/builtin/builtin_t3.c\
+		src/builtin/tt_cd_tools.c src/builtin/builtin_t2.c src/builtin/builtin_t3.c src/builtin/builtin_t1.c\
 		src/parsing_tools/parsing_tools.c src/parsing_tools/parsing_tools2.c \
 		src/parsing_tools/redirections_parser_tools.c src/parsing_tools/redirections_parser_tools2.c \
 		# src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c \
