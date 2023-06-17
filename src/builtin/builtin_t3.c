@@ -6,11 +6,28 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 01:08:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 20:27:00 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/16 04:46:32 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	dp_point_skip(char *path)
+{
+	int	indx;
+
+	indx = ft_strlen(path);
+	while (indx > 0)
+	{
+		if (indx > 0 && path[indx - 1] == '/')
+			indx--;
+		while (indx > 0 && path[indx - 1] == '.')
+			indx--;
+		if (path[indx - 1] != '/' && path[indx - 1] != '.')
+			break ;
+	}
+	return (indx);
+}
 
 short	is_export_var(char *str)
 {
@@ -49,7 +66,7 @@ void	do_cmp(char	*val, char **lst_cnt, short opt, size_t len)
 	if (!opt)
 	{
 		free(*lst_cnt);
-		*lst_cnt = val;
+		*lst_cnt = ft_strdup(val);
 	}
 	else
 		*lst_cnt = ft_strjoin_free(*lst_cnt, ft_strdup(val));

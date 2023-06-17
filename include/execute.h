@@ -5,7 +5,6 @@
 #include <signal.h>
 char		*arguments_to_str(t_arguments *args);
 char		**ft_dstrdup(char **env);
-char		**ft_dstrdup2(char **ds1);
 size_t		ft_double_strlen(char **str);
 char		**ft_joindstrs(char **ds1, char* *ds2);
 void		adjust_shlvl(t_hold *env);
@@ -18,15 +17,18 @@ int			d_point_pwd(char *path, char *pwd);
 void		reset_env(char *pwd, char *o_pwd);
 int			go_to_oldpwd(char *cwd, char *path);
 short       valid_var(char *var);
+char		**args_to_dblstr_(t_arguments *args);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
-int		    tt_pwd();
-void	    tt_echo(t_cmd *cmd);
-void	    tt_cd(t_cmd *cmd);
-void	    tt_unset(t_cmd *cmd);
-void	    tt_exit(t_cmd *cmd);
-void	    tt_env(t_cmd *cmd);
+int		tt_pwd();
+void	tt_cd(t_arguments *cd_args);
+void	tt_echo(t_arguments *cmd_args);
+void	tt_env(t_arguments *cmd_args);
+void	tt_unset(t_arguments *cmd_args);
+void	tt_export(t_arguments *cmd_args);
+void	tt_exit(t_arguments *cmd_args);
+
 ////-/__________________________________________________________//-|
 ///-/                        tt_cd_tools                       //--|
 //-/__________________________________________________________//---|
@@ -34,7 +36,7 @@ int         stat_check(char *path);
 void        reset_env(char *pwd, char *o_pwd);
 char        *extend_option(char *arg, char *ex_with, int opt);
 char        *get_prev_path(char *path);
-int         ft_go_to(int opt, char *path, char *cwd);
+int         ft_go_to(int opt, char **path, char *cwd);
 int         prev_drictory_count(char *wd);
 ////-/__________________________________________________________//-|
 ///-/                           SIGNALS                        //--|

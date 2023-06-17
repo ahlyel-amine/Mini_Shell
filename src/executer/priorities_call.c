@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 21:22:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/17 01:17:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	else if (ret == 1)
 	{
 		arg = get_cmd(front, back);
-		ret = builtin_execiter(arg, cmd, comp.outfile);
+		ret = builtin_executer(arg, cmd, comp.outfile);
 		return (arguments_destructor(&arg), free(cmd), ret);
 	}
 	return (-1);

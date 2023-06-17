@@ -2,10 +2,10 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-// # include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
-# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+// # include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include "../lib/libft/include/libft.h"
 # include "dictionary.h"
 # include "tree_tools.h"
@@ -108,7 +108,6 @@ t_list	*lst_dup(t_list *lst);
 int		valid_id(char *var);
 
 void	ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
-void		tt_export(t_cmd *cmd);
 
 void		var_expand(t_arguments *arg);
 int			tt_pwd(void);
