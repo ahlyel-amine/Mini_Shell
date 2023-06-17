@@ -3,14 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/17 19:26:01 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/17 23:28:58 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	is_option(char *line, char *endline)
+{
+	int	i;
+
+	i = 0;
+	if (line[i] == '\'' || line[i] == '\"')
+		i++;
+	if (line[i] == '-')
+		i++;
+	else
+		return (0);
+	while (line[i] == 'n' && line + i != endline)
+		i++;	
+	if (line  + i == endline || ((line[i] == '\'' || line[i] == '\"') && line  + i + 1 == endline))
+		return (1);
+	return (0);
+}
+
+t_lsttoken *skip_echo_option(t_lsttoken *front, t_lsttoken *back, int *has_option)
+{
+	*has_option = 0;
+	while (front)
+	{
+		if ((front->t_.type == E_STR || front->t_.type == E_QUOTE || front->t_.type == E_DQUOTE))
+		{
+			if (!is_option(front->t_.line + front->t_.start, front->t_.line + front->t_.start + front->t_.len))
+				break ;
+			else
+			{
+				if (front && front->next && front->next->t_.type != E_SPACE)
+					break ;
+				*has_option = 1;
+				front = front->next;
+				while (front && front->t_.type == E_SPACE)
+					front = front->next;
+				if (front == back)
+					break ;
+				continue ;
+			}
+		}
+		break ;
+	}
+	return (front);
+}
 
 static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
@@ -30,10 +75,12 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	}
 	else if (ret == 1)
 	{
-		while (front->t_.type == E_SPACE)
+		while (front && front->t_.type == E_SPACE)
 			front = front->next;
+		if (!ft_strncmp(cmd, "echo", 5))
+			front = skip_echo_option(front, back, &ret);
 		arg = get_cmd(front, back);
-		ret = builtin_executer(arg, cmd, comp.outfile);
+		ret = builtin_executer(arg, cmd, comp.outfile, ret);
 		return (arguments_destructor(&arg), free(cmd), ret);
 	}
 	return (-1);

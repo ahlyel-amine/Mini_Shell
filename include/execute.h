@@ -23,7 +23,7 @@ char		**args_to_dblstr_(t_arguments *args);
 //-/__________________________________________________________//---|
 int		tt_pwd();
 void	tt_cd(t_arguments *cd_args);
-void	tt_echo(t_arguments *cmd_args);
+void	tt_echo(t_arguments *cmd_args, int echo_has_option);
 void	tt_env(t_arguments *cmd_args);
 void	tt_unset(t_arguments *cmd_args);
 void	tt_export(t_arguments *cmd_args);

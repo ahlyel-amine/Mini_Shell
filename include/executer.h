@@ -18,7 +18,7 @@ typedef struct s_2ptr_t_lsttoken
 }   t_2ptr_t_lsttoken;
 
 int		cmd_sig_check(char *path, int status);
-int		builtin_executer(t_arguments *args, char *cmd, int outfile);
+int		builtin_executer(t_arguments *args, char *cmd, int outfile, int echo_has_option);
 char	**child_vars(void);
 
 int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp);
