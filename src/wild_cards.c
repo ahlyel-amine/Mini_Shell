@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 20:14:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/17 19:54:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ static int	skip_unkown(char *myfile, char *realfile)
 		while (realfile[j])
 			j++;
 	else
-		while (myfile[i] && realfile[j] && realfile[j] != myfile[i])
+		while (myfile[i] && realfile[j] && \
+		(realfile[j] != myfile[i] || \
+		(realfile[j] == myfile[i] && realfile[j + 1] == myfile[i])))
 			j++;
 	if (myfile[i] && realfile[j] && realfile[j] == myfile[i])
 		return (compare_matches(myfile + i, realfile + j));
@@ -86,7 +88,13 @@ static int	compare_matches(char *myfile, char *realfile)
 		j++;
 	}
 	if (myfile[i] == '*')
+	{
+		while (j && realfile[j - 1] == realfile[j])
+			j++;
+		if (!realfile[j])
+			return (1);
 		return (skip_unkown(myfile + i, realfile + j));
+	}
 	else if (!myfile[i] && !realfile[j])
 		return (1);
 	else

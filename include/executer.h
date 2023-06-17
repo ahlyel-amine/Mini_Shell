@@ -24,6 +24,7 @@ char	**child_vars(void);
 int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp);
 int	pipe_(t_lsttoken *front, t_lsttoken *back, t_components comp);
 int	and(t_lsttoken *front, t_lsttoken *back, t_components comp);
+int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp);
 
 t_arguments	*get_cmd(t_lsttoken *front, t_lsttoken *back);
 void	subsh_call(t_lsttoken *head, t_components comp);
