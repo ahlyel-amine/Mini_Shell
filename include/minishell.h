@@ -43,23 +43,7 @@ struct s_lsttoken
 	struct s_lsttoken	*next;
 };
 
-typedef enum e_token
-{
-	E_SUBSH,
-	E_DQUOTE,
-	E_QUOTE,
-	E_AND,
-	E_OR,
-	E_PIPE,
-	E_HEREDOC,
-	E_OUTRED,
-	E_INRED,
-	E_APPEND,
-	E_STR,
-	E_SPACE,
-	E_FD_NAME,
-	E_EMPTY
-}	enum_token;
+
 
 
 void	print_tokens(t_lsttoken *head);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:54:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 17:19:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:01:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_lstokenadd_back(t_lsttoken **lst, t_lsttoken *new)
 	}
 }
 
-int	subsh_token(t_lsttoken **head, char *line, int *i, int *fail)
+int	subsh_pipe_token(t_lsttoken **head, char *line, int *i, int *fail)
 {
 	int	j;
 
@@ -64,6 +64,13 @@ int	subsh_token(t_lsttoken **head, char *line, int *i, int *fail)
 		ft_lstokenadd_back(head, new_token((t_token){E_SUBSH, line, *i + 1, j
 				- 1, NULL}));
 		*i += j + 1;
+		return (1);
+	}
+	else if (line[*i] == '|')
+	{
+		ft_lstokenadd_back(head, new_token((t_token){E_PIPE, line, *i, 1,
+				NULL}));
+		*i += 1;
 		return (1);
 	}
 	return (0);
@@ -212,13 +219,11 @@ t_lsttoken	*tokenize(char *line, char *endline, int i)
 	new = NULL;
 	while (line[i])
 	{
-		if (!fail && subsh_token(&new, line, &i, &fail))
+		if (!fail && subsh_pipe_token(&new, line, &i, &fail))
 			continue ;
 		else if (!fail && quote_token(&new, line, &i))
 			continue ;
 		else if (!fail && operator_token(&new, line, &i, &fail))
-			continue ;
-		else if (!fail && pipe_token(&new, line, &i))
 			continue ;
 		else if (!fail && red_right_token(&new, line, &i))
 			continue ;
