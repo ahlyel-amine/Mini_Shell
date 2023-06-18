@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_executer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/17 23:25:32 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:36:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@
 // 	return (0);
 // }
 
-int	builtin_executer(t_arguments *args, char *cmd, int outfile, int echo_has_option)
+int	builtin_executer(t_arguments *args, char *cmd, \
+int outfile, int echo_has_option)
 {
 	out = outfile;
 	if (!ft_memcmp(cmd, "cd", 2))

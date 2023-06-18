@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 20:05:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:07:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,7 @@ t_var *var, t_2ptr_int a, char *line)
 	return (arguments);
 }
 
-static t_arguments	*fill_last_argument(t_arguments *arguments, \
-char *line, int *i, int j)
-{
-	arguments = arguments_constructor(arguments, ft_substr(line, *i, j), \
-			IS_STR, 0);
-	*i += j;
-	return (arguments);
-}
-
- t_arguments	*transform_args_fd_name(t_arguments **args)
+t_arguments	*transform_args_fd_name(t_arguments **args)
 {
 	char		*str;
 	t_arguments	*nl;
@@ -78,21 +69,36 @@ char *line, int *i, int j)
 	else
 		return (free (str), *args);
 }
+
+char	*transform_filename(t_arguments *arguments)
+{
+	char	*filename;
+
+	merge_arguments(&arguments, 0);
+	tokenize_variables(&arguments);
+	arguments = transform_args_fd_name(&arguments);
+	if (!arguments)
+		return (NULL);
+	filename = args_to_str(arguments);
+	arguments_destructor(&arguments);
+	return (filename);
+}
+
 char	*get_filename(char *line, char *endline)
 {
-	t_arguments	*arguments;
+	t_arguments	*arg;
 	t_var		var;
 	int			j;
 	int			i;
 
 	ft_memset(&var, 0, sizeof(t_var));
-	arguments = NULL;
+	arg = NULL;
 	j = 0;
 	i = 0;
 	while (line[i + j] && line + i + j != endline)
 	{
 		check_out_of_quotes(line[i + j], &var);
-		arguments = fill_arguments(arguments, &var, (t_2ptr_int){&i, &j}, line);
+		arg = fill_arguments(arg, &var, (t_2ptr_int){&i, &j}, line);
 		if (j == -1)
 		{
 			j = 0;
@@ -103,13 +109,6 @@ char	*get_filename(char *line, char *endline)
 		j++;
 	}
 	if (j)
-		arguments = fill_last_argument(arguments, line, &i, j);
-	merge_arguments(&arguments, 0);
-	tokenize_variables(&arguments);
-	arguments = transform_args_fd_name(&arguments);
-	if (!arguments)
-		return NULL;
-	char *ret = args_to_str(arguments);
-	arguments_destructor(&arguments);
-	return (ret);
+		arg = arguments_constructor(arg, ft_substr(line, i, j), IS_STR, 0);
+	return (transform_filename(arg));
 }

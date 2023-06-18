@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 18:25:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:37:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ char	**child_vars(void)
 
 size_t	get_lenght(t_lsttoken *front, t_lsttoken *back)
 {
-	t_lsttoken *head;
+	t_lsttoken	*head;
 	size_t		len;
-	
+
 	head = front;
 	len = 0;
 	while (head)
@@ -57,11 +57,11 @@ size_t	get_lenght(t_lsttoken *front, t_lsttoken *back)
 
 char	*get_line(t_lsttoken *front, t_lsttoken *back, size_t len)
 {
-	t_lsttoken *head;
+	t_lsttoken	*head;
 	char		*line;
 	size_t		i;
 	size_t		j;
-	
+
 	i = 0;
 	head = front;
 	line = ft_calloc(1, len + 1);
@@ -69,14 +69,13 @@ char	*get_line(t_lsttoken *front, t_lsttoken *back, size_t len)
 		return (NULL);
 	while (head)
 	{
-		
 		if (head->t_.type & (E_AND | E_OR | E_PIPE))
 			break ;
 		else if (head->t_.type == E_SPACE)
 			line[i++] = ' ';
 		else if (!(head->t_.type & (E_EMPTY | E_SPACE)))
 		{
-			j = 0;			
+			j = 0;
 			while (head->t_.start + j < head->t_.start + head->t_.len)
 				line[i++] = head->t_.line[head->t_.start + j++];
 		}
@@ -161,11 +160,12 @@ void	child(char **exec, char *path, t_components comp)
 
 int	cmd_executers(char *path, char **cmd, t_components comp)
 {
-	int status;
+	int	status;
+	int	pid;
 
 	if (!path || !cmd)
 		return (free(cmd), free(path), 0);
-	int pid = fork();
+	pid = fork();
 	if (pid == -1)
 		return (perror(FORK_ERR), free(cmd), -1);
 	if (!pid)
@@ -179,16 +179,9 @@ int	cmd_executers(char *path, char **cmd, t_components comp)
 	return (free(cmd), 0);
 }
 
-char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
+t_lsttoken	*skip_tokens(t_lsttoken *head, t_lsttoken *back, int *start, \
+int *end)
 {
-	t_arguments	*arg;
-	t_lsttoken	*head;
-	int			start = 0;
-	int			end = 0;
-	int			a;
-	char		*word;
-
-	head = *front;
 	while (head && (head->t_.type & (E_EMPTY | E_SPACE)))
 	{
 		if (head == back)
@@ -197,9 +190,39 @@ char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
 	}
 	if (!head || (head->t_.type & (E_EMPTY | E_SPACE)))
 		return (NULL);
+	*start = head->t_.start;
+	*end = head->t_.len;
+	return (head);
+}
+
+char	*get_cmd_name__(char *word, int start, int end)
+{
+	t_arguments	*arg;
+
+	word = ft_substr(word + start, 0, end);
+	if (!word)
+		return (NULL);
+	arg = get_argument(word, 0);
+	free(word);
+	transform_args(&arg);
+	word = args_to_str(arg);
+	return (arguments_destructor(&arg), word);
+}
+
+char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
+{
+	t_arguments	*arg;
+	t_lsttoken	*head;
+	int			start;
+	int			end;
+	char		*word;
+
+	start = 0;
+	end = 0;
+	head = skip_tokens(*front, back, &start, &end);
+	if (!head)
+		return (NULL);
 	word = head->t_.line;
-	start = head->t_.start;
-	end = head->t_.len;
 	head = head->next;
 	while (head)
 	{
@@ -212,46 +235,50 @@ char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
 		head = head->next;
 	}
 	*front = head;
-	word = ft_substr(word + start, 0, end);
-	if (!word)
-		return (NULL);
-	arg = get_argument(word, 0);
-	free(word);
-	transform_args(&arg);
-	word = args_to_str(arg);
-	return (arguments_destructor(&arg), word);
+	return (get_cmd_name__(word, start, end));
 }
 
-t_components get_red(t_lsttoken *redir, t_components comp)
+void	fd_er(char *fd_err)
+{
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(fd_err, 2);
+	perror(" ");
+}
+
+t_components	get_red(t_lsttoken *r, t_components comp)
 {
 	int		q;
-	char	*delimiter;
+	char	*delim;
 
-	if (redir->t_.type == E_HEREDOC)
+	if (r->t_.type == E_HEREDOC)
 	{
-		delimiter = skip_quote_heredoc_delimiters(redir->t_.down->t_.line + redir->t_.down->t_.start, \
-		redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len, &q);
-		comp.infile = read_heredocs(delimiter, q);
+		delim = skip_q_hrdc_delim(r->t_.down->t_.line + r->t_.down->t_.start, \
+		r->t_.down->t_.line + r->t_.down->t_.start + r->t_.down->t_.len, &q);
+		comp.infile = read_heredocs(delim, q);
 	}
 	else
 	{
-		delimiter = get_filename(redir->t_.down->t_.line + redir->t_.down->t_.start, \
-		redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len);
-		if (!delimiter)
+		delim = get_filename(r->t_.down->t_.line + r->t_.down->t_.start, \
+		r->t_.down->t_.line + r->t_.down->t_.start + r->t_.down->t_.len);
+		if (!delim)
 			return ((t_components){-1, -1, 0, NULL});
-		if (redir->t_.type == E_INRED)
-			comp.infile = open(delimiter, O_RDONLY);
-		else if (redir->t_.type == E_APPEND)
-			comp.outfile = open(delimiter, O_CREAT | O_APPEND | O_WRONLY, 0644);
-		else if (redir->t_.type == E_OUTRED)
-			comp.outfile = open(delimiter, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		if (r->t_.type == E_INRED)
+			comp.infile = open(delim, O_RDONLY);
+		else if (r->t_.type == E_APPEND)
+			comp.outfile = open(delim, O_CREAT | O_APPEND | O_WRONLY, 0644);
+		else if (r->t_.type == E_OUTRED)
+			comp.outfile = open(delim, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	}
-	return (free(delimiter), comp);
+	if (comp.infile < 0 || comp.outfile < 0)
+		return (fd_er(delim), free(delim), (t_components){-1, -1, 0, NULL});
+	return (free(delim), comp);
 }
 
-int pipe_left(t_lsttoken *head, t_lsttoken *back)
+int	pipe_left(t_lsttoken *head, t_lsttoken *back)
 {
-	t_lsttoken *tmp = head;
+	t_lsttoken	*tmp;
+
+	tmp = head;
 	while (tmp && tmp != back)
 	{
 		if (tmp->t_.type == E_PIPE)
@@ -260,4 +287,3 @@ int pipe_left(t_lsttoken *head, t_lsttoken *back)
 	}
 	return (0);
 }
-

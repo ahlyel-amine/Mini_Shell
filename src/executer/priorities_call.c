@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 18:21:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:29:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,23 @@ int	is_option(char *line, char *endline)
 	else
 		return (0);
 	while (line[i] == 'n' && line + i != endline)
-		i++;	
-	if (line  + i == endline || ((line[i] == '\'' || line[i] == '\"') && line  + i + 1 == endline))
+		i++;
+	if (line + i == endline || ((line[i] == '\'' || line[i] == '\"') && \
+	line + i + 1 == endline))
 		return (1);
 	return (0);
 }
 
-t_lsttoken *skip_echo_option(t_lsttoken *front, t_lsttoken *back, int *has_option)
+t_lsttoken	*skip_echo_option(t_lsttoken *front, t_lsttoken *back,
+		int *has_option)
 {
 	*has_option = 0;
 	while (front)
 	{
 		if (front->t_.type & (E_STR | E_QUOTE | E_DQUOTE))
 		{
-			if (!is_option(front->t_.line + front->t_.start, front->t_.line + front->t_.start + front->t_.len))
+			if (!is_option(front->t_.line + front->t_.start, front->t_.line \
+			+ front->t_.start + front->t_.len))
 				break ;
 			else
 			{
@@ -56,6 +59,14 @@ t_lsttoken *skip_echo_option(t_lsttoken *front, t_lsttoken *back, int *has_optio
 	}
 	return (front);
 }
+
+t_lsttoken	*skip_space_front_token(t_lsttoken *front)
+{
+	while (front && front->t_.type == E_SPACE)
+		front = front->next;
+	return (front);
+}
+
 static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	char		*cmd;
@@ -63,10 +74,9 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	int			ret;
 
 	cmd = get_command_name(&front, back);
-	if (cmd)
-		ret = is_builtin(cmd);
-	else
+	if (!cmd)
 		return (glo_exit = 0, 1);
+	ret = is_builtin(cmd);
 	if (!ret)
 	{
 		arg = get_cmd(front, back);
@@ -76,8 +86,7 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	}
 	else if (ret == 1)
 	{
-		while (front && front->t_.type == E_SPACE)
-			front = front->next;
+		front = skip_space_front_token(front);
 		if (!ft_strncmp(cmd, "echo", 5))
 			front = skip_echo_option(front, back, &ret);
 		arg = get_cmd(front, back);
@@ -107,7 +116,7 @@ static int	subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		return exec_call(front, back, comp);
+		return (exec_call(front, back, comp));
 	return (-1);
 }
 
@@ -115,7 +124,7 @@ int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken		*head;
 	int				in;
-	t_components	tmp;
+	t_components	t;
 
 	in = 0;
 	head = front;
@@ -124,11 +133,11 @@ int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		if (head->t_.type & (E_OUTRED | E_INRED | E_APPEND | E_HEREDOC))
 		{
 			in = 1;
-			tmp = get_red(head, comp);
-			if (tmp.infile == -1 && tmp.outfile == -1 && tmp.is_pipe == 0 && !tmp.fd)
+			t = get_red(head, comp);
+			if (t.infile == -1 && t.outfile == -1 && t.is_pipe == 0 && !t.fd)
 				return (0);
 			head->t_.type = E_EMPTY;
-			redirection(front, back, tmp);
+			redirection(front, back, t);
 			break ;
 		}
 		if (head == back)
@@ -136,7 +145,7 @@ int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		return subsh(front, back, comp);
+		return (subsh(front, back, comp));
 	return (0);
 }
 
@@ -155,7 +164,7 @@ int	pipe_(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		{
 			in = 1;
 			pipe_call((t_2ptr_t_lsttoken){front, back}, head, prev, comp);
-			break;
+			break ;
 		}
 		prev = head;
 		if (head == back)
@@ -163,7 +172,7 @@ int	pipe_(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		return redirection(front, back, comp);
+		return (redirection(front, back, comp));
 	return (-1);
 }
 
@@ -183,6 +192,12 @@ int	last_operaotr(t_lsttoken *front, t_lsttoken *back)
 	return (1);
 }
 
+void	init_2ptr(t_lsttoken **head, t_lsttoken **prev, t_lsttoken *front)
+{
+	*head = front;
+	*prev = front;
+}
+
 int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	t_lsttoken	*head;
@@ -190,15 +205,15 @@ int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	int			in;
 
 	in = 0;
-	head = front;
-	prev = front;
+	init_2ptr(&head, &prev, front);
 	while (head)
 	{
 		if ((head->t_.type & (E_AND | E_OR)) && last_operaotr(head->next, back))
 		{
 			in = 1;
 			operator(front, prev, comp);
-			if ((glo_exit == 0 && head->t_.type == E_AND) || (glo_exit != 0 && head->t_.type == E_OR))
+			if ((glo_exit == 0 && head->t_.type & E_AND) || \
+			(glo_exit != 0 && head->t_.type & E_OR))
 				operator(head->next, back, comp);
 			break ;
 		}
@@ -208,6 +223,6 @@ int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		head = head->next;
 	}
 	if (!in)
-		return pipe_(front, back, comp);
-	return (-1);
+		return (pipe_(front, back, comp));
+	return (0);
 }
