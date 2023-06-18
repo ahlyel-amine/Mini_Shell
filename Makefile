@@ -1,9 +1,9 @@
-READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
-# READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
-#	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/
+# READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
+READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+#	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/		row 6 : src/expander
 SRC =	\
 		\
-		src/minishell.c  src/wild_cards.c src/read_line.c src/expand_line.c src/tokens_controll.c\
+		src/minishell.c  src/wild_cards.c src/read_line.c src/tokens_controll.c\
 		src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/complete_line.c src/controll_line.c\
 		\
 		\
@@ -22,6 +22,7 @@ SRC =	\
 		src/builtin/tt_cd_tools.c src/builtin/builtin_t2.c src/builtin/builtin_t3.c src/builtin/builtin_t1.c\
 		src/parsing_tools/parsing_tools.c src/parsing_tools/parsing_tools2.c \
 		src/parsing_tools/redirections_parser_tools.c src/parsing_tools/redirections_parser_tools2.c \
+		src/expander/expand_line.c src/expander/tilde_expand.c \
 		# src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c \
 		# src/execute_line.c  src/free_line.c
 
@@ -38,8 +39,8 @@ NC   = '\e[0m'
 HBLU = '\e[1;94m'
 
 BIN_DIR = bin/
-CFLAGS		=   
-#    -fsanitize=address
+CFLAGS		=     
+# -fsanitize=address
 
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include

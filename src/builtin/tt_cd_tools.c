@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 21:14:50 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:55:47 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/18 23:16:41 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,39 @@ void	reset_env(char *pwd, char *o_pwd)
 	}
 }
 
-char	*extend_option(char *arg, char *ex_with, int opt)
-{
-	char	*ret;
-	char	*past;
-	char	*tmp;
+// char	*extend_option(char *arg, char *ex_with, int opt)
+// {
+// 	char	*ret;
+// 	char	*past;
+// 	char	*tmp;
 
-	ret = NULL;
-	past = NULL;
-	if (!opt)
-		tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));
-	else if (opt == 1)
-		tmp = ft_substr(arg, 1, (ft_strlen(arg) - 1));
-	ret = ft_strjoin_free(ex_with, tmp);
-	return (free(arg), ret);
-}
+// 	ret = NULL;
+// 	past = NULL;
+// 	if (!opt)
+// 		tmp = ft_substr(arg, 2, (ft_strlen(arg) - 2));
+// 	else if (opt == 1)
+// 		tmp = ft_substr(arg, 1, (ft_strlen(arg) - 1));
+// 	ret = ft_strjoin_free(ex_with, tmp);
+// 	return (free(arg), ret);
+// }
 
-char	*get_prev_path(char *path)
-{
-	int		iter;
-	int		len;
-	char	*tmp;
+// char	*get_prev_path(char *path)
+// {
+// 	int		iter;
+// 	int		len;
+// 	char	*tmp;
 
-	len = ft_strlen(path);
-	len--;
-	iter = len;
-	while (path[iter] != '/' && iter >= 0)
-		iter--;
-	if (path[iter] == '/' && iter == 0)
-		return (ft_strdup("/"));
-	else if (iter != len)
-		tmp = ft_substr(path, 0, iter);
-	return (tmp);
-}
+// 	len = ft_strlen(path);
+// 	len--;
+// 	iter = len;
+// 	while (path[iter] != '/' && iter >= 0)
+// 		iter--;
+// 	if (path[iter] == '/' && iter == 0)
+// 		return (ft_strdup("/"));
+// 	else if (iter != len)
+// 		tmp = ft_substr(path, 0, iter);
+// 	return (tmp);
+// }
 
 int	ft_go_to(int opt, char **path, char *cwd)
 {
