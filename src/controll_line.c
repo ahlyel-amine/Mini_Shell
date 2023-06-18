@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:44:02 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 21:25:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	controll_line(char **line)
 	complete_line(line, &stop);
 	if (stop)
 		return ;
+	if (!(*line)[skip_spaces_front(*line)])
+		return ;
 	new = tokenize(*line, *line + ft_strlen(*line), 0);
 	new = check_tokenize(new);
 	if (!get_fds(new))
@@ -34,45 +36,3 @@ void	controll_line(char **line)
 	free_lsttoken(new);
 }
 
-// void	print_tokens(t_lsttoken *head)
-// {
-// 	t_lsttoken *new = head, *tmp;
-// 	while (new)
-// 	{
-// 		if (new->t_.type != E_SPACE && new->t_.type != E_EMPTY)
-// 		{
-// 			if (new->t_.down)
-// 			{
-// 				if (new->t_.type == E_SUBSH)
-// 				{
-// 					printf("-----down_start------\n");
-// 					printf("[%d]\n", new->t_.type);
-// 					print_tokens(new->t_.down);
-// 					printf("-----down_end------\n");
-// 				}
-// 				else
-// 				{
-// 					printf("[%d][%s]\n", new->t_.type, ft_substr(new->t_.line, new->t_.start, new->t_.len));
-// 					printf("-----down_start------\n");
-// 					t_lsttoken	*tmp = new->t_.down;
-// 					while (tmp)
-// 					{
-// 						if (tmp->t_.type != E_SPACE && tmp->t_.type != E_EMPTY)
-// 							printf("[%d][%s]\n", tmp->t_.type, ft_substr(tmp->t_.line, tmp->t_.start, tmp->t_.len));
-// 						else if (tmp->t_.type == E_SPACE)
-// 							printf("[%d][ ]\n", tmp->t_.type);
-// 						tmp = tmp->next;
-// 					}
-// 					printf("-----down_end------\n");
-// 				}
-// 			}
-// 			else
-// 				printf("[%d][%s]\n", new->t_.type, ft_substr(new->t_.line, new->t_.start, new->t_.len));
-// 		}
-// 		else if (new->t_.type == E_SPACE)
-// 			printf("[%d][ ]\n", new->t_.type);
-// 		new = new->next;
-// 	}
-// }
-
-// 	// exit(1);

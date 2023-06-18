@@ -6,12 +6,12 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:26:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 21:34:14 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
+ #include <sys/ioctl.h>
 void	read_line(void)
 {
 	char	*pwd;
