@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:20:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 20:23:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 20:27:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	ft_chrpos(char *line, char c)
 
 int	ft_isvariable(char c)
 {
-	return (c != '&' && c != '|' && c != '<' && \
-	c != '>' && c != '(' && c != ')' && c != '?' && c != '$' && c != '\'' && c != '\"');
+	return (ft_isalnum(c) || c == '_');
+	// return (c != '&' && c != '|' && c != '<' && \
+	// c != '>' && c != '(' && c != ')' && c != '?' && c != '$' && c != '\'' && c != '\"');
 }
 
 char	*ft_strjoin_free(char *s1, char *s2)
