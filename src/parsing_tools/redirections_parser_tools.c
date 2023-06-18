@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 20:07:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:33:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ char **tmp, t_2ptr_int a, t_var var)
 	return (0);
 }
 
-char	*skip_quote_heredoc_delimiters(char *line, char *end_line, int *q)
+char	*skip_q_hrdc_delim(char *line, char *end_line, int *q)
 {
 	int		i;
 	int		k;
 	char	*tmp;
 	t_var	var;
+
 	i = 0;
 	ft_memset(&var, 0, sizeof(t_var));
 	tmp = ft_calloc(1, (end_line - line) + 1);
@@ -63,7 +64,8 @@ static char	*get_herdoc_name(void)
 	return (ft_strjoin_free(ft_strdup(HERDOC_FILE), ft_itoa(call++)));
 }
 
-static int	read_heredoc_inside_loops(char **line, char *delimiter, int fd, int q)
+static int	read_heredoc_inside_loops(char **line, \
+char *delimiter, int fd, int q)
 {
 	if (!strncmp(*line, delimiter, ft_strlen(delimiter) + 1))
 	{

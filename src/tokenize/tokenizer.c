@@ -6,50 +6,11 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:54:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 18:01:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:52:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-t_lsttoken	*new_token(t_token t_)
-{
-	t_lsttoken	*node;
-
-	node = (t_lsttoken *)malloc(sizeof(t_lsttoken));
-	if (node)
-	{
-		node->t_ = t_;
-		node->next = NULL;
-	}
-	return (node);
-}
-
-t_lsttoken	*ft_lstokenlast(t_lsttoken *lst)
-{
-	if (lst)
-	{
-		while (lst->next)
-			lst = lst->next;
-	}
-	return (lst);
-}
-
-void	ft_lstokenadd_back(t_lsttoken **lst, t_lsttoken *new)
-{
-	t_lsttoken	*tmp;
-
-	tmp = NULL;
-	if (!new || !lst)
-		return ;
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		tmp = ft_lstokenlast(*lst);
-		tmp->next = new;
-	}
-}
 
 int	subsh_pipe_token(t_lsttoken **head, char *line, int *i, int *fail)
 {
@@ -140,74 +101,6 @@ int	pipe_token(t_lsttoken **head, char *line, int *i)
 		return (1);
 	}
 	return (0);
-}
-
-int	red_right_token(t_lsttoken **head, char *line, int *i)
-{
-	int	j;
-
-	j = 0;
-	if (line[*i] == '>' && line[*i + 1] == '>')
-	{
-		ft_lstokenadd_back(head, new_token((t_token){E_APPEND, line, *i, 2,
-				NULL}));
-		*i += 2;
-		return (1);
-	}
-	else if (line[*i] == '>')
-	{
-		ft_lstokenadd_back(head, new_token((t_token){E_OUTRED, line, *i, 1,
-				NULL}));
-		*i += 1;
-		return (1);
-	}
-	return (0);
-}
-
-int	red_left_token(t_lsttoken **head, char *line, int *i)
-{
-	int	j;
-
-	j = 0;
-	if (line[*i] == '<' && line[*i + 1] == '<')
-	{
-		ft_lstokenadd_back(head, new_token((t_token){E_HEREDOC, line, *i, 2,
-				NULL}));
-		*i += 2;
-		return (1);
-	}
-	else if (line[*i] == '<')
-	{
-		ft_lstokenadd_back(head, new_token((t_token){E_INRED, line, *i, 1,
-				NULL}));
-		*i += 1;
-		return (1);
-	}
-	return (0);
-}
-
-void	str_token(t_lsttoken **head, char *line, int *i)
-{
-	int	j;
-
-	j = 0;
-	while (line[*i + j] && line[*i + j] != '<' && line[*i + j] != '>' && \
-	line[*i + j] != '|' && line[*i + j] != '&' && line[*i + j] != '\'' && \
-	line[*i + j] != '\"' && line[*i + j] != ')' && line[*i + j] != '(' && \
-	line[*i + j] != ' ')
-		j++;
-	if (j)
-		ft_lstokenadd_back(head, new_token((t_token){E_STR, line, *i, j,
-				NULL}));
-	*i += j;
-	j = 0;
-	while (line[*i + j] == ' ')
-		j++;
-	if (j)
-		ft_lstokenadd_back(head, new_token((t_token){E_SPACE, 0, 0, 0, NULL}));
-	*i += j;
-	while (line[*i] == ')')
-		(*i)++;
 }
 
 t_lsttoken	*tokenize(char *line, char *endline, int i)

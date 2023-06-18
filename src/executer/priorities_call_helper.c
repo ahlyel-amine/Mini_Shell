@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 17:47:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:36:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ void	subsh_call(t_lsttoken *head, t_components comp)
 		cmd_sig_check(NULL, status);
 	}
 }
-void	wait_pipes()
+
+void	wait_pipes(void)
 {
 	while (wait(NULL) != -1)
 		;
 }
 
-void	pipe_call(t_2ptr_t_lsttoken a, t_lsttoken *head, t_lsttoken *prev, t_components comp)
+void	pipe_call(t_2ptr_t_lsttoken a, t_lsttoken *head, \
+t_lsttoken *prev, t_components comp)
 {
 	int			fd[2];
 	int			pid;

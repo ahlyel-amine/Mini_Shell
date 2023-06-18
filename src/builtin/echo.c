@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 11:43:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:38:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*ft_dstr_to_str(char **clone)
 		free(clone);
 	return (r_str);
 }
-
 
 void	print_arguments(t_arguments *args, char *ref)
 {

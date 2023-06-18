@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/13 00:40:41 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:41:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	her_sig(int sig)
 	}
 }
 
-void	sig_here()
+void	sig_here(void)
 {
 	rl_event_hook = event;
 	signal(SIGINT, her_sig);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	sig_handl()
+void	sig_handl(void)
 {
 	signal(SIGINT, handel_sigint);
 	signal(SIGQUIT, SIG_IGN);
