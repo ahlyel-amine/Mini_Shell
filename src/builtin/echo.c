@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 20:22:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 20:24:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	tt_echo(t_arguments *cmd_args, int echo_has_option)
 {
 	char		*arg;
 
-	print_arguments(cmd_args, "alo");
 	transform_args(&cmd_args);
 	arg = args_to_str(cmd_args);
 	if (!echo_has_option)
