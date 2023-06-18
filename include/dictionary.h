@@ -22,6 +22,7 @@
 # define F_OUT_RED	0b11
 
 # define SHELL_NAME				"minishell: "
+# define FORK_ERR				"minishell: fork: "
 # define HERDOC_FILE			"/tmp/.heredoc_"
 # define ERR_TOKEN				"minishell: syntax error near unexpected token : "
 # define ERR_EXVE				"minishell: execve: faillure"

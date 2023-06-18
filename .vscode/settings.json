@@ -44,7 +44,11 @@
 		"vector": "c",
 		"complex": "c",
 		"tokenizer.h": "c",
-		"executer.h": "c"
+		"executer.h": "c",
+		"time.h": "c",
+		"__bit_reference": "c",
+		"initializer_list": "c",
+		"unordered_map": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

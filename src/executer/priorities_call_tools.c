@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 20:57:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 17:57:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	*get_path(char *cmd)
 		i++;
 	}
 	glo_exit = 127;
-	return (pr_custom_err(ERR_CMD, NULL, cmd), NULL);
+	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
 }
 
 void	child(char **exec, char *path, t_components comp)
@@ -163,19 +163,19 @@ int	cmd_executers(char *path, char **cmd, t_components comp)
 	int status;
 
 	if (!path || !cmd)
-		return (0);
+		return (free(cmd), free(path), 0);
 	int pid = fork();
 	if (pid == -1)
-		return (perror(SHELL_NAME), 0);
+		return (perror(FORK_ERR), free(cmd), -1);
 	if (!pid)
 		child(cmd, path, comp);
 	if (comp.is_pipe != 0)
-		return (pid);
+		return (free(path), free(cmd), pid);
 	if (waitpid(pid, &status, 0) == -1)
-		return (free(path), 0);
+		return (free(path), free(cmd), 0);
 	if (cmd_sig_check(path, status))
-		return 0;
-	return -1;
+		return (free(cmd), 0);
+	return (free(cmd), 0);
 }
 
 char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
@@ -187,22 +187,27 @@ char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
 	int			a;
 	char		*word;
 
-	a = (back - *front);
 	head = *front;
-	while ((head->t_.type == E_SPACE || head->t_.type == E_EMPTY) && a--)
+	while (head && (head->t_.type == E_SPACE || head->t_.type == E_EMPTY))
+	{
+		if (head == back)
+			break ;
 		head = head->next;
+	}
+	if (!head || head->t_.type == E_EMPTY || head->t_.type == E_SPACE)
+		return (NULL);
 	word = head->t_.line;
-	
 	start = head->t_.start;
 	end = head->t_.len;
 	head = head->next;
-
-	while (head && back - head + 1)
+	while (head)
 	{
 		if (head->t_.type != E_STR && head->t_.type != E_QUOTE && head->t_.type != E_DQUOTE)
 			break ;
 		else
 			end += head->t_.len;
+		if (head == back)
+			break ;
 		head = head->next;
 	}
 	*front = head;
@@ -215,8 +220,6 @@ char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
 	word = args_to_str(arg);
 	return (arguments_destructor(&arg), word);
 }
-
-
 
 t_components get_red(t_lsttoken *redir, t_components comp)
 {

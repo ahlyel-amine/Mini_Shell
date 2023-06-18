@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 00:08:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 00:08:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 13:34:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ int	cmd_sig_check(char *path, int status)
 		write(2, "\n", 1);
 	else if (is_sig == 2)
 		ft_putendl_fd("Quit: (core dumped)", STDERR_FILENO);
-	return (0);
+	return (free(path), 0);
 }
