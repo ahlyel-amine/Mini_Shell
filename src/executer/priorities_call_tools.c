@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 17:57:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:25:16 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ size_t	get_lenght(t_lsttoken *front, t_lsttoken *back)
 	len = 0;
 	while (head)
 	{
-		if (head->t_.type == E_AND || head->t_.type == E_OR || head->t_.type == E_PIPE)
+		if (head->t_.type & (E_AND | E_OR | E_PIPE))
 			break ;
 		else if (head->t_.type == E_SPACE)
 			len++;
-		else if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
+		else if (!(head->t_.type & (E_EMPTY | E_SPACE)))
 			len += head->t_.len;
 		head = head->next;
 	}
@@ -69,11 +69,12 @@ char	*get_line(t_lsttoken *front, t_lsttoken *back, size_t len)
 		return (NULL);
 	while (head)
 	{
-		if (head->t_.type == E_AND || head->t_.type == E_OR || head->t_.type == E_PIPE)
+		
+		if (head->t_.type & (E_AND | E_OR | E_PIPE))
 			break ;
 		else if (head->t_.type == E_SPACE)
 			line[i++] = ' ';
-		else if (head->t_.type != E_EMPTY && head->t_.type != E_SPACE)
+		else if (!(head->t_.type & (E_EMPTY | E_SPACE)))
 		{
 			j = 0;			
 			while (head->t_.start + j < head->t_.start + head->t_.len)
@@ -188,13 +189,13 @@ char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
 	char		*word;
 
 	head = *front;
-	while (head && (head->t_.type == E_SPACE || head->t_.type == E_EMPTY))
+	while (head && (head->t_.type & (E_EMPTY | E_SPACE)))
 	{
 		if (head == back)
 			break ;
 		head = head->next;
 	}
-	if (!head || head->t_.type == E_EMPTY || head->t_.type == E_SPACE)
+	if (!head || (head->t_.type & (E_EMPTY | E_SPACE)))
 		return (NULL);
 	word = head->t_.line;
 	start = head->t_.start;
@@ -202,7 +203,7 @@ char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
 	head = head->next;
 	while (head)
 	{
-		if (head->t_.type != E_STR && head->t_.type != E_QUOTE && head->t_.type != E_DQUOTE)
+		if (!(head->t_.type & (E_STR | E_QUOTE | E_DQUOTE)))
 			break ;
 		else
 			end += head->t_.len;
@@ -228,12 +229,14 @@ t_components get_red(t_lsttoken *redir, t_components comp)
 
 	if (redir->t_.type == E_HEREDOC)
 	{
-		delimiter = skip_quote_heredoc_delimiters(redir->t_.down->t_.line + redir->t_.down->t_.start, redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len, &q);
+		delimiter = skip_quote_heredoc_delimiters(redir->t_.down->t_.line + redir->t_.down->t_.start, \
+		redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len, &q);
 		comp.infile = read_heredocs(delimiter, q);
 	}
 	else
 	{
-		delimiter = get_filename(redir->t_.down->t_.line + redir->t_.down->t_.start, redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len);
+		delimiter = get_filename(redir->t_.down->t_.line + redir->t_.down->t_.start, \
+		redir->t_.down->t_.line + redir->t_.down->t_.start + redir->t_.down->t_.len);
 		if (!delimiter)
 			return ((t_components){-1, -1, 0, NULL});
 		if (redir->t_.type == E_INRED)

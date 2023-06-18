@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 16:26:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:21:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_lsttoken *skip_echo_option(t_lsttoken *front, t_lsttoken *back, int *has_optio
 	*has_option = 0;
 	while (front)
 	{
-		if ((front->t_.type == E_STR || front->t_.type == E_QUOTE || front->t_.type == E_DQUOTE))
+		if (front->t_.type & (E_STR | E_QUOTE | E_DQUOTE))
 		{
 			if (!is_option(front->t_.line + front->t_.start, front->t_.line + front->t_.start + front->t_.len))
 				break ;
@@ -121,8 +121,7 @@ int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	head = front;
 	while (head)
 	{
-		if (head->t_.type == E_OUTRED || head->t_.type == E_INRED || \
-		head->t_.type == E_APPEND || head->t_.type == E_HEREDOC)
+		if (head->t_.type & (E_OUTRED | E_INRED | E_APPEND | E_HEREDOC))
 		{
 			in = 1;
 			tmp = get_red(head, comp);
@@ -195,7 +194,7 @@ int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	prev = front;
 	while (head)
 	{
-		if ((head->t_.type == E_AND || head->t_.type == E_OR) && last_operaotr(head->next, back))
+		if ((head->t_.type & (E_AND | E_OR)) && last_operaotr(head->next, back))
 		{
 			in = 1;
 			operator(front, prev, comp);

@@ -93,4 +93,22 @@ typedef enum s_arguments_type
 	IS_FILE		= 0b100000
 } t_arguments_type;
 
+typedef enum e_token
+{
+	E_SUBSH 	= 0b1,
+	E_DQUOTE 	= 0b10,
+	E_QUOTE 	= 0b100,
+	E_AND 		= 0b1000,
+	E_OR 		= 0b10000,
+	E_PIPE 		= 0b1000000,
+	E_HEREDOC 	= 0b10000000,
+	E_OUTRED	= 0b100000000,
+	E_INRED		= 0b1000000000,
+	E_APPEND	= 0b10000000000,
+	E_STR		= 0b100000000000,
+	E_SPACE 	= 0b1000000000000,
+	E_FD_NAME 	= 0b10000000000000,
+	E_EMPTY		= 0b100000000000000,
+}	enum_token;
+
 #endif
