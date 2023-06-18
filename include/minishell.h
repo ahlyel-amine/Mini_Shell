@@ -62,6 +62,7 @@ typedef enum e_token
 }	enum_token;
 
 
+void	print_tokens(t_lsttoken *head);
 
 int	glo_exit;
 int	in_cmd;

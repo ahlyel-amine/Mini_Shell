@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/17 23:28:58 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:26:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_lsttoken *skip_echo_option(t_lsttoken *front, t_lsttoken *back, int *has_optio
 	}
 	return (front);
 }
-
 static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {
 	char		*cmd;
@@ -66,6 +65,8 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	cmd = get_command_name(&front, back);
 	if (cmd)
 		ret = is_builtin(cmd);
+	else
+		return (glo_exit = 0, 1);
 	if (!ret)
 	{
 		arg = get_cmd(front, back);
@@ -127,7 +128,7 @@ int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp)
 			tmp = get_red(head, comp);
 			if (tmp.infile == -1 && tmp.outfile == -1 && tmp.is_pipe == 0 && !tmp.fd)
 				return (0);
-			head->t_.type = E_EMPTY;			
+			head->t_.type = E_EMPTY;
 			redirection(front, back, tmp);
 			break ;
 		}
@@ -137,7 +138,7 @@ int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	}
 	if (!in)
 		return subsh(front, back, comp);
-	return (-1);
+	return (0);
 }
 
 int	pipe_(t_lsttoken *front, t_lsttoken *back, t_components comp)

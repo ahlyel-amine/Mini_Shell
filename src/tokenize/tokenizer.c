@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:54:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 19:20:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 17:19:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_lstokenadd_back(t_lsttoken **lst, t_lsttoken *new)
 	}
 }
 
-int	subsh_token(t_lsttoken **head, char *line, int *i)
+int	subsh_token(t_lsttoken **head, char *line, int *i, int *fail)
 {
 	int	j;
 
@@ -60,7 +60,7 @@ int	subsh_token(t_lsttoken **head, char *line, int *i)
 	{
 		j = close_parenthise(line + *i + 1);
 		if (j == -1)
-			return (panic_recursive(ERR_UNCLSDP, NULL), -1);
+			return (panic_recursive(ERR_UNCLSDP, NULL), *fail = 1, -1);
 		ft_lstokenadd_back(head, new_token((t_token){E_SUBSH, line, *i + 1, j
 				- 1, NULL}));
 		*i += j + 1;
@@ -97,7 +97,7 @@ int	quote_token(t_lsttoken **head, char *line, int *i)
 	return (0);
 }
 
-int	operator_token(t_lsttoken **head, char *line, int *i)
+int	operator_token(t_lsttoken **head, char *line, int *i, int *fail)
 {
 	int	j;
 
@@ -105,7 +105,7 @@ int	operator_token(t_lsttoken **head, char *line, int *i)
 	if (line[*i] == '&')
 	{
 		if (line[*i + 1] != '&')
-			return (panic_recursive(ERR_1AND, NULL), -1);
+			return (panic_recursive(ERR_1AND, NULL), *fail = 1, -1);
 		ft_lstokenadd_back(head, new_token((t_token){E_AND, line, *i, 2,
 				NULL}));
 		*i += 2;
@@ -203,29 +203,33 @@ void	str_token(t_lsttoken **head, char *line, int *i)
 		(*i)++;
 }
 
-t_lsttoken	*tokenize(char *line)
+t_lsttoken	*tokenize(char *line, char *endline, int i)
 {
 	t_lsttoken	*new;
-	int			i;
+	int			fail;
 
+	fail = 0;
 	new = NULL;
-	i = 0;
 	while (line[i])
 	{
-		if (subsh_token(&new, line, &i))
+		if (!fail && subsh_token(&new, line, &i, &fail))
 			continue ;
-		else if (quote_token(&new, line, &i))
+		else if (!fail && quote_token(&new, line, &i))
 			continue ;
-		else if (operator_token(&new, line, &i))
+		else if (!fail && operator_token(&new, line, &i, &fail))
 			continue ;
-		else if (pipe_token(&new, line, &i))
+		else if (!fail && pipe_token(&new, line, &i))
 			continue ;
-		else if (red_right_token(&new, line, &i))
+		else if (!fail && red_right_token(&new, line, &i))
 			continue ;
-		else if (red_left_token(&new, line, &i))
+		else if (!fail && red_left_token(&new, line, &i))
 			continue ;
-		else
+		else if (!fail)
 			str_token(&new, line, &i);
+		else if (fail)
+			return (free_lsttoken(new), NULL);
+		if (line + i >= endline)
+			break ;
 	}
-	return (check_tokenize(new));
+	return (new);
 }

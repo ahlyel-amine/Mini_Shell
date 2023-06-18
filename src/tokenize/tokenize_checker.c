@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:55:40 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/16 21:05:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 17:37:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_redirections_followed_by_subsh(t_lsttoken *new)
 	check = new;
 	while (check)
 	{
-		if (check->t_.type == E_OUTRED || check->t_.type == E_INRED || \
+		if (check->t_.type == E_OUTRED || check->t_.type == E_INRED || check->t_.type & (E_DQUOTE | E_QUOTE) ||\
 		check->t_.type == E_APPEND || check->t_.type == E_HEREDOC || check->t_.type == E_STR)
 		{
 			check_2 = check->next;
@@ -58,6 +58,10 @@ int	check_redirections_names(t_lsttoken *check)
 	if (check->t_.type == E_OUTRED || check->t_.type == E_INRED || \
 	check->t_.type == E_APPEND || check->t_.type == E_HEREDOC)
 	{
+		// if (check->next && check->next->t_.type == E_EMPTY)
+		// {
+		// 	printf("%s[%d]\n", check->next->t_.line + check->next->t_.start, check->next->t_.len);
+
 		if (!check->next)
 			return (panic_recursive(ERR_O_SNTX, NULL), 0);
 		else if (check->next && check->next->next && check->next->t_.type == E_SPACE && \
@@ -72,7 +76,8 @@ int	check_redirections_names(t_lsttoken *check)
 	}
 	return (1);
 }
-
+//   && check->next->t_.type != E_PIPE  &&\
+// 		check->next->t_.type != E_AND  && check->next->t_.type != E_OR  &&
 int	a_check(t_lsttoken *new)
 {
 	t_lsttoken	*check;
@@ -100,18 +105,20 @@ int	a_check(t_lsttoken *new)
 	return (check_redirections_followed_by_subsh(new));
 }
 
-void	get_fds_loop_check(t_lsttoken *head)
+int	get_fds_loop_check(t_lsttoken *head)
 {
 	int			start;
 	int			end;
 	t_lsttoken	*tmp;
 
 	tmp = head->next;
-	if (tmp->t_.type == E_SPACE)
+	if (tmp && tmp->t_.type == E_SPACE)
 	{
 		tmp->t_.type = E_EMPTY;
 		tmp = tmp->next;
 	}
+	if (!tmp)
+		return (panic_recursive(ERR_O_SNTX, NULL), 0);
 	start = tmp->t_.start;
 	end = 0;
 	while (tmp)
@@ -126,8 +133,10 @@ void	get_fds_loop_check(t_lsttoken *head)
 		tmp = tmp->next;
 	}
 	head->t_.down = new_token((t_token){E_FD_NAME, head->t_.line, start, end, NULL});
+	return (1);
 }
-void	get_fds(t_lsttoken	*fds)
+
+int	get_fds(t_lsttoken	*fds)
 {
 	t_lsttoken	*head;
 	t_lsttoken	*tmp;
@@ -137,32 +146,37 @@ void	get_fds(t_lsttoken	*fds)
 	head = fds;
 	while (head)
 	{
-		if (head->t_.type == E_OUTRED || head->t_.type == E_INRED || head->t_.type == E_APPEND || head->t_.type == E_HEREDOC)
+		if (head->t_.type == E_OUTRED || head->t_.type == E_INRED || \
+		head->t_.type == E_APPEND || head->t_.type == E_HEREDOC)
 		{
-			get_fds_loop_check(head);
+			if (!get_fds_loop_check(head))
+				return (0);
 		}
+		else if (head->t_.type == E_SUBSH)
+			get_fds(head->t_.down);
 		head = head->next;
 	}
+	return (1);
 }
 
 t_lsttoken	*check_tokenize(t_lsttoken *new)
 {
 	t_lsttoken	*subs;
+	t_lsttoken	*new_sub;
 
 	if (!a_check(new))
-		return (NULL);
+		return (free_lsttoken(new), NULL);
 	subs = new;
 	while (subs)
 	{
 		if (subs->t_.type == E_SUBSH)
 		{
-			t_lsttoken	*pop = tokenize(ft_substr(subs->t_.line, subs->t_.start, subs->t_.len));
-			if (!a_check(pop))
-				return (NULL);
-			subs->t_.down = pop;
+			new_sub = tokenize(subs->t_.line, subs->t_.line + subs->t_.start + subs->t_.len, subs->t_.start);
+			if (!check_tokenize(new_sub))
+				return (free_lsttoken(new), NULL);
+			subs->t_.down = new_sub;
 		}
 		subs = subs->next;
 	}
-	get_fds(new);
 	return (new);
 }

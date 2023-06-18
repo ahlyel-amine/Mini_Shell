@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/17 19:25:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 17:47:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void	subsh_call(t_lsttoken *head, t_components comp)
 		cmd_sig_check(NULL, status);
 	}
 }
+void	wait_pipes()
+{
+	while (wait(NULL) != -1)
+		;
+}
 
 void	pipe_call(t_2ptr_t_lsttoken a, t_lsttoken *head, t_lsttoken *prev, t_components comp)
 {
@@ -49,16 +54,16 @@ void	pipe_call(t_2ptr_t_lsttoken a, t_lsttoken *head, t_lsttoken *prev, t_compon
 
 	is_pipe = 1;
 	pipe(fd);
+	pid = redirection(a.front, prev, (t_components){comp.infile, fd[1], 1, fd});
+	if (pid == -1)
+		return (wait_pipes());
 	if (comp.fd != NULL)
 		close(comp.fd[0]);
-	pid = redirection(a.front, prev, (t_components){comp.infile, fd[1], 1, fd});
 	close(fd[1]);
 	pid = pipe_(head->next, a.back, (t_components){fd[0], comp.outfile, 1, fd});
+	if (pid == -1)
+		return (wait_pipes());
 	close(fd[0]);
 	if (!pipe_left(head->next, a.back))
-	{
-		waitpid(pid, NULL, 0);
-		while (wait(NULL) != -1)
-			;
-	}
+		return (wait_pipes());
 }
