@@ -3,7 +3,7 @@ READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
 #	SRC			row 1 : src/		row 2 : src/parsing_tools/		row 3 : src/parsing/			row 4 : src/executer/			row 5 : src/tokenizer/		row 5 : src/builtin/
 SRC =	\
 		\
-		src/minishell.c  src/wild_cards.c src/read_line.c src/expand_line.c \
+		src/minishell.c  src/wild_cards.c src/read_line.c src/expand_line.c src/tokens_controll.c\
 		src/tools.c src/tools2.c src/signal.c src/getters_setters.c src/complete_line.c src/controll_line.c\
 		\
 		\
@@ -15,7 +15,7 @@ SRC =	\
 		src/tokenizer/translate_arguments.c src/tokenizer/translate_arguments2.c src/tokenizer/transform_arguments.c src/tokenizer/transform_arguments_tools.c\
 		\
 		\
-		src/tokenize/tokenizer.c src/tokenize/tokenize_checker.c\
+		src/tokenize/tokenizer.c src/tokenize/tokenizer2.c src/tokenize/tokenize_checker.c\
 		\
 		\
 		src/builtin/pwd.c src/builtin/env.c	src/builtin/cd.c src/builtin/export.c src/builtin/echo.c src/builtin/exit.c src/builtin/builtin_tools.c src/builtin/tt_unset.c\

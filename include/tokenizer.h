@@ -15,6 +15,9 @@ t_lsttoken	*check_tokenize(t_lsttoken *new);
 void	free_lsttoken(t_lsttoken *new);
 int	get_fds(t_lsttoken	*fds);
 
+int	red_right_token(t_lsttoken **head, char *line, int *i);
+int	red_left_token(t_lsttoken **head, char *line, int *i);
+void	str_token(t_lsttoken **head, char *line, int *i);
 
 
 
