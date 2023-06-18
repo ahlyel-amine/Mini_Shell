@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 04:40:27 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:45:24 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/18 23:01:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	**args_dstr_alloc(t_arguments *args)
 	return (str);
 }
 
-static t_arguments	*ft_join_args_dstr(t_arguments *tmp, char **str, size_t *indx)
+t_arguments	*ft_join_args_dstr(t_arguments *tmp, char **str, size_t *indx)
 {
 	char	*stack;
 

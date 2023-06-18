@@ -19,6 +19,11 @@ int			go_to_oldpwd(char *cwd, char *path);
 short       valid_var(char *var);
 char		**args_to_dblstr_(t_arguments *args);
 ////-/__________________________________________________________//-|
+///-/                         EXPANDER                         //--|
+//-/__________________________________________________________//---|
+char		*tilde_expansion(char *arg, unsigned short type, t_arguments *next);
+
+////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
 int		tt_pwd();
