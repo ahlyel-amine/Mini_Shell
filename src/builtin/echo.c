@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 20:38:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/18 20:43:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,17 @@ void	tt_echo(t_arguments *cmd_args, int echo_has_option)
 	glo_exit = 0;
 	free(arg);
 }
-//echo $PWD "$1PLO '$USER'"
+// echo $PWD "$1PLO '$USER'"
+
+
+/*
+ echo "$'USER'"
+ 
+--------------------arguments_START----alo--------
+{8}
+2]$'USER'[
+--------------------arguments_END------alo----------------
+
+DONT REMOVE THE DOLLAR SIGN FROM IS_STR
+
+*/
