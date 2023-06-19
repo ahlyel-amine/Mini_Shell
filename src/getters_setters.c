@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 10:54:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 11:22:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,9 @@ void	unset(t_hold *env, char ***path, char **pwd, char **homedir)
 	ft_lstclear(&(env->lst), free);
 }
 
-
 char	**set_env(char **env)
 {
-	char **envp;
+	char	**envp;
 
 	envp = ft_dstrdup(env);
 	return (envp);

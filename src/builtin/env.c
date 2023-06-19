@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:53:40 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	env_print(t_list *lst, int lst_size, void (*print)(char*, int))
 	tmp = lst;
 	while (tmp && size--)
 	{
-		(*print)(tmp->content, e_glb.out);
+		(*print)(tmp->content, g_glb.out);
 		tmp = tmp->next;
 	}
 }
@@ -39,7 +39,7 @@ void	tt_env(t_arguments *cmd_args)
 		env_print(lst, env->size, ft_putendl_fd);
 	else if (args && *args)
 	{
-		e_glb.exit_val = 127;
+		g_glb.exit_val = 127;
 		printf("Minishell: %s: no such file or directory\n", *args);
 	}
 }

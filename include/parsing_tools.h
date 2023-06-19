@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_tools.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/19 11:34:36 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/06/19 13:01:13 by aahlyel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_TOOLS_H
 # define PARSING_TOOLS_H
 
@@ -16,6 +28,6 @@ void		panic_recursive(char *error, char **ptr);
 char		*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q);
 t_arguments	*get_names(char *line, int *i);
 int			check_for_syntax(char **line, int i);
-char    	*ft_strndup(const char *s, size_t n);
+char		*ft_strndup(const char *s, size_t n);
 
 #endif

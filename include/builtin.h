@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:13:48 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 10:48:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 12:48:00 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char		*extend_option(char *arg, char *ex_with, int opt);
 char		*get_prev_path(char *path);
 int			ft_go_to(int opt, char **path, char *cwd);
 int			prev_drictory_count(char *wd);
-char    	*get_owd(char *env_var);
+char		*get_owd(char *env_var);
 
 ////-/__________________________________________________________//-|
 ///-/                           SIGNALS                        //--|

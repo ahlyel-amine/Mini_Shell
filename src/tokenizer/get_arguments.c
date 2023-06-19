@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_arguments.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 07:56:51 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:25:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_var *var, t_2ptr_int a, char *line)
 	}
 	return (arguments);
 }
-// need flg to specifie whether run check_out_of_quotes func or not
+
 static t_arguments	*get_arguments(char *line, int i, int flg)
 {
 	t_arguments	*arguments;

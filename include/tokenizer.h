@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/19 11:34:43 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/06/19 13:01:42 by aahlyel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
@@ -25,7 +37,8 @@ char		**args_to_cmd_dstr(t_arguments *args, char *cmd);
 char		**args_to_dblstr(t_arguments *args);
 void		args_join(t_arguments **args);
 void		args_move_down(t_arguments **args, t_arguments **prev);
-void		replace_arg(t_arguments **head, t_arguments **old, t_arguments *new);
+void		replace_arg(t_arguments **head, t_arguments **old, \
+t_arguments *new);
 void		merge_arguments(t_arguments **arguments, int is_dquote);
 void		args_join_down(t_arguments **args);
 void		tokenize_variables(t_arguments **arguments);
