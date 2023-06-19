@@ -26,13 +26,13 @@ char		*tilde_expansion(char *arg, unsigned short type, t_arguments *next);
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
-int		tt_pwd();
-void	tt_cd(t_arguments *cd_args);
-void	tt_echo(t_arguments *cmd_args, int echo_has_option);
-void	tt_env(t_arguments *cmd_args);
-void	tt_unset(t_arguments *cmd_args);
-void	tt_export(t_arguments *cmd_args);
-void	tt_exit(t_arguments *cmd_args);
+// int		tt_pwd();
+// void	tt_cd(t_arguments *cd_args);
+// void	tt_echo(t_arguments *cmd_args, int echo_has_option);
+// void	tt_env(t_arguments *cmd_args);
+// void	tt_unset(t_arguments *cmd_args);
+// void	tt_export(t_arguments *cmd_args);
+// void	tt_exit(t_arguments *cmd_args);
 
 ////-/__________________________________________________________//-|
 ///-/                        tt_cd_tools                       //--|

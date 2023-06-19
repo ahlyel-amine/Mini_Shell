@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 15:43:59 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:18:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_arguments	*get_cmd(t_lsttoken *front, t_lsttoken *back)
 	char		*line;
 	size_t		len;
 
+	if (front == back)
+		return (NULL);
 	len = get_lenght(front, back);
 	line = get_line(front, back, len);
 	arg = get_argument(line, 0, 1);
@@ -56,13 +58,13 @@ t_lsttoken *prev, t_components comp)
 
 	g_glb.is_pipe = 1;
 	pipe(fd);
-	pid = redirection(a.front, prev, (t_components){comp.infile, fd[1], 1, fd});
+	pid = redirection(a.front, prev, (t_components){fd, comp.infile, fd[1], 1});
 	if (pid == -1)
 		return (wait_pipes());
 	if (comp.fd != NULL)
 		close(comp.fd[0]);
 	close(fd[1]);
-	pid = pipe_(head->next, a.back, (t_components){fd[0], comp.outfile, 1, fd});
+	pid = pipe_(head->next, a.back, (t_components){fd, fd[0], comp.outfile, 1});
 	if (pid == -1)
 		return (wait_pipes());
 	close(fd[0]);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:03:38 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 02:55:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:45:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,20 @@ void	down_to_str(t_arguments *args, char **str, size_t *len)
 		tmp = tmp->next;
 	}
 }
-
+		
 void	transform_args(t_arguments **args)
 {
 	t_arguments	*nl;
 
+	if (!*args)
+		return ;
+	if ((*args)->type == IS_SEPARTOR)
+	{
+		nl = *args;
+		*args = (*args)->next;
+		free(nl->str);
+		free(nl);
+	}
 	nl = NULL;
 	expand_line(*args);
 	wild_cards(args);

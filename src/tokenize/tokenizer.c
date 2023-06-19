@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:54:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 13:48:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:53:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	subsh_token(t_lsttoken **head, char *line, int *i, int *fail)
 		j = close_parenthise(line + *i + 1);
 		if (j == -1)
 			return (panic_recursive(ERR_UNCLSDP, NULL), *fail = 1, -1);
-		ft_lstokenadd_back(head, new_token((t_token){E_SUBSH, line, *i + 1, j
-				- 1, NULL}));
+		ft_lstokenadd_back(head, new_token((t_token){NULL, line, *i + 1, j
+				- 1, E_SUBSH}));
 		*i += j + 1;
 		return (1);
 	}
@@ -40,8 +40,8 @@ int	quote_token(t_lsttoken **head, char *line, int *i)
 		j = 1;
 		while (line[*i + j] && line[*i + j] != '\"')
 			j++;
-		ft_lstokenadd_back(head, new_token((t_token){E_DQUOTE, line, *i, j + 1,
-				NULL}));
+		ft_lstokenadd_back(head, new_token((t_token){NULL, line, *i, j + 1,
+				E_DQUOTE}));
 		*i += j + 1;
 		return (1);
 	}
@@ -50,8 +50,8 @@ int	quote_token(t_lsttoken **head, char *line, int *i)
 		j = 1;
 		while (line[*i + j] && line[*i + j] != '\'')
 			j++;
-		ft_lstokenadd_back(head, new_token((t_token){E_QUOTE, line, *i, j + 1,
-				NULL}));
+		ft_lstokenadd_back(head, new_token((t_token){NULL, line, *i, j + 1,
+				E_QUOTE}));
 		*i += j + 1;
 		return (1);
 	}
@@ -67,37 +67,22 @@ int	operator_token(t_lsttoken **head, char *line, int *i, int *fail)
 	{
 		if (line[*i + 1] != '&')
 			return (panic_recursive(ERR_1AND, NULL), *fail = 1, -1);
-		ft_lstokenadd_back(head, new_token((t_token){E_AND, line, *i, 2,
-				NULL}));
+		ft_lstokenadd_back(head, new_token((t_token){NULL, line, *i, 2,
+				E_AND}));
 		*i += 2;
 		return (1);
 	}
 	else if (line[*i] == '|' && line[*i + 1] == '|')
 	{
-		ft_lstokenadd_back(head, new_token((t_token){E_OR, line, *i, 2, NULL}));
+		ft_lstokenadd_back(head, new_token((t_token){NULL, line, *i, 2, E_OR}));
 		*i += 2;
 		return (1);
 	}
 	else if (line[*i] == '|')
 	{
-		ft_lstokenadd_back(head, new_token((t_token){E_PIPE, line, *i, 1, \
-		NULL}));
+		ft_lstokenadd_back(head, new_token((t_token){NULL, line, *i, 1, \
+		E_PIPE}));
 		return ((*i)++, 1);
-	}
-	return (0);
-}
-
-int	pipe_token(t_lsttoken **head, char *line, int *i)
-{
-	int	j;
-
-	j = 0;
-	if (line[*i] == '|')
-	{
-		ft_lstokenadd_back(head, new_token((t_token){E_PIPE, line, *i, 1,
-				NULL}));
-		*i += 1;
-		return (1);
 	}
 	return (0);
 }

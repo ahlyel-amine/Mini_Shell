@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/17 19:54:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:09:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,46 @@ static t_arguments	*open_cwd(char *str)
 	return (files);
 }
 
+void	wild_card_replace(t_arguments **args, t_arguments *prev, t_arguments **front)
+{
+	t_arguments	*files;
+	t_arguments	*tmp_next;
+
+	files = open_cwd((*front)->str);
+	if (files)
+	{
+		tmp_next = files;
+		while (tmp_next->next)
+			tmp_next = tmp_next->next;
+		tmp_next->next = (*front)->next;
+		tmp_next = (*front)->next;
+		if (prev != *args)
+			prev->next = files;
+		else
+			*args = files;
+		free((*front)->str);
+		free(*front);
+		*front = tmp_next;
+	}
+}
+
 void	wild_cards(t_arguments **args)
 {
 	t_arguments	*files;
-	char		*tmp;
+	t_arguments	*tmp_next;
+	t_arguments	*prev;
+	t_arguments	*front;
 
-	if (!*args)
-		return ;
-	if (((*args)->type & IS_STR) && ft_strchr((*args)->str, '*'))
+	prev = *args;
+	front = *args;
+	while (front)
 	{
-		tmp = (*args)->str;
-		files = open_cwd((*args)->str);
-		if (files)
-		{
-			replace_arg(args, args, files);
-			free (tmp);
-		}
+		if ((front->type & IS_STR) && ft_strchr(front->str, '*'))
+			wild_card_replace(args, prev, &front);
+		prev = front;
+		if (front)
+			front = front->next;
 	}
-	else
-		wild_cards(&(*args)->next);
 }
 
 static int	skip_unkown(char *myfile, char *realfile)

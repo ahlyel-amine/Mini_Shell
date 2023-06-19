@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:26:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 12:58:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:58:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # ifndef FORK_ERR
 #  define FORK_ERR				"minishell: fork: "
 # endif
+# ifndef ERR_EXVE
+#  define ERR_EXVE				"minishell: execve: "
+# endif
 # ifndef EXIT_SHELL
 #  define EXIT_SHELL				"minishell: exit"
 # endif
@@ -33,9 +36,6 @@
 # ifndef ERR_TOKEN
 #  define ERR_TOKEN				"minishell: syntax error \
 near unexpected token : "
-# endif
-# ifndef ERR_EXVE
-#  define ERR_EXVE				"minishell: execve: faillure"
 # endif
 # ifndef ERR_CMD
 #  define ERR_CMD				"minishell: command not found: "

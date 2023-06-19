@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:34:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 13:48:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 16:12:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		free_lsttoken(t_lsttoken *new);
 int			get_fds(t_lsttoken	*fds);
 int			red_right_token(t_lsttoken **head, char *line, int *i);
 int			red_left_token(t_lsttoken **head, char *line, int *i);
-void	str_token(t_lsttoken **head, char *line, int *i);
+void		str_token(t_lsttoken **head, char *line, int *i);
 int			close_dquote(t_arguments **arguments, char *line, int i);
 int			close_quote(t_arguments **arguments, char *line, int i);
 void		arguments_destructor(t_arguments **arguments);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_t1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 04:40:27 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 23:01:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:37:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ size_t	args_len_(t_arguments *args)
 		if (tmp->type & QUOTE || tmp->type & DQUOTE)
 			len++;
 		else if (!tmp->next || tmp->type & IS_SEPARTOR)
+			len++;
+		else if (tmp->type & IS_FILE)
 			len++;
 		tmp = tmp->next;
 	}
@@ -79,7 +81,12 @@ char	**args_to_dblstr_(t_arguments *args)
 	tmp = args;
 	while (tmp)
 	{
-		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE)
+		if (tmp->type & IS_FILE)
+		{
+			str[len++] = ft_strdup(tmp->str);
+			tmp = tmp->next;
+		}
+		else if (tmp->type & IS_STR || tmp->type & IS_VARIABLE)
 			tmp = ft_join_args_dstr(tmp, str, &len);
 		else if ((tmp->type & QUOTE || tmp->type & DQUOTE))
 		{

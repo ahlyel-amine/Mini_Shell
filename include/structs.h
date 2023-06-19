@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:50:27 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 13:01:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:49:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,34 @@ typedef struct s_lsttoken	t_lsttoken;
 
 typedef struct s_arguments
 {
-	char					*str;
-	unsigned short			q:1;
-	unsigned short			type:6;
-	struct s_arguments		*down;
 	struct s_arguments		*next;
+	struct s_arguments		*down;
+	char					*str;
+	unsigned short			type:6;
+	unsigned short			q:1;
 }	t_arguments;
 
 typedef struct s_token
 {
-	int						type;
+	t_lsttoken				*down;
 	char					*line;
 	int						start;
 	int						len;
-	t_lsttoken				*down;
+	int						type;
 }	t_token;
 
 typedef struct s_components
 {
+	int						*fd;
 	int						infile;
 	int						outfile;
 	unsigned int			is_pipe:1;
-	int						*fd;
 }	t_components;
 
 typedef struct s_lsttoken
 {
-	t_token				t_;
 	struct s_lsttoken	*next;
+	t_token				t_;
 }	t_lsttoken;
 
 typedef struct s_hold

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 14:03:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:51:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ void	controll_line(char **line)
 	if (!new)
 		return ;
 	operator(new, ft_lstokenlast(new), \
-	(t_components){STDIN_FILENO, STDOUT_FILENO, 0, NULL});
+	(t_components){NULL, STDIN_FILENO, STDOUT_FILENO, 0});
 	free_lsttoken(new);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_tools.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 15:38:20 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:51:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ t_components	get_red(t_lsttoken *r, t_components comp)
 		delim = get_filename(r->t_.down->t_.line + r->t_.down->t_.start, \
 		r->t_.down->t_.line + r->t_.down->t_.start + r->t_.down->t_.len);
 		if (!delim)
-			return ((t_components){-1, -1, 0, NULL});
+			return ((t_components){NULL, -1, -1, 0});
 		if (r->t_.type == E_INRED)
 			comp.infile = open(delim, O_RDONLY);
 		else if (r->t_.type == E_APPEND)
@@ -276,7 +276,7 @@ t_components	get_red(t_lsttoken *r, t_components comp)
 			comp.outfile = open(delim, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	}
 	if (comp.infile < 0 || comp.outfile < 0)
-		return (fd_er(delim), free(delim), (t_components){-1, -1, 0, NULL});
+		return (fd_er(delim), free(delim), (t_components){NULL, -1, -1, 0});
 	return (free(delim), comp);
 }
 
