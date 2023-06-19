@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:29:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	nr_cd(char *path, char *cwd)
 	g_glb.exit_val = ret;
 }
 
-void	tt_cd(t_arguments *cd_args)
+void	tt_cd(t_arguments **cd_args)
 {
 	char		**path;
 	int			ret;
@@ -113,8 +113,8 @@ void	tt_cd(t_arguments *cd_args)
 	ret = 0;
 	if (!getcwd(cwd, sizeof(cwd)))
 		cwd[0] = '\0';
-	(transform_args(&cd_args));
-	path = args_to_dblstr_(cd_args);
+	(transform_args(cd_args));
+	path = args_to_dblstr_(*cd_args);
 	if (!path)
 		g_glb.exit_val = ft_go_to(0, path, cwd);
 	else if (!**path)

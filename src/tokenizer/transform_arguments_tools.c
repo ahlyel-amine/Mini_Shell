@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:03:38 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 02:55:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:26:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,21 @@ void	transform_args(t_arguments **args)
 {
 	t_arguments	*nl;
 
+	puts("in");
+	if (!*args)
+		return ;
+	if ((*args)->type == IS_SEPARTOR)
+	{
+		nl = *args;
+		*args = (*args)->next;
+		free(nl->str);
+		free(nl);
+	}
 	nl = NULL;
 	expand_line(*args);
 	wild_cards(args);
 	args_join(args);
 	args_move_down(args, &nl);
 	args_join_down(args);
+	puts("out");
 }

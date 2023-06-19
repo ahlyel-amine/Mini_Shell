@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:07:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:47:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_arguments	*transform_args_fd_name(t_arguments **args)
 		nl->next = arguments_constructor(NULL, str, IS_STR, 0);
 		wild_cards(&nl->next);
 		if (nl->next->next)
-			return (ft_putstr_fd(ERR_AMBGIS, 2), NULL);
+			return (ft_putstr_fd(ERR_AMBGIS, 2), \
+			arguments_destructor(args), NULL);
 		return (nl->next);
 	}
 	else

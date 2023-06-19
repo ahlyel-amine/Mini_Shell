@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:30:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void	nr_unset(char	**args, t_list **tmp)
 	}
 }
 
-void	tt_unset(t_arguments *cmd_args)
+void	tt_unset(t_arguments **cmd_args)
 {
 	t_hold		*env;
 	t_list		*tmp;
 	char		**args;
 
-	transform_args(&cmd_args);
-	args = args_to_dblstr_(cmd_args);
+	transform_args(cmd_args);
+	args = args_to_dblstr_(*cmd_args);
 	if (!args || !*args)
 		g_glb.exit_val = 0;
 	else

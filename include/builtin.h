@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:13:48 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 12:48:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:32:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void		expand_line(t_arguments *arg);
 ///-/                           EXEC                           //--|
 //-/__________________________________________________________//---|
 int			tt_pwd(void);
-void		tt_cd(t_arguments *cd_args);
-void		tt_echo(t_arguments *cmd_args, int echo_has_option);
+void		tt_cd(t_arguments **cd_args);
+void		tt_echo(t_arguments **cmd_args, int echo_has_option);
 void		tt_env(t_arguments *cmd_args);
-void		tt_unset(t_arguments *cmd_args);
-void		tt_export(t_arguments *cmd_args);
-void		tt_exit(t_arguments *cmd_args);
+void		tt_unset(t_arguments **cmd_args);
+void		tt_export(t_arguments **cmd_args);
+void		tt_exit(t_arguments **cmd_args);
 
 ////-/__________________________________________________________//-|
 ///-/                        tt_cd_tools                       //--|

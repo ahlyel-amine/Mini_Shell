@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:30:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	get_operator(char **arg)
 	return (ret);
 }
 
-void	tt_export(t_arguments *cmd_args)
+void	tt_export(t_arguments **cmd_args)
 {
 	char		**args;
 	t_hold		*hold;
@@ -117,8 +117,8 @@ void	tt_export(t_arguments *cmd_args)
 	int			ret;
 
 	ret = 0;
-	transform_args(&cmd_args);
-	args = args_to_dblstr_(cmd_args);
+	transform_args(cmd_args);
+	args = args_to_dblstr_(*cmd_args);
 	hold = set__get_option_variables(0, GET | GET_ENV);
 	if (!args || !*args)
 	{

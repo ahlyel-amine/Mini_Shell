@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:59:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		if (!ft_strncmp(cmd, "echo", 5))
 			front = skip_echo_option(front, back, &ret);
 		arg = get_cmd(front, back);
-		ret = builtin_executer(arg, cmd, comp.outfile, ret);
+		ret = builtin_executer(&arg, cmd, comp.outfile, ret);
 		return (arguments_destructor(&arg), free(cmd), ret);
 	}
 	return (-1);

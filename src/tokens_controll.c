@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:47:21 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:41:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 23:00:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_lsttoken	*new_token(t_token t_)
 	node = (t_lsttoken *)malloc(sizeof(t_lsttoken));
 	if (node)
 	{
+		printf("token\t%p|%s\n", node, t_.line + t_.start);
 		node->t_ = t_;
 		node->next = NULL;
 	}

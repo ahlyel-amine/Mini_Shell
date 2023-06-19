@@ -6,11 +6,17 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:43:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	ft_her_name(char c)
+{
+	return (ft_isalnum(c) || c == '_' || \
+	(c != '&' && c != '|' && c != '(' && c != ')'));
+}
 
 static int	skip_quote_heredoc_delimiter_conditions(char *line, \
 char **tmp, t_2ptr_int a, t_var var)
@@ -22,7 +28,7 @@ char **tmp, t_2ptr_int a, t_var var)
 	else if ((line[*(a.i)] == '\"' && var.quote) || (line[*(a.i)] == '\''\
 			&& var.dquote))
 		(*tmp)[(*(a.k))++] = line[*(a.i)];
-	else if (!var.quote && !var.dquote && !ft_isvariable(line[*(a.i)])
+	else if (!var.quote && !var.dquote && !ft_her_name(line[*(a.i)])
 		&& line[*(a.i)] != '\"' && line[*(a.i)] != '\'')
 		return (1);
 	else if (line[*(a.i)] != '\'' && line[*(a.i)] != '\"')
@@ -38,6 +44,7 @@ char	*skip_q_hrdc_delim(char *line, char *end_line, int *q)
 	t_var	var;
 
 	i = 0;
+
 	ft_memset(&var, 0, sizeof(t_var));
 	tmp = ft_calloc(1, (end_line - line) + 1);
 	k = 0;

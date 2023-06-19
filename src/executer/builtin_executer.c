@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:30:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 // 	return (0);
 // }
 
-int	builtin_executer(t_arguments *args, char *cmd, \
+int	builtin_executer(t_arguments **args, char *cmd, \
 int outfile, int echo_has_option)
 {
 	g_glb.out = outfile;
@@ -51,7 +51,7 @@ int outfile, int echo_has_option)
 	else if (!ft_memcmp(cmd, "echo", 4))
 		tt_echo(args, echo_has_option);
 	else if (!ft_memcmp(cmd, "env", 3))
-		tt_env(args);
+		tt_env(*args);
 	else if (!ft_memcmp(cmd, "exit", 4))
 		tt_exit(args);
 	else if (!ft_memcmp(cmd, "export", 6))

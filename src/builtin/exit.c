@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:30:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ unsigned char	exit_val(char *str)
 		return (((unsigned char)(res)) * sign);
 }
 
-void	tt_exit(t_arguments *cmd_args)
+void	tt_exit(t_arguments **cmd_args)
 {
 	char		**args;
 	int			val;
 
 	val = 0;
-	transform_args(&cmd_args);
-	args = args_to_dblstr_(cmd_args);
+	transform_args(cmd_args);
+	args = args_to_dblstr_(*cmd_args);
 	while (args && args[val])
 		val++;
 	if (val > 1)
