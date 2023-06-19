@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 07:58:15 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 09:51:14 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**child_vars(void)
 	int		size;
 	int		iter;
 
-	is_sig = 0;
+	e_glb.is_sig = 0;
 	env = set__get_option_variables(0, GET | GET_ENV);
 	lst = env->lst;
 	size = env->size;
@@ -127,7 +127,7 @@ char	*get_path(char *cmd)
 		free(tmp_to_free);
 		i++;
 	}
-	glo_exit = 127;
+	e_glb.exit_val = 127;
 	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
 }
 

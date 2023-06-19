@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 07:57:44 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	subsh_call(t_lsttoken *head, t_components comp)
 	if (!pid)
 	{
 		operator(head->t_.down, ft_lstokenlast(head->t_.down), comp);
-		exit (glo_exit);
+		exit (e_glb.exit_val);
 	}
 	else
 	{
@@ -54,7 +54,7 @@ t_lsttoken *prev, t_components comp)
 	int			fd[2];
 	int			pid;
 
-	is_pipe = 1;
+	e_glb.is_pipe = 1;
 	pipe(fd);
 	pid = redirection(a.front, prev, (t_components){comp.infile, fd[1], 1, fd});
 	if (pid == -1)

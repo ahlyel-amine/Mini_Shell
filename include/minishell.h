@@ -17,6 +17,7 @@
 # include <sys/stat.h>
 # include <limits.h>
 # include <dirent.h>
+# include <signal.h>
 
 typedef struct s_lsttoken t_lsttoken;
 
@@ -44,16 +45,7 @@ struct s_lsttoken
 };
 
 
-
-
 void	print_tokens(t_lsttoken *head);
-
-int	glo_exit;
-int	in_cmd;
-int	out;
-int	Ctrl_c;
-int	is_sig;
-int	is_pipe;
 
 typedef struct s_hold{
 	t_list	*lst;
@@ -64,9 +56,15 @@ typedef struct s_globe
 {
 	char	**backup;
 	t_hold	*s_env;
+	int		exit_val;
+	int		in_cmd;
+	int		out;
+	int		Ctrl_c;
+	int		is_sig;
+	int		is_pipe;
 }	t_globe;
 
-t_globe	e_globe;
+t_globe	e_glb;
 
 void	*set__get_option_variables(void *env, int set__get_option);
 ////-/__________________________________________________________//
@@ -108,7 +106,6 @@ void		wild_cards(t_arguments **args);
 # include "parsing_tools.h"
 # include "executer.h"
 # include "builtin.h"
-# include "execute.h"
 # include "tokenizer.h"
 /*									*/
 
