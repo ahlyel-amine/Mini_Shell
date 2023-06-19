@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 21:10:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:45:56 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 00:34:35 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ int	go_to_oldpwd(char *cwd, char *path)
 	if (!stat_check(env_path))
 		return (1);
 	if (!env_path)
-		return (ft_putendl_fd("minishell : \
-		cd: OLDPWD not set", STDERR_FILENO), (1));
+		return (err_print("minishell : cd: OLDPWD not set", "", NULL));
 	if (access(env_path, R_OK) != 0)
-		return (printf("cd: %s: %s\n", path, "No such file or directory"), (1));
+		return (err_print("cd: ", path, ": No such file or directory"));
 	if (get_owd("PWD=") && !*cwd)
 		reset_env(env_path, get_owd("PWD="));
 	else

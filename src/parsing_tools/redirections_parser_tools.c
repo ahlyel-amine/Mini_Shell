@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_parser_tools.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:33:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 08:12:12 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,33 @@ static char	*get_herdoc_name(void)
 	return (ft_strjoin_free(ft_strdup(HERDOC_FILE), ft_itoa(call++)));
 }
 
+char	*her_expand(char *line)
+{
+	t_arguments *args;
+	char		*r_str;
+	int			i;
+
+	i = 0;
+	args = get_argument(line, i, 0);
+	free(line);
+	expand_line(args);
+	r_str = args_to_str(args);
+	return (arguments_destructor(&args), r_str);
+}
+
 static int	read_heredoc_inside_loops(char **line, \
 char *delimiter, int fd, int q)
 {
+	int	i;
+
+	i = 0;
 	if (!strncmp(*line, delimiter, ft_strlen(delimiter) + 1))
 	{
 		free(*line);
 		return (1);
 	}
 	if (!q)
-		*line = data_analyse(*line);
+		*line = her_expand(*line);	
 	write(fd, *line, ft_strlen(*line));
 	write(fd, "\n", 1);
 	free(*line);
@@ -99,7 +116,7 @@ int	read_heredocs(char *delimiter, int q)
 		if (read_heredoc_inside_loops(&line, delimiter, fd, q))
 			break ;
 	}
-	// Ctrl_c = 0;
+	Ctrl_c = 0;
 	in_cmd = 0;
 	close(fd);
 	fd = open(name, O_RDONLY, 0644);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_tools.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:37:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 07:58:15 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	child(char **exec, char *path, t_components comp)
 {
 	char	**backup_env;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	backup_env = child_vars();
 	if (comp.infile != STDIN_FILENO)
 	{
@@ -166,6 +168,7 @@ int	cmd_executers(char *path, char **cmd, t_components comp)
 	if (!path || !cmd)
 		return (free(cmd), free(path), 0);
 	pid = fork();
+	sig_exec_init();
 	if (pid == -1)
 		return (perror(FORK_ERR), free(cmd), -1);
 	if (!pid)
@@ -202,7 +205,7 @@ char	*get_cmd_name__(char *word, int start, int end)
 	word = ft_substr(word + start, 0, end);
 	if (!word)
 		return (NULL);
-	arg = get_argument(word, 0);
+	arg = get_argument(word, 0, 1);
 	free(word);
 	transform_args(&arg);
 	word = args_to_str(arg);

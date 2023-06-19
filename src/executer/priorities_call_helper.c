@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:36:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 07:57:44 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_arguments	*get_cmd(t_lsttoken *front, t_lsttoken *back)
 
 	len = get_lenght(front, back);
 	line = get_line(front, back, len);
-	arg = get_argument(line, 0);
+	arg = get_argument(line, 0, 1);
 	return (free(line), arg);
 }
 
