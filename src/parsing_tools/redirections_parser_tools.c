@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_parser_tools.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 09:27:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:49:28 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,20 +130,20 @@ int	read_heredocs(char *delimiter, int q)
 	char	*line;
 	int		fd;
 
-	in_cmd = 1;
+	e_glb.in_cmd = 1;
 	sig_here();
 	name = get_herdoc_name();
 	fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
 		return (pr_custom_err(ERR_FILE, name, name), -1);
 	line = readline(HERDOC);
-	while (line && !Ctrl_c)
+	while (line && !e_glb.Ctrl_c)
 	{
 		if (read_heredoc_inside_loops(&line, delimiter, fd, q))
 			break ;
 	}
-	Ctrl_c = 0;
-	in_cmd = 0;
+	e_glb.Ctrl_c = 0;
+	e_glb.in_cmd = 0;
 	close(fd);
 	fd = open(name, O_RDONLY, 0644);
 	if (fd < 0)

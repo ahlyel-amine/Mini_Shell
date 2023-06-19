@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 19:26:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	nr_unset(char	**args, t_list **tmp)
 		{
 			printf("Minishell: unset: %s: not a valid identifier\n", \
 			args[idx++]);
-			glo_exit = 1;
+			e_glb.exit_val = 1;
 			continue ;
 		}
 		ft_list_remove(tmp, args[idx++], ft_strncmp);
@@ -68,7 +68,7 @@ void	tt_unset(t_arguments *cmd_args)
 	transform_args(&cmd_args);
 	args = args_to_dblstr_(cmd_args);
 	if (!args || !*args)
-		glo_exit = 0;
+		e_glb.exit_val = 0;
 	else
 	{
 		env = set__get_option_variables(0, GET | GET_ENV);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:29:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 
 	cmd = get_command_name(&front, back);
 	if (!cmd)
-		return (glo_exit = 0, 1);
+		return (e_glb.exit_val = 0, 1);
 	ret = is_builtin(cmd);
 	if (!ret)
 	{
@@ -212,8 +212,8 @@ int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp)
 		{
 			in = 1;
 			operator(front, prev, comp);
-			if ((glo_exit == 0 && head->t_.type & E_AND) || \
-			(glo_exit != 0 && head->t_.type & E_OR))
+			if ((e_glb.exit_val == 0 && head->t_.type & E_AND) || \
+			(e_glb.exit_val != 0 && head->t_.type & E_OR))
 				operator(head->next, back, comp);
 			break ;
 		}

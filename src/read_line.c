@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 21:34:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	read_line(void)
 			free(line);
 			set__get_option_variables(0, FREE);
 			ft_putendl_fd("minishell: exit", STDERR_FILENO);
-			exit(glo_exit);
+			exit(e_glb.exit_val);
 		}
 		if (!*line)
 		{
