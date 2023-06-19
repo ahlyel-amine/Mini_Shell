@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 19:26:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,5 @@ void	tt_export(t_arguments *cmd_args)
 	}
 	else
 		ret = get_operator(args);
-	glo_exit = ret;
+	e_glb.exit_val = ret;
 }

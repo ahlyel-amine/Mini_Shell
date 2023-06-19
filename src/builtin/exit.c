@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 19:26:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:52:14 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ void	tt_exit(t_arguments *cmd_args)
 	if (val > 1)
 	{
 		ft_putendl_fd("Minishell: exit: too many arguments", STDERR_FILENO);
-		glo_exit = 1;
+		e_glb.exit_val = 1;
 	}	
 	else if (val == 1)
-		glo_exit = (int)exit_val(args[0]);
+		e_glb.exit_val = (int)exit_val(args[0]);
 	if (args)
 		sp_free(args);
-	if (!is_pipe && !Ctrl_c)
-		exit(glo_exit);
+	if (!e_glb.is_pipe && !e_glb.Ctrl_c)
+		exit(e_glb.exit_val);
 }

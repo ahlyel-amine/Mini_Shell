@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 07:13:14 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	event(void)
 void	her_sig(int sig)
 {
 	(void)sig;
-	glo_exit = 1;
-	if (in_cmd == 1)
+	e_glb.exit_val = 1;
+	if (e_glb.in_cmd == 1)
 	{
-		Ctrl_c = 1;
+		e_glb.Ctrl_c = 1;
 		rl_replace_line("", 0);
 		rl_redisplay();
 		rl_done = 1;

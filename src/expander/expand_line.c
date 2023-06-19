@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 09:40:43 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*is_env_var(char *str)
 	int		size;
 	
 	if (!ft_strncmp(str, "$?", 3))
-		return (free(str), ft_itoa(glo_exit));
+		return (free(str), ft_itoa(e_glb.exit_val));
 	hold = set__get_option_variables(0, GET | GET_ENV);
 	lst_env = hold->lst;
 	len = ft_strlen(str);
@@ -45,7 +45,7 @@ char	*is_env_var(char *str)
 // 		return (arg);
 // 	if (arg[iter] == '?')
 // 	{
-// 		tmp = ft_strjoin_free(ft_strdup(""), ft_itoa(glo_exit));
+// 		tmp = ft_strjoin_free(ft_strdup(""), ft_itoa(e_glb.exit_val));
 // 		if (!arg[++iter])
 // 			return (free(arg), tmp);
 // 		else
