@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 19:41:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 07:13:14 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-void	handel_sigint(int sig)
-{
-	(void)sig;
-	if (waitpid(-1, NULL, WNOHANG) != -1)
-		return ;
-	glo_exit = 1;
-	is_sig = 0;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+#include "../../include/minishell.h"
 
 int	event(void)
 {
@@ -51,18 +38,12 @@ void	sig_here(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	sig_handl(void)
-{
-	signal(SIGINT, handel_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 void	handle_exec_sig(int sig)
 {
 	if (sig == SIGINT)
-		glo_exit = 130;
+		write(STDERR_FILENO, "\b", 1);
 	else if (sig == SIGQUIT)
-		glo_exit = 131;
+		write(STDOUT_FILENO, "\b", 1);
 }
 
 void	sig_exec_init(void)

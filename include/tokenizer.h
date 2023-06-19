@@ -42,7 +42,7 @@ size_t		args_len(t_arguments *args);
 size_t		args_strslen(t_arguments *args);
 t_arguments	*ft_split_str_to_args(char *str, int is_dquote);
 t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args);
-t_arguments	*get_argument(char *line, int i);
+t_arguments	*get_argument(char *line, int i, int flg);
 t_arguments	*arguments_constructor(t_arguments *arguments, char *str,
 				unsigned short type, unsigned short q);
 

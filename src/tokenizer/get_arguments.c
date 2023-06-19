@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_arguments.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 01:00:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 07:56:51 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ t_var *var, t_2ptr_int a, char *line)
 	}
 	return (arguments);
 }
-
-static t_arguments	*get_arguments(char *line, int i)
+// need flg to specifie whether run check_out_of_quotes func or not
+static t_arguments	*get_arguments(char *line, int i, int flg)
 {
 	t_arguments	*arguments;
 	t_var		var;
@@ -93,7 +93,8 @@ static t_arguments	*get_arguments(char *line, int i)
 	j = 0;
 	while (line[i + j])
 	{
-		check_out_of_quotes(line[i + j], &var);
+		if (flg)
+			check_out_of_quotes(line[i + j], &var);
 		arguments = fill_arguments(arguments, &var, (t_2ptr_int){&i, &j}, line);
 		if (j == -1)
 		{
@@ -108,11 +109,11 @@ static t_arguments	*get_arguments(char *line, int i)
 	return (arguments);
 }
 
-t_arguments	*get_argument(char *line, int i)
+t_arguments	*get_argument(char *line, int i, int flg)
 {
 	t_arguments	*arguments;
 
-	arguments = get_arguments(line, i);
+	arguments = get_arguments(line, i, flg);
 	merge_arguments(&arguments, 0);
 	tokenize_variables(&arguments);
 	return (arguments);

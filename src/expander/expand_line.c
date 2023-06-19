@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 22:59:56 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 08:05:48 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,7 @@ char	*var_str(char *arg)
 			return (free(arg), tmp);
 		}	
 	}	
-	else if ((arg[iter] != '_' && !ft_isalpha(arg[iter])))
-		iter++;
-	tmp = arg;
-	if (arg[iter])
-		arg = ft_strdup((arg + iter));
-	else
-		arg = ft_strdup("");
-	return (free(tmp), arg);
+	return (arg);
 }
 
 char	*data_analyse(char *arg)
@@ -78,7 +71,12 @@ char	*data_analyse(char *arg)
 			if (ft_isalpha(arg[1]) || arg[1] == '_')
 				return (is_env_var(arg));
 			else
-				return (var_str(arg));
+			{
+				tmp = var_str(arg);
+				// if (ft_strchr(tmp, '\"') || ft_strchr(tmp, '\''))
+				// 	*(tmp + ft_strlen(tmp) - 1) = '\0';
+				return (tmp);
+			}
 		}
 	}
 }
@@ -96,6 +94,8 @@ void	var_expand(t_arguments *arg)
 		arg_str = tmp->str;
 		if (tmp->type & IS_VARIABLE)
 			tmp->str = is_env_var(tmp->str);
+		else if (tmp->type == IS_STR)
+			tmp->str = data_analyse(tmp->str);
 		else if (tmp->type == DQUOTE)
 		{
 			down = tmp->down;

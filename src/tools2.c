@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:41:20 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 21:23:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 05:51:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static size_t	len(char *str)
+{
+	return (ft_strlen(str));
+}
 
 t_list	*lst_dup(t_list *lst)
 {
@@ -31,22 +36,21 @@ t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t))
 {
 	t_list	*tmp;
 	t_list	*cur;
-	t_list	*sort_lst;
+	t_list	*st;
 
-	sort_lst = NULL;
+	st = NULL;
 	while (lst)
 	{
 		cur = lst;
 		lst = lst->next;
-		if (!sort_lst || ((*cmp)(cur->content, \
-		sort_lst->content, ft_strlen(cur->content))) < 0)
+		if (!st || ((*cmp)(cur->content, st->content, len(cur->content))) < 0)
 		{
-			cur->next = sort_lst;
-			sort_lst = cur;
+			cur->next = st;
+			st = cur;
 		}
 		else
 		{
-			tmp = sort_lst;
+			tmp = st;
 			while (tmp->next && ((*cmp)(cur->content, \
 			tmp->next->content, ft_strlen(cur->content))) > 0)
 				tmp = tmp->next;
@@ -54,7 +58,7 @@ t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t))
 			tmp->next = cur;
 		}
 	}
-	return (sort_lst);
+	return (st);
 }
 
 void	env_exp_print(t_list *sort_lst, int (*print)(const char*, ...))
@@ -91,4 +95,3 @@ char	**env_vars(t_hold *env)
 	}
 	return (NULL);
 }
-

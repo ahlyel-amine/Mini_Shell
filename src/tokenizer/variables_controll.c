@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_controll.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:27:25 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 20:34:58 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 03:28:32 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static t_arguments	*check_str(char *str, t_arguments *vars, int *i)
 {
 	*i = 0;
-	while (str[*i] && (str[*i] != '$' || (str[*i] == '$' && \
-	(ft_isdigit(str[*i + 1]) || !ft_isvariable(str[*i + 1]) || \
-	!str[*i + 1]))))
+	while (str[*i] && (str[*i] != '$' || (str[*i] == '$' && (ft_isdigit(str[*i + 1]) || !ft_isvariable(str[*i + 1]) || !str[*i + 1]))))
 		(*i)++;
 	if (*i)
 		vars = arguments_constructor(vars, ft_substr(str, 0, *i), IS_STR, 0);
@@ -39,7 +37,7 @@ static t_arguments	*get_vars(char *str, t_arguments *vars)
 			j = 1;
 			while (str[i + j] && ft_isvariable(str[i + j]))
 				j++;
-			if (j > 1)
+			if ((j > 1))
 				vars = arguments_constructor(vars, ft_substr(str, i, j), \
 					IS_VARIABLE, 0);
 			i += j;

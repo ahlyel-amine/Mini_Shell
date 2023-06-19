@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/18 19:46:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 00:28:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,6 @@ static char	**set_path(t_hold *env, char **old_path)
 	return (path);
 }
 
-// char	*set_pwd(char *old_pwd)
-// {
-// 	char	*ipwd;
-// 	char	*pwd;
-// 	char	*homedir;
-
-// 	ipwd = NULL;
-// 	ipwd = getcwd(ipwd, 0);
-// 	homedir = set__get_option_variables(0, GET | GET_HOME);
-// 	if (!ipwd)
-// 		pwd = homedir;
-// 	else
-// 		pwd = ipwd;
-// 	if (homedir && !ft_strncmp(homedir, pwd, ft_strlen(homedir)))
-// 	{
-// 		pwd = ft_strjoin("~", ipwd);
-// 		free (ipwd);
-// 	}
-// 	free (old_pwd);
-// 	return (pwd);
-// }
-
 char	*set_pwd(char *o_pwd)
 {
 	char	*pwd;
@@ -100,7 +78,6 @@ char	*set_pwd(char *o_pwd)
 		return (ft_strdup(get_owd("PWD=")));
 	else
 		pwd = ft_strdup(cwd);
-	printf("--> %s <--\n", pwd);
 	return (free(o_pwd), pwd);
 }
 
