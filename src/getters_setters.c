@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 00:28:09 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:54:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,14 @@ void	unset(t_hold *env, char ***path, char **pwd, char **homedir)
 	ft_lstclear(&(env->lst), free);
 }
 
-char	**ft_dstrdup(char **ds1)
+
+char	**set_env(char **env)
 {
-	char	**words;
-	int		ds1_len;
-	int		j;
+	char **envp;
 
-	ds1_len = ft_double_strlen(ds1);
-	j = -1;
-	words = malloc(sizeof(char *) * (ds1_len + 1));
-	if (!words)
-		return (NULL);
-	while (ds1[++j])
-		words[j] = ds1[j];
-	words[j] = NULL;
-	return (words);
+	envp = ft_dstrdup(env);
+	return (envp);
 }
-// char	**set_env(char **env)
-// {
-// 	char **envp;
-
-// 	envp = ft_dstrdup(env);
-// 	return (envp);
-// }
 
 char	**env_str(t_hold *env_var)
 {
@@ -173,23 +158,4 @@ void	*set__get_option_variables(void *env, int set__get_option)
 	else if (set__get_option == FREE)
 		unset((t_hold *)envs, &path, &home_dir, &pwd);
 	return (NULL);
-}
-
-char	*get_prompt_line(void)
-{
-	char	*pwd;
-
-	pwd = NULL;
-	set__get_option_variables(0, SET | SET_PWD);
-	pwd = set__get_option_variables(0, GET | GET_PWD);
-	pwd = get_owd("PWD=");
-	if (pwd)
-	{
-		pwd = ft_strjoin_free(ft_strdup("\n╭─\x1b[43m░▒▓▓▓▓▓\x1b[40m\x1b[44m "), \
-			ft_strdup(pwd));
-		pwd = ft_strjoin_free(pwd, \
-			ft_strdup(" \x1b[43m minishell \x1b[0m──────────────\
-			─────────────\x1b[43▓▓▓▓▒░\x1b[0m─\n╰─ "));
-	}
-	return (pwd);
 }

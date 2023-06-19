@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/14 18:46:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 10:54:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,21 @@ void	panic_recursive(char *error, char **ptr)
 	ft_putstr_fd(error, STDERR_FILENO);
 	// free (*ptr);
 	// *ptr = NULL;
+}
+
+char	**ft_dstrdup(char **ds1)
+{
+	char	**words;
+	int		ds1_len;
+	int		j;
+
+	ds1_len = ft_double_strlen(ds1);
+	j = -1;
+	words = malloc(sizeof(char *) * (ds1_len + 1));
+	if (!words)
+		return (NULL);
+	while (ds1[++j])
+		words[j] = ds1[j];
+	words[j] = NULL;
+	return (words);
 }

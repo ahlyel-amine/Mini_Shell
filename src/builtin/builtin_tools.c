@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:42:38 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:41:40 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:53:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*prepare_pwd(void)
 	pwd = get_owd("PWD=");
 	if (!pwd)
 	{
-		set__get_option_variables(0, SET_PWD);
+		set__get_option_variables(0, SET | SET_PWD);
 		pwd = ft_strdup(set__get_option_variables(0, GET | GET_PWD));
 	}
 	else
