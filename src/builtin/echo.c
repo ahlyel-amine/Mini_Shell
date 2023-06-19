@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 03:10:09 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 09:26:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*ft_dstr_to_str(char **clone)
 		free(clone);
 	return (r_str);
 }
+
+
 
 void	tt_echo(t_arguments *cmd_args, int echo_has_option)
 {

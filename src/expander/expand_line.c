@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 08:05:48 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 09:28:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ char	*data_analyse(char *arg)
 			else
 			{
 				tmp = var_str(arg);
-				// if (ft_strchr(tmp, '\"') || ft_strchr(tmp, '\''))
-				// 	*(tmp + ft_strlen(tmp) - 1) = '\0';
 				return (tmp);
 			}
 		}
@@ -94,8 +92,8 @@ void	var_expand(t_arguments *arg)
 		arg_str = tmp->str;
 		if (tmp->type & IS_VARIABLE)
 			tmp->str = is_env_var(tmp->str);
-		else if (tmp->type == IS_STR)
-			tmp->str = data_analyse(tmp->str);
+		// else if (tmp->type == IS_STR)
+		// 	tmp->str = data_analyse(tmp->str);
 		else if (tmp->type == DQUOTE)
 		{
 			down = tmp->down;
