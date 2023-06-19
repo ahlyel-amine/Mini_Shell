@@ -23,6 +23,8 @@
 
 # define SHELL_NAME				"minishell: "
 # define FORK_ERR				"minishell: fork: "
+# define EXIT_SHELL				"minishell: exit"
+# define INVALID_INPT			"minishell: the input fd is not the default"
 # define HERDOC_FILE			"/tmp/.heredoc_"
 # define ERR_TOKEN				"minishell: syntax error near unexpected token : "
 # define ERR_EXVE				"minishell: execve: faillure"
