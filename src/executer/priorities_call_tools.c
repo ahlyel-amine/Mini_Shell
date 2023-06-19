@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_tools.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 14:03:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 15:38:20 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,11 @@ char	*get_path(char *cmd)
 	if (!*cmd)
 		return (pr_custom_err(ERR_CMD, NULL, cmd), NULL);
 	if (!access(cmd, F_OK | X_OK))
-		return (ft_strdup(cmd));
+	{
+		char *a = ft_strdup(cmd);
+		free(cmd);
+		return (a);
+	}
 	path = (char **)set__get_option_variables(0, GET | GET_PATH);
 	while (path && path[i])
 	{
@@ -170,16 +174,15 @@ int	cmd_executers(char *path, char **cmd, t_components comp)
 	pid = fork();
 	sig_exec_init();
 	if (pid == -1)
-		return (perror(FORK_ERR), free(cmd), -1);
+		return (perror(FORK_ERR), free(path), free(cmd), -1);
 	if (!pid)
 		child(cmd, path, comp);
 	if (comp.is_pipe != 0)
 		return (free(path), free(cmd), pid);
 	if (waitpid(pid, &status, 0) == -1)
 		return (free(path), free(cmd), 0);
-	if (cmd_sig_check(path, status))
-		return (free(cmd), 0);
-	return (free(cmd), 0);
+	cmd_sig_check(status);
+	return (free(cmd), free(path), 0);
 }
 
 t_lsttoken	*skip_tokens(t_lsttoken *head, t_lsttoken *back, int *start, \
