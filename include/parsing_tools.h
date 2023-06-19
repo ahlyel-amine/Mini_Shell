@@ -15,8 +15,6 @@ void		pr_custom_err(char *error, void *ptr, char *custom);
 void		panic_recursive(char *error, char **ptr);
 char		*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q);
 t_arguments	*get_names(char *line, int *i);
-int			fill_redir_content(char *line, int i, t_redir_content *red, int ref);
 int			check_for_syntax(char **line, int i);
-int			get_name(char *line, t_redir_content *red, int type);
 
 #endif
