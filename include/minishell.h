@@ -17,6 +17,7 @@
 # include <sys/stat.h>
 # include <limits.h>
 # include <dirent.h>
+# include <signal.h>
 
 typedef struct s_lsttoken t_lsttoken;
 
@@ -105,7 +106,6 @@ void		wild_cards(t_arguments **args);
 # include "parsing_tools.h"
 # include "executer.h"
 # include "builtin.h"
-# include "execute.h"
 # include "tokenizer.h"
 /*									*/
 
