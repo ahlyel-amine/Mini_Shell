@@ -69,7 +69,11 @@
 		"stdexcept": "c",
 		"streambuf": "c",
 		"system_error": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"_types.h": "c",
+		"stat.h": "c",
+		"includes.h": "c",
+		"structs.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

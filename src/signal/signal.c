@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:51:00 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	event(void)
 void	her_sig(int sig)
 {
 	(void)sig;
-	e_glb.exit_val = 1;
-	if (e_glb.in_cmd == 1)
+	g_glb.exit_val = 1;
+	if (g_glb.in_cmd == 1)
 	{
-		e_glb.Ctrl_c = 1;
+		g_glb.ctrl_c = 1;
 		rl_replace_line("", 0);
 		rl_redisplay();
 		rl_done = 1;

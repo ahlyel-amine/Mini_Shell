@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 21:18:52 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 09:48:09 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ int	tt_pwd(void)
 	pwd = get_owd("PWD=");
 	if (!getcwd(cwd, sizeof(cwd)) && !pwd)
 		return (\
-		ft_putendl_fd(set__get_option_variables(0, GET | GET_PWD), e_glb.out), 0);
+		ft_putendl_fd(set__get_option_variables(0, \
+		GET | GET_PWD), g_glb.out), 0);
 	else if (!getcwd(cwd, sizeof(cwd)) && pwd)
-		return (ft_putendl_fd(pwd, e_glb.out), 0);
+		return (ft_putendl_fd(pwd, g_glb.out), 0);
 	else
-		return (ft_putendl_fd(cwd, e_glb.out), 0);
+		return (ft_putendl_fd(cwd, g_glb.out), 0);
 }

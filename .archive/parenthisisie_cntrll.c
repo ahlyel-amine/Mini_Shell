@@ -58,6 +58,6 @@ char	*remove_unused_parenthesis(char *line)
 	// else
 	// 	return (remove_parenthisis_syntax_checker(line));// ??? i cant remember the purpose of this function
 	if (is_open && line && !line[skip_spaces_front(line)])
-		return (ft_putendl_fd(ERR_ClSD_PARNETHISE, 2), NULL);
+		return (ft_putendl_fd(ERR_CLSD_PARNETHISE, 2), NULL);
 	return (line);
 }

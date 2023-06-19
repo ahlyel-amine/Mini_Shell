@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	subsh_call(t_lsttoken *head, t_components comp)
 	if (!pid)
 	{
 		operator(head->t_.down, ft_lstokenlast(head->t_.down), comp);
-		exit (e_glb.exit_val);
+		exit (g_glb.exit_val);
 	}
 	else
 	{
@@ -54,7 +54,7 @@ t_lsttoken *prev, t_components comp)
 	int			fd[2];
 	int			pid;
 
-	e_glb.is_pipe = 1;
+	g_glb.is_pipe = 1;
 	pipe(fd);
 	pid = redirection(a.front, prev, (t_components){comp.infile, fd[1], 1, fd});
 	if (pid == -1)

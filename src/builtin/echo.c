@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:19:53 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ char	*ft_dstr_to_str(char **clone)
 	return (r_str);
 }
 
-
-
 void	tt_echo(t_arguments *cmd_args, int echo_has_option)
 {
 	char		*arg;
@@ -37,9 +35,9 @@ void	tt_echo(t_arguments *cmd_args, int echo_has_option)
 	transform_args(&cmd_args);
 	arg = args_to_str(cmd_args);
 	if (!echo_has_option)
-		ft_putendl_fd(arg, e_glb.out);
+		ft_putendl_fd(arg, g_glb.out);
 	else
-		ft_putstr_fd(arg, e_glb.out);
-	e_glb.exit_val = 0;
+		ft_putstr_fd(arg, g_glb.out);
+	g_glb.exit_val = 0;
 	free(arg);
 }

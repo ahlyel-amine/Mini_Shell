@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_t2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 21:10:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 09:47:33 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	go_to_oldpwd(char *cwd, char *path)
 		reset_env(env_path, get_owd("PWD="));
 	else
 		reset_env(env_path, cwd);
-	ft_putendl_fd(get_owd("PWD="), e_glb.out);
+	ft_putendl_fd(get_owd("PWD="), g_glb.out);
 	ret = chdir(get_owd("PWD="));
 	return (ret);
 }

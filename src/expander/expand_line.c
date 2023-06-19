@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 09:50:29 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ char	*is_env_var(char *str)
 	t_list	*lst_env;
 	size_t	len;
 	int		size;
-	
+
 	if (!ft_strncmp(str, "$?", 3))
-		return (free(str), ft_itoa(e_glb.exit_val));
+		return (free(str), ft_itoa(g_glb.exit_val));
 	hold = set__get_option_variables(0, GET | GET_ENV);
 	lst_env = hold->lst;
 	len = ft_strlen(str);
@@ -34,52 +34,6 @@ char	*is_env_var(char *str)
 	}
 	return (free(str), ft_strdup(""));
 }
-
-// char	*var_str(char *arg)
-// {
-// 	int		iter;
-// 	char	*tmp;
-
-// 	iter = 1;
-// 	if (*arg && arg[iter] == '$')
-// 		return (arg);
-// 	if (arg[iter] == '?')
-// 	{
-// 		tmp = ft_strjoin_free(ft_strdup(""), ft_itoa(e_glb.exit_val));
-// 		if (!arg[++iter])
-// 			return (free(arg), tmp);
-// 		else
-// 		{
-// 			tmp = ft_strjoin_free(tmp, ft_strdup(arg + iter));
-// 			return (free(arg), tmp);
-// 		}	
-// 	}	
-// 	return (arg);
-// }
-
-// char	*data_analyse(char *arg)
-// {
-// 	char	*tmp;
-
-// 	tmp = ft_strchr(arg, '$');
-// 	if (!tmp || tmp != arg || (tmp && ft_strlen(arg) == 1))
-// 		return (arg);
-// 	else
-// 	{
-// 		if (ft_strlen(arg) > 1 && arg[1] == '$')
-// 			return (arg);
-// 		else
-// 		{
-// 			if (ft_isalpha(arg[1]) || arg[1] == '_')
-// 				return (is_env_var(arg));
-// 			else
-// 			{
-// 				tmp = var_str(arg);
-// 				return (tmp);
-// 			}
-// 		}
-// 	}
-// }
 
 void	var_expand(t_arguments *arg)
 {
