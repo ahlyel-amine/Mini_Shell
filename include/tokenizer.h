@@ -7,17 +7,16 @@
 
 
 t_lsttoken	*tokenize(char *line, char *endline, int i);
-int	a_check(t_lsttoken	*new);
+int			a_check(t_lsttoken	*new);
 t_lsttoken	*new_token(t_token t_);
 t_lsttoken	*ft_lstokenlast(t_lsttoken *lst);
-void	ft_lstokenadd_back(t_lsttoken **lst, t_lsttoken *new);
+void		ft_lstokenadd_back(t_lsttoken **lst, t_lsttoken *new);
 t_lsttoken	*check_tokenize(t_lsttoken *new);
-void	free_lsttoken(t_lsttoken *new);
-int	get_fds(t_lsttoken	*fds);
-
-int	red_right_token(t_lsttoken **head, char *line, int *i);
-int	red_left_token(t_lsttoken **head, char *line, int *i);
-void	str_token(t_lsttoken **head, char *line, int *i);
+void		free_lsttoken(t_lsttoken *new);
+int			get_fds(t_lsttoken	*fds);
+int			red_right_token(t_lsttoken **head, char *line, int *i);
+int			red_left_token(t_lsttoken **head, char *line, int *i);
+void		str_token(t_lsttoken **head, char *line, int *i);
 
 
 
