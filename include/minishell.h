@@ -76,7 +76,6 @@ t_list  *expander(char *var);
 char    *replace_str(char *var, char *lst_cnt);
 int		replace(t_list **lst, char *var);
 int		dolr_check(t_list **lst, char *str, int iter);
-void    expend_line(t_cmd *cmd);
 
 ////-/__________________________________________________________//-|
 ///-/                          TOOLS                           //--|
@@ -100,7 +99,6 @@ int			tt_pwd(void);
 void		controll_line(char **line);
 void		read_line(void);
 void		complete_line(char **line, int *brea);
-void		free_line(t_cmd *cmd);
 void		wild_cards(t_arguments **args);
 # include "parsing.h"
 # include "parsing_tools.h"
