@@ -3,9 +3,6 @@
 
 # include "minishell.h"
 
-
-
-
 t_lsttoken	*tokenize(char *line, char *endline, int i);
 int			a_check(t_lsttoken	*new);
 t_lsttoken	*new_token(t_token t_);
@@ -17,11 +14,6 @@ int			get_fds(t_lsttoken	*fds);
 int			red_right_token(t_lsttoken **head, char *line, int *i);
 int			red_left_token(t_lsttoken **head, char *line, int *i);
 void		str_token(t_lsttoken **head, char *line, int *i);
-
-
-
-
-
 int			close_dquote(t_arguments **arguments, char *line, int i);
 int			close_quote(t_arguments **arguments, char *line, int i);
 void		arguments_destructor(t_arguments **arguments);

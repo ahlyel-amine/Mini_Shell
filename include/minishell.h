@@ -1,4 +1,3 @@
-
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
@@ -74,45 +73,20 @@ typedef struct s_globe
 t_globe	e_glb;
 
 void		*set__get_option_variables(void *env, int set__get_option);
-////-/__________________________________________________________//
-///-/                      VAR_EXPENDER                        //
-//-/__________________________________________________________//
-char   		*nodes_join_b(t_arguments *lst);
-char   		*nodes_join(t_list *lst);
-t_list 		*expander(char *var);
-char   		*replace_str(char *var, char *lst_cnt);
-int			replace(t_list **lst, char *var);
-int			dolr_check(t_list **lst, char *str, int iter);
-
-////-/__________________________________________________________//-|
-///-/                          TOOLS                           //--|
-//-/__________________________________________________________//---|
-
 void		sp_free(char **splt);
 char		*app_dup(char *arg);
 void		env_exp_print(t_list *sort_lst, int (*print)(const char*, ...));
-
 t_list		*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t));
 t_list		*lst_dup(t_list *lst);
-int			valid_id(char *var);
-void		ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
-void		var_expand(t_arguments *arg);
-int			tt_pwd(void);
-void		expand_line(t_arguments *arg);
-char    	*get_owd(char *env_var);
-char    	*ft_strndup(const char *s, size_t n);
-
 void		controll_line(char **line);
 void		read_line(void);
 void		complete_line(char **line, int *brea);
 void		wild_cards(t_arguments **args);
+
 # include "parsing.h"
 # include "parsing_tools.h"
 # include "executer.h"
 # include "builtin.h"
 # include "tokenizer.h"
-
-
-
 
 #endif

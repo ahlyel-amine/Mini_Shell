@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:13:48 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 10:23:16 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:48:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,15 @@ void		reset_env(char *pwd, char *o_pwd);
 int			go_to_oldpwd(char *cwd, char *path);
 short		valid_var(char *var);
 char		**args_to_dblstr_(t_arguments *args);
+void		ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
+int			valid_id(char *var);
+
 ////-/__________________________________________________________//-|
 ///-/                         EXPANDER                         //--|
 //-/__________________________________________________________//---|
 char		*tilde_expansion(char *arg, unsigned short type, t_arguments *next);
+void		var_expand(t_arguments *arg);
+void		expand_line(t_arguments *arg);
 
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
@@ -61,6 +66,8 @@ char		*extend_option(char *arg, char *ex_with, int opt);
 char		*get_prev_path(char *path);
 int			ft_go_to(int opt, char **path, char *cwd);
 int			prev_drictory_count(char *wd);
+char    	*get_owd(char *env_var);
+
 ////-/__________________________________________________________//-|
 ///-/                           SIGNALS                        //--|
 //-/__________________________________________________________//---|

@@ -16,5 +16,6 @@ void		panic_recursive(char *error, char **ptr);
 char		*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q);
 t_arguments	*get_names(char *line, int *i);
 int			check_for_syntax(char **line, int i);
+char    	*ft_strndup(const char *s, size_t n);
 
 #endif
