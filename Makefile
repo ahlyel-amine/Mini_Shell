@@ -27,7 +27,7 @@ SRC =	\
 		# src/executer/and_executer.c src/executer/cmd_executer.c src/executer/or_executer.c src/executer/pipe_executer.c src/executer/redir_executer.c \
 		# src/execute_line.c  src/free_line.c
 
-HEADERS = include/minishell.h  include/dictionary.h  include/parsing.h  include/execute.h
+HEADERS = include/minishell.h  include/dictionary.h  include/parsing.h
 
 CC = cc
 
