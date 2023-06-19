@@ -3,14 +3,6 @@
 
 # include "minishell.h"
 
-// void	execute_line(t_cmd *cmd);
-// int		and_executer(t_cmd *cmd, int infile, int outfile, int *fd);
-// int		builtin_executer(t_cmd *cmd, int infile, int outfile, int *fd);
-// int		cmd_executer(t_cmd *cmd, int infile, int outfile, int *fd);
-// int		or_executer(t_cmd *cmd, int infile, int outfile, int *fd);
-// int		pipe_executer(t_cmd *cmd, int infile, int outfile, int *fd);
-// int		redirect_executer(t_cmd *cmd, int infile, int outfile, int *fd);
-
 typedef struct s_2ptr_t_lsttoken
 {
     t_lsttoken  *front;
