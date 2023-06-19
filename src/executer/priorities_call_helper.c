@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/19 15:43:59 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	subsh_call(t_lsttoken *head, t_components comp)
 	else
 	{
 		waitpid(pid, &status, 0);
-		cmd_sig_check(NULL, status);
+		cmd_sig_check(status);
 	}
 }
 
