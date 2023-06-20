@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 22:59:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 11:57:38 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	is_option(char *line, char *endline)
 {
 	int	i;
-
+	int	is_op;
+	
 	i = 0;
 	if (line[i] == '\'' || line[i] == '\"')
 		i++;
@@ -23,8 +24,11 @@ int	is_option(char *line, char *endline)
 		i++;
 	else
 		return (0);
+	is_op = i;
 	while (line[i] == 'n' && line + i != endline)
 		i++;
+	if (is_op == i)
+		return (0);
 	if (line + i == endline || ((line[i] == '\'' || line[i] == '\"') && \
 	line + i + 1 == endline))
 		return (1);
@@ -44,14 +48,14 @@ t_lsttoken	*skip_echo_option(t_lsttoken *front, t_lsttoken *back,
 				break ;
 			else
 			{
+
 				if (front && front->next && front->next->t_.type != E_SPACE)
 					break ;
 				*has_option = 1;
 				front = front->next;
 				while (front && front->t_.type == E_SPACE)
 					front = front->next;
-				if (front == back)
-					break ;
+				if (front)
 				continue ;
 			}
 		}
