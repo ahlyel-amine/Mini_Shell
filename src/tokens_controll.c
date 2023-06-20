@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_controll.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:47:21 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 02:03:26 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:27:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_lsttoken	*new_token(t_token t_)
 	node = (t_lsttoken *)malloc(sizeof(t_lsttoken));
 	if (node)
 	{
-		// printf("token\t%p|%s || %d down %p\n", node, t_.line + t_.start, t_.type, t_.down);
 		node->t_ = t_;
 		node->next = NULL;
 	}
@@ -59,7 +58,6 @@ void	free_lsttoken(t_lsttoken *new)
 	while (new)
 	{
 		tmp = new;
-		
 		if (new->t_.type == E_EMPTY && tmp->t_.down)
 			free_lsttoken(tmp->t_.down);
 		else if (new->t_.type == E_SUBSH)

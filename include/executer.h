@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:33:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 22:32:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:26:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ t_components comp);
 int				pipe_(t_lsttoken *front, t_lsttoken *back, t_components comp);
 int				operator(t_lsttoken *front, t_lsttoken *back, \
 t_components comp);
-t_arguments		*get_cmd(t_lsttoken *front, t_lsttoken *back);
+t_arguments		*get_cmd(t_lsttoken *front, t_lsttoken *back, int is_builtin);
 void			subsh_call(t_lsttoken *head, t_components comp);
 void			pipe_call(t_2ptr_t_lsttoken a, t_lsttoken *head, \
 t_lsttoken *prev, t_components comp);
-size_t			get_lenght(t_lsttoken *front, t_lsttoken *back);
-char			*get_line(t_lsttoken *front, t_lsttoken *back, size_t len);
+size_t			get_lenght(t_lsttoken *front);
+char			*get_line(t_lsttoken *front, size_t len);
 int				is_builtin(char *word);
 char			*get_path(char *cmd);
 int				cmd_executers(char *path, char **cmd, t_components comp);

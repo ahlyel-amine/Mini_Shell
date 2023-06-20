@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_tools.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 01:40:58 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:41:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**child_vars(void)
 	return (backup_env);
 }
 
-size_t	get_lenght(t_lsttoken *front, t_lsttoken *back)
+size_t	get_lenght(t_lsttoken *front)
 {
 	t_lsttoken	*head;
 	size_t		len;
@@ -55,12 +55,12 @@ size_t	get_lenght(t_lsttoken *front, t_lsttoken *back)
 	return (len);
 }
 
-char	*get_line(t_lsttoken *front, t_lsttoken *back, size_t len)
+char	*get_line(t_lsttoken *front, size_t len)
 {
 	t_lsttoken	*head;
 	char		*line;
 	size_t		i;
-	size_t		j;
+	int			j;
 
 	i = 0;
 	head = front;
@@ -103,36 +103,50 @@ int	is_builtin(char *word)
 	return (0);
 }
 
+void	set_return_err(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!access(cmd, F_OK))
+		return (g_glb.exit_val = 126, pr_custom_err("minishell: Permission denied: ", cmd, cmd));
+	g_glb.exit_val = 127;
+	while (cmd[i])
+	{
+		if (cmd[i] == '/')
+			return (pr_custom_err("minishell: No such file or directory: ", cmd, cmd));
+		i++;
+	}
+	return (pr_custom_err("minishell: command not found: ", cmd, cmd));
+}
+
 char	*get_path(char *cmd)
 {
 	char	**path;
-	char	*cmd_path;
 	char	*tmp_to_free;
 	int		i;
 
 	i = 0;
+	path = NULL;
 	if (cmd == NULL)
 		return (NULL);
 	if (!*cmd)
 		return (pr_custom_err(ERR_CMD, NULL, cmd), NULL);
 	if (!access(cmd, F_OK | X_OK))
-	{
-		char *a = ft_strdup(cmd);
-		free(cmd);
-		return (a);
-	}
-	path = (char **)set__get_option_variables(0, GET | GET_PATH);
+		return (cmd);
+	tmp_to_free = get_owd("PATH=");
+	if (tmp_to_free)
+		path = ft_split(tmp_to_free, ':');
 	while (path && path[i])
 	{
 		tmp_to_free = ft_strjoin(path[i], "/");
 		tmp_to_free = ft_strjoin_free(tmp_to_free, ft_strdup(cmd));
 		if (!access(tmp_to_free, F_OK | X_OK))
-			return (free(cmd), tmp_to_free);
+			return (sp_free(path), free(cmd), tmp_to_free);
 		free(tmp_to_free);
 		i++;
 	}
-	g_glb.exit_val = 127;
-	return (pr_custom_err(ERR_CMD, cmd, cmd), NULL);
+	return(sp_free(path), set_return_err(cmd), NULL);
 }
 
 void	child(char **exec, char *path, t_components comp)
@@ -160,7 +174,7 @@ void	child(char **exec, char *path, t_components comp)
 		close(comp.fd[1]);
 	}
 	execve(path, exec, backup_env);
-	ft_putendl_fd(ERR_EXVE, 2);
+	perror("minishell: ");
 	exit(errno);
 }
 
@@ -217,7 +231,6 @@ char	*get_cmd_name__(char *word, int start, int end)
 
 char	*get_command_name(t_lsttoken **front, t_lsttoken *back)
 {
-	t_arguments	*arg;
 	t_lsttoken	*head;
 	int			start;
 	int			end;
@@ -251,6 +264,25 @@ void	fd_er(char *fd_err)
 	perror(" ");
 }
 
+void	set_fd(char *delim, t_lsttoken *r, t_components *comp)
+{
+	if (r->t_.type == E_INRED)
+	{
+		comp->infile = open(delim, O_RDONLY);
+		comp->close_red = comp->infile;
+	}
+	else if (r->t_.type == E_APPEND)
+	{
+		comp->outfile = open(delim, O_CREAT | O_APPEND | O_WRONLY, 0644);
+		comp->close_red = comp->outfile;
+	}
+	else if (r->t_.type == E_OUTRED)
+	{
+		comp->outfile = open(delim, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		comp->close_red = comp->outfile;
+	}
+}
+
 t_components	get_red(t_lsttoken *r, t_components comp)
 {
 	int		q;
@@ -267,16 +299,11 @@ t_components	get_red(t_lsttoken *r, t_components comp)
 		delim = get_filename(r->t_.down->t_.line + r->t_.down->t_.start, \
 		r->t_.down->t_.line + r->t_.down->t_.start + r->t_.down->t_.len);
 		if (!delim)
-			return ((t_components){-1, -1, 0, NULL});
-		if (r->t_.type == E_INRED)
-			comp.infile = open(delim, O_RDONLY);
-		else if (r->t_.type == E_APPEND)
-			comp.outfile = open(delim, O_CREAT | O_APPEND | O_WRONLY, 0644);
-		else if (r->t_.type == E_OUTRED)
-			comp.outfile = open(delim, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+			return ((t_components){-1, -1, -1, 0, NULL});
+		set_fd(delim, r, &comp);
 	}
 	if (comp.infile < 0 || comp.outfile < 0)
-		return (fd_er(delim), free(delim), (t_components){-1, -1, 0, NULL});
+		return (fd_er(delim), free(delim), (t_components){-1, -1, -1, 0, NULL});
 	return (free(delim), comp);
 }
 

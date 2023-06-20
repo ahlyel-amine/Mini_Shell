@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:21:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	var_expand(t_arguments *arg)
 	t_arguments	*tmp;
 	t_arguments	*down;
 	char		*arg_str;
-	char		*store;
 
 	tmp = arg;
 	while (tmp)

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:48:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 13:48:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:18:16 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,6 @@ int	get_fds_loop_check(t_lsttoken *head)
 int	get_fds(t_lsttoken	*fds)
 {
 	t_lsttoken	*head;
-	t_lsttoken	*tmp;
-	int			start;
-	int			end;
 
 	head = fds;
 	while (head)

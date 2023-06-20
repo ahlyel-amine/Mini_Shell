@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:42:38 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 10:53:05 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 19:36:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,14 @@ void	ft_lstadd_node(t_list **lst, t_list *new, int pos)
 void	env_key_cmp(char *pwd, char *to_replace, void **lst_content, short *flg)
 {
 	char	*tmp;
+	char	*tmp2;
 
+	tmp2 = NULL;
+	if (pwd)
+		tmp2 = ft_strdup(pwd);
 	tmp = *((char **)lst_content);
 	*flg = 1;
-	*lst_content = ft_strjoin_free(ft_strdup(to_replace), ft_strdup(pwd));
+	*lst_content = ft_strjoin_free(ft_strdup(to_replace), tmp2);
 	free(tmp);
 }
 

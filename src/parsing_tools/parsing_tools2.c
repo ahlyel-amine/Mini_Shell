@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 11:24:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:21:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 
 void	panic_recursive(char *error, char **ptr)
 {
+	(void)ptr;
 	ft_putstr_fd(error, STDERR_FILENO);
 	// free (*ptr);
 	// *ptr = NULL;

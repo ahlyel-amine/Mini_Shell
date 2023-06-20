@@ -1,0 +1,23 @@
+total 3240
+-rw-r--r--   1 aahlyel  candidate     2509 Jun 20 21:27 Makefile
+-rw-r--r--   1 aahlyel  candidate        0 Jun 19 22:43 a.c
+-rw-r--r--   1 aahlyel  candidate  1429784 Jun 20 15:47 a.excalidraw
+----------   1 aahlyel  candidate    49424 Jun 20 18:00 a.out
+-rw-r--r--   1 aahlyel  candidate      101 Jun 20 21:50 aaa
+-rw-r--r--   1 aahlyel  candidate      106 Jun 20 21:51 aasd
+-rw-r--r--   1 aahlyel  candidate      113 Jun 20 21:52 awfesr
+drwxr-xr-x  11 aahlyel  candidate      374 Jun 20 19:03 include
+-rw-r--r--   1 aahlyel  candidate        0 Jun 20 22:16 k
+-rw-r--r--   1 aahlyel  candidate        0 Jun 20 22:16 l
+drwxr-xr-x   3 aahlyel  candidate      102 Jun  7 09:47 lib
+-rw-r--r--   1 aahlyel  candidate        0 Jun 20 21:24 ls
+-rwxr-xr-x   1 aahlyel  candidate   134552 Jun 20 22:15 minishell
+drwxr-xr-x   3 aahlyel  candidate      102 Jun 20 18:57 minishell.dSYM
+-rw-r--r--   1 aahlyel  candidate        0 Jun 20 22:16 o
+drwxr-xr-x   3 aahlyel  candidate      102 Jun 20 22:15 obj
+-rw-r--r--   1 aahlyel  candidate       97 Jun 20 21:35 outfile
+-rw-r--r--   1 aahlyel  candidate      129 Jun 20 21:52 qwfedszfz
+drwxr-xr-x  19 aahlyel  candidate      646 Jun 20 17:07 src
+-rw-r--r--   1 aahlyel  candidate       51 Jun 20 18:00 t.c
+-rw-r--r--   1 aahlyel  candidate       41 Jun 20 17:58 t.c~
+-rw-r--r--   1 aahlyel  candidate      119 Jun 20 21:52 wafds

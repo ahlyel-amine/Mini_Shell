@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 02:43:14 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:15:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	main(int ac, char **av, char **env)
 {
 	t_hold	*env_var;
 
-	// atexit(fun);
+	// atexit(fun);e
+	
 	(void)ac;
 	(void)av;
 	env_var = NULL;

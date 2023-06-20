@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:14:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	read_line(void)
 {
-	char	*pwd;
 	char	*line;
 
 	while (1)

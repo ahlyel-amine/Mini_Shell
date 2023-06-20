@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:49:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 22:21:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:27:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static t_arguments	*get_files(char	*str, t_arguments *args, DIR *directory);
 static t_arguments	*open_cwd(char *str)
 {
 	DIR				*directory;
-	struct dirent	*dir;
 	t_arguments		*files;
 
 	files = NULL;
@@ -29,7 +28,8 @@ static t_arguments	*open_cwd(char *str)
 	return (files);
 }
 
-void	wild_card_replace(t_arguments **args, t_arguments *prev, t_arguments **front)
+void	wild_card_replace(t_arguments **args, \
+t_arguments *prev, t_arguments **front)
 {
 	t_arguments	*files;
 	t_arguments	*tmp_next;
@@ -54,8 +54,6 @@ void	wild_card_replace(t_arguments **args, t_arguments *prev, t_arguments **fron
 
 void	wild_cards(t_arguments **args)
 {
-	t_arguments	*files;
-	t_arguments	*tmp_next;
 	t_arguments	*prev;
 	t_arguments	*front;
 

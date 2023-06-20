@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_signals.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 00:08:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 15:38:59 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:27:43 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	cmd_sig_check(int status)
 	if (g_glb.is_sig == 1)
 		g_glb.exit_val = 130;
 	else if (g_glb.is_sig == 2)
-		g_glb.exit_val = 131;	
+		g_glb.exit_val = 131;
 	return (0);
 }

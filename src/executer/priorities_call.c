@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 11:57:38 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:14:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_option(char *line, char *endline)
 {
 	int	i;
 	int	is_op;
-	
+
 	i = 0;
 	if (line[i] == '\'' || line[i] == '\"')
 		i++;
@@ -35,8 +35,7 @@ int	is_option(char *line, char *endline)
 	return (0);
 }
 
-t_lsttoken	*skip_echo_option(t_lsttoken *front, t_lsttoken *back,
-		int *has_option)
+t_lsttoken	*skip_echo_option(t_lsttoken *front, int *has_option)
 {
 	*has_option = 0;
 	while (front)
@@ -48,7 +47,6 @@ t_lsttoken	*skip_echo_option(t_lsttoken *front, t_lsttoken *back,
 				break ;
 			else
 			{
-
 				if (front && front->next && front->next->t_.type != E_SPACE)
 					break ;
 				*has_option = 1;
@@ -56,7 +54,7 @@ t_lsttoken	*skip_echo_option(t_lsttoken *front, t_lsttoken *back,
 				while (front && front->t_.type == E_SPACE)
 					front = front->next;
 				if (front)
-				continue ;
+					continue ;
 			}
 		}
 		break ;
@@ -83,7 +81,7 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	ret = is_builtin(cmd);
 	if (!ret)
 	{
-		arg = get_cmd(front, back);
+		arg = get_cmd(front, back, 0);
 		transform_args(&arg);
 		ret = cmd_executers(get_path(cmd), args_to_cmd_dstr(arg, cmd), comp);
 		return (arguments_destructor(&arg), ret);
@@ -92,8 +90,8 @@ static int	exec_call(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	{
 		front = skip_space_front_token(front);
 		if (!ft_strncmp(cmd, "echo", 5))
-			front = skip_echo_option(front, back, &ret);
-		arg = get_cmd(front, back);
+			front = skip_echo_option(front, &ret);
+		arg = get_cmd(front, back, 1);
 		ret = builtin_executer(&arg, cmd, comp.outfile, ret);
 		return (arguments_destructor(&arg), free(cmd), ret);
 	}
@@ -142,6 +140,7 @@ int	redirection(t_lsttoken *front, t_lsttoken *back, t_components comp)
 				return (0);
 			head->t_.type = E_EMPTY;
 			redirection(front, back, t);
+			close(t.close_red);
 			break ;
 		}
 		if (head == back)

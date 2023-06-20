@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:50:27 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 01:24:31 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:40:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_components
 {
 	int						infile;
 	int						outfile;
+	unsigned int			close_red;
 	unsigned int			is_pipe:1;
 	int						*fd;
 }	t_components;

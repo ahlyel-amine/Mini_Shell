@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tilde_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:45:08 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/18 22:48:37 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:22:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ char	*tilde_replace(char *arg)
 			hm = get_owd("PWD=");
 			return (tld(hm, ft_strjoin(hm, (arg + 2)), ft_strdup("")));
 		}
-		else if ((*(arg + 1) == '-' && !*(arg + 2)) || (len > 2 && \
-		*(arg + 1) == '-' && (*(arg + 2) == '/') || *(arg + 2) == 0x20))
+		else if ((*(arg + 1) == '-' && !*(arg + 2)) || ((len > 2 && \
+		*(arg + 1) == '-' && (*(arg + 2) == '/')) || *(arg + 2) == 0x20))
 		{
 			hm = get_owd("OLDPWD=");
 			return (tld(hm, ft_strjoin(hm, (arg + 2)), ft_strdup("")));

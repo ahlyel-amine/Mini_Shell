@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:40:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 13:00:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 17:46:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,8 @@ void						controll_line(char **line);
 void						read_line(void);
 void						complete_line(char **line, int *brea);
 void						wild_cards(t_arguments **args);
+char						*set_pwd(char *o_pwd);
+void						unset(t_hold *env, char ***path, char **pwd, char **homedir);
+char						**set_env(char **env);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:27:13 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 13:43:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 17:06:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ int	check_biltn_call(t_arg *arg, char *word)
 		return (new_arg(&arg, word, T_BILTN), 1);
 	return (0);
 }
-
-// void	check_wordcmd_call(t_arg *arg, char *word)
-// {
-// 	if ()
-// }
 
 void	tokenizer(char **words)
 {

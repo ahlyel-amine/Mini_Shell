@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 14:03:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 21:49:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ static int	check_line(char *line)
 
 void	controll_line(char **line)
 {
-	int			len;
 	int			stop;
 	t_lsttoken	*new;
-	t_lsttoken	*subs;
 
 	stop = 0;
 	complete_line(line, &stop);
@@ -72,6 +70,6 @@ void	controll_line(char **line)
 	if (!new)
 		return ;
 	operator(new, ft_lstokenlast(new), \
-	(t_components){STDIN_FILENO, STDOUT_FILENO, 0, NULL});
+	(t_components){STDIN_FILENO, STDOUT_FILENO, -1, 0, NULL});
 	free_lsttoken(new);
 }

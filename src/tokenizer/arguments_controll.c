@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments_controll.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:25:56 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 02:06:04 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:28:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ unsigned short type, unsigned short q)
 	new = malloc(sizeof(t_arguments));
 	if (!new)
 		return (NULL);
-	// printf("%p|%s|%d\n", new, str, type);
 	new->str = NULL;
 	new->q = q;
 	if (type != DQUOTE && type != QUOTE)

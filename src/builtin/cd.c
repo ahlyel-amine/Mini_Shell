@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 22:29:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:18:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	d_point_extend(char *path, char *cwd)
 	int		count;
 
 	pwd = prepare_pwd();
+	ret = 0;
 	if (!*cwd && d_point_check(path))
 	{
 		if (pwd && pwd[ft_strlen(pwd) - 1] != '/')

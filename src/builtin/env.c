@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:53:40 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 12:53:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 21:28:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	tt_env(t_arguments *cmd_args)
 	else if (args && *args)
 	{
 		g_glb.exit_val = 127;
-		printf("Minishell: %s: no such file or directory\n", *args);
+		printf("Minishell: %s: invalid option\n", *args);
+		sp_free(args);
 	}
 }

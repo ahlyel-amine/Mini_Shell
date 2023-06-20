@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 22:43:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 21:39:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*skip_q_hrdc_delim(char *line, char *end_line, int *q)
 	t_var	var;
 
 	i = 0;
-
 	ft_memset(&var, 0, sizeof(t_var));
 	tmp = ft_calloc(1, (end_line - line) + 1);
 	k = 0;
@@ -129,5 +128,5 @@ int	read_heredocs(char *delimiter, int q)
 	fd = open(name, O_RDONLY, 0644);
 	if (fd < 0)
 		return (pr_custom_err(ERR_FILE, name, name), -1);
-	return (free(name), fd);
+	return (unlink(name), free(name), fd);
 }
