@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_controll.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:02:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 13:43:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 02:22:17 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	write_herdoc(char *delemiter)
 		}
 		if (!ft_strncmp(reader, delemiter, ft_strlen(delemiter) + 1))
 			break ;
-		write (fd, reader, ft_strlen(reader));
-		write (fd, "\n", 1);
+		// write (fd, reader, ft_strlen(reader));
+		// write (fd, "\n", 1);
 		free (reader);
 	}
 	return (free(reader), close(fd), free(delemiter));
