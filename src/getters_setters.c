@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 19:43:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:49:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ static char	**set_path(t_hold *env, char **old_path)
 	free(old_path);
 	return (path);
 }
-
-
 
 char	**env_str(t_hold *env_var)
 {

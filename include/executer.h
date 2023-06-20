@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:33:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 16:26:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/21 00:07:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,14 @@ int				is_builtin(char *word);
 char			*get_path(char *cmd);
 int				cmd_executers(char *path, char **cmd, t_components comp);
 char			*get_command_name(t_lsttoken **front, t_lsttoken *back);
-t_components	get_red(t_lsttoken *redir, t_components comp);
+t_components	get_red(t_lsttoken *redir, t_components comp, int *in);
 int				pipe_left(t_lsttoken *head, t_lsttoken *back);
+t_lsttoken		*skip_echo_option(t_lsttoken *front, int *has_option);
+t_lsttoken		*skip_space_front_token(t_lsttoken *front);
+int				last_operaotr(t_lsttoken *front, t_lsttoken *back);
+void			init_2ptr(t_lsttoken **head, t_lsttoken **prev, \
+t_lsttoken *front);
+t_lsttoken		*skip_tokens(t_lsttoken *head, t_lsttoken *back, int *start, \
+int *end);
 
 #endif

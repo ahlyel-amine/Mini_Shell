@@ -6,18 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 22:15:05 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/21 00:04:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	fun(void)
-{
-	system("leaks minishell");
-}
-
-t_hold	*env_dup(t_hold *env_var, char **env)
+static t_hold	*env_dup(t_hold *env_var, char **env)
 {
 	env_var = (t_hold *)malloc(sizeof(t_hold));
 	if (!env_var)
@@ -41,8 +36,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_hold	*env_var;
 
-	// atexit(fun);e
-	
 	(void)ac;
 	(void)av;
 	env_var = NULL;

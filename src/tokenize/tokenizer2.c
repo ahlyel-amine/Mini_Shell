@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:48:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 16:18:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:36:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	get_fds_loop_check(t_lsttoken *head)
 	if (tmp && tmp->t_.type == E_SPACE)
 		tmp = tmp->next;
 	if (!tmp)
-		return (panic_recursive(ERR_O_SNTX, NULL), 0);
+		return (panic(5), 0);
 	start = tmp->t_.start;
 	end = 0;
 	while (tmp)

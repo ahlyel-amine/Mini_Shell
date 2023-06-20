@@ -1,132 +1,115 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_parser_tools.c                        :+:      :+:    :+:   */
+/*   redirections_parser_tools2.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 21:39:07 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/06/21 00:03:00 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_her_name(char c)
+int	ft_isname(char c)
 {
-	return (ft_isalnum(c) || c == '_' || \
-	(c != '&' && c != '|' && c != '(' && c != ')'));
+	return (c != '&' && c != '|' && c != '<' && c != '>' && c != ' ');
 }
 
-static int	skip_quote_heredoc_delimiter_conditions(char *line, \
-char **tmp, t_2ptr_int a, t_var var)
+static t_arguments	*fill_arguments(t_arguments *arguments, \
+t_var *var, t_2ptr_int a, char *line)
 {
-	if (ft_isspace(line[*(a.i)]) && !var.quote && !var.dquote)
-		return (1);
-	if ((var.quote || var.dquote) && ft_isspace(line[*(a.i)]))
-		(*tmp)[(*(a.k))++] = line[*(a.i)];
-	else if ((line[*(a.i)] == '\"' && var.quote) || (line[*(a.i)] == '\''\
-			&& var.dquote))
-		(*tmp)[(*(a.k))++] = line[*(a.i)];
-	else if (!var.quote && !var.dquote && !ft_her_name(line[*(a.i)])
-		&& line[*(a.i)] != '\"' && line[*(a.i)] != '\'')
-		return (1);
-	else if (line[*(a.i)] != '\'' && line[*(a.i)] != '\"')
-		(*tmp)[(*(a.k))++] = line[*(a.i)];
-	return (0);
-}
-
-char	*skip_q_hrdc_delim(char *line, char *end_line, int *q)
-{
-	int		i;
-	int		k;
-	char	*tmp;
-	t_var	var;
-
-	i = 0;
-	ft_memset(&var, 0, sizeof(t_var));
-	tmp = ft_calloc(1, (end_line - line) + 1);
-	k = 0;
-	*q = 0;
-	if (line[i] == '$' && (line[i + 1] == '\'' || line[i + 1] == '\"'))
-		i++;
-	while (line[i] && line + i != end_line)
+	if (var->dquote && line[*(a.i) + *(a.k)] == '\"')
 	{
-		check_out_of_quotes(line[i], &var);
-		if (var.dquote || var.quote)
-			*q = 1;
-		if (skip_quote_heredoc_delimiter_conditions(line, &tmp, \
-		(t_2ptr_int){&i, &k}, var))
-			break ;
-		i++;
+		if (*(a.k))
+			arguments = arguments_constructor(arguments, \
+			ft_substr(line, *(a.i), *(a.k)), IS_STR, 0);
+		*(a.i) += *(a.k) + 1;
+		*(a.i) += close_dquote(&arguments, line, *(a.i)) + 1;
+		var->dquote = 0;
+		*(a.k) = -1;
 	}
-	return (tmp);
+	else if (var->quote && line[*(a.i) + *(a.k)] == '\'')
+	{
+		if (*(a.k))
+			arguments = arguments_constructor(arguments, \
+			ft_substr(line, *(a.i), *(a.k)), IS_STR, 0);
+		*(a.i) += *(a.k) + 1;
+		*(a.i) += close_quote(&arguments, line, *(a.i)) + 1;
+		var->quote = 0;
+		*(a.k) = -1;
+	}
+	else if (!var->dquote && !var->quote && !ft_isname(line[*(a.i) + *(a.k)]))
+		*(a.k) = -2;
+	return (arguments);
 }
 
-static char	*get_herdoc_name(void)
+t_arguments	*transform_args_fd_name(t_arguments **args)
 {
-	static int	call;
+	char		*str;
+	t_arguments	*nl;
 
-	return (ft_strjoin_free(ft_strdup(HERDOC_FILE), ft_itoa(call++)));
+	nl = NULL;
+	expand_line(*args);
+	args_join(args);
+	args_move_down(args, &nl);
+	str = args_to_str(*args);
+	if (ft_strchr(str, '*'))
+	{
+		nl = *args;
+		while (nl->next)
+			nl = nl->next;
+		nl->next = arguments_constructor(NULL, str, IS_STR, 0);
+		wild_cards(&nl->next);
+		if (nl->next->next)
+			return (ft_putstr_fd(ERR_AMBGIS, 2), \
+			arguments_destructor(args), NULL);
+		return (nl->next);
+	}
+	else
+		return (free (str), *args);
 }
 
-char	*her_expand(char *line)
+char	*transform_filename(t_arguments *arguments)
 {
-	t_arguments	*args;
-	char		*r_str;
+	char	*filename;
+
+	merge_arguments(&arguments, 0);
+	tokenize_variables(&arguments);
+	arguments = transform_args_fd_name(&arguments);
+	if (!arguments)
+		return (NULL);
+	filename = args_to_str(arguments);
+	arguments_destructor(&arguments);
+	return (filename);
+}
+
+char	*get_filename(char *line, char *endline)
+{
+	t_arguments	*arg;
+	t_var		var;
+	int			j;
 	int			i;
 
+	ft_memset(&var, 0, sizeof(t_var));
+	arg = NULL;
+	j = 0;
 	i = 0;
-	args = get_argument(line, i, 0);
-	free(line);
-	expand_line(args);
-	r_str = args_to_str(args);
-	return (arguments_destructor(&args), r_str);
-}
-
-static int	read_heredoc_inside_loops(char **line, \
-char *delimiter, int fd, int q)
-{
-	int	i;
-
-	i = 0;
-	if (!strncmp(*line, delimiter, ft_strlen(delimiter) + 1))
+	while (line[i + j] && line + i + j != endline)
 	{
-		free(*line);
-		return (1);
-	}
-	if (!q)
-		*line = her_expand(*line);
-	write(fd, *line, ft_strlen(*line));
-	write(fd, "\n", 1);
-	free(*line);
-	*line = readline(HERDOC);
-	return (0);
-}
-
-int	read_heredocs(char *delimiter, int q)
-{
-	char	*name;
-	char	*line;
-	int		fd;
-
-	g_glb.in_cmd = 1;
-	sig_here();
-	name = get_herdoc_name();
-	fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	if (fd < 0)
-		return (pr_custom_err(ERR_FILE, name, name), -1);
-	line = readline(HERDOC);
-	while (line && !g_glb.ctrl_c)
-	{
-		if (read_heredoc_inside_loops(&line, delimiter, fd, q))
+		check_out_of_quotes(line[i + j], &var);
+		arg = fill_arguments(arg, &var, (t_2ptr_int){&i, &j}, line);
+		if (j == -1)
+		{
+			j = 0;
+			continue ;
+		}
+		else if (j == -2)
 			break ;
+		j++;
 	}
-	g_glb.ctrl_c = 0;
-	g_glb.in_cmd = 0;
-	close(fd);
-	fd = open(name, O_RDONLY, 0644);
-	if (fd < 0)
-		return (pr_custom_err(ERR_FILE, name, name), -1);
-	return (unlink(name), free(name), fd);
+	if (j)
+		arg = arguments_constructor(arg, ft_substr(line, i, j), IS_STR, 0);
+	return (transform_filename(arg));
 }

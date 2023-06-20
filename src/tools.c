@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:32:35 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/20 19:57:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:50:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sp_free(char **splt)
 	int	iter;
 
 	if (!splt)
-		return;
+		return ;
 	iter = -1;
 	while (splt[++iter])
 		free(splt[iter]);

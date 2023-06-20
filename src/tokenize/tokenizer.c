@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:54:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 13:48:26 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:36:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	subsh_token(t_lsttoken **head, char *line, int *i, int *fail)
 	{
 		j = close_parenthise(line + *i + 1);
 		if (j == -1)
-			return (panic_recursive(ERR_UNCLSDP, NULL), *fail = 1, -1);
+			return (panic(-1), *fail = 1, -1);
 		ft_lstokenadd_back(head, new_token((t_token){E_SUBSH, line, *i + 1, j
 				- 1, NULL}));
 		*i += j + 1;
@@ -66,7 +66,7 @@ int	operator_token(t_lsttoken **head, char *line, int *i, int *fail)
 	if (line[*i] == '&')
 	{
 		if (line[*i + 1] != '&')
-			return (panic_recursive(ERR_1AND, NULL), *fail = 1, -1);
+			return (panic(E_AND), *fail = 1, -1);
 		ft_lstokenadd_back(head, new_token((t_token){E_AND, line, *i, 2,
 				NULL}));
 		*i += 2;

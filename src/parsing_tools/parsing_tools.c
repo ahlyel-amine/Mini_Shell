@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:20:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 11:24:04 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/21 00:00:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,21 @@ size_t	ft_double_strlen(char **str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+char	**ft_dstrdup(char **ds1)
+{
+	char	**words;
+	int		ds1_len;
+	int		j;
+
+	ds1_len = ft_double_strlen(ds1);
+	j = -1;
+	words = malloc(sizeof(char *) * (ds1_len + 1));
+	if (!words)
+		return (NULL);
+	while (ds1[++j])
+		words[j] = ds1[j];
+	words[j] = NULL;
+	return (words);
 }

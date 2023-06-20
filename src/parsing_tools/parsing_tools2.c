@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 16:21:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/21 00:00:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,26 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 	free (ptr);
 }
 
-void	panic_recursive(char *error, char **ptr)
+void	panic(int type)
 {
-	(void)ptr;
-	ft_putstr_fd(error, STDERR_FILENO);
-	// free (*ptr);
-	// *ptr = NULL;
-}
-
-char	**ft_dstrdup(char **ds1)
-{
-	char	**words;
-	int		ds1_len;
-	int		j;
-
-	ds1_len = ft_double_strlen(ds1);
-	j = -1;
-	words = malloc(sizeof(char *) * (ds1_len + 1));
-	if (!words)
-		return (NULL);
-	while (ds1[++j])
-		words[j] = ds1[j];
-	words[j] = NULL;
-	return (words);
+	if (type != -1)
+	{
+		ft_putstr_fd(ERR_SNTX, STDERR_FILENO);
+		if (type == E_AND)
+			ft_putstr_fd("`&'\n", STDERR_FILENO);
+		else if (type == E_OR || type == E_PIPE)
+			ft_putstr_fd("`|'\n", STDERR_FILENO);
+		else if (type == 5)
+			ft_putstr_fd("`newline'\n", STDERR_FILENO);
+		else if (type == E_INRED)
+			ft_putstr_fd("`<'\n", STDERR_FILENO);
+		else if (type == E_OUTRED)
+			ft_putstr_fd("`>'\n", STDERR_FILENO);
+		else if (type == E_APPEND)
+			ft_putstr_fd("`>>'\n", STDERR_FILENO);
+		else if (type == E_HEREDOC)
+			ft_putstr_fd("`<<'\n", STDERR_FILENO);
+	}
+	else
+		ft_putstr_fd(ERR_O_SNTX, STDERR_FILENO);
 }

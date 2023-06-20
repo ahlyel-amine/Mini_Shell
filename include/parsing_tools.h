@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:34:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/19 13:01:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:37:21 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			close_parenthise(char *line);
 void		check_out_of_quotes(char c, t_var *var);
 int			skip_spaces_front(char *line);
 void		pr_custom_err(char *error, void *ptr, char *custom);
-void		panic_recursive(char *error, char **ptr);
+void		panic(int type);
 char		*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q);
 t_arguments	*get_names(char *line, int *i);
 int			check_for_syntax(char **line, int i);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 02:53:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 21:49:39 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:35:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	check_line(char *line)
 		{
 			j = close_parenthise(line + i + 1);
 			if (j == -1)
-				return (panic_recursive(ERR_UNCLSDP, NULL), 0);
+				return (panic(-1), 0);
 			i += j + 1;
 			continue ;
 		}
@@ -44,7 +44,7 @@ static int	check_line(char *line)
 		if (line[i] == '\'')
 			skip_untl_chr(line, '\'', &i);
 		if (line[i] == ')')
-			return (panic_recursive(ERR_CLSD_PARNETHISE, NULL), 0);
+			return (panic(-1), 0);
 		i++;
 	}
 	return (1);
