@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 14:27:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:49:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static char	*set_homedir(t_hold *env, char *home)
 			j++;
 		dir = ft_strdup(tmp_e->content + j + 1);
 	}
-	free (home);
-	return (dir);
+	return (free(home), dir);
 }
 
 static char	**set_path(t_hold *env, char **old_path)
@@ -58,100 +57,21 @@ static char	**set_path(t_hold *env, char **old_path)
 		{
 			tmp = ft_substr(tmp_e->content, 5, ft_strlen(tmp_e->content + 5));
 			path = ft_split(tmp, ':');
-			free (tmp);
+			free(tmp);
 		}
 		tmp_e = tmp_e->next;
 	}
-
 	while (old_path && old_path[i])
-		free (old_path[i++]);
-	free (old_path);
+		free(old_path[i++]);
+	free(old_path);
 	return (path);
 }
 
-// char	*set_pwd(char *old_pwd)
-// {
-// 	char	*ipwd;
-// 	char	*pwd;
-// 	char	*homedir;
-
-// 	ipwd = NULL;
-// 	ipwd = getcwd(ipwd, 0);
-		
-// 	homedir = set__get_option_variables(0, GET | GET_HOME);
-// 	if (!ipwd)
-// 		pwd = homedir;
-// 	else	
-// 		pwd = ipwd;
-// 	if (homedir && !ft_strncmp(homedir, pwd, ft_strlen(homedir)))
-// 	{
-// 		pwd = ft_strjoin("~", ipwd);
-// 		free (ipwd);
-// 	}
-// 	free (old_pwd);
-// 	return (pwd);
-// }
-
-char	*set_pwd(char *o_pwd)
-{
-	char	*pwd;
-	char	cwd[PATH_MAX];
-	
-	if (!getcwd(cwd, sizeof(cwd)) && o_pwd)
-		pwd = ft_strdup(o_pwd);
-	else if (!getcwd(cwd, sizeof(cwd)) && !o_pwd && get_owd("PWD="))
-		return (ft_strdup(get_owd("PWD=")));
-	else
-		pwd = ft_strdup(cwd);
-	printf("--> %s <--\n",pwd);
-	return (free(o_pwd), pwd);
-}
-
-void	unset(t_hold *env, char ***path, char **pwd, char **homedir)
-{
-	int	i;
-
-	i = 0;
-	free (*homedir);
-	*homedir = NULL;
-	free (*pwd);
-	*pwd = NULL;
-	while (*path && (*path)[i])
-		free ((*path)[i++]);
-	free (*path);
-	*path = NULL;
-	ft_lstclear(&(env->lst), free);
-	
-}
-
-char	**ft_dstrdup(char **ds1)
-{
-	char	**words;
-	int		ds1_len;	
-	int		j;
-	
-	ds1_len = ft_double_strlen(ds1);
-	j = -1;
-	words = malloc(sizeof(char *) * (ds1_len + 1));
-	if (!words)
-		return (NULL);
-	while (ds1[++j])
-		words[j] = ds1[j];
-	words[j] = NULL;
-	return (words);
-}
-// char	**set_env(char **env)
-// {
-// 	char **envp;
-
-// 	envp = ft_dstrdup(env);
-// 	return (envp);
-// }
-
-char **env_str(t_hold *env_var)
+char	**env_str(t_hold *env_var)
 {
 	char	**env;
 	short	iter;
+
 	iter = 0;
 	env = (char **)malloc(sizeof(char *) * env_var->size + 1);
 	while (env_var->lst)
@@ -199,19 +119,4 @@ void	*set__get_option_variables(void *env, int set__get_option)
 	else if (set__get_option == FREE)
 		unset((t_hold *)envs, &path, &home_dir, &pwd);
 	return (NULL);
-}
-
-char	*get_prompt_line()
-{
-	char	*pwd;
-	pwd = NULL;
-	set__get_option_variables(0, SET | SET_PWD);
-	pwd = set__get_option_variables(0, GET | GET_PWD);
-	// pwd = get_owd("PWD=");
-	if (pwd)
-	{
-		pwd = ft_strjoin_free(ft_strdup("\n╭─\x1b[43m░▒▓▓▓▓▓\x1b[40m\x1b[44m "), ft_strdup(pwd));
-		pwd = ft_strjoin_free(pwd, ft_strdup(" \x1b[43m minishell \x1b[0m───────────────────────────\x1b[43▓▓▓▓▒░\x1b[0m─\n╰─ "));
-	}
-	return (pwd);
 }

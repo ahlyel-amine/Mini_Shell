@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:30:28 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:16:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,25 @@ unsigned char	exit_val(char *str)
 		return (((unsigned char)(res)) * sign);
 }
 
-void	tt_exit(t_cmd *cmd)
+void	tt_exit(t_arguments **cmd_args)
 {
-	t_builtin	*_exit;
 	char		**args;
 	int			val;
 
 	val = 0;
-	_exit = (t_builtin *)cmd;
-	transform_args(&_exit->arguments);
-	args = args_to_dblstr_(_exit->arguments);
+	transform_args(cmd_args);
+	args = args_to_dblstr_(*cmd_args);
 	while (args && args[val])
 		val++;
 	if (val > 1)
 	{
 		ft_putendl_fd("Minishell: exit: too many arguments", STDERR_FILENO);
-		glo_exit = 1;
+		g_glb.exit_val = 1;
 	}	
 	else if (val == 1)
-		glo_exit = (int)exit_val(args[0]);
+		g_glb.exit_val = (int)exit_val(args[0]);
 	if (args)
 		sp_free(args);
-	if (!is_pipe && !Ctrl_c)
-		exit(glo_exit);
+	if (!g_glb.is_pipe && !g_glb.ctrl_c)
+		exit(g_glb.exit_val);
 }

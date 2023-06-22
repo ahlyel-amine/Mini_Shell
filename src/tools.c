@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:32:35 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:35:55 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:14:49 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	sp_free(char **splt)
 {
 	int	iter;
 
+	if (!splt)
+		return ;
 	iter = -1;
 	while (splt[++iter])
 		free(splt[iter]);
@@ -26,12 +28,14 @@ char	*app_dup(char *arg)
 {
 	char	*buf;
 	int		iter;
+	int		pls;
 
 	buf = (char *)malloc((ft_strlen(arg)) * sizeof(char));
 	iter = 0;
+	pls = 0;
 	while (*arg)
 	{
-		if (*arg == '+')
+		if (*arg == '+' && !pls++)
 			arg++;
 		buf[iter] = *arg;
 		iter++;
@@ -74,6 +78,7 @@ char	*ft_strndup(const char *s, size_t n)
 	*dst = '\0';
 	return (ret);
 }
+
 void	adjust_shlvl(t_hold *env)
 {
 	t_list	*lst;

@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 01:08:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:46:32 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:18:32 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void	do_cmp(char	*val, char **lst_cnt, short opt, size_t len)
 		free(*lst_cnt);
 		*lst_cnt = ft_strdup(val);
 	}
-	else
+	else if (opt == 1)
 		*lst_cnt = ft_strjoin_free(*lst_cnt, ft_strdup(val));
+	else
+	{
+		*lst_cnt = ft_strjoin_free(*lst_cnt, ft_strdup("="));
+		*lst_cnt = ft_strjoin_free(*lst_cnt, val);
+	}
 }

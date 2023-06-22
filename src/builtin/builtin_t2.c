@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_t2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 21:10:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:45:56 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:41:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	d_point_pwd(char *path, char *pwd)
 		return (1);
 	ret = chdir(path);
 	if (ret == -1)
-		return (printf("cd: %s: %s\n", path, strerror(errno)), (1));
+		return (err_print(path, " : cd :  ", strerror(errno)), 0);
 	getcwd(cwd2, sizeof(cwd2));
 	reset_env(cwd2, pwd);
 	return (ret);
@@ -36,15 +36,14 @@ int	go_to_oldpwd(char *cwd, char *path)
 	if (!stat_check(env_path))
 		return (1);
 	if (!env_path)
-		return (ft_putendl_fd("minishell : \
-		cd: OLDPWD not set", STDERR_FILENO), (1));
+		return (err_print("minishell : cd: OLDPWD not set", "", NULL));
 	if (access(env_path, R_OK) != 0)
-		return (printf("cd: %s: %s\n", path, "No such file or directory"), (1));
+		return (err_print("cd: ", path, ": No such file or directory"));
 	if (get_owd("PWD=") && !*cwd)
 		reset_env(env_path, get_owd("PWD="));
 	else
 		reset_env(env_path, cwd);
-	ft_putendl_fd(get_owd("PWD="), out);
+	ft_putendl_fd(get_owd("PWD="), g_glb.out);
 	ret = chdir(get_owd("PWD="));
 	return (ret);
 }
@@ -56,7 +55,7 @@ int	stat_check(char *path)
 	if (stat(path, &file_info) == 0)
 	{
 		if (!(file_info.st_mode & S_IRUSR))
-			return (printf("cd: permission denied: %s\n", path), (0));
+			return (err_print("cd: permission denied: ", path, NULL), 0);
 		else
 			return (1);
 	}

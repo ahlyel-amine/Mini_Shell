@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 14:37:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:14:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static char	*read_until_chr(char *line, char c, int *brea)
 static char	*read_until_oper(char *line, t_oper oper, int *brea)
 {
 	char	*operator;
-	int		quote_pos;
 
 	*brea = 0;
+	operator = NULL;
 	if (oper.and)
 		operator = readline(CMDAND);
 	else if (oper.or)
@@ -114,7 +114,6 @@ void	complete_line(char **line, int *brea)
 	t_var	q;
 	t_oper	oper;
 	int		bre;
-	char	*tmp;
 
 	ft_memset(&q, 0, sizeof(t_var));
 	ft_memset(&oper, 0, sizeof(t_oper));

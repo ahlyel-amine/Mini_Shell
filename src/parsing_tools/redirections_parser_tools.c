@@ -1,57 +1,115 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_parser_tools.c                        :+:      :+:    :+:   */
+/*   redirections_parser_tools2.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:25:39 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/06/21 00:03:00 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	skip_quote_heredoc_delimiter_conditions(char *line, \
-char **tmp, t_2ptr_int a, t_var var)
+int	ft_isname(char c)
 {
-	if (ft_isspace(line[*(a.i)]) && !var.quote && !var.dquote)
-		return (1);
-	if ((var.quote || var.dquote) && ft_isspace(line[*(a.i)]))
-		(*tmp)[(*(a.k))++] = line[*(a.i)];
-	else if ((line[*(a.i)] == '\"' && var.quote) || (line[*(a.i)] == '\''\
-			&& var.dquote))
-		(*tmp)[(*(a.k))++] = line[*(a.i)];
-	else if (!var.quote && !var.dquote && !ft_isvariable(line[*(a.i)])
-		&& line[*(a.i)] != '\"' && line[*(a.i)] != '\'')
-		return (1);
-	else if (line[*(a.i)] != '\'' && line[*(a.i)] != '\"')
-		(*tmp)[(*(a.k))++] = line[*(a.i)];
-	return (0);
+	return (c != '&' && c != '|' && c != '<' && c != '>' && c != ' ');
 }
 
-char	*skip_quote_heredoc_delimiter(char *line, int *j, int i, int *q)
+static t_arguments	*fill_arguments(t_arguments *arguments, \
+t_var *var, t_2ptr_int a, char *line)
 {
-	int		k;
-	char	*tmp;
-	t_var	var;
+	if (var->dquote && line[*(a.i) + *(a.k)] == '\"')
+	{
+		if (*(a.k))
+			arguments = arguments_constructor(arguments, \
+			ft_substr(line, *(a.i), *(a.k)), IS_STR, 0);
+		*(a.i) += *(a.k) + 1;
+		*(a.i) += close_dquote(&arguments, line, *(a.i)) + 1;
+		var->dquote = 0;
+		*(a.k) = -1;
+	}
+	else if (var->quote && line[*(a.i) + *(a.k)] == '\'')
+	{
+		if (*(a.k))
+			arguments = arguments_constructor(arguments, \
+			ft_substr(line, *(a.i), *(a.k)), IS_STR, 0);
+		*(a.i) += *(a.k) + 1;
+		*(a.i) += close_quote(&arguments, line, *(a.i)) + 1;
+		var->quote = 0;
+		*(a.k) = -1;
+	}
+	else if (!var->dquote && !var->quote && !ft_isname(line[*(a.i) + *(a.k)]))
+		*(a.k) = -2;
+	return (arguments);
+}
+
+t_arguments	*transform_args_fd_name(t_arguments **args)
+{
+	char		*str;
+	t_arguments	*nl;
+
+	nl = NULL;
+	expand_line(*args);
+	args_join(args);
+	args_move_down(args, &nl);
+	str = args_to_str(*args);
+	if (ft_strchr(str, '*'))
+	{
+		nl = *args;
+		while (nl->next)
+			nl = nl->next;
+		nl->next = arguments_constructor(NULL, str, IS_STR, 0);
+		wild_cards(&nl->next);
+		if (nl->next->next)
+			return (ft_putstr_fd(ERR_AMBGIS, 2), \
+			arguments_destructor(args), NULL);
+		return (nl->next);
+	}
+	else
+		return (free (str), *args);
+}
+
+char	*transform_filename(t_arguments *arguments)
+{
+	char	*filename;
+
+	merge_arguments(&arguments, 0);
+	tokenize_variables(&arguments);
+	arguments = transform_args_fd_name(&arguments);
+	if (!arguments)
+		return (NULL);
+	filename = args_to_str(arguments);
+	arguments_destructor(&arguments);
+	return (filename);
+}
+
+char	*get_filename(char *line, char *endline)
+{
+	t_arguments	*arg;
+	t_var		var;
+	int			j;
+	int			i;
 
 	ft_memset(&var, 0, sizeof(t_var));
-	tmp = ft_calloc(1, ft_strlen(line + i) + 1);
-	k = 0;
-	*q = 0;
-	if (line[i] == '$' && (line[i + 1] == '\'' || line[i + 1] == '\"'))
-		i++;
-	while (line[i])
+	arg = NULL;
+	j = 0;
+	i = 0;
+	while (line[i + j] && line + i + j != endline)
 	{
-		check_out_of_quotes(line[i], &var);
-		if (var.dquote || var.quote)
-			*q = 1;
-		if (skip_quote_heredoc_delimiter_conditions(line, &tmp, \
-		(t_2ptr_int){&i, &k}, var))
+		check_out_of_quotes(line[i + j], &var);
+		arg = fill_arguments(arg, &var, (t_2ptr_int){&i, &j}, line);
+		if (j == -1)
+		{
+			j = 0;
+			continue ;
+		}
+		else if (j == -2)
 			break ;
-		i++;
+		j++;
 	}
-	*j = i;
-	return (tmp);
+	if (j)
+		arg = arguments_constructor(arg, ft_substr(line, i, j), IS_STR, 0);
+	return (transform_filename(arg));
 }

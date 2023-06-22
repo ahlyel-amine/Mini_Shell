@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_tools.c                                    :+:      :+:    :+:   */
+/*   parsing_tools2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:40:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 19:58:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:49:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 {
 	char	*msg;
 
+	if (!strncmp(error, ERR_O_SNTX, ft_strlen(ERR_O_SNTX)))
+		g_glb.exit_val = 258;
 	msg = ft_strjoin(error, custom);
 	ft_putstr_fd(msg, 2);
 	ft_putchar_fd('\n', 2);
@@ -70,9 +72,27 @@ void	pr_custom_err(char *error, void *ptr, char *custom)
 	free (ptr);
 }
 
-void	panic_recursive(char *error, char **ptr)
+void	panic(int type)
 {
-	ft_putstr_fd(error, STDERR_FILENO);
-	free (*ptr);
-	*ptr = NULL;
+	g_glb.exit_val = 258;
+	if (type != -1)
+	{
+		ft_putstr_fd(ERR_SNTX, STDERR_FILENO);
+		if (type == E_AND)
+			ft_putstr_fd("`&'\n", STDERR_FILENO);
+		else if (type == E_OR || type == E_PIPE)
+			ft_putstr_fd("`|'\n", STDERR_FILENO);
+		else if (type == 5)
+			ft_putstr_fd("`newline'\n", STDERR_FILENO);
+		else if (type == E_INRED)
+			ft_putstr_fd("`<'\n", STDERR_FILENO);
+		else if (type == E_OUTRED)
+			ft_putstr_fd("`>'\n", STDERR_FILENO);
+		else if (type == E_APPEND)
+			ft_putstr_fd("`>>'\n", STDERR_FILENO);
+		else if (type == E_HEREDOC)
+			ft_putstr_fd("`<<'\n", STDERR_FILENO);
+	}
+	else
+		ft_putstr_fd(ERR_O_SNTX, STDERR_FILENO);
 }

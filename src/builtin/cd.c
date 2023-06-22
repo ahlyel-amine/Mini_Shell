@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:19:53 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 03:54:28 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:42:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	d_point_extend(char *path, char *cwd)
 	int		count;
 
 	pwd = prepare_pwd();
+	ret = 0;
 	if (!*cwd && d_point_check(path))
 	{
 		if (pwd && pwd[ft_strlen(pwd) - 1] != '/')
@@ -93,7 +94,7 @@ void	nr_cd(char *path, char *cwd)
 	ret = chdir(path);
 	if (ret == -1)
 	{
-		printf("cd: %s: %s\n", path, strerror(errno));
+		err_print(path, " : cd :  ", strerror(errno));
 		ret = 1;
 	}
 	else
@@ -101,32 +102,30 @@ void	nr_cd(char *path, char *cwd)
 		getcwd(cwd2, sizeof(cwd2));
 		reset_env(cwd2, cwd);
 	}
-	glo_exit = ret;
+	g_glb.exit_val = ret;
 }
 
-void	tt_cd(t_cmd *cmd)
+void	tt_cd(t_arguments **cd_args)
 {
-	t_builtin	*cd;
 	char		**path;
 	int			ret;
 	char		cwd[PATH_MAX];
 
 	ret = 0;
-	cd = (t_builtin *)cmd;
 	if (!getcwd(cwd, sizeof(cwd)))
 		cwd[0] = '\0';
-	(transform_args(&cd->arguments));
-	path = args_to_dblstr_(cd->arguments);
+	(transform_args(cd_args));
+	path = args_to_dblstr_(*cd_args);
 	if (!path)
-		glo_exit = ft_go_to(0, path, cwd);
+		g_glb.exit_val = ft_go_to(0, path, cwd);
 	else if (!**path)
-		glo_exit = ft_go_to(2, path, cwd);
+		g_glb.exit_val = ft_go_to(2, path, cwd);
 	else if (!ft_memcmp(*path, "-", 2))
-		glo_exit = ft_go_to(1, path, cwd);
+		g_glb.exit_val = ft_go_to(1, path, cwd);
 	else
 	{
 		if (!ft_memcmp(*path, "..", 2) || !ft_memcmp(*path, ".", 1))
-			glo_exit = d_point_extend(*path, cwd);
+			g_glb.exit_val = d_point_extend(*path, cwd);
 		else
 			nr_cd(*path, cwd);
 		sp_free(path);

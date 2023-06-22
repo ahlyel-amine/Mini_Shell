@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_t1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 04:40:27 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/16 04:45:24 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:20:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 size_t	args_len_(t_arguments *args)
 {
 	t_arguments	*tmp;
-	t_arguments	*d_tmp;
 	size_t		len;
 
 	len = 0;
@@ -47,7 +46,7 @@ static char	**args_dstr_alloc(t_arguments *args)
 	return (str);
 }
 
-static t_arguments	*ft_join_args_dstr(t_arguments *tmp, char **str, size_t *indx)
+t_arguments	*ft_join_args_dstr(t_arguments *tmp, char **str, size_t *indx)
 {
 	char	*stack;
 
@@ -69,7 +68,6 @@ char	**args_to_dblstr_(t_arguments *args)
 {
 	t_arguments	*tmp;
 	char		**str;
-	char		*tst;
 	size_t		len;
 
 	str = args_dstr_alloc(args);

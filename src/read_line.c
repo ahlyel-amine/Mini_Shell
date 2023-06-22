@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:45:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/09 18:09:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:14:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	read_line(void)
 {
-	char	*pwd;
 	char	*line;
 
 	while (1)
@@ -26,8 +25,8 @@ void	read_line(void)
 		{
 			free(line);
 			set__get_option_variables(0, FREE);
-			ft_putendl_fd("minishell: exit", STDERR_FILENO);
-			exit(glo_exit);
+			ft_putendl_fd(EXIT_SHELL, STDERR_FILENO);
+			exit(g_glb.exit_val);
 		}
 		if (!*line)
 		{

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:44:08 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 01:01:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:17:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	args_move_next_down(t_arguments **args, t_arguments **prev)
 {
 	t_arguments	*tmp;
-	t_arguments	*down;
 
 	tmp = *args;
 	if (!*prev && !((*args)->type & IS_SEPARTOR) && \
@@ -38,10 +37,9 @@ static void	args_move_next_down(t_arguments **args, t_arguments **prev)
 	}
 }
 
-static void	args_move_prev_down(t_arguments **args, t_arguments **prev)
+static void	args_move_prev_down(t_arguments **args)
 {
 	t_arguments	*tmp;
-	t_arguments	*down;
 
 	tmp = *args;
 	if (((*args)->type & DQUOTE || (*args)->type & QUOTE) && \
@@ -92,7 +90,7 @@ void	args_move_down(t_arguments **args, t_arguments **prev)
 	{
 		args_move_next_down(args, prev);
 		if ((*args)->next)
-			args_move_prev_down(args, prev);
+			args_move_prev_down(args);
 		*prev = *args;
 		args_move_down(&((*args)->next), prev);
 	}
