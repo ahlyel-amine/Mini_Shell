@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 06:14:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/15 21:06:14 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:46:28 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,25 @@ void	nr_unset(char	**args, t_list **tmp)
 	{
 		if (valid_var(args[idx]))
 		{
-			printf("Minishell: unset: %s: not a valid identifier\n", \
-			args[idx++]);
-			glo_exit = 1;
+			err_print("Minishell: unset: ", \
+			args[idx++], ": not a valid identifier");
+			g_glb.exit_val = 1;
 			continue ;
 		}
 		ft_list_remove(tmp, args[idx++], ft_strncmp);
 	}
 }
 
-void	tt_unset(t_cmd *cmd)
+void	tt_unset(t_arguments **cmd_args)
 {
-	t_builtin	*unset;
 	t_hold		*env;
 	t_list		*tmp;
 	char		**args;
 
-	unset = (t_builtin *)cmd;
-	transform_args(&unset->arguments);
-	args = args_to_dblstr_(unset->arguments);
+	transform_args(cmd_args);
+	args = args_to_dblstr_(*cmd_args);
 	if (!args || !*args)
-		glo_exit = 0;
+		g_glb.exit_val = 0;
 	else
 	{
 		env = set__get_option_variables(0, GET | GET_ENV);
@@ -78,6 +76,8 @@ void	tt_unset(t_cmd *cmd)
 		nr_unset(args, &tmp);
 		if (!env->size)
 			env->lst = NULL;
+		else
+			env->lst = tmp;
 		sp_free(args);
-	}	
+	}
 }

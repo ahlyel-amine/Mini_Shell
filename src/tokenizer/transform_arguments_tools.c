@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transform_arguments_tools.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:03:38 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 02:55:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 02:31:10 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ void	transform_args(t_arguments **args)
 {
 	t_arguments	*nl;
 
+	if (!*args)
+		return ;
+	if ((*args)->type == IS_SEPARTOR)
+	{
+		nl = *args;
+		*args = (*args)->next;
+		free(nl->str);
+		free(nl);
+	}
 	nl = NULL;
 	expand_line(*args);
 	wild_cards(args);

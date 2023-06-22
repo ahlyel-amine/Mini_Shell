@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:02:05 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/12 22:05:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:18:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*args_to_str(t_arguments *args)
 	t_arguments	*tmp;
 	char		*str;
 	size_t		len;
-	size_t		i;
 
 	tmp = args;
 	len = args_strslen(args);

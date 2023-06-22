@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:20:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/13 01:12:01 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:18:01 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	replace_arg(t_arguments **head, t_arguments **old, t_arguments *new)
 {
 	t_arguments	*tmp;
 	t_arguments	*replace_old;
-	t_arguments	*prev;
 
 	if (!new)
 		return ;
