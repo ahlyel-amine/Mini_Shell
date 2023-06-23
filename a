@@ -1,9 +1,0 @@
-Makefile
-a
-a.excalidraw
-include
-lib
-minishell
-minishell.dSYM
-obj
-src
