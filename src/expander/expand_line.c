@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/22 17:07:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 20:22:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	var_expand(t_arguments **arg)
 				continue ;
 			}
 			new = get_argument_no_tknz(arg_str, 0);
+			free (arg_str);
 			if (prev != *arg || tmp != prev)
 				prev->next = new;
 			else if (prev == *arg && tmp == prev)

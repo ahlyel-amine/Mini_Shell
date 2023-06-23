@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:02:05 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 15:00:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 19:12:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	fill_dstr(t_arguments *tmp, char ***str, size_t *len)
 	if ((tmp->type & IS_STR || tmp->type & IS_VARIABLE))
 		(*str)[(*len)++] = ft_strdup(tmp->str);
 	else if ((tmp->type & QUOTE || tmp->type & DQUOTE))
-		(*str)[(*len)] = args_to_str(tmp->down);
+		(*str)[(*len)++] = args_to_str(tmp->down);
 }
 
 char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
