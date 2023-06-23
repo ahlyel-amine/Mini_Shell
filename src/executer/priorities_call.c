@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/23 02:21:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 20:07:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_arguments	*get_cmd_arguments(t_arguments *cmd)
 	t_arguments *tmp;
 
 	tmp = cmd;
+	if (!cmd)
+		return (NULL);
 	while (tmp->next)
 	{
 		if (tmp->type & IS_SEPARTOR)
@@ -36,7 +38,7 @@ char	*extend_line(t_lsttoken *front)
 	size_t		len;
 
 	len = get_lenght(front);
-	return(get_line(front, len));
+	return (get_line(front, len));
 }
 
 int	builtin(t_arguments **args, int outfile, int falg)
@@ -62,35 +64,6 @@ int	builtin(t_arguments **args, int outfile, int falg)
 	}
 }
 
-
-void	print_arguments(t_arguments *args, char *ref)
-{
-	t_arguments	*tmp;
-	t_arguments	*tmp2;
-
-	tmp = args;
-	printf("--------------------arguments_START----%s--------\n", ref);
-	while (tmp)
-	{
-		if (tmp->type & IS_STR || tmp->type & IS_VARIABLE
-			|| tmp->type & IS_SEPARTOR)
-			printf("%d[%s]\n", tmp->type, tmp->str);
-		else
-		{
-			tmp2 = tmp->down;
-			printf("{%d}\n", tmp->type);
-			while (tmp2)
-			{
-				printf("%d]%s[\n", (tmp2)->type, (tmp2)->str);
-				tmp2 = (tmp2)->next;
-			}
-		}
-		tmp = tmp->next;
-	}
-	printf("--------------------arguments_END------%s----------------\n", ref);
-}
-
-
 static int	exec_call(t_lsttoken *front, t_components comp)
 {
 	t_arguments	*exec_cmd;
@@ -100,10 +73,13 @@ static int	exec_call(t_lsttoken *front, t_components comp)
 	int			ret;
 
 	my_cmd = extend_line(front);
+	if (!my_cmd[skip_spaces_front(my_cmd)])
+		return (free(my_cmd), 0);
 	exec_cmd = get_argument(my_cmd, 0, 1);
 	transform_args(&exec_cmd);
 	ret = is_builtin(my_cmd);
 	arg = get_cmd_arguments(exec_cmd);
+	
 	tmp = arg;
 	if (!ret)
 	{
