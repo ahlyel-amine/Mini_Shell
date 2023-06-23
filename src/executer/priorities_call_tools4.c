@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 23:54:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 23:24:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,37 @@ int	is_option(char *line, char *endline)
 	return (0);
 }
 
-t_lsttoken	*skip_echo_option(t_lsttoken *front, int *has_option)
+t_arguments	*skip_echo_option(t_arguments *front, int *has_option)
 {
-	*has_option = 0;
+	char	*str;
 	while (front)
 	{
-		if (front->t_.type & (E_STR | E_QUOTE | E_DQUOTE))
+		if (front->type & IS_SEPARTOR)
 		{
-			if (!is_option(front->t_.line + front->t_.start, front->t_.line \
-			+ front->t_.start + front->t_.len))
-				break ;
-			else
+			front = front->next;
+			continue ;
+		}
+		if (front->type & (IS_STR) && is_option(front->str, front->str + ft_strlen(front->str)))
+		{
+			*has_option |= ECHO_OPTION;
+			front = front->next;
+			continue ;	
+		}
+		else if (front->type & (QUOTE | DQUOTE))
+		{
+			str = args_to_str(front->down);
+			if (!is_option(str, str + ft_strlen(str)))
 			{
-				if (front && front->next && front->next->t_.type != E_SPACE)
-					break ;
-				*has_option = 1;
-				front = front->next;
-				while (front && front->t_.type == E_SPACE)
-					front = front->next;
-				if (front)
-					continue ;
+				free(str);
+				break ;
 			}
+			free(str);
+			*has_option |= ECHO_OPTION;
+			front = front->next;
+			continue ;
 		}
 		break ;
-	}
+	}	
 	return (front);
 }
 

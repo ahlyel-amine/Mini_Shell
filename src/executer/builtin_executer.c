@@ -6,29 +6,28 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 17:06:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 22:54:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	builtin_executer(t_arguments **args, char *cmd, \
-int outfile, int echo_has_option)
+int	builtin_executer(t_arguments **args, int outfile, int falg)
 {
 	g_glb.out = outfile;
-	if (!ft_memcmp(cmd, "cd", 2))
+	if (falg & CD)
 		tt_cd(args);
-	else if (!ft_memcmp(cmd, "echo", 4))
-		tt_echo(args, echo_has_option);
-	else if (!ft_memcmp(cmd, "env", 3))
+	else if (falg & ECHO)
+		tt_echo(args, falg & ECHO_OPTION);
+	else if (falg & ENV)
 		tt_env(*args);
-	else if (!ft_memcmp(cmd, "exit", 4))
+	else if (falg & EXIT)
 		tt_exit(args);
-	else if (!ft_memcmp(cmd, "export", 6))
+	else if (falg & EXPORT)
 		tt_export(args);
-	else if (!ft_memcmp(cmd, "pwd", 3))
+	else if (falg & PWD)
 		tt_pwd();
-	else if (!ft_memcmp(cmd, "unset", 5))
+	else if (falg & UNSET)
 		tt_unset(args);
 	if (!g_glb.exit_val)
 		return (0);

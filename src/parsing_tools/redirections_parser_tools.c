@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_parser_tools2.c                       :+:      :+:    :+:   */
+/*   redirections_parser_tools.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:04:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/21 00:03:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 15:27:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_arguments	*transform_args_fd_name(t_arguments **args)
 	t_arguments	*nl;
 
 	nl = NULL;
-	expand_line(*args);
+	expand_line(args);
 	args_join(args);
 	args_move_down(args, &nl);
 	str = args_to_str(*args);

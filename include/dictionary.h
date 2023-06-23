@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:26:55 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/21 00:07:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 22:50:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,17 @@ typedef enum e_token
 	E_FD_NAME	= 0b1000000000000,
 	E_EMPTY		= 0b10000000000000,
 }	t_etoken;
+
+typedef enum e_builtin
+{
+	ECHO		= 0b1,
+	CD			= 0b10,
+	EXPORT		= 0b100,
+	UNSET		= 0b1000,
+	PWD			= 0b10000,
+	EXIT		= 0b100000,
+	ENV			= 0b1000000,
+	ECHO_OPTION	= 0b10000000,
+}	t_builtin;
 
 #endif

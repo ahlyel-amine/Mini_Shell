@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:34:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 16:26:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 15:15:21 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ t_arguments	*still_args(char *str, int *j, int *i, t_arguments *args);
 t_arguments	*get_argument(char *line, int i, int flg);
 t_arguments	*arguments_constructor(t_arguments *arguments, char *str,
 				unsigned short type, unsigned short q);
+t_arguments	*get_argument_no_tknz(char *line, int i);
 
 #endif

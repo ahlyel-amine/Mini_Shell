@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/21 19:33:37 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 00:47:16 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,15 @@ t_lsttoken *prev, t_components comp)
 	pid = redirection(a.front, prev, (t_components){comp.infile, fd[1], \
 	-1, 1, fd});
 	if (pid == -1)
-		return (wait_pipes());
+		return (g_glb.is_pipe = 0, wait_pipes());
 	if (comp.fd != NULL)
 		close(comp.fd[0]);
 	close(fd[1]);
+	g_glb.is_pipe = 1;
 	pid = pipe_(head->next, a.back, (t_components){fd[0], comp.outfile, \
 	-1, 1, fd});
 	if (pid == -1)
-		return (wait_pipes());
+		return (g_glb.is_pipe = 0, wait_pipes());
 	close(fd[0]);
 	if (!pipe_left(head->next, a.back))
 	{
