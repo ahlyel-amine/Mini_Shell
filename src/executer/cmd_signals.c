@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 00:08:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/21 18:19:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 00:17:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ char	*is_dir(char *cmd)
 
 	dir = opendir(cmd);
 	if (!dir)
-		return (cmd);
+		return (ft_strdup(cmd));
 	closedir(dir);
 	g_glb.exit_val = 126;
-	pr_custom_err("minishell: is a directory: ", cmd, cmd);
+	pr_custom_err("minishell: is a directory: ", NULL, cmd);
 	return (NULL);
 }
 

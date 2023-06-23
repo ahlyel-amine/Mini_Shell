@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 23:58:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 23:30:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,46 @@ char	*get_line(t_lsttoken *front, size_t len)
 	return (line);
 }
 
+int find_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i]))
+			break ;
+		i++;
+	}
+	return (i);
+}
+
 int	is_builtin(char *word)
 {
-	if (!ft_strncmp(word, "cd", 3))
-		return (1);
-	else if (!ft_strncmp(word, "echo", 5))
-		return (1);
-	else if (!ft_strncmp(word, "env", 4))
-		return (1);
-	else if (!ft_strncmp(word, "exit", 5))
-		return (1);
-	else if (!ft_strncmp(word, "export", 7))
-		return (1);
-	else if (!ft_strncmp(word, "pwd", 4))
-		return (1);
-	else if (!ft_strncmp(word, "unset", 6))
-		return (1);
-	return (0);
+	int		i;
+	int		j;
+	char	*tmp;
+
+	j = skip_spaces_front(word);
+	i = find_space(word + j);
+	tmp = ft_strdup(word);
+	if (i)
+		tmp[j + i] = 0;
+	if (!ft_strncmp(tmp + j, "cd", 3))
+		return (free(word), free(tmp), CD);
+	else if (!ft_builtin_strncmp(tmp + j, "echo", 5))
+		return (free(word), free(tmp), ECHO);
+	else if (!ft_builtin_strncmp(tmp + j, "env", 4))
+		return (free(word), free(tmp), ENV);
+	else if (!ft_strncmp(tmp + j, "exit", 5))
+		return (free(word), free(tmp), EXIT);
+	else if (!ft_strncmp(tmp + j, "export", 7))
+		return (free(word), free(tmp), EXPORT);
+	else if (!ft_builtin_strncmp(tmp + j, "pwd", 4))
+		return (free(word), free(tmp), PWD);
+	else if (!ft_strncmp(tmp + j, "unset", 6))
+		return (free(word), free(tmp), UNSET);
+	return (free(word), free(tmp), 0);
 }
 
 int	pipe_left(t_lsttoken *head, t_lsttoken *back)

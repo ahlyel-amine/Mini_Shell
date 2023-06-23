@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:02:05 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 16:18:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 15:00:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,10 @@ char	*args_to_str(t_arguments *args)
 
 static void	fill_dstr(t_arguments *tmp, char ***str, size_t *len)
 {
-	t_arguments	*tmp_str;
-
 	if ((tmp->type & IS_STR || tmp->type & IS_VARIABLE))
-		(*str)[(*len)++] = tmp->str;
+		(*str)[(*len)++] = ft_strdup(tmp->str);
 	else if ((tmp->type & QUOTE || tmp->type & DQUOTE))
-	{
-		tmp_str = tmp->down;
 		(*str)[(*len)] = args_to_str(tmp->down);
-		while (tmp_str->next)
-			tmp_str = tmp_str->next;
-		tmp_str->next = arguments_constructor(NULL, \
-		(*str)[(*len)++], IS_STR, 0);
-	}
 }
 
 char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
@@ -85,7 +76,7 @@ char	**args_to_cmd_dstr(t_arguments *args, char *cmd)
 	str = malloc(sizeof(char *) * (len + 2));
 	if (!str)
 		return (perror(""), NULL);
-	str[0] = cmd;
+	str[0] = ft_strdup(cmd);
 	if (!len)
 		return (str[1] = NULL, str);
 	len = 1;

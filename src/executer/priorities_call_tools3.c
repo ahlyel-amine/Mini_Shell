@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_tools3.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:33 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 14:10:10 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/23 00:17:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	set_return_err(char *cmd)
 		}
 		i++;
 	}
-	return (pr_custom_err(ERR_CMD, cmd, cmd));
+	return (pr_custom_err(ERR_CMD, NULL, cmd));
 }
 
 char	*get_path(char *cmd)
@@ -54,7 +54,7 @@ char	*get_path(char *cmd)
 		tmp_to_free = ft_strjoin(path[i], "/");
 		tmp_to_free = ft_strjoin_free(tmp_to_free, ft_strdup(cmd));
 		if (!access(tmp_to_free, F_OK | X_OK))
-			return (sp_free(path), free(cmd), tmp_to_free);
+			return (sp_free(path), tmp_to_free);
 		free(tmp_to_free);
 		i++;
 	}
@@ -92,25 +92,21 @@ int	cmd_executers(char *path, char **cmd, t_components comp)
 {
 	int	status;
 	int	pid;
-	printf("%p\n", cmd[0]);
+
 	if (!path || !cmd)
-	{
-		if (cmd)
-			return (sp_free(cmd), free(path), 0);
-		return (free(cmd), free(path), 0);
-	}	
+		return (free(path), sp_free(cmd), 0);
 	pid = fork();
 	sig_exec_init();
 	if (pid == -1)
-		return (perror(FORK_ERR), free(path), free(cmd), -1);
+		return (perror(FORK_ERR), free(path), sp_free(cmd), -1);
 	if (!pid)
 		child(cmd, path, comp);
 	if (comp.is_pipe != 0)
-		return (free(path), free(cmd), pid);
+		return (free(path), sp_free(cmd), pid);
 	if (waitpid(pid, &status, 0) == -1)
-		return (free(path), free(cmd), 0);
+		return (free(path), sp_free(cmd), 0);
 	cmd_sig_check(status);
-	return (free(cmd), free(path), 0);
+	return (sp_free(cmd), free(path), 0);
 }
 
 t_lsttoken	*skip_tokens(t_lsttoken *head, t_lsttoken *back, int *start, \

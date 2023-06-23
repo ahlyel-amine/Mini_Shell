@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:28:10 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/21 17:16:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 00:19:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ void	tt_exit(t_arguments **cmd_args)
 		g_glb.exit_val = (int)exit_val(args[0]);
 	if (args)
 		sp_free(args);
-	if (!g_glb.is_pipe && !g_glb.ctrl_c)
+	if (/*!g_glb.is_pipe && */!g_glb.ctrl_c)
 		exit(g_glb.exit_val);
 }

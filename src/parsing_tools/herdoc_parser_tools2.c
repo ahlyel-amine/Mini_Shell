@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:39:50 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/21 19:00:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 15:27:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*her_expand(char *line)
 	i = 0;
 	args = get_argument(line, i, 0);
 	free(line);
-	expand_line(args);
+	expand_line(&args);
 	r_str = args_to_str(args);
 	return (arguments_destructor(&args), r_str);
 }

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:13:48 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/19 22:32:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/22 15:32:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int			valid_id(char *var);
 ///-/                         EXPANDER                         //--|
 //-/__________________________________________________________//---|
 char		*tilde_expansion(char *arg, unsigned short type, t_arguments *next);
-void		var_expand(t_arguments *arg);
-void		expand_line(t_arguments *arg);
+void		var_expand(t_arguments **arg);
+void		expand_line(t_arguments **arg);
 
 ////-/__________________________________________________________//-|
 ///-/                           EXEC                           //--|
