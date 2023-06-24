@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:33:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 23:22:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 23:22:57 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 int				cmd_sig_check(int status);
-int	builtin_executer(t_arguments **args, int outfile, int falg);
+int				builtin_executer(t_arguments **args, int outfile, int falg);
 char			**child_vars(void);
 int				redirection(t_lsttoken *front, t_lsttoken *back, \
 t_components comp);

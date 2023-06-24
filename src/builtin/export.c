@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/21 18:59:41 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 00:35:23 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	tt_export(t_arguments **cmd_args)
 	int			ret;
 
 	ret = 0;
-	transform_args(cmd_args);
+	transform_ex_args(cmd_args);
 	args = args_to_dblstr_(*cmd_args);
 	hold = set__get_option_variables(0, GET | GET_ENV);
 	if (!args || !*args)

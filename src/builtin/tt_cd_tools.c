@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 21:14:50 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/21 15:46:40 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:34:09 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,24 @@ int	prev_drictory_count(char *wd)
 	}
 	sp_free(splited);
 	return (count);
+}
+
+void	transform_ex_args(t_arguments **args)
+{
+	t_arguments	*nl;
+
+	if (!*args)
+		return ;
+	if ((*args)->type == IS_SEPARTOR)
+	{
+		nl = *args;
+		*args = (*args)->next;
+		free(nl->str);
+		free(nl);
+	}
+	nl = NULL;
+	expand_line(args);
+	args_join(args);
+	args_move_down(args, &nl);
+	args_join_down(args);
 }

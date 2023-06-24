@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_token_archive.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:10:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/05/07 19:01:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 18:32:20 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,11 @@ int	fill_redir_content_herdoc(char *line, int i, t_redir_content *red)
 	check_out_of_quotes(line[i], &quote, &dquote);
 	if (quote || dquote)
 		k++;
-	red->fd = /*ft_strdup(line +*/ i + k/*)*/;
-	// printf("[%c]\n", line[i + k]);
+	red->fd =i + k;
 	while (line[i + k] && ((ft_isalnum(line[i + k]) || line[i + k] == '_') || (quote || dquote)))
-	{
 		check_out_of_quotes(line[++i + k], &quote, &dquote);
-	// printf("[%c]\n", line[i + k]);
-	}
-	// printf("[%s]\n", ft_substr(line, red->fd, red->fd + 1));
-	
 	red->file_name = ft_substr(line, red->fd, i + k);
 	red->efile_name  = NULL;
-	// red->efile_name = line + i + k;
 	if (red->file_name == red->efile_name)
 		something_wrong("Bsyntax error near unexpected token `newline'", line);
 	red->fd = 0;

@@ -1,7 +1,7 @@
 
 
-READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
-# READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+# READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
+READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
 SRC =	\
 		\
 		src/minishell.c  src/wild_cards.c src/wild_cards_tools.c src/read_line.c src/tokens_controll.c\
@@ -44,7 +44,8 @@ OBJ =  $(patsubst %.c, obj/%.o , $(SRC))
 NC			= '\e[0m'
 HBLU		= '\e[1;94m'
 BIN_DIR		= bin/
-CFLAGS		= -Wall -Wextra -Werror -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror 
+# -fsanitize=address
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
 NAME		= minishell

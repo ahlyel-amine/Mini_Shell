@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/23 20:07:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 00:00:05 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ int	builtin(t_arguments **args, int outfile, int falg)
 		if (pid == 0)
 		{
 			pid = builtin_executer(args, outfile, falg);
+			printf("[-|- %d -|-]\n",pid);
 			exit (pid);
 		}
-		waitpid(pid, &status, 0);
+		waitpid(pid, &status, 0);	
 		return (cmd_sig_check(status));
 	}
 }
@@ -79,7 +80,6 @@ static int	exec_call(t_lsttoken *front, t_components comp)
 	transform_args(&exec_cmd);
 	ret = is_builtin(my_cmd);
 	arg = get_cmd_arguments(exec_cmd);
-	
 	tmp = arg;
 	if (!ret)
 	{
@@ -96,7 +96,7 @@ static int	exec_call(t_lsttoken *front, t_components comp)
 		ret = builtin(&tmp, comp.outfile, ret);
 		return (arguments_destructor(&exec_cmd), arguments_destructor(&arg),ret);
 	}
-}
+} 
 
 static int	subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {

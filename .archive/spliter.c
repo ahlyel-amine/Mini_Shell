@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spliter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 05:57:23 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/28 13:03:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 18:33:04 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ char	**select_arguments(char *line, int count)
 		j = 0;
 	}
 	j = 0;
-	while (cmd[j])
-		printf("|%s|\n", cmd[j++]);
 	return (cmd);
 }
 
@@ -139,7 +137,6 @@ char	**set_splited(char *line, int count_inc, int call_count)
 		return (splited = alloc_for_words(words_nbr), splited);
 	else if (count_inc == -2)
 		return (splited);
-	// splited[call_count - 1] = strndup(line, j);  //strdnduuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuup
 	splited[call_count - 1] = line;
 	return (splited);
 }
