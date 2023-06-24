@@ -3,6 +3,7 @@ lib
 makefile
 minishell
 obj
+out
 outfile
 src
 z.excalidraw

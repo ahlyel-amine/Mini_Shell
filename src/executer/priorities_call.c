@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/24 20:53:29 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 23:28:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_arguments	*get_cmd_arguments(t_arguments *cmd)
 		return (NULL);
 	while (tmp->next)
 	{
-		if (tmp->type & IS_SEPARTOR)
+		if (tmp->type & IS_SEPARTOR || \
+		(tmp->type & IS_FILE && tmp->next && tmp->next->type & IS_FILE))
 			break ;
 		tmp = tmp->next;
 	}
@@ -92,7 +93,6 @@ static int	exec_call(t_lsttoken *front, t_components comp)
 	{
 		if (ret & ECHO)
 			tmp = skip_echo_option(arg, &ret);
-		// ret = builtin_executer(&tmp, comp.outfile, ret);
 		ret = builtin(&tmp, comp.outfile, ret);
 		return (arguments_destructor(&exec_cmd), arguments_destructor(&arg),ret);
 	}

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:30 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/24 17:46:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 23:45:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,12 @@ t_components	get_red(t_lsttoken *r, t_components comp, int *in)
 		delim = get_filename(r->t_.down->t_.line + r->t_.down->t_.start, \
 		r->t_.down->t_.line + r->t_.down->t_.start + r->t_.down->t_.len);
 		if (!delim)
-			return ((t_components){-1, -1, -1, 0, NULL});
+			return ((t_components){-1, -1, -1, -1, 0, NULL});
 		set_fd(delim, r, &comp);
 	}
 	if (comp.infile < 0 || comp.outfile < 0)
 		return (fd_er(r->t_.type, delim), free(delim), \
-		(t_components){-1, -1, -1, 0, NULL});
+		(t_components){-1, -1, -1, -1, 0, NULL});
 	return (free(delim), comp);
 }
 	
