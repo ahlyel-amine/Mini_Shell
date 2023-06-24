@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_tools4.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 23:24:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 20:19:06 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	is_option(char *line, char *endline)
 t_arguments	*skip_echo_option(t_arguments *front, int *has_option)
 {
 	char	*str;
+
 	while (front)
 	{
 		if (front->type & IS_SEPARTOR)
@@ -49,7 +50,7 @@ t_arguments	*skip_echo_option(t_arguments *front, int *has_option)
 		{
 			*has_option |= ECHO_OPTION;
 			front = front->next;
-			continue ;	
+			continue ;
 		}
 		else if (front->type & (QUOTE | DQUOTE))
 		{
