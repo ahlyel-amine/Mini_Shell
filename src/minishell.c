@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 22:03:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/23 19:51:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/23 23:22:00 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	env_var = NULL;
-	// if (!isatty(STDIN_FILENO))
-	// 	return (ft_putendl_fd(INVALID_INPT, 2), 1);
+	if (!isatty(STDIN_FILENO))
+		return (ft_putendl_fd(INVALID_INPT, 2), 1);
 	env_var = env_dup(env_var, env);
 	adjust_shlvl(env_var);
 	g_glb.exit_val = 0;

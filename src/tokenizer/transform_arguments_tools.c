@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transform_arguments_tools.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 22:03:38 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 16:55:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 00:34:38 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,3 +91,4 @@ void	transform_args(t_arguments **args)
 	args_move_down(args, &nl);
 	args_join_down(args);
 }
+

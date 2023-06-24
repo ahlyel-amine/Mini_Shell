@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:13:48 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/22 15:32:46 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 00:35:13 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ short		valid_var(char *var);
 char		**args_to_dblstr_(t_arguments *args);
 void		ft_list_remove(t_list **lst_tmp, char *data, int (*cmp)());
 int			valid_id(char *var);
-
+void		transform_ex_args(t_arguments **args);
 ////-/__________________________________________________________//-|
 ///-/                         EXPANDER                         //--|
 //-/__________________________________________________________//---|

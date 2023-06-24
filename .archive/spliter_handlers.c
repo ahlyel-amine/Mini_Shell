@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spliter_handlers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:29:46 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/04/27 13:43:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 18:32:36 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char	**dquote_handler(char **line, int *i, int ref, int *set_call_counter)
 		}
 		if (j - quote) 
 			tmp = ft_strjoin(tmp, ft_substr(*line + *i + quote, 0, j - quote));
-		printf("[%s]\n", tmp);
 		splited = set_splited(tmp, ref, *set_call_counter);
 		(*set_call_counter)++;
 		*i += j;
