@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:50:27 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 21:40:05 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 23:43:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef struct s_components
 {
 	int						infile;
 	int						outfile;
-	unsigned int			close_red;
+	int						close_red;
+	int						stuck;
 	unsigned int			is_pipe:1;
 	int						*fd;
 }	t_components;
