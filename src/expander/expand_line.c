@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/23 20:22:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 20:14:42 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,26 @@ char	*is_env_var(char *str)
 	return (free(str), ft_strdup(""));
 }
 
-// void	var_expand(t_arguments *arg)
-// {
-// 	t_arguments	*tmp;
-// 	t_arguments	*down;
-// 	char		*arg_str;
+t_arguments	*args_cat(char *args, t_arguments *tmp, \
+t_arguments	*prev, t_arguments **arg)
+{
+	t_arguments	*new;
 
-// 	tmp = arg;
-// 	while (tmp)
-// 	{
-// 		arg_str = tmp->str;
-// 		if (tmp->type & IS_VARIABLE)
-// 			tmp->str = is_env_var(tmp->str);
-// 		else if (tmp->type == DQUOTE)
-// 		{
-// 			down = tmp->down;
-// 			var_expand(down);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
+	new = get_argument_no_tknz(args, 0);
+	free (args);
+	if (prev != *arg || tmp != prev)
+		prev->next = new;
+	else if (prev == *arg && tmp == prev)
+		*arg = new;
+	while (new->next)
+		new = new->next;
+	new->next = tmp->next;
+	free(tmp);
+	return (new);
+}
 
 void	var_expand(t_arguments **arg)
 {
-	t_arguments	*new;
 	t_arguments	*prev;
 	t_arguments	*tmp;
 	char		*arg_str;
@@ -77,17 +73,7 @@ void	var_expand(t_arguments **arg)
 				tmp = tmp->next;
 				continue ;
 			}
-			new = get_argument_no_tknz(arg_str, 0);
-			free (arg_str);
-			if (prev != *arg || tmp != prev)
-				prev->next = new;
-			else if (prev == *arg && tmp == prev)
-				*arg = new;
-			while (new->next)
-				new = new->next;
-			new->next = tmp->next;
-			free(tmp);
-			tmp = new;
+			tmp = args_cat(arg_str, tmp, prev, arg);
 		}
 		else if (tmp->type == DQUOTE)
 			var_expand(&tmp->down);
