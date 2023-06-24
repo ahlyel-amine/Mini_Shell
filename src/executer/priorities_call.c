@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/24 00:00:05 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:21:23 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_arguments	*get_cmd_arguments(t_arguments *cmd)
 {
-	t_arguments *arg;
-	t_arguments *tmp;
+	t_arguments	*arg;
+	t_arguments	*tmp;
 
 	tmp = cmd;
 	if (!cmd)
@@ -57,10 +57,9 @@ int	builtin(t_arguments **args, int outfile, int falg)
 		if (pid == 0)
 		{
 			pid = builtin_executer(args, outfile, falg);
-			printf("[-|- %d -|-]\n",pid);
 			exit (pid);
 		}
-		waitpid(pid, &status, 0);	
+		waitpid(pid, &status, 0);
 		return (cmd_sig_check(status));
 	}
 }
@@ -92,11 +91,10 @@ static int	exec_call(t_lsttoken *front, t_components comp)
 	{
 		if (ret & ECHO)
 			tmp = skip_echo_option(arg, &ret);
-		// ret = builtin_executer(&tmp, comp.outfile, ret);
 		ret = builtin(&tmp, comp.outfile, ret);
-		return (arguments_destructor(&exec_cmd), arguments_destructor(&arg),ret);
+		return (arguments_destructor(&exec_cmd), arguments_destructor(&arg), ret);
 	}
-} 
+}
 
 static int	subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call_tools.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:54:15 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 23:30:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 20:22:06 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*get_line(t_lsttoken *front, size_t len)
 	return (line);
 }
 
-int find_space(char *str)
+int	find_space(char *str)
 {
 	int	i;
 
