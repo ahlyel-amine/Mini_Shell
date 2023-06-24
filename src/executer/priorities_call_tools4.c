@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 23:24:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 20:22:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,34 @@ int	is_option(char *line, char *endline)
 	return (0);
 }
 
-t_arguments	*skip_echo_option(t_arguments *front, int *has_option)
+int	skip_echo_option_down_up(t_arguments *front, int *has_option)
 {
 	char	*str;
+
+	if (front->type & (IS_STR) && is_option(front->str, front->str + ft_strlen(front->str)))
+	{
+		*has_option |= ECHO_OPTION;
+		return (1);	
+	}
+	if (front->type & (QUOTE | DQUOTE))
+	{
+		str = args_to_str(front->down);
+		if (!is_option(str, str + ft_strlen(str)))
+		{
+			free(str);
+			return (0);
+		}
+		free(str);
+		*has_option |= ECHO_OPTION;
+		return (1);
+	}
+	return (-1);
+}
+
+t_arguments	*skip_echo_option(t_arguments *front, int *has_option)
+{
+	int		ret;
+
 	while (front)
 	{
 		if (front->type & IS_SEPARTOR)
@@ -45,27 +70,16 @@ t_arguments	*skip_echo_option(t_arguments *front, int *has_option)
 			front = front->next;
 			continue ;
 		}
-		if (front->type & (IS_STR) && is_option(front->str, front->str + ft_strlen(front->str)))
+		ret = skip_echo_option_down_up(front, has_option);
+		if (!ret)
+			break ;
+		else if (ret == 1)
 		{
-			*has_option |= ECHO_OPTION;
-			front = front->next;
-			continue ;	
-		}
-		else if (front->type & (QUOTE | DQUOTE))
-		{
-			str = args_to_str(front->down);
-			if (!is_option(str, str + ft_strlen(str)))
-			{
-				free(str);
-				break ;
-			}
-			free(str);
-			*has_option |= ECHO_OPTION;
 			front = front->next;
 			continue ;
 		}
 		break ;
-	}	
+	}
 	return (front);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:48:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 22:19:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 20:16:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ int	red_left_token(t_lsttoken **head, char *line, int *i)
 	{
 		ft_lstokenadd_back(head, new_token((t_token){E_HEREDOC, line, *i, 2,
 				NULL}));
+		*i += 2;
+		return (1);
+	}
+	else if (line[*i] == '<' && line[*i + 1] == '>')
+	{
+		ft_lstokenadd_back(head, new_token((t_token){E_INRED | E_IOUTRED, \
+		line, *i, 2, NULL}));
 		*i += 2;
 		return (1);
 	}

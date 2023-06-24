@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 22:54:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:38:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int	builtin_executer(t_arguments **args, int outfile, int falg)
 		tt_unset(args);
 	if (!g_glb.exit_val)
 		return (0);
-	return (-1);
+	return (1);
 }
