@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/24 00:35:23 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:23:03 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	tt_export(t_arguments **cmd_args)
 	{
 		lst_tmp = lst_dup(hold->lst);
 		lst_tmp = sort_list(lst_tmp, ft_strncmp);
-		env_exp_print(lst_tmp);
+		env_exp_print(lst_tmp, ft_putendl_fd);
 		ft_lstclear(&lst_tmp, free);
 	}
 	else

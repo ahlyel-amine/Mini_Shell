@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:40:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/21 17:01:09 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 21:14:48 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int set__get_option);
 
 void		sp_free(char **splt);
 char		*app_dup(char *arg);
-void		env_exp_print(t_list *sort_lst);
+void		env_exp_print(t_list *sort_lst, void (*print)(char *, int));
 
 t_list		*sort_list(t_list *lst, int (*cmp)(const char *, \
 const char *, size_t));

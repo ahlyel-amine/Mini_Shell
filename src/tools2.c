@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:41:20 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/21 17:03:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 21:13:51 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *, size_t))
 	return (st);
 }
 
-void	env_exp_print(t_list *sort_lst)
+void	env_exp_print(t_list *sort_lst, void (*print)(char *, int))
 {
 	t_list	*tmp;
 
@@ -69,7 +69,7 @@ void	env_exp_print(t_list *sort_lst)
 	while (tmp)
 	{
 		write(g_glb.out, "declare -x ", 11);
-		ft_putendl_fd(tmp->content, g_glb.out);
+		(*print)(tmp->content, g_glb.out);
 		tmp = tmp->next;
 	}
 }
