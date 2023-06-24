@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:33:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 23:22:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 20:49:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int *end);
 int				has_slash(char *cmd);
 char			*is_dir(char *cmd);
 void			child_exit(void);
+int             find_space(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:40:48 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/23 00:47:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:39:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	subsh_call(t_lsttoken *head, t_components comp)
 	int	status;
 
 	pid = fork();
+	if (pid == -1)
+		return (perror("minishell: "));
 	if (!pid)
 	{
 		operator(head->t_.down, ft_lstokenlast(head->t_.down), comp);

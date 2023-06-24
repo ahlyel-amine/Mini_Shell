@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/23 20:07:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 20:53:29 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ static int	exec_call(t_lsttoken *front, t_components comp)
 	if (!my_cmd[skip_spaces_front(my_cmd)])
 		return (free(my_cmd), 0);
 	exec_cmd = get_argument(my_cmd, 0, 1);
+	free (my_cmd);
 	transform_args(&exec_cmd);
-	ret = is_builtin(my_cmd);
+	ret = is_builtin(args_to_str(exec_cmd));
 	arg = get_cmd_arguments(exec_cmd);
-	
 	tmp = arg;
 	if (!ret)
 	{

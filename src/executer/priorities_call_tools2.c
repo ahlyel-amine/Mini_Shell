@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:30 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 19:25:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:46:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ void	fd_er(int type, char *fd_err)
 
 void	set_fd(char *delim, t_lsttoken *r, t_components *comp)
 {
+	if (r->t_.type & (E_INRED | E_IOUTRED))
+	{
+		comp->infile = open(delim, O_CREAT | O_RDONLY, 0644);
+		comp->close_red = comp->infile;
+	}
 	if (r->t_.type == E_INRED)
 	{
 		comp->infile = open(delim, O_RDONLY);
