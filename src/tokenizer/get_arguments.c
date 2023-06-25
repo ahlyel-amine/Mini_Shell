@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:31:01 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/22 15:15:02 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/25 14:34:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_var *var, t_2ptr_int a, char *line)
 	return (arguments);
 }
 
-static t_arguments	*get_arguments(char *line, int i, int flg)
+t_arguments	*get_arguments(char *line, int i, int flg)
 {
 	t_arguments	*arguments;
 	t_var		var;
@@ -116,14 +116,5 @@ t_arguments	*get_argument(char *line, int i, int flg)
 	arguments = get_arguments(line, i, flg);
 	merge_arguments(&arguments, 0);
 	tokenize_variables(&arguments);
-	return (arguments);
-}
-
-t_arguments	*get_argument_no_tknz(char *line, int i)
-{
-	t_arguments	*arguments;
-
-	arguments = get_arguments(line, i, 0);
-	merge_arguments(&arguments, 0);
 	return (arguments);
 }

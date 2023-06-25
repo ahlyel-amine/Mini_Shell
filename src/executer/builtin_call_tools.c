@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   priorities_call_tools4.c                           :+:      :+:    :+:   */
+/*   builtin_call_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/20 23:52:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/25 02:29:37 by aelbrahm         ###   ########.fr       */
+/*   Created: 2023/06/25 15:36:18 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/06/25 15:49:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ int	skip_echo_option_down_up(t_arguments *front, int *has_option)
 {
 	char	*str;
 
-	if (front->type & (IS_STR) && is_option(front->str, front->str + ft_strlen(front->str)))
+	if (front->type & (IS_STR) && is_option(front->str, \
+	front->str + ft_strlen(front->str)))
 	{
 		*has_option |= ECHO_OPTION;
-		return (1);	
+		return (1);
 	}
 	if (front->type & (QUOTE | DQUOTE))
 	{
@@ -83,31 +84,30 @@ t_arguments	*skip_echo_option(t_arguments *front, int *has_option)
 	return (front);
 }
 
-t_lsttoken	*skip_space_front_token(t_lsttoken *front)
+int	is_builtin(char *word)
 {
-	while (front && front->t_.type == E_SPACE)
-		front = front->next;
-	return (front);
-}
+	int		i;
+	int		j;
+	char	*tmp;
 
-void	init_2ptr(t_lsttoken **head, t_lsttoken **prev, t_lsttoken *front)
-{
-	*head = front;
-	*prev = front;
-}
-
-int	last_operaotr(t_lsttoken *front, t_lsttoken *back)
-{
-	t_lsttoken	*head;
-
-	head = front;
-	while (head)
-	{
-		if ((head->t_.type == E_AND || head->t_.type == E_OR))
-			return (0);
-		if (head == back)
-			break ;
-		head = head->next;
-	}
-	return (1);
+	j = skip_spaces_front(word);
+	i = find_space(word + j);
+	tmp = ft_strdup(word);
+	if (i)
+		tmp[j + i] = 0;
+	if (!ft_strncmp(tmp + j, "cd", 3))
+		return (free(word), free(tmp), CD);
+	else if (!ft_builtin_strncmp(tmp + j, "echo", 5))
+		return (free(word), free(tmp), ECHO);
+	else if (!ft_builtin_strncmp(tmp + j, "env", 4))
+		return (free(word), free(tmp), ENV);
+	else if (!ft_strncmp(tmp + j, "exit", 5))
+		return (free(word), free(tmp), EXIT);
+	else if (!ft_strncmp(tmp + j, "export", 7))
+		return (free(word), free(tmp), EXPORT);
+	else if (!ft_builtin_strncmp(tmp + j, "pwd", 4))
+		return (free(word), free(tmp), PWD);
+	else if (!ft_strncmp(tmp + j, "unset", 6))
+		return (free(word), free(tmp), UNSET);
+	return (free(word), free(tmp), 0);
 }

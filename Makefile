@@ -1,16 +1,16 @@
 
 
-# READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
-READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
+# READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
 SRC =	\
 		\
 		src/minishell.c  src/wild_cards.c src/wild_cards_tools.c src/read_line.c src/tokens_controll.c\
 		src/tools.c src/tools2.c src/getters_setters.c src/getters_setters_tools.c src/complete_line.c src/controll_line.c\
 		\
 		\
-		src/executer/builtin_executer.c  src/executer/cmd_signals.c  src/executer/priorities_call.c src/executer/priorities_call_tools.c\
-		src/executer/priorities_call_helper.c src/executer/priorities_call_tools2.c src/executer/priorities_call_tools3.c \
-		src/executer/priorities_call_tools4.c\
+		src/executer/builtin_executer.c src/executer/cmd_executer_tools.c src/executer/priorities_call.c src/executer/red_call_tools.c\
+		src/executer/builtin_executer_tools.c src/executer/cmd_signals.c src/executer/priorities_call_helper.c\
+		src/executer/cmd_executer.c src/executer/parse_cmd.c src/executer/priorities_call_tools.c\
 		\
 		\
 		src/tokenizer/arguments_controll.c src/tokenizer/get_arguments.c src/tokenizer/variables_controll.c src/tokenizer/ft_split_str_to_args.c\

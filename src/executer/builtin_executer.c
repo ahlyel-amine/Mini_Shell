@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_executer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 19:06:04 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/25 02:28:20 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:40:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,27 @@ int	builtin_executer(t_arguments **args, int outfile, int falg)
 	if (!g_glb.exit_val)
 		return (0);
 	return (1);
+}
+
+int	builtin(t_arguments **args, int outfile, int falg)
+{
+	int	pid;
+	int	status;
+
+	if (!g_glb.is_pipe)
+		return (builtin_executer(args, outfile, falg));
+	else
+	{
+		g_glb.is_pipe = 0;
+		pid = fork();
+		if (pid == -1)
+			return (perror("minishell: "), -1);
+		if (pid == 0)
+		{
+			pid = builtin_executer(args, outfile, falg);
+			exit (pid);
+		}
+		waitpid(pid, &status, 0);
+		return (cmd_sig_check(status));
+	}
 }

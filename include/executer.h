@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:33:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/25 02:24:17 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:56:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char			*get_line(t_lsttoken *front, size_t len);
 int				is_builtin(char *word);
 char			*get_path(char *cmd);
 int				cmd_executers(char *path, char **cmd, t_components comp);
-char			*get_command_name(t_lsttoken **front, t_lsttoken *back);
 t_components	get_red(t_lsttoken *redir, t_components comp, int *in);
 int				pipe_left(t_lsttoken *head, t_lsttoken *back);
 t_arguments		*skip_echo_option(t_arguments *front, int *has_option);
@@ -45,6 +44,13 @@ int *end);
 int				has_slash(char *cmd);
 char			*is_dir(char *cmd);
 void			child_exit(void);
-int             find_space(char *str);
+int				find_space(char *str);
+void			child(char **exec, char *path, t_components comp);
+void			set_return_err(char *cmd);
+int				builtin(t_arguments **args, int outfile, int falg);
+t_arguments		*get_cmd_arguments(t_arguments *cmd);
+int				wich_call(int ret, t_arguments *exec_cmd, \
+t_arguments *arg, t_components comp);
+void			close_all_faill(t_components comp);
 
 #endif
