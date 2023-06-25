@@ -1,4 +1,4 @@
-READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
+READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
 
 SRC =	\
 		\
