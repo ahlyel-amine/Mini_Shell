@@ -1,7 +1,5 @@
-
-
 READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
-# READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+
 SRC =	\
 		\
 		src/minishell.c  src/wild_cards.c src/wild_cards_tools.c src/read_line.c src/tokens_controll.c\
