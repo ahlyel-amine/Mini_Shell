@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/24 20:14:42 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:34:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ char	*is_env_var(char *str)
 		lst_env = lst_env->next;
 	}
 	return (free(str), ft_strdup(""));
+}
+
+t_arguments	*get_argument_no_tknz(char *line, int i)
+{
+	t_arguments	*arguments;
+
+	arguments = get_arguments(line, i, 0);
+	merge_arguments(&arguments, 0);
+	return (arguments);
 }
 
 t_arguments	*args_cat(char *args, t_arguments *tmp, \

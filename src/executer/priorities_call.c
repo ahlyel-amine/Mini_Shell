@@ -3,77 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   priorities_call.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 19:53:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/25 02:28:56 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:42:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_arguments	*get_cmd_arguments(t_arguments *cmd)
-{
-	t_arguments	*arg;
-	t_arguments	*tmp;
-
-	tmp = cmd;
-	if (!cmd)
-		return (NULL);
-	while (tmp->next)
-	{
-		if (tmp->type & IS_SEPARTOR || \
-		(tmp->type & IS_FILE && tmp->next && tmp->next->type & IS_FILE))
-			break ;
-		tmp = tmp->next;
-	}
-	if (!tmp)
-		return (NULL);
-	arg = tmp->next;
-	tmp->next = NULL;
-	return (arg);
-}
-
-char	*extend_line(t_lsttoken *front)
-{
-	size_t		len;
-
-	len = get_lenght(front);
-	return (get_line(front, len));
-}
-
-int	builtin(t_arguments **args, int outfile, int falg)
-{
-	int	pid;
-	int	status;
-
-	if (!g_glb.is_pipe)
-		return (builtin_executer(args, outfile, falg));
-	else
-	{
-		g_glb.is_pipe = 0;
-		pid = fork();
-		if (pid == -1)
-			return (perror("minishell: "), -1);
-		if (pid == 0)
-		{
-			pid = builtin_executer(args, outfile, falg);
-			exit (pid);
-		}
-		waitpid(pid, &status, 0);
-		return (cmd_sig_check(status));
-	}
-}
-
 static int	exec_call(t_lsttoken *front, t_components comp)
 {
 	t_arguments	*exec_cmd;
-	t_arguments	*tmp;
 	t_arguments	*arg;
 	char		*my_cmd;
 	int			ret;
+	size_t		len;
 
-	my_cmd = extend_line(front);
+	len = get_lenght(front);
+	my_cmd = get_line(front, len);
 	if (!my_cmd[skip_spaces_front(my_cmd)])
 		return (free(my_cmd), 0);
 	exec_cmd = get_argument(my_cmd, 0, 1);
@@ -81,21 +29,7 @@ static int	exec_call(t_lsttoken *front, t_components comp)
 	transform_args(&exec_cmd);
 	ret = is_builtin(args_to_str(exec_cmd));
 	arg = get_cmd_arguments(exec_cmd);
-	tmp = arg;
-	if (!ret)
-	{
-		my_cmd = args_to_str(exec_cmd);
-		ret = cmd_executers(get_path(my_cmd), args_to_cmd_dstr(arg, my_cmd), comp);
-		free(my_cmd);
-		return (arguments_destructor(&exec_cmd), arguments_destructor(&arg), ret);
-	}
-	else
-	{
-		if (ret & ECHO)
-			tmp = skip_echo_option(arg, &ret);
-		ret = builtin(&tmp, comp.outfile, ret);
-		return (arguments_destructor(&exec_cmd), arguments_destructor(&arg), ret);
-	}
+	return (wich_call(ret, exec_cmd, arg, comp));
 }
 
 static int	subsh(t_lsttoken *front, t_lsttoken *back, t_components comp)
@@ -188,7 +122,7 @@ int	operator(t_lsttoken *front, t_lsttoken *back, t_components comp)
 	init_2ptr(&head, &prev, front);
 	while (head)
 	{
-		if ((head->t_.type & (E_AND | E_OR)) && last_operaotr(head->next, back)) 
+		if ((head->t_.type & (E_AND | E_OR)) && last_operaotr(head->next, back))
 		{
 			in = 1;
 			operator(front, prev, comp);

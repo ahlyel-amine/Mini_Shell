@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_signals.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 00:08:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/25 02:28:40 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:49:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ int	has_slash(char *cmd)
 	int	i;
 
 	i = 0;
+	if (cmd && (cmd[0] && cmd[0] == '.' && \
+	(!cmd[1] || (cmd[1] && cmd[1] == '.' && !cmd[2]))))
+		return (g_glb.exit_val = 127, \
+		pr_custom_err(ERR_CMD, NULL, cmd), 1);
 	while (cmd[i])
 	{
 		if (cmd[i] == '/')
@@ -52,6 +56,9 @@ char	*is_dir(char *cmd)
 {
 	DIR	*dir;
 
+	if (cmd && (cmd[0] && cmd[0] == '.' && \
+	(!cmd[1] || (cmd[1] && cmd[1] == '.' && !cmd[2]))))
+		return (NULL);
 	dir = opendir(cmd);
 	if (!dir)
 		return (ft_strdup(cmd));
@@ -59,15 +66,4 @@ char	*is_dir(char *cmd)
 	g_glb.exit_val = 126;
 	pr_custom_err("minishell: is a directory: ", NULL, cmd);
 	return (NULL);
-}
-
-void	child_exit(void)
-{
-	if (errno == 2)
-		exit(127);
-	else if (errno == 13 || errno == 20)
-		exit(126);
-	else if (errno == 130)
-		exit(1);
-	exit(errno);
 }
