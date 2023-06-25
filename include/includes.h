@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   includes.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:50:27 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/25 16:16:37 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:11:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "../lib/libft/include/libft.h"
 # include "structs.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/readline.h"
-# include "/Users/aelbrahm/.brew/opt/readline/include/readline/history.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/readline.h"
+# include "/Users/aahlyel/homebrew/opt/readline/include/readline/history.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>

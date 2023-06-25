@@ -1,4 +1,4 @@
-READLINE_DIR = /Users/aelbrahm/.brew/opt/readline
+READLINE_DIR = /Users/aahlyel/homebrew/opt/readline
 
 SRC =	\
 		\
@@ -51,12 +51,12 @@ all : ${NAME}
 
 ${NAME} : ${OBJ}
 	make -C lib/libft
-	cc -g ${CFLAGS} ${LIBRARIES} ${OBJ} lib/libft/bin/libft.a -o ${NAME}
+	cc ${CFLAGS} ${LIBRARIES} ${OBJ} lib/libft/bin/libft.a -o ${NAME}
 
 obj/%.o : %.c $(HEADERS)
 	mkdir -p $(dir $@)
 	printf ${HBLU}"[%-37s] 🕝 \r"$(NC) "Compiling $(notdir $@)"
-	$(CC) -g $(CFLAGS) ${INCLUDES} -c $< -o $@
+	$(CC) $(CFLAGS) ${INCLUDES} -c $< -o $@
 
 clean : 
 	make clean -C lib/libft
