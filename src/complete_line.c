@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:52:14 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 16:14:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 23:01:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*read_until_chr(char *line, char c, int *brea)
 	int		quote_pos;
 
 	*brea = 0;
-	while (1337)
+	while (0x5ABA)
 	{
 		if (c == '\'')
 			dquote = readline(CMPLTQUOTE);

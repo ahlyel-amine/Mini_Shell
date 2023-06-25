@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:33 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/23 19:06:51 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/24 23:46:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,17 @@ void	child(char **exec, char *path, t_components comp)
 	perror("minishell: ");
 	child_exit();
 }
+void	close_all_faill(t_components comp)
+{
+	if (comp.is_pipe)
+	{
+		printf ("%d   %d    %d \n", comp.infile, comp.outfile, comp.close_red);
+		close(comp.infile);
+		close(comp.outfile);
+		close(comp.close_red);
+		close(comp.stuck);
+	}
+}
 
 int	cmd_executers(char *path, char **cmd, t_components comp)
 {
@@ -98,7 +109,7 @@ int	cmd_executers(char *path, char **cmd, t_components comp)
 	pid = fork();
 	sig_exec_init();
 	if (pid == -1)
-		return (perror(FORK_ERR), free(path), sp_free(cmd), -1);
+		return (perror(FORK_ERR), close_all_faill(comp), free(path), sp_free(cmd), -1);
 	if (!pid)
 		child(cmd, path, comp);
 	if (comp.is_pipe != 0)
