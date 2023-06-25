@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:05:02 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/23 20:22:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/25 14:20:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,6 @@ char	*is_env_var(char *str)
 	}
 	return (free(str), ft_strdup(""));
 }
-
-// void	var_expand(t_arguments *arg)
-// {
-// 	t_arguments	*tmp;
-// 	t_arguments	*down;
-// 	char		*arg_str;
-
-// 	tmp = arg;
-// 	while (tmp)
-// 	{
-// 		arg_str = tmp->str;
-// 		if (tmp->type & IS_VARIABLE)
-// 			tmp->str = is_env_var(tmp->str);
-// 		else if (tmp->type == DQUOTE)
-// 		{
-// 			down = tmp->down;
-// 			var_expand(down);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
 
 void	var_expand(t_arguments **arg)
 {

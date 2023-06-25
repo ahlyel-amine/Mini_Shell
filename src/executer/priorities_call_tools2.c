@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:52:30 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/24 23:45:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/06/25 14:20:43 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,3 @@ t_components	get_red(t_lsttoken *r, t_components comp, int *in)
 		(t_components){-1, -1, -1, -1, 0, NULL});
 	return (free(delim), comp);
 }
-	
