@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:55:07 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/24 21:23:03 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:26:06 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ void	tt_export(t_arguments **cmd_args)
 	int			ret;
 
 	ret = 0;
-	transform_ex_args(cmd_args);
-	args = args_to_dblstr_(*cmd_args);
+	transform_args(cmd_args);
+	args = args_to_dblstr(*cmd_args);
 	hold = set__get_option_variables(0, GET | GET_ENV);
 	if (!args || !*args)
 	{

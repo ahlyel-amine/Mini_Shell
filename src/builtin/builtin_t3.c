@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 01:08:21 by aelbrahm          #+#    #+#             */
-/*   Updated: 2023/06/21 15:18:32 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:36:39 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ short	is_export_var(char *str)
 	}
 	while (lst_env)
 	{
-		if (!ft_strncmp(str, lst_env->content, ft_strlen(lst_env->content)))
+		if (!ft_strncmp(str, lst_env->content, len))
 			return (0);
 		lst_env = lst_env->next;
 	}

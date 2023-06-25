@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 00:08:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/24 18:33:35 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:28:40 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	cmd_sig_check(int status)
 {
 	if (WIFEXITED(status))
 	{
-		status = WEXITSTATUS(status);
-		g_glb.exit_val = status;
-		if (!status)
+		g_glb.exit_val = WEXITSTATUS(status);
+		if (!g_glb.exit_val)
 			return (1);
 	}
 	else if (WIFSIGNALED(status))

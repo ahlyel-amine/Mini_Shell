@@ -6,7 +6,7 @@
 /*   By: aelbrahm <aelbrahm@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:33:06 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/23 23:22:57 by aelbrahm         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:24:17 by aelbrahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int *end);
 int				has_slash(char *cmd);
 char			*is_dir(char *cmd);
 void			child_exit(void);
+int             find_space(char *str);
 
 #endif
