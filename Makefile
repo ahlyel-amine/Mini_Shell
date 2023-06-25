@@ -43,7 +43,6 @@ NC			= '\e[0m'
 HBLU		= '\e[1;94m'
 BIN_DIR		= bin/
 CFLAGS		= -Wall -Wextra -Werror 
-# -fsanitize=address
 LIBRARIES	= -L${READLINE_DIR}/lib -lreadline -I includes -I ${READLINE_DIR}/include
 INCLUDES	= -I${READLINE_DIR}/include
 NAME		= minishell
