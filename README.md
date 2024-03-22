@@ -63,3 +63,7 @@ Minishell does not support the following:
 - **; (Semicolon)**: Not supported as a command separator.
 
 Please note that Minishell aims to provide a lightweight shell experience with essential functionalities. If you have any questions or suggestions, feel free to reach out!
+
+<h1>Final Mark</h1>
+
+![Alt text](final_mark.png?raw=true "Final Mark")
