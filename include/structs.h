@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sabato <sabato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:50:27 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/24 23:43:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2024/08/05 20:43:24 by sabato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ typedef struct s_var
 	unsigned int	dquote:1;
 }	t_var;
 
-t_globe						g_glb;
+extern t_globe						g_glb;
 
 #endif

@@ -50,7 +50,7 @@ NC   = '\e[0m'
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =
 
 RM = rm -rf
 

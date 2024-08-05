@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_cards_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sabato <sabato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 23:58:45 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 23:59:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:15:55 by sabato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 t_arguments	*get_files(char	*str, t_arguments *args, DIR *directory)
 {
 	struct dirent	*dir;
-	int				i;
 
-	i = 0;
 	dir = readdir(directory);
 	if (!dir)
 		return (args);
