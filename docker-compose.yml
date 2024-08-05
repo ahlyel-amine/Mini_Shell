@@ -1,0 +1,9 @@
+---
+services:
+  minishell:
+    container_name: minishell
+    build: .
+    volumes:
+      - ./:/app
+    tty: true
+    privileged: true

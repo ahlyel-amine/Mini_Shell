@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getters_setters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sabato <sabato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:56:39 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/06/20 23:49:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:00:41 by sabato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*set_homedir(t_hold *env, char *home)
 	}
 	if (dir)
 	{
-		while (ft_strncmp(&(tmp_e->content[j]), "=", 1))
+		while (ft_strncmp(&(((char *)tmp_e->content)[j]), "=", 1))
 			j++;
 		dir = ft_strdup(tmp_e->content + j + 1);
 	}
