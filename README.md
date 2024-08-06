@@ -1,4 +1,6 @@
 # minishell
+![Licence](https://img.shields.io/badge/License-MIT-blue.svg)
+![ReadMe](https://img.shields.io/badge/ReadMe-018EF5?logo=readme&logoColor=fff&style=flat-square)
 ## Overview
 The Minishell project is designed to master process management, command execution, and handling signals in C. It requires understanding of Unix/Linux system calls, particularly those related to process creation, communication between processes (pipes), and signal handling. It implements redirections and pipes, as well as environment variable expansions and the `cd`, `echo`, `env`, `exit`, `export`, `pwd` and `unset` builtin commands.
 
