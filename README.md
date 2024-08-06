@@ -97,13 +97,13 @@ This project has given you a deep understanding of how a shell works and has hel
 ## Implementation
 
 ### Parsing
-Parsing is a critical component of the Minishell project. It involves analyzing the user's input to identify individual commands, arguments, and operators (like redirection symbols). The `parse` function processes the input line, tokenizes it, and prepares it for execution.
+Parsing is a critical component of the Minishell project. It involves transforming the user's input into a structured format that can be processed for execution. In this implementation, the input line is converted into a tokenized linked list, which is looped through like a tree structure. The parsing is completed during this loop.
 
 ### Tokenization
-Tokenization is a sub-component of parsing. It breaks down the input string into meaningful tokens, such as commands, arguments, and operators. The `Tokenization` plays a crucial role in this process, identifying and categorizing tokens based on their content and position in the input string.
+Tokenization is a sub-component of parsing. It breaks down the input string into meaningful tokens, such as commands, arguments, and operators. These tokens are then organized into a linked list. This tokenized linked list is crucial for identifying and categorizing tokens based on their content and position in the input string.
 
 ### Execution
-After parsing and tokenization, the Minishell needs to execute the identified commands. This involves creating new processes for each command, managing input/output redirection, and handling signals for graceful termination.
+After the tokenized linked list is created and parsing is completed during the loop, Minishell executes the identified commands. Each tree trunk in the loop represents a command execution point, handling input/output redirection, pipes, subshells, and logical operations like && and ||. This involves creating new processes for each command, managing input/output redirection, and handling signals for graceful termination.
 
 ### Error Handling and Cleanup
 Proper error handling and resource cleanup are essential for a robust shell application. The Minishell project includes mechanisms to catch and report errors, ensure that resources are freed appropriately, and maintain the integrity of the shell environment.
